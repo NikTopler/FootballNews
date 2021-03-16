@@ -1,5 +1,8 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "cli": {
+    "analytics": "7c5a6da4-1af7-4576-a950-f9ee579dd321"
+  },
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
@@ -68,7 +71,8 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "footballApp:build"
+            "browserTarget": "footballApp:build",
+            "proxyConfig": "src/proxy.conf.json"
           },
           "configurations": {
             "production": {
