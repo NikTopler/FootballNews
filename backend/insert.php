@@ -1,7 +1,7 @@
 <?php
-include_once 'db.php';
+include_once 'user.php';
 
-class Signin extends Dbh {
+class Signin extends User {
 
 }
 
