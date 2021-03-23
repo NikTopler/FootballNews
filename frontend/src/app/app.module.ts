@@ -10,8 +10,7 @@ import { SignupComponent } from './components/signup/signup.component';
 
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatButtonModule } from '@angular/material/button/button-module';
-import { MatCheckboxModule } from '@angular/material/checkbox/checkbox-module';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 @NgModule({
   declarations: [
@@ -26,8 +25,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox/checkbox-module';
     AppRoutingModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
-    MatButtonModule,
-    MatCheckboxModule
+    MatFormFieldModule
   ],
   providers: [],
   bootstrap: [AppComponent]
