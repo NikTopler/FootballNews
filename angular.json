@@ -71,8 +71,8 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "footballApp:build",
-            "proxyConfig": "src/proxy.conf.json"
+            "browserTarget": "footballApp:build"
+
           },
           "configurations": {
             "production": {
