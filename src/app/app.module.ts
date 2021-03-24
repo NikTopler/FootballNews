@@ -8,10 +8,6 @@ import { AdminComponent } from './components/admin/admin.component';
 import { SigninComponent } from './components/signin/signin.component';
 import { SignupComponent } from './components/signup/signup.component';
 
-import { ReactiveFormsModule } from '@angular/forms';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatFormFieldModule } from '@angular/material/form-field';
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -22,10 +18,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule,
-    ReactiveFormsModule,
-    BrowserAnimationsModule,
-    MatFormFieldModule
+    AppRoutingModule
   ],
   providers: [],
   bootstrap: [AppComponent]

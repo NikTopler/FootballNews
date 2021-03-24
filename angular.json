@@ -1,7 +1,7 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "cli": {
-    "analytics": "7c5a6da4-1af7-4576-a950-f9ee579dd321"
+    "analytics": "805c0a79-ccc2-4771-bd82-6468f8dd7280"
   },
   "version": 1,
   "newProjectRoot": "projects",
@@ -72,7 +72,6 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
             "browserTarget": "footballApp:build"
-
           },
           "configurations": {
             "production": {
