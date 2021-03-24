@@ -136,6 +136,15 @@
   dependencies:
     tslib "^2.0.0"
 
+"@angular/cdk@^11.2.6":
+  version "11.2.6"
+  resolved "https://registry.yarnpkg.com/@angular/cdk/-/cdk-11.2.6.tgz#bf659b1df33733b718984503d36a7b272eb6db91"
+  integrity sha512-cVR+F6oIIxOTHXQOPUF6owWEPqqmK9vih/MFlgG0PrkVd8KkuCkjfet9xPVLaTLK/kGY+EWsqGX84crFS/XyYg==
+  dependencies:
+    tslib "^2.0.0"
+  optionalDependencies:
+    parse5 "^5.0.0"
+
 "@angular/cli@^11.2.5":
   version "11.2.5"
   resolved "https://registry.yarnpkg.com/@angular/cli/-/cli-11.2.5.tgz"
@@ -216,10 +225,24 @@
   dependencies:
     tslib "^2.0.0"
 
+"@angular/flex-layout@^11.0.0-beta.33":
+  version "11.0.0-beta.33"
+  resolved "https://registry.yarnpkg.com/@angular/flex-layout/-/flex-layout-11.0.0-beta.33.tgz#c2d08f90164701b66a62b8c4365b4e22c1e95789"
+  integrity sha512-unfhw3abZuKtdwQicRStHCYGbANPTHYg4WNRQk/RC5Mxq+4WOp4Q8HI7GqRHCGUYDCGUP7w1sU/oDt8f09nM8w==
+  dependencies:
+    tslib "^2.0.0"
+
 "@angular/forms@~11.2.3":
   version "11.2.6"
   resolved "https://registry.yarnpkg.com/@angular/forms/-/forms-11.2.6.tgz"
   integrity sha512-0xxayXCNc8lPQhDj5q/hAcG55cmDXPSBn2cxX4V+uDSGwKU1+h2CQID6gJdBJBh5wOaeMe6h8dK2s1pRgok66A==
+  dependencies:
+    tslib "^2.0.0"
+
+"@angular/material@11.2.6":
+  version "11.2.6"
+  resolved "https://registry.yarnpkg.com/@angular/material/-/material-11.2.6.tgz#ca688c2dd9beeebddc8c950a0942527a418e0ae9"
+  integrity sha512-e/wHn875tvgUu6n3LhSC3h/F2aQ2rEo6cwgFMYNxCNyBcpu6TBx3WfR7nbwsyQIWjnpn0g1KvtRwzJtRp6Nimw==
   dependencies:
     tslib "^2.0.0"
 
@@ -4285,6 +4308,18 @@ hex-color-regex@^1.1.0:
   resolved "https://registry.yarnpkg.com/hex-color-regex/-/hex-color-regex-1.1.0.tgz"
   integrity sha512-l9sfDFsuqtOqKDsQdqrMRk0U85RZc0RtOR9yPI7mRVOa4FsR/BVnZ0shmQRM96Ji99kYZP/7hn1cedc1+ApsTQ==
 
+highcharts-angular@^2.10.0:
+  version "2.10.0"
+  resolved "https://registry.yarnpkg.com/highcharts-angular/-/highcharts-angular-2.10.0.tgz#bf7af152ca1b89d9e773531a132ced617f9844d1"
+  integrity sha512-ICeLKeN6bgFqgBKmHE6p/c15IvWIeUqhDzB0PG8oAoZLpKKRjxGddFu6g2iVy9v952eDvywFcEXqRPO9PPRvag==
+  dependencies:
+    tslib "^2.0.0"
+
+highcharts@^9.0.1:
+  version "9.0.1"
+  resolved "https://registry.yarnpkg.com/highcharts/-/highcharts-9.0.1.tgz#49ec994a7897a96fc3e0880f49a0eca34adff6a2"
+  integrity sha512-0UmcCz2RmFuqfT/Igu3h5sGnkeSqqZwfuYrTzJ/htptmJAo5SSxH62NFcTjVRk+3WstoBJmoXR0v5FVGQUzK5A==
+
 hmac-drbg@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/hmac-drbg/-/hmac-drbg-1.0.1.tgz"
@@ -6373,6 +6408,11 @@ parse5-sax-parser@^6.0.1:
   integrity sha512-kXX+5S81lgESA0LsDuGjAlBybImAChYRMT+/uKCEXFBFOeEhS52qUCydGhU3qLRD8D9DVjaUo821WK7DM4iCeg==
   dependencies:
     parse5 "^6.0.1"
+
+parse5@^5.0.0:
+  version "5.1.1"
+  resolved "https://registry.yarnpkg.com/parse5/-/parse5-5.1.1.tgz#f68e4e5ba1852ac2cadc00f4555fff6c2abb6178"
+  integrity sha512-ugq4DFI0Ptb+WWjAdOK16+u/nHfiIrcE+sh8kZMaM0WllQKLI9rOUq6c2b7cwPkXdzfQESqvoqK6ug7U/Yyzug==
 
 parse5@^6.0.1:
   version "6.0.1"
