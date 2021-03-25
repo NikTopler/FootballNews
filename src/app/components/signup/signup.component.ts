@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AuthenticationService } from '../../services/authentication.service';
 
 @Component({
   selector: 'app-signup',
@@ -11,14 +12,21 @@ export class SignupComponent implements OnInit {
   signupForm: FormGroup;
 
   constructor(
-    private fb: FormBuilder) {
-
+    private fb: FormBuilder,
+    private authenticate: AuthenticationService
+  ){
     this.signupForm = this.fb.group({
-      fName: [],
-      lName: [],
-      email: [],
-      psw: [],
-      pswRepeat: []
+      fName: ['', [Validators.required]],
+      lName: ['', [Validators.required]],
+      email: ['', [Validators.required, Validators.email]],
+      psw: ['', [Validators.required, Validators.minLength(8)]],
+      pswRepeat: ['', [Validators.required, Validators.minLength(8)]]
+    },
+    { validator: [
+        this.authenticate.name('fName'),
+        this.authenticate.name('lName'),
+        this.authenticate.matchPasswords('psw', 'pswRepeat')
+      ]
     });
   }
 
@@ -26,6 +34,6 @@ export class SignupComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log('Submit')
+    if(this.signupForm.valid) console.log('Success!')
   }
 }
