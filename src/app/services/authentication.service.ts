@@ -14,4 +14,16 @@ export class AuthenticationService {
     }
   }
 
+  matchPasswords(psw: string, pswConfirm: string) {
+    return (formGroup: FormGroup) => {
+      const pswControl = formGroup.controls[psw];
+      const confirmPswControl = formGroup.controls[pswConfirm];
+
+      if(!pswControl || !confirmPswControl) return null;
+      if(confirmPswControl.errors && !confirmPswControl.errors.passwordMismatch) return null;
+      if(pswControl.value !== confirmPswControl.value) confirmPswControl.setErrors({ passwordMismatch: true });
+      else confirmPswControl.setErrors(null);
+      return !null;
+    }
+  }
 }
