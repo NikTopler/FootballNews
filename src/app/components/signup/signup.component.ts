@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AuthenticationService } from '../../services/authentication.service';
+import { AuthenticationService } from '../../services/authentication/authentication.service';
+import { CommService } from '../../services/comm/comm.service';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-signup',
@@ -13,7 +15,8 @@ export class SignupComponent {
 
   constructor(
     private fb: FormBuilder,
-    private authenticate: AuthenticationService
+    private authenticate: AuthenticationService,
+    private comm: CommService
   ){
     this.signupForm = this.fb.group({
       fName: ['', [Validators.required]],
