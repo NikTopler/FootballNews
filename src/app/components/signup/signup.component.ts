@@ -33,8 +33,14 @@ export class SignupComponent {
     });
   }
 
+  async onSubmit() {
+    if(!this.signupForm.valid) return;
 
-  onSubmit() {
-    if(this.signupForm.valid) console.log('Success!')
+    const userInfo = JSON.stringify(Object.values(this.signupForm.value))
+    const req = await fetch(`${environment.db}/insert.php`, {
+      method: 'POST',
+      body: this.comm.createFormData('standard', userInfo)
+    });
+    const res = await req.text();
   }
 }
