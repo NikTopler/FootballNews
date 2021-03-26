@@ -7,7 +7,7 @@ import { AuthenticationService } from '../../services/authentication.service';
   templateUrl: './signup.component.html',
   styleUrls: ['./signup.component.scss']
 })
-export class SignupComponent implements OnInit {
+export class SignupComponent {
 
   signupForm: FormGroup;
 
@@ -30,8 +30,6 @@ export class SignupComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {
-  }
 
   onSubmit() {
     if(this.signupForm.valid) console.log('Success!')
