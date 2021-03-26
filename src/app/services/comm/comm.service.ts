@@ -5,5 +5,9 @@ import { Injectable } from '@angular/core';
 })
 export class CommService {
 
-  constructor() { }
+  createFormData(word: string, values: string) {
+    let formData = new FormData;
+        formData.append(word, values);
+    return formData;
+  }
 }
