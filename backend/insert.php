@@ -47,4 +47,5 @@ class Signin extends User {
 }
 
 $signinObj = new Signin();
+if($_SERVER['REQUEST_METHOD'] !== 'POST') die;
 if(isset($_POST['standard'])) $signinObj->standardSignup(json_decode($_POST['standard']));
