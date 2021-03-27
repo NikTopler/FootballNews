@@ -7,6 +7,9 @@ class Signin extends User {
     for($i = 0; $i < count($userInfo); $i++) {
         echo $userInfo[$i];
     }
+    $this->checkIfUserExists($userInfo[2]);
+    $this->errorHandeling($userInfo);
+    $this->insert('standard', $userInfo);
   }
 
   public function checkIfUserExists($email) {
@@ -14,6 +17,17 @@ class Signin extends User {
       $stmt = $this->connect()->prepare($sql);
       $stmt->execute([$email]);
       $row = $stmt->fetch();
+  public function insert($type, $userInfo) {
+    $date = date(time());
+    if($type == 'standard') {
+      $hashPassword = password_hash($userInfo[3], PASSWORD_DEFAULT);
+      $sql = 'INSERT INTO users(firstName, lastName, email, password, createdAt) VALUES(?,?,?,?,?)';
+      $array = [$userInfo[0], $userInfo[1], $userInfo[2], $hashPassword, $date];
+    }
+    $stmt = $this->connect()->prepare($sql);
+    $stmt->execute($array);
+  }
+
   public function errorHandeling($userInfo) {
     $string = '';
     if(empty($userInfo[0])) $string = $string.' name';
