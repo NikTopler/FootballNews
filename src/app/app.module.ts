@@ -38,6 +38,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { ExternalComponent } from './components/authentication/external/external.component';
 
 @NgModule({
   declarations: [
@@ -45,7 +46,8 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     HomeComponent,
     AdminComponent,
     SigninComponent,
-    SignupComponent
+    SignupComponent,
+    ExternalComponent
   ],
   imports: [
     BrowserModule,
