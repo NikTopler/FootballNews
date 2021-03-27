@@ -4,9 +4,6 @@ include_once 'user.php';
 class Signin extends User {
 
   public function standardSignup($userInfo) {
-    for($i = 0; $i < count($userInfo); $i++) {
-        echo $userInfo[$i];
-    }
     $this->checkIfUserExists($userInfo[2]);
     $this->errorHandeling($userInfo);
     $this->insert('standard', $userInfo);
@@ -17,6 +14,9 @@ class Signin extends User {
       $stmt = $this->connect()->prepare($sql);
       $stmt->execute([$email]);
       $row = $stmt->fetch();
+      if($row) $this->errorOver('user is in db');
+  }
+
   public function insert($type, $userInfo) {
     $date = date(time());
     if($type == 'standard') {
