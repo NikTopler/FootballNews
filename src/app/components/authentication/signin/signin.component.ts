@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CommService } from 'src/app/services/comm/comm.service';
-import { environment } from '../../../environments/environment';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-signin',
@@ -30,5 +30,7 @@ export class SigninComponent {
       method: 'POST',
       body: this.comm.createFormData('signin', userInfo)
     })
+    const res = await req.text();
+    console.log(res);
   }
 }

@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AuthenticationService } from '../../services/authentication/authentication.service';
-import { CommService } from '../../services/comm/comm.service';
-import { environment } from '../../../environments/environment';
+import { AuthenticationService } from '../../../services/authentication/authentication.service';
+import { CommService } from '../../../services/comm/comm.service';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-signup',
@@ -42,5 +42,6 @@ export class SignupComponent {
       body: this.comm.createFormData('standard', userInfo)
     });
     const res = await req.text();
+    console.log(res);
   }
 }
