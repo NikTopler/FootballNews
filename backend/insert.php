@@ -14,6 +14,9 @@ class Signin extends User {
       $stmt = $this->connect()->prepare($sql);
       $stmt->execute([$email]);
       $row = $stmt->fetch();
+  public function errorOver($string) {
+    echo $string;
+    die;
   }
 }
 
