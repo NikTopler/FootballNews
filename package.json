@@ -23,6 +23,7 @@
     "@angular/platform-browser": "~11.2.3",
     "@angular/platform-browser-dynamic": "~11.2.3",
     "@angular/router": "~11.2.3",
+    "angularx-social-login": "^3.5.4",
     "express": "^4.17.1",
     "highcharts": "^9.0.1",
     "highcharts-angular": "^2.10.0",
