@@ -1,10 +1,27 @@
 import { Injectable } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import { SocialAuthService, GoogleLoginProvider, SocialUser, FacebookLoginProvider } from 'angularx-social-login';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthenticationService {
+
+  constructor(private socialAuthService: SocialAuthService) {
+    this.socialAuthService.authState.subscribe((user) => {
+      console.log(user);
+    });
+  }
+
+  loginWithGoogle(): void {
+    this.socialAuthService.signIn(GoogleLoginProvider.PROVIDER_ID);
+  }
+  loginWithFacebook(): void {
+    this.socialAuthService.signIn(FacebookLoginProvider.PROVIDER_ID);
+  }
+  logOut(): void {
+    this.socialAuthService.signOut();
+  }
 
   name(word: string) {
     return (formGroup: FormGroup) => {
