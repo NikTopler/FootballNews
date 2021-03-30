@@ -19,17 +19,32 @@ class Signin extends User {
     else if ($userInfo == 3) $this->message('Error: Something went wrong');
   }
 
+  public function insertSignin($type, $userInfo) {
+    $date = date(time());
+    $defaultProfileImage = '<svg width="64" height="64" viewBox="-4 -4 32 32" fill="#fff" class="rounded-full bg-gray-400 "><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"></path></svg>';
+    if($type == 'STANDARD') {
+      $dbName = 'password';
+      $array = [$userInfo[0], $userInfo[1], $userInfo[2], password_hash($userInfo[3], PASSWORD_DEFAULT), $date, $defaultProfileImage];
+    } else if($type == 'GOOGLE') {
+      $dbName = 'googleID';
+      $array = [$userInfo[1], $userInfo[2], $userInfo[3], password_hash($userInfo[0], PASSWORD_DEFAULT), $date, $userInfo[4]];
+    } else if($type == 'FACEBOOK') {
+      $dbName = 'facebookID';
+      $array = [$userInfo[1], $userInfo[2], $userInfo[3], password_hash($userInfo[0], PASSWORD_DEFAULT), $date, $userInfo[4]];
     }
+    $sql = 'INSERT INTO users(firstName, lastName, email, '.$dbName.', createdAt, profileImg) VALUES(?,?,?,?,?,?)';
+    $stmt = $this->connect()->prepare($sql);
+    $stmt->execute($array);
   }
 
+  public function updateSocialId($type, $email, $id) {
+    if($type == 'GOOGLE') $type = 'googleID';
+    else if($type == 'FACEBOOK') $type = 'facebookID';
 
-  public function insert($type, $userInfo) {
-    $date = date(time());
-    if($type == 'standard') {
-      $hashPassword = password_hash($userInfo[3], PASSWORD_DEFAULT);
-      $sql = 'INSERT INTO users(firstName, lastName, email, password, createdAt) VALUES(?,?,?,?,?)';
-      $array = [$userInfo[0], $userInfo[1], $userInfo[2], $hashPassword, $date];
-    }
+    $hashID = password_hash($id, PASSWORD_DEFAULT);
+    $array = [$hashID, $email];
+
+    $sql = 'UPDATE users SET '.$type.'= ? WHERE email = ?';
     $stmt = $this->connect()->prepare($sql);
     $stmt->execute($array);
   }
