@@ -35,10 +35,10 @@ export class ExternalComponent implements OnInit {
     {id, firstName, lastName, email ,photoUrl, provider} :
     {id: string, firstName: string, lastName: string, email: string,photoUrl: string, provider: string}
   ) {
-    const userInfo = JSON.stringify(Object.values({id, firstName, lastName, email, photoUrl}));
+    const userInfo = JSON.stringify(Object.values({id, firstName, lastName, email, photoUrl, provider}));
     const req = await fetch(`${environment.db}/insert.php`, {
       method: 'POST',
-      body: this.comm.createFormData(provider, userInfo)
+      body: this.comm.createFormData('SOCIAL', userInfo)
     });
     const res = await req.text();
     console.log(res);

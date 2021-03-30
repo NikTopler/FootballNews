@@ -39,7 +39,7 @@ export class SignupComponent {
     const userInfo = JSON.stringify(Object.values(this.signupForm.value))
     const req = await fetch(`${environment.db}/insert.php`, {
       method: 'POST',
-      body: this.comm.createFormData('standard', userInfo)
+      body: this.comm.createFormData('STANDARD', userInfo)
     });
     const res = await req.text();
     console.log(res);
