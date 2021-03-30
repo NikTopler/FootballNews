@@ -4,19 +4,21 @@ include_once 'user.php';
 class Signin extends User {
 
   public function standardSignup($userInfo) {
-    $this->checkIfUserExists($userInfo[2]);
     $this->errorHandeling($userInfo);
-    $this->insert('standard', $userInfo);
+    $userExists = $this->checkIfUserExists('STANDARD', $userInfo[2], null);
+    if($userExists == 0) $this->insertSignin('STANDARD', $userInfo);
+    else if($userExists == 1 || $userExists == 2) $this->message('Error: Something went wrong');
+    else if($userExists == 3) $this->message('Error: Already exists');
   }
 
-  public function googleSignin($userInfo) {
-    for($i = 0; $i < count($userInfo); $i++) {
-      printf($userInfo[$i]);
-    }
+  public function socialSignin($userInfo) {
+    $userExists = $this->checkIfUserExists($userInfo[5], $userInfo[3], $userInfo[0]);
+    if($userExists == 0) $this->insertSignin($userInfo[5], $userInfo);
+    else if($userExists == 1) $this->message('Success');
+    else if ($userExists == 2) $this->updateSocialId($userInfo[5], $userInfo[3], $userInfo[0]);
+    else if ($userInfo == 3) $this->message('Error: Something went wrong');
   }
-  public function facebookSignin($userInfo) {
-    for($i = 0; $i < count($userInfo); $i++) {
-      printf($userInfo[$i]);
+
     }
   }
 
