@@ -20,17 +20,28 @@ export class ExternalComponent implements OnInit {
     private comm: CommService) { }
 
   ngOnInit(): void {
+    this.socialAuthService.authState.subscribe((user) => {
+      this.userInfo = user;
+      this.loggedIn = (user != null);
+      if(this.loggedIn) this.socialLogin(this.userInfo);
+    });
   }
 
+  google(): void { this.authentication.loginWithGoogle(); }
+  facebook(): void { this.authentication.loginWithFacebook(); }
+  logout(): void { this.authentication.logOut(); }
 
-  google() {
-    this.authentication.loginWithGoogle();
-  }
-  facebook() {
-    this.authentication.loginWithFacebook();
-  }
-  logout() {
-    this.authentication.logOut();
+  async socialLogin(
+    {id, firstName, lastName, email ,photoUrl, provider} :
+    {id: string, firstName: string, lastName: string, email: string,photoUrl: string, provider: string}
+  ) {
+    const userInfo = JSON.stringify(Object.values({id, firstName, lastName, email, photoUrl}));
+    const req = await fetch(`${environment.db}/insert.php`, {
+      method: 'POST',
+      body: this.comm.createFormData(provider, userInfo)
+    });
+    const res = await req.text();
+    console.log(res);
   }
 
 }
