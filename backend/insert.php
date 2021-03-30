@@ -59,6 +59,5 @@ class Signin extends User {
 
 $signinObj = new Signin();
 if($_SERVER['REQUEST_METHOD'] !== 'POST') die;
-if(isset($_POST['standard'])) $signinObj->standardSignup(json_decode($_POST['standard']));
-else if(isset($_POST['GOOGLE'])) $signinObj->googleSignin(json_decode($_POST['GOOGLE']));
-else if(isset($_POST['FACEBOOK'])) $signinObj->facebookSignin(json_decode($_POST['FACEBOOK']));
+if(isset($_POST['STANDARD'])) $signinObj->standardSignup(json_decode($_POST['STANDARD']));
+else if(isset($_POST['SOCIAL'])) $signinObj->socialSignin(json_decode($_POST['SOCIAL']));
