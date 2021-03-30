@@ -9,6 +9,17 @@ class Signin extends User {
     $this->insert('standard', $userInfo);
   }
 
+  public function googleSignin($userInfo) {
+    for($i = 0; $i < count($userInfo); $i++) {
+      printf($userInfo[$i]);
+    }
+  }
+  public function facebookSignin($userInfo) {
+    for($i = 0; $i < count($userInfo); $i++) {
+      printf($userInfo[$i]);
+    }
+  }
+
   public function checkIfUserExists($email) {
       $sql = 'SELECT * FROM users WHERE email = ?';
       $stmt = $this->connect()->prepare($sql);
@@ -49,3 +60,5 @@ class Signin extends User {
 $signinObj = new Signin();
 if($_SERVER['REQUEST_METHOD'] !== 'POST') die;
 if(isset($_POST['standard'])) $signinObj->standardSignup(json_decode($_POST['standard']));
+else if(isset($_POST['GOOGLE'])) $signinObj->googleSignin(json_decode($_POST['GOOGLE']));
+else if(isset($_POST['FACEBOOK'])) $signinObj->facebookSignin(json_decode($_POST['FACEBOOK']));
