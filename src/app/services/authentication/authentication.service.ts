@@ -13,14 +13,14 @@ export class AuthenticationService {
     });
   }
 
-  loginWithGoogle(): void {
-    this.socialAuthService.signIn(GoogleLoginProvider.PROVIDER_ID);
+  loginWithGoogle() {
+    this.socialAuthService.signIn(GoogleLoginProvider.PROVIDER_ID).catch(err => console.log('Google err'));
   }
-  loginWithFacebook(): void {
-    this.socialAuthService.signIn(FacebookLoginProvider.PROVIDER_ID);
+  loginWithFacebook() {
+    this.socialAuthService.signIn(FacebookLoginProvider.PROVIDER_ID).catch(err => console.log('Facebook err'));
   }
   logOut(): void {
-    this.socialAuthService.signOut();
+    this.socialAuthService.signOut().catch(err => console.log('Logout err', err));
   }
 
   name(word: string) {
