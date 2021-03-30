@@ -20,13 +20,6 @@ class Signin extends User {
     }
   }
 
-  public function checkIfUserExists($email) {
-      $sql = 'SELECT * FROM users WHERE email = ?';
-      $stmt = $this->connect()->prepare($sql);
-      $stmt->execute([$email]);
-      $row = $stmt->fetch();
-      if($row) $this->errorOver('user is in db');
-  }
 
   public function insert($type, $userInfo) {
     $date = date(time());
@@ -46,14 +39,9 @@ class Signin extends User {
     if(empty($userInfo[2])) $string = $string.' email';
     if(empty($userInfo[3])) $string = $string.' password';
     if(empty($userInfo[4])) $string = $string.' password-repeat';
-    if($string != '') $this->errorOver($string);
-    if(!filter_var($userInfo[2], FILTER_VALIDATE_EMAIL)) $this->errorOver('incorrect email');
-    if(preg_match('/\s/', $userInfo[3])) $this->errorOver("no white spaces in password");
-  }
-
-  public function errorOver($string) {
-    echo $string;
-    die;
+    if($string != '') $this->message('Error: '.$string);
+    if(!filter_var($userInfo[2], FILTER_VALIDATE_EMAIL)) $this->message('Error: Incorrect email');
+    if(preg_match('/\s/', $userInfo[3])) $this->message("Error: No white spaces in password");
   }
 }
 
