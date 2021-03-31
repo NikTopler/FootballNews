@@ -38,11 +38,13 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatButtonModule } from '@angular/material/button';
 import { ExternalComponent } from './pages/authentication/external/external.component';
 
 import { SocialLoginModule, SocialAuthServiceConfig, FacebookLoginProvider, AmazonLoginProvider } from 'angularx-social-login';
 import { GoogleLoginProvider } from 'angularx-social-login';
 import { environment } from '../environments/environment';
+import { NavbarComponent } from './components/navbar/navbar.component';
 
 @NgModule({
   declarations: [
@@ -51,7 +53,8 @@ import { environment } from '../environments/environment';
     AdminComponent,
     SigninComponent,
     SignupComponent,
-    ExternalComponent
+    ExternalComponent,
+    NavbarComponent
   ],
   imports: [
     BrowserModule,
@@ -87,7 +90,8 @@ import { environment } from '../environments/environment';
     MatTableModule,
     MatSortModule,
     MatPaginatorModule,
-    SocialLoginModule
+    SocialLoginModule,
+    MatButtonModule
   ],
   providers: [
     {
