@@ -21,7 +21,14 @@ export class ExternalComponent implements OnInit {
 
   ngOnInit(): void {
     this.socialAuthService.authState.subscribe((user) => {
-      this.userInfo = user;
+      this.userInfo = user.provider !== 'AMAZON' ? user : {
+        "id": user.id,
+        "firstName": user.name.split(' ')[0],
+        "lastName": user.name.split(' ')[1],
+        "email": user.email,
+        "photoUrl": null,
+        "provider": 'AMAZON'
+      }
       this.loggedIn = (user != null);
       if(this.loggedIn) this.socialLogin(this.userInfo);
     });
@@ -29,6 +36,7 @@ export class ExternalComponent implements OnInit {
 
   google(): void { this.authentication.loginWithGoogle(); }
   facebook(): void { this.authentication.loginWithFacebook(); }
+  amazon(): void { this.authentication.loginWithAmazon(); }
   logout(): void { this.authentication.logOut(); }
 
   async socialLogin(
