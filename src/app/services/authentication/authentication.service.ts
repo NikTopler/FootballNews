@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { SocialAuthService, GoogleLoginProvider, FacebookLoginProvider } from 'angularx-social-login';
+import { SocialAuthService, GoogleLoginProvider, FacebookLoginProvider, AmazonLoginProvider} from 'angularx-social-login';
 
 @Injectable({
   providedIn: 'root'
@@ -20,6 +20,9 @@ export class AuthenticationService {
   }
   loginWithFacebook() {
     this.socialAuthService.signIn(FacebookLoginProvider.PROVIDER_ID).catch(err => console.log('Facebook err'));
+  }
+  loginWithAmazon() {
+    this.socialAuthService.signIn(AmazonLoginProvider.PROVIDER_ID).catch(err => console.log('Facebook err'));
   }
   logOut(): void {
     this.socialAuthService.signOut().catch(err => console.log('Logout err', err));

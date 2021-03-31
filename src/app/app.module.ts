@@ -40,7 +40,7 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { ExternalComponent } from './components/authentication/external/external.component';
 
-import { SocialLoginModule, SocialAuthServiceConfig, FacebookLoginProvider } from 'angularx-social-login';
+import { SocialLoginModule, SocialAuthServiceConfig, FacebookLoginProvider, AmazonLoginProvider } from 'angularx-social-login';
 import { GoogleLoginProvider } from 'angularx-social-login';
 import { environment } from '../environments/environment';
 
@@ -105,6 +105,12 @@ import { environment } from '../environments/environment';
             id: FacebookLoginProvider.PROVIDER_ID,
             provider: new FacebookLoginProvider(
               environment.facebookLoginProvider
+            )
+          },
+          {
+            id: AmazonLoginProvider.PROVIDER_ID,
+            provider: new AmazonLoginProvider(
+              environment.amazonLoginProvider
             )
           }
         ]
