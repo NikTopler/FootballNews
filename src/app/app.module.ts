@@ -4,10 +4,10 @@ import { FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { HomeComponent } from './components/home/home.component';
-import { AdminComponent } from './components/admin/admin.component';
-import { SigninComponent } from './components/authentication/signin/signin.component';
-import { SignupComponent } from './components/authentication/signup/signup.component';
+import { HomeComponent } from './pages/home/home.component';
+import { AdminComponent } from './pages/admin/admin.component';
+import { SigninComponent } from './pages/authentication/signin/signin.component';
+import { SignupComponent } from './pages/authentication/signup/signup.component';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatInputModule } from '@angular/material/input';
@@ -38,7 +38,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
 import { MatPaginatorModule } from '@angular/material/paginator';
-import { ExternalComponent } from './components/authentication/external/external.component';
+import { ExternalComponent } from './pages/authentication/external/external.component';
 
 import { SocialLoginModule, SocialAuthServiceConfig, FacebookLoginProvider, AmazonLoginProvider } from 'angularx-social-login';
 import { GoogleLoginProvider } from 'angularx-social-login';

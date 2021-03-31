@@ -3,11 +3,34 @@
   max-width: 300px;
   border-radius: 6px;
   overflow: hidden;
-  background-color: rgb(173, 171, 171);
-  border-top: 6px solid red;
+  background-color: #fff;
+  border-top: 5px solid rgb(251, 55, 55);
   padding: 25px;
   position: relative;
   margin: 0 auto;
+  z-index: 9800;
+}
+
+h3 {
+  text-align: center;
+  font-size: 1.3rem;
+  font-weight: 400;
+  color: rgb(42, 42, 42);
+}
+
+h2 {
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: rgb(42, 42, 42);
+}
+
+.description { margin-bottom: 1.8rem; }
+
+.description p {
+  font-size: medium;
+  text-align: center;
+  color: #445d6e;
 }
 
 .internal-social-login {
@@ -15,15 +38,45 @@
   flex-direction: column;
 }
 
-.x {
-  padding: 6px 9px;
-  font-size: 1.3rem;
-  width: auto;
-  height: auto;
+.x-container {
+  width: 15px;
+  height: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px;
   position: absolute;
-  top: 0;
-  right: 0;
+  top: 5px;
+  right: 5px;
+  opacity: .5;
   cursor: pointer;
+}
+
+.x-container::before {
+  content: "";
+  width: 4px;
+  height: 20px;
+  background-color: gray;
+  position: absolute;
+  border-radius: 4px;
+  transform: rotate(-45deg);
+  transition: all ease-in-out .3;
+}
+
+.x-container::after {
+  content: "";
+  width: 4px;
+  height: 20px;
+  background-color: gray;
+  position: absolute;
+  border-radius: 4px;
+  transform: rotate(45deg);
+  transition: all ease-in-out .3;
+}
+
+.x-container:hover::after,
+.x-container:hover::before {
+  background-color: rgb(53, 53, 53);
 }
 
 .button-container {
