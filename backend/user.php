@@ -13,6 +13,7 @@ class User extends Dbh {
     if($type == 'STANDARD') return 3;
     else if($type == 'GOOGLE') $dbName = 'googleID';
     else if($type == 'FACEBOOK') $dbName = 'facebookID';
+    else if($type == 'AMAZON') $dbName = 'amazonID';
 
     if(password_verify($id, $row[$dbName])) return 1;
     else return 2;
