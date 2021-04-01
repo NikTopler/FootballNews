@@ -12,6 +12,8 @@ export class AppComponent implements OnInit{
   title = 'footballApp';
 
   userInfo: any = null;
+  isUserSignedIn: boolean = false;
+
   loggedIn: boolean = false;
   socialLoginPopup: boolean = false;
   slp: number = 0;
@@ -55,6 +57,11 @@ export class AppComponent implements OnInit{
 
     this.waitForResponse = false;
 
-    if(res !== 'Success') console.log('err')
+    if(res.includes('err')) return; // error handling
+
+    this.userInfo = JSON.parse(res);
+    this.isUserSignedIn = true;
+
+    console.log(this.userInfo)
   }
 }
