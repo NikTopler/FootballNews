@@ -27,6 +27,28 @@ class User extends Dbh {
     else return 2;
   }
 
+  public function getSession($email) {
+    if(session_id() == '') session_start();
+
+    $sql = 'SELECT * FROM users WHERE email = ?';
+    $stmt = $this->connect()->prepare($sql);
+    $stmt->execute([$email]);
+    $row = $stmt->fetch();
+
+    echo '{
+      "id": "'.$row["id"].'",
+      "firstName": "'.$row["firstName"].'",
+      "lastName": "'.$row["lastName"].'",
+      "email": "'.$row["email"].'",
+      "admin": '.$row["admin"].',
+      "profileImg": "'.$row["profileImg"].'",
+      "googleID": "'.$row["googleID"].'",
+      "facebookID": "'.$row["facebookID"].'",
+      "amazonID": "'.$row["amazonID"].'"
+    }';
+    die;
+  }
+
   public function message($string) {
     echo $string;
     die;
