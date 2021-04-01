@@ -14,6 +14,7 @@ export class AppComponent implements OnInit{
   userInfo: any = null;
   loggedIn: boolean = false;
   socialLoginPopup: boolean = false;
+  slp: number = 0;
   waitForResponse: boolean = false;
 
   constructor(

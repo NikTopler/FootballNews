@@ -93,8 +93,7 @@ import { NavbarComponent } from './components/navbar/navbar.component';
     SocialLoginModule,
     MatButtonModule
   ],
-  providers: [
-    {
+  providers: [{
       provide: 'SocialAuthServiceConfig',
       useValue: {
         autoLogin: false,
@@ -119,7 +118,8 @@ import { NavbarComponent } from './components/navbar/navbar.component';
           }
         ]
       } as SocialAuthServiceConfig,
-    }
+    },
+    AppComponent
   ],
   bootstrap: [AppComponent]
 })
