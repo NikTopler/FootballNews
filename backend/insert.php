@@ -31,6 +31,9 @@ class Signin extends User {
     } else if($type == 'FACEBOOK') {
       $dbName = 'facebookID';
       $array = [$userInfo[1], $userInfo[2], $userInfo[3], password_hash($userInfo[0], PASSWORD_DEFAULT), $date, $userInfo[4]];
+    } else if($type == 'AMAZON') {
+      $dbName = 'amazonID';
+      $array = [$userInfo[1], $userInfo[2], $userInfo[3], password_hash($userInfo[0], PASSWORD_DEFAULT), $date, $defaultProfileImage];
     }
     $sql = 'INSERT INTO users(firstName, lastName, email, '.$dbName.', createdAt, profileImg) VALUES(?,?,?,?,?,?)';
     $stmt = $this->connect()->prepare($sql);
@@ -40,6 +43,7 @@ class Signin extends User {
   public function updateSocialId($type, $email, $id) {
     if($type == 'GOOGLE') $type = 'googleID';
     else if($type == 'FACEBOOK') $type = 'facebookID';
+    else if($type == 'AMAZON') $type = 'amazonID';
 
     $hashID = password_hash($id, PASSWORD_DEFAULT);
     $array = [$hashID, $email];

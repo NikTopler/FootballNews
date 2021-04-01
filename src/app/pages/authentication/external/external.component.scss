@@ -1,0 +1,142 @@
+.external-social-login {
+  width: 100%;
+  max-width: 300px;
+  border-radius: 6px;
+  overflow: hidden;
+  background-color: #fff;
+  border-top: 5px solid #ff4081;
+  padding: 25px;
+  position: relative;
+  margin: 0 auto;
+  z-index: 9800;
+}
+
+h3 {
+  text-align: center;
+  font-size: 1.3rem;
+  font-weight: 400;
+  color: rgb(42, 42, 42);
+}
+
+h2 {
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: rgb(42, 42, 42);
+}
+
+.description { margin-bottom: 1.8rem; }
+
+.description p {
+  font-size: medium;
+  text-align: center;
+  color: #445d6e;
+}
+
+.internal-social-login {
+  display: flex;
+  flex-direction: column;
+}
+
+.x-container {
+  width: 15px;
+  height: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px;
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  opacity: .5;
+  cursor: pointer;
+}
+
+.x-container::before {
+  content: "";
+  width: 4px;
+  height: 20px;
+  background-color: gray;
+  position: absolute;
+  border-radius: 4px;
+  transform: rotate(-45deg);
+  transition: all ease-in-out .3;
+}
+
+.x-container::after {
+  content: "";
+  width: 4px;
+  height: 20px;
+  background-color: gray;
+  position: absolute;
+  border-radius: 4px;
+  transform: rotate(45deg);
+  transition: all ease-in-out .3;
+}
+
+.x-container:hover::after,
+.x-container:hover::before {
+  background-color: rgb(53, 53, 53);
+}
+
+.button-container {
+  cursor: pointer;
+  margin-bottom: 0.3rem;
+}
+
+.social-button {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  cursor: pointer;
+  background-color: #fff;
+  width: 100%;
+  box-shadow: 0 2px 4px 0 rgb(0 0 0 / 10%);
+  border-radius: 4px;
+  font-size: 14px;
+  padding: 0;
+  border: 1px solid transparent;
+  margin: 0 0 10px 0;
+  color: #fff;
+  margin-top: 3px;
+  margin-bottom: 0;
+  transition: ease-in-out .18s;
+}
+
+.button-container:hover .social-button {
+  margin-bottom: 3px;
+  margin-top: 0;
+  box-shadow: 0 2px 4px 0 rgb(0 0 0 / 25%);
+}
+
+.social-button.google { background-color: #4285f4; }
+.social-button.facebook { background-color: #1877f2; }
+.social-button.amazon { background-color: #000000; }
+
+.logo-container {
+  line-height: 0;
+  display: inline-block;
+  border-radius: 4px 0 0 4px;
+}
+
+.facebook .logo-container {
+  background-color: #1877f2;
+  padding: 11px;
+}
+.google .logo-container {
+  background-color: #fff;
+  padding: 14px;
+}
+
+.amazon .logo-container { padding: 14px; }
+
+.google svg { width: 18px; height: auto;}
+.facebook svg { width: 27px; height: auto;}
+.amazon svg { width: 18px; height: auto; }
+
+.social-button .text {
+  margin: auto;
+  font-size: 1.05rem;
+  color: #fff;
+}
+

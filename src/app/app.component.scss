@@ -1,0 +1,44 @@
+app-external {
+  position: absolute;
+  margin-left: auto;
+  margin-right: auto;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-items: center;
+  max-width: 300px;
+  min-height: calc(100% - (40px * 2));
+}
+
+.overlay{
+  position: fixed;
+  opacity: 0;
+  transition: 200ms ease-in-out;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.666);
+  pointer-events: none;
+  z-index: 9501;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+.overlay.active{
+  opacity: 1;
+  pointer-events: all;
+}
+
+.progress-bar {
+  position: absolute;
+  top: 0;
+}
+
+.main-content {
+  display: grid;
+  grid-template-rows: 64px 1fr;
+  height: 100%;
+  width: 100%;
+}
