@@ -1,6 +1,14 @@
 <?php
 include_once 'db.php';
 
+$allowed_domains = ["http://localhost:4200", "https://footballnews-app.herokuapp.com"];
+
+if (in_array($_SERVER['HTTP_ORIGIN'], $allowed_domains)) header("Access-Control-Allow-Origin: " . $_SERVER['HTTP_ORIGIN']);
+else {
+    echo 'Access denied';
+    die;
+}
+
 class User extends Dbh {
 
   public function checkIfUserExists($type, $email, $id) {
