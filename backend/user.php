@@ -27,6 +27,11 @@ class User extends Dbh {
     else return 2;
   }
 
+  public function checkSession() {
+    if(session_id() == '') $this->message('No session');
+    else $this->returnUserData();
+  }
+
   public function getSession($email) {
     if(session_id() == '') session_start();
 
@@ -35,16 +40,28 @@ class User extends Dbh {
     $stmt->execute([$email]);
     $row = $stmt->fetch();
 
+    $_SESSION['id'] = $row["id"];
+    $_SESSION['firstName'] = $row["firstName"];
+    $_SESSION['lastName'] = $row["lastName"];
+    $_SESSION['email'] = $row["email"];
+    $_SESSION['admin'] = $row["admin"];
+    $_SESSION['profileImg'] = $row["profileImg"];
+    $_SESSION['googleID'] = $row["googleID"];
+    $_SESSION['facebookID'] = $row["facebookID"];
+    $_SESSION['amazonID'] = $row["amazonID"];
+  }
+
+  public function returnUserData() {
     echo '{
-      "id": "'.$row["id"].'",
-      "firstName": "'.$row["firstName"].'",
-      "lastName": "'.$row["lastName"].'",
-      "email": "'.$row["email"].'",
-      "admin": '.$row["admin"].',
-      "profileImg": "'.$row["profileImg"].'",
-      "googleID": "'.$row["googleID"].'",
-      "facebookID": "'.$row["facebookID"].'",
-      "amazonID": "'.$row["amazonID"].'"
+      "id": "'.$_SESSION["id"].'",
+      "firstName": "'.$_SESSION["firstName"].'",
+      "lastName": "'.$_SESSION["lastName"].'",
+      "email": "'.$_SESSION["email"].'",
+      "admin": '.$_SESSION["admin"].',
+      "profileImg": "'.$_SESSION["profileImg"].'",
+      "googleID": "'.$_SESSION["googleID"].'",
+      "facebookID": "'.$_SESSION["facebookID"].'",
+      "amazonID": "'.$_SESSION["amazonID"].'"
     }';
     die;
   }
