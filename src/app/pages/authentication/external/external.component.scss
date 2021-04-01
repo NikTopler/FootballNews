@@ -80,14 +80,8 @@ h2 {
 }
 
 .button-container {
-  padding-top: 3px;
-  padding-bottom: 0;
-  transition: all ease-in .18s;
-}
-
-.button-container:hover {
-  padding-top: 0;
-  padding-bottom: 3px;
+  cursor: pointer;
+  margin-bottom: 0.3rem;
 }
 
 .social-button {
@@ -96,18 +90,23 @@ h2 {
   align-items: center;
   cursor: pointer;
   background-color: #fff;
-  border: none;
-  transition: background-color .2s;
   width: 100%;
-  box-shadow: 0 2px 4px 0 rgb(0 0 0 / 25%);
-  transition: box-shadow .2s,transform .2s;
+  box-shadow: 0 2px 4px 0 rgb(0 0 0 / 10%);
   border-radius: 4px;
   font-size: 14px;
   padding: 0;
   border: 1px solid transparent;
   margin: 0 0 10px 0;
   color: #fff;
+  margin-top: 3px;
+  margin-bottom: 0;
+  transition: ease-in-out .18s;
+}
 
+.button-container:hover .social-button {
+  margin-bottom: 3px;
+  margin-top: 0;
+  box-shadow: 0 2px 4px 0 rgb(0 0 0 / 25%);
 }
 
 .social-button.google { background-color: #4285f4; }
