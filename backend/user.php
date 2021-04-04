@@ -173,6 +173,20 @@ class User extends Dbh {
     catch(Exception $e) { $this->message($e); }
   }
 
+  public function generateRefreshToken($id) {
+    include 'config/core.php';
+
+    $payloadRefresh_info = array(
+      "iss" => $iss,
+      "iat" => $iat,
+      "nbf" => $nbf,
+      "exp" => $exp + 3600 * 24 * 2,
+      "aud" => $aud,
+      "token" => $id
+    );
+
+     try { return JWT::encode($payloadRefresh_info, $refreshSecret, 'HS512'); }
+     catch (Exception $e) { $this->message($e); }
   }
 
   public function message($string) {
@@ -180,3 +194,9 @@ class User extends Dbh {
     die;
   }
 }
+
+$userObj = new User();
+if($_SERVER['REQUEST_METHOD'] !== 'POST') die;
+if(isset($_POST['VALIDATE_REFRESH_TOKEN'])) $userObj->checkRefreshToken($_POST['VALIDATE_REFRESH_TOKEN']);
+else if(isset($_POST['VALIDATE_ACCESS_TOKEN'])) $userObj->checkAccessToken($_POST['VALIDATE_ACCESS_TOKEN']);
+else if(isset($_POST['REGENERATE_ACCESS_TOKEN'])) $userObj->regenerateAccessToken($_POST['REGENERATE_ACCESS_TOKEN']);
