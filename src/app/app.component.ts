@@ -45,6 +45,30 @@ export class AppComponent implements OnInit{
       this.loggedIn = (user != null);
       if(this.loggedIn) this.socialLogin(this.userInfo);
     });
+    this.checkAuthentication();
+  }
+
+  async checkAuthentication() {
+    const refreshToken = this.authentication.getRefreshToken();
+    const key = await this.userService.checkRefreshToken(refreshToken);
+
+    if(!key) return console.log('LOGIN'); // ne naredi nič
+    const accessToken = this.authentication.getAccessToken();
+
+    if(!accessToken) return console.log('NEKI JE NAROBE');
+    const decryptToken = this.authentication.decryptToken(accessToken.toString(), key);
+
+    // Checks if access token is valid
+    if(!decryptToken) return console.log('WRONG KEY');
+    const res = await this.userService.checkAccessToken(decryptToken);
+
+    if(!res) {
+      if(this.userService.regenerateAccessToken(refreshToken, key))
+        this.checkAuthentication();
+    } else {
+      this.userService.userInfo = res.data.data;
+      this.userInfo = this.userService.userInfo;
+    }
   }
 
   async socialLogin(
