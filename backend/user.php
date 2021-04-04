@@ -51,6 +51,36 @@ class User extends Dbh {
     ];
   }
 
+  public function generateTokens($userInfo) {
+
+    $data = array(
+      "id" => $userInfo[0],
+      "firstName" => $userInfo[1],
+      "lastName" => $userInfo[2],
+      "email" => $userInfo[3],
+      "admin" => $userInfo[4],
+      "createdAt" => $userInfo[5],
+      "updatedAt" => $userInfo[6],
+      "profileImg" => $userInfo[7],
+      "googleID" => $userInfo[8],
+      "facebookID" => $userInfo[9],
+      "amazonID" => $userInfo[10]
+    );
+
+    $jwtAccessToken = $this->generateAccessToken($userInfo);
+    $jwtRefreshToken = $this->generateRefreshToken($userInfo[0]);
+
+    http_response_code(200);
+
+    return json_encode(array(
+      "status" => "ok",
+      "jwt" => $jwtAccessToken,
+      "refreshToken" => $jwtRefreshToken,
+      "id" => $userInfo[0],
+      "data" => $data,
+      "message" => "User session has started"
+    ));
+  }
 
   }
 
