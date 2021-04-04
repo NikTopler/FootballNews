@@ -95,10 +95,4 @@ export class AppComponent implements OnInit{
 
     this.userService.userInfo = JSON.parse(res).data;
   }
-
-  logout(): void {
-    window.localStorage.removeItem('accessToken');
-    this.authentication.deleteCookie('refreshToken', '/');
-    location.reload();
-  }
 }
