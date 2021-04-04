@@ -143,6 +143,36 @@ class User extends Dbh {
     echo $newAccessToken;
   }
 
+  public function generateAccessToken($userInfo) {
+    include 'config/core.php';
+
+    $data = array(
+      "id" => $userInfo[0],
+      "firstName" => $userInfo[1],
+      "lastName" => $userInfo[2],
+      "email" => $userInfo[3],
+      "admin" => $userInfo[4],
+      "createdAt" => $userInfo[5],
+      "updatedAt" => $userInfo[6],
+      "profileImg" => $userInfo[7],
+      "googleID" => $userInfo[8],
+      "facebookID" => $userInfo[9],
+      "amazonID" => $userInfo[10]
+    );
+
+    $payload_info = array(
+      "iss" => $iss,
+      "iat" => $iat,
+      "nbf" => $nbf,
+      "exp" => $exp,
+      "aud" => $aud,
+      "data" => $data
+    );
+
+    try { return JWT::encode($payload_info, $secret, 'HS512'); }
+    catch(Exception $e) { $this->message($e); }
+  }
+
   }
 
   public function message($string) {
