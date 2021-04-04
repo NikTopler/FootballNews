@@ -13,10 +13,22 @@ class Signin extends User {
 
   public function socialSignin($userInfo) {
     $userExists = $this->checkIfUserExists($userInfo[5], $userInfo[3], $userInfo[0]);
+
     if($userExists == 0) $this->insertSignin($userInfo[5], $userInfo);
     else if ($userExists == 2) $this->updateSocialId($userInfo[5], $userInfo[3], $userInfo[0]);
     else if ($userInfo == 3) $this->message('Error: Something went wrong');
-    $this->getSession($userInfo[3]);
+
+    $userData = $this->getuserData($userInfo[3]);
+    $res = $this->generateTokens($userData);
+    $this->updateRefreshTokenDb($userInfo[3], json_decode($res)->refreshToken);
+
+    echo $res;
+  }
+
+  public function updateRefreshTokenDb($email, $token) {
+    $sql = 'UPDATE users SET refreshToken = ? WHERE email = ?';
+    $stmt = $this->connect()->prepare($sql);
+    $stmt->execute([$token, $email]);
   }
 
   public function insertSignin($type, $userInfo) {
