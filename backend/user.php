@@ -29,11 +29,28 @@ class User extends Dbh {
     else return 2;
   }
 
+  public function getUserData($email) {
 
     $sql = 'SELECT * FROM users WHERE email = ?';
     $stmt = $this->connect()->prepare($sql);
     $stmt->execute([$email]);
     $row = $stmt->fetch();
+    return [
+      $row['id'],
+      $row['firstName'],
+      $row['lastName'],
+      $row['email'],
+      $row['admin'],
+      $row['createdAt'],
+      $row['updatedAt'],
+      $row['profileImg'],
+      $row['googleID'],
+      $row['facebookID'],
+      $row['amazonID'],
+      $row['refreshToken']
+    ];
+  }
+
 
   }
 
