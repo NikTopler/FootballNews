@@ -9,24 +9,12 @@ export class AuthenticationService {
 
   UserInfo: any;
 
-  constructor(private socialAuthService: SocialAuthService) {
-    this.socialAuthService.authState.subscribe((user) => {
-      this.UserInfo = user;
-    })
-  }
+  constructor(private socialAuthService: SocialAuthService) { }
 
-  loginWithGoogle() {
-    this.socialAuthService.signIn(GoogleLoginProvider.PROVIDER_ID).catch(err => console.log('Google err'));
-  }
-  loginWithFacebook() {
-    this.socialAuthService.signIn(FacebookLoginProvider.PROVIDER_ID).catch(err => console.log('Facebook err'));
-  }
-  loginWithAmazon() {
-    this.socialAuthService.signIn(AmazonLoginProvider.PROVIDER_ID).catch(err => console.log('Facebook err'));
-  }
-  logOut(): void {
-    this.socialAuthService.signOut().catch(err => console.log('Logout err', err));
-  }
+  loginWithGoogle(): void { this.socialAuthService.signIn(GoogleLoginProvider.PROVIDER_ID).catch(err => console.log('Google err')); }
+  loginWithFacebook(): void { this.socialAuthService.signIn(FacebookLoginProvider.PROVIDER_ID).catch(err => console.log('Facebook err')); }
+  loginWithAmazon(): void { this.socialAuthService.signIn(AmazonLoginProvider.PROVIDER_ID).catch(err => console.log('Facebook err')); }
+  logOut(): void { this.socialAuthService.signOut().catch(err => console.log('Logout err', err)); }
 
   name(word: string) {
     return (formGroup: FormGroup) => {

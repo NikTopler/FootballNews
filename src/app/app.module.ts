@@ -41,8 +41,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatButtonModule } from '@angular/material/button';
 import { ExternalComponent } from './pages/authentication/external/external.component';
 
-import { SocialLoginModule, SocialAuthServiceConfig, FacebookLoginProvider, AmazonLoginProvider } from 'angularx-social-login';
-import { GoogleLoginProvider } from 'angularx-social-login';
+import { SocialLoginModule, SocialAuthServiceConfig, GoogleLoginProvider, FacebookLoginProvider, AmazonLoginProvider } from 'angularx-social-login';
 import { environment } from '../environments/environment';
 import { NavbarComponent } from './components/navbar/navbar.component';
 
