@@ -115,6 +115,34 @@ class User extends Dbh {
       ));
     }
   }
+
+  public function regenerateAccessToken($refreshToken) {
+
+    $sql = 'SELECT * FROM users WHERE refreshToken = ?';
+    $stmt = $this->connect()->prepare($sql);
+    $stmt->execute([$refreshToken]);
+    $row = $stmt->fetch();
+
+    if(!$row) $this->message('Login reqired');
+
+    $newAccessToken = $this->generateAccessToken([
+      $row['id'],
+      $row['firstName'],
+      $row['lastName'],
+      $row['email'],
+      $row['admin'],
+      $row['createdAt'],
+      $row['updatedAt'],
+      $row['profileImg'],
+      $row['googleID'],
+      $row['facebookID'],
+      $row['amazonID'],
+      $row['refreshToken']
+    ]);
+
+    echo $newAccessToken;
+  }
+
   }
 
   public function message($string) {
