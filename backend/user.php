@@ -99,6 +99,22 @@ class User extends Dbh {
     }
   }
 
+  public function checkAccessToken($token) {
+    include 'config/core.php';
+    try {
+      $decode = JWT::decode($token, $secret, array('HS512'));
+      http_response_code(200);
+      echo json_encode(array(
+        "status" => "Good",
+        "data" => $decode
+      ));
+    } catch (Exception $e) {
+      http_response_code(500);
+      echo json_encode(array(
+        "status" => "Expired access token"
+      ));
+    }
+  }
   }
 
   public function message($string) {
