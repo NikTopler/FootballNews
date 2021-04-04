@@ -1,15 +1,20 @@
 <app-external
   (loginPopup)="socialLoginPopup = $event"
   *ngIf="socialLoginPopup"></app-external>
-<div *ngIf="socialLoginPopup" class="overlay active"></div>
+<div
+  *ngIf="socialLoginPopup"
+  class="overlay active"></div>
 <mat-progress-bar
   *ngIf="waitForResponse"
   mode="indeterminate"
   color="accent"
   class="progress-bar">
 </mat-progress-bar>
-<main class="main-content">
-  <app-navbar (loginPopup)="socialLoginPopup = $event"></app-navbar>
+<main class="main-content" *ngIf="!reload">
+  <app-navbar
+    (loginPopup)="socialLoginPopup = $event"
+    [userInfo]="userInfo"
+    [loggedIn]="loggedIn"></app-navbar>
   <div class="router-content">
     <router-outlet></router-outlet>
   </div>

@@ -18,6 +18,7 @@ export class AppComponent implements OnInit{
 
   loggedIn: boolean = false;
   socialLoginPopup: boolean = false;
+  reload: boolean = false;
   slp: number = 0;
   waitForResponse: boolean = false;
 
@@ -31,6 +32,8 @@ export class AppComponent implements OnInit{
       this.socialLoginPopup = false;
     });
   }
+
+  firstName: string = 'DELA';
 
   ngOnInit() {
     this.socialAuthService.authState.subscribe((user) => {
@@ -49,26 +52,41 @@ export class AppComponent implements OnInit{
   }
 
   async checkAuthentication() {
+    this.reload = true;
+    this.waitForResponse = true;
+
     const refreshToken = this.authentication.getRefreshToken();
     const key = await this.userService.checkRefreshToken(refreshToken);
 
-    if(!key) return console.log('LOGIN'); // ne naredi nič
+    if(!key) return this.test('LOGIN'); // ne naredi nič
     const accessToken = this.authentication.getAccessToken();
 
-    if(!accessToken) return console.log('NEKI JE NAROBE');
+    if(!accessToken) return this.test('Neki je narobe');
     const decryptToken = this.authentication.decryptToken(accessToken.toString(), key);
 
     // Checks if access token is valid
-    if(!decryptToken) return console.log('WRONG KEY');
+    if(!decryptToken) return this.test('Wrong key');
     const res = await this.userService.checkAccessToken(decryptToken);
 
     if(!res) {
+      console.log('5')
       if(this.userService.regenerateAccessToken(refreshToken, key))
         this.checkAuthentication();
     } else {
       this.userService.userInfo = res.data.data;
       this.userInfo = this.userService.userInfo;
+      this.loggedIn = true;
+      this.waitForResponse = false;
+      this.reload = false;
     }
+  }
+
+  test(message: string) {
+    console.log('7')
+    console.log(message);
+    this.loggedIn = false;
+    this.reload = false;
+    this.waitForResponse = false;
   }
 
   async socialLogin(
