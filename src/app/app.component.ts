@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { SocialAuthService } from 'angularx-social-login';
 import { environment } from '../environments/environment';
 import { CommService } from 'src/app/services/comm/comm.service';
+import { AuthenticationService } from './services/authentication/authentication.service';
+import { UserService } from './services/user/user.service';
 
 @Component({
   selector: 'app-root',
@@ -21,7 +23,9 @@ export class AppComponent implements OnInit{
 
   constructor(
     private socialAuthService: SocialAuthService,
-    private comm: CommService) {
+    private comm: CommService,
+    private authentication: AuthenticationService,
+    private userService: UserService) {
     this.socialAuthService.authState.subscribe((user) => {
       this.userInfo = user;
       this.socialLoginPopup = false;
