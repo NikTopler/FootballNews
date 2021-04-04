@@ -83,13 +83,22 @@ export class AppComponent implements OnInit{
     });
     const res = await req.text();
 
+    const encrypted = this.authentication.encryptToken(JSON.parse(res).jwt, JSON.parse(res).id);
+
+    window.localStorage.setItem('accessToken', encrypted.toString());
+
+    this.authentication.deleteCookie('refreshToken', '/');
+    this.authentication.setCookie('refreshToken', JSON.parse(res).refreshToken, 5, '/');
+
     this.waitForResponse = false;
-
-    if(res.includes('err')) return; // error handling
-
-    this.userInfo = JSON.parse(res);
     this.isUserSignedIn = true;
 
-    console.log(this.userInfo)
+    this.userService.userInfo = JSON.parse(res).data;
+  }
+
+  logout(): void {
+    window.localStorage.removeItem('accessToken');
+    this.authentication.deleteCookie('refreshToken', '/');
+    location.reload();
   }
 }
