@@ -44,7 +44,7 @@ import { ExternalComponent } from './pages/authentication/external/external.comp
 import { SocialLoginModule, SocialAuthServiceConfig, GoogleLoginProvider, FacebookLoginProvider, AmazonLoginProvider } from 'angularx-social-login';
 import { environment } from '../environments/environment';
 import { NavbarComponent } from './components/navbar/navbar.component';
-import { AccountComponent } from './components/account/account.component';
+import { AccountComponent } from './components/settings/account/account.component';
 import { SettingsComponent } from './components/settings/settings.component';
 
 @NgModule({
