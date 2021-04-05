@@ -3,12 +3,13 @@ include_once 'user.php';
 
 class Signin extends User {
 
+  // Not in use
   public function standardSignup($userInfo) {
-    $this->errorHandeling($userInfo);
-    $userExists = $this->checkIfUserExists('STANDARD', $userInfo[2], null);
-    if($userExists == 0) $this->insertSignin('STANDARD', $userInfo);
-    else if($userExists == 1 || $userExists == 2) $this->message('Error: Something went wrong');
-    else if($userExists == 3) $this->message('Error: Already exists');
+    // $this->errorHandeling($userInfo);
+    // $userExists = $this->checkIfUserExists('STANDARD', $userInfo[2], null);
+    // if($userExists == 0) $this->insertSignin('STANDARD', $userInfo);
+    // else if($userExists == 1 || $userExists == 2) $this->message('Error: Something went wrong');
+    // else if($userExists == 3) $this->message('Error: Already exists');
   }
 
   public function socialSignin($userInfo) {
