@@ -1,4 +1,5 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
+import { Router } from '@angular/router';
 import { AuthenticationService } from 'src/app/services/authentication/authentication.service';
 import { UserService } from 'src/app/services/user/user.service';
 
@@ -10,6 +11,7 @@ import { UserService } from 'src/app/services/user/user.service';
 export class NavbarComponent implements OnInit{
 
   constructor(
+    private router: Router,
     private userService: UserService,
     private authenticationService: AuthenticationService) { }
 
@@ -20,6 +22,8 @@ export class NavbarComponent implements OnInit{
 
   @Output() loginPopup = new EventEmitter<boolean>();
   openLogin(val: boolean) { this.loginPopup.emit(val); }
+
+  openPage(page: string) { this.router.navigateByUrl(page); }
 
   logout() { this.authenticationService.logout(); }
 
