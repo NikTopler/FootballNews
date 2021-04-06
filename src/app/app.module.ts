@@ -46,7 +46,6 @@ import { environment } from '../environments/environment';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { AccountComponent } from './components/settings/account/account.component';
 import { SettingsComponent } from './components/settings/settings.component';
-import { UpdateComponent } from './components/settings/update/update.component';
 import { EmailComponent } from './components/settings/email/email.component';
 import { ThemeComponent } from './components/settings/theme/theme.component';
 
@@ -61,7 +60,6 @@ import { ThemeComponent } from './components/settings/theme/theme.component';
     NavbarComponent,
     AccountComponent,
     SettingsComponent,
-    UpdateComponent,
     EmailComponent,
     ThemeComponent
   ],
