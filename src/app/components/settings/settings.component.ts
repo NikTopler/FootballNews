@@ -11,19 +11,34 @@ export class SettingsComponent implements OnInit {
 
   userInfo: any = this.app.userInfo;
 
-  accountSettingsSection: Array<any> = [
-    { name: 'Account', path: 'account', active: this.router.url.includes('account') ? 'active' : ''  },
-    { name: 'Update account', path: 'update', active: this.router.url.includes('update') ? 'active' : '' },
-    { name: 'Email', path: 'email', active: this.router.url.includes('email') ? 'active' : ''}
-  ];
-
-  preferencesSection: Array<any> = [
-    { name: 'Theme', path: 'theme', active: this.router.url.includes('theme') ? 'active' : ''  },
-  ]
+  accountSettingsSection: Array<any> = [];
+  preferencesSection: Array<any> = [];
 
   constructor(private router: Router, private app: AppComponent) { }
 
   ngOnInit(): void {
+    this.accountSettingsSection = this.updateSidebarAccount;
+    this.preferencesSection = this.updateSidebarPreferences;
   }
 
+  get updateSidebarAccount() {
+    return [
+      { name: 'Account', path: 'account', active: this.router.url.includes('account') ? 'active' : ''  },
+      { name: 'Notifications', path: 'notification', active: this.router.url.includes('notification') ? 'active' : ''}
+    ]
+  }
+
+  get updateSidebarPreferences() {
+    return [
+      { name: 'Theme', path: 'theme', active: this.router.url.includes('theme') ? 'active' : ''  },
+    ];
+  }
+
+  openPage(page: string) {
+    this.router.navigateByUrl(page)
+      .then(() => {
+        this.accountSettingsSection = this.updateSidebarAccount;
+        this.preferencesSection = this.updateSidebarPreferences;
+      });
+  }
 }
