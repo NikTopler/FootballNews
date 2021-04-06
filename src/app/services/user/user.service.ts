@@ -29,7 +29,7 @@ export class UserService {
       body: this.comm.createFormData('VALIDATE_REFRESH_TOKEN', token)
     });
     const res = await req.text();
-    return JSON.parse(res).status === 'Good' ? JSON.parse(res).data.token : null;
+    return JSON.parse(res).status === 'Good' ? JSON.parse(res) : null;
   }
 
   async checkAccessToken(token: string) {

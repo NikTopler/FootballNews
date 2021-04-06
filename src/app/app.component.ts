@@ -14,7 +14,6 @@ export class AppComponent implements OnInit{
   title = 'footballApp';
 
   userInfo: any = null;
-  isUserSignedIn: boolean = false;
 
   loggedIn: boolean = false;
   socialLoginPopup: boolean = false;
@@ -55,9 +54,10 @@ export class AppComponent implements OnInit{
     this.waitForResponse = true;
 
     const refreshToken = this.authentication.getRefreshToken();
-    const key = await this.userService.checkRefreshToken(refreshToken);
+    let key = await this.userService.checkRefreshToken(refreshToken);
 
     if(!key) return this.over('LOGIN'); // ne naredi nič
+    key = key.data.token;
     const accessToken = this.authentication.getAccessToken();
 
     if(!accessToken) return this.over('Neki je narobe');
@@ -106,7 +106,7 @@ export class AppComponent implements OnInit{
     this.authentication.setCookie('refreshToken', JSON.parse(res).refreshToken, 5, '/');
 
     this.waitForResponse = false;
-    this.isUserSignedIn = true;
+    this.loggedIn = true;
 
     this.userService.userInfo = JSON.parse(res).data;
   }
