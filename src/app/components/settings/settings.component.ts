@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { AppComponent } from 'src/app/app.component';
 
 @Component({
   selector: 'app-settings',
@@ -7,6 +8,8 @@ import { Router } from '@angular/router';
   styleUrls: ['./settings.component.scss']
 })
 export class SettingsComponent implements OnInit {
+
+  userInfo: any = this.app.userInfo;
 
   accountSettingsSection: Array<any> = [
     { name: 'Account', path: 'account', active: this.router.url.includes('account') ? 'active' : ''  },
@@ -18,7 +21,7 @@ export class SettingsComponent implements OnInit {
     { name: 'Theme', path: 'theme', active: this.router.url.includes('theme') ? 'active' : ''  },
   ]
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, private app: AppComponent) { }
 
   ngOnInit(): void {
   }
