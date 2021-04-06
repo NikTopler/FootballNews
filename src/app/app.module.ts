@@ -46,6 +46,7 @@ import { environment } from '../environments/environment';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { AccountComponent } from './components/settings/account/account.component';
 import { SettingsComponent } from './components/settings/settings.component';
+import { EmailComponent } from './components/settings/email/email.component';
 
 @NgModule({
   declarations: [
@@ -58,6 +59,7 @@ import { SettingsComponent } from './components/settings/settings.component';
     NavbarComponent,
     AccountComponent,
     SettingsComponent
+    EmailComponent
   ],
   imports: [
     BrowserModule,
