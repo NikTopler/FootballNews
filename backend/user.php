@@ -189,6 +189,23 @@ class User extends Dbh {
      catch (Exception $e) { $this->message($e); }
   }
 
+  public function updateAccount($userInfo) {
+    $sql = 'UPDATE users SET firstName = ? WHERE email = ?';
+    $stmt = $this->connect()->prepare($sql);
+    $stmt->execute([$userInfo[0], $userInfo[2]]);
+
+    $sql = 'UPDATE users SET lastName = ? WHERE email = ?';
+    $stmt = $this->connect()->prepare($sql);
+    $stmt->execute([$userInfo[1], $userInfo[2]]);
+
+    $date = date(time());
+    $sql = 'UPDATE users SET updatedAt = ? WHERE email = ?';
+    $stmt = $this->connect()->prepare($sql);
+    $stmt->execute([$date, $userInfo[2]]);
+
+    die;
+  }
+
   public function message($string) {
     echo $string;
     die;
@@ -200,3 +217,4 @@ if($_SERVER['REQUEST_METHOD'] !== 'POST') die;
 if(isset($_POST['VALIDATE_REFRESH_TOKEN'])) $userObj->checkRefreshToken($_POST['VALIDATE_REFRESH_TOKEN']);
 else if(isset($_POST['VALIDATE_ACCESS_TOKEN'])) $userObj->checkAccessToken($_POST['VALIDATE_ACCESS_TOKEN']);
 else if(isset($_POST['REGENERATE_ACCESS_TOKEN'])) $userObj->regenerateAccessToken($_POST['REGENERATE_ACCESS_TOKEN']);
+else if(isset($_POST['UPDATE_ACCOUNT'])) $userObj->updateAccount(json_decode($_POST['UPDATE_ACCOUNT']));
