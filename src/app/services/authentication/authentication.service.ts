@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
 import { SocialAuthService, GoogleLoginProvider, FacebookLoginProvider, AmazonLoginProvider} from 'angularx-social-login';
 import * as CryptoJS from "crypto-js";
 
@@ -10,7 +11,9 @@ export class AuthenticationService {
 
   UserInfo: any;
 
-  constructor(private socialAuthService: SocialAuthService) { }
+  constructor(
+    private socialAuthService: SocialAuthService,
+    private router: Router) { }
 
   loginWithGoogle(): void { this.socialAuthService.signIn(GoogleLoginProvider.PROVIDER_ID).catch(err => console.log('Google err')); }
   loginWithFacebook(): void { this.socialAuthService.signIn(FacebookLoginProvider.PROVIDER_ID).catch(err => console.log('Facebook err')); }
@@ -18,7 +21,8 @@ export class AuthenticationService {
   logout(): void {
     window.localStorage.removeItem('accessToken');
     this.deleteCookie('refreshToken', '/');
-    location.reload();
+    this.router.navigateByUrl('home')
+      .then(() => { location.reload() });
   }
   name(word: string) {
     return (formGroup: FormGroup) => {
