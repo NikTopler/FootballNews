@@ -48,6 +48,7 @@ import { AccountComponent } from './components/settings/account/account.componen
 import { SettingsComponent } from './components/settings/settings.component';
 import { UpdateComponent } from './components/settings/update/update.component';
 import { EmailComponent } from './components/settings/email/email.component';
+import { ThemeComponent } from './components/settings/theme/theme.component';
 
 @NgModule({
   declarations: [
@@ -61,7 +62,8 @@ import { EmailComponent } from './components/settings/email/email.component';
     AccountComponent,
     SettingsComponent,
     UpdateComponent,
-    EmailComponent
+    EmailComponent,
+    ThemeComponent
   ],
   imports: [
     BrowserModule,
