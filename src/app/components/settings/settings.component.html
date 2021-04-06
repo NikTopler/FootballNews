@@ -1,2 +1,36 @@
-<p>settings works!</p>
-<router-outlet></router-outlet>
+<div class="main-section">
+  <div class="main-section-container">
+    <div class="section-header">
+      <div class="profile-img">
+        <img src="https://miro.medium.com/max/1838/1*mk1-6aYaf_Bes1E3Imhc0A.jpeg" alt="profile-img">
+      </div>
+      <div class="text">
+        <h3>Nik Topler</h3>
+        <span>Your account</span>
+      </div>
+      <div class="spacer"></div>
+      <div class="button-container">
+        <button mat-flat-button color="accent">Home</button>
+      </div>
+    </div>
+    <section class="side-bar-container">
+      <section class="side-bar">
+        <header>Account settings</header>
+          <div *ngFor="let page of accountSettingsSection" class="page {{ page.active }}">
+            <div class="selector"></div>
+            <h3>{{ page.name }}</h3>
+          </div>
+      </section>
+      <section class="side-bar">
+        <header>Preferences</header>
+          <div *ngFor="let page of preferencesSection" class="page {{ page.active }}">
+            <div class="selector"></div>
+            <h3>{{ page.name }}</h3>
+          </div>
+      </section>
+    </section>
+    <section class="content-section">
+      <router-outlet></router-outlet>
+    </section>
+  </div>
+</div>
