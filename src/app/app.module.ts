@@ -44,6 +44,10 @@ import { ExternalComponent } from './pages/authentication/external/external.comp
 import { SocialLoginModule, SocialAuthServiceConfig, GoogleLoginProvider, FacebookLoginProvider, AmazonLoginProvider } from 'angularx-social-login';
 import { environment } from '../environments/environment';
 import { NavbarComponent } from './components/navbar/navbar.component';
+import { AccountComponent } from './components/settings/account/account.component';
+import { SettingsComponent } from './components/settings/settings.component';
+import { EmailComponent } from './components/settings/email/email.component';
+import { ThemeComponent } from './components/settings/theme/theme.component';
 
 @NgModule({
   declarations: [
@@ -53,7 +57,11 @@ import { NavbarComponent } from './components/navbar/navbar.component';
     SigninComponent,
     SignupComponent,
     ExternalComponent,
-    NavbarComponent
+    NavbarComponent,
+    AccountComponent,
+    SettingsComponent,
+    EmailComponent,
+    ThemeComponent
   ],
   imports: [
     BrowserModule,

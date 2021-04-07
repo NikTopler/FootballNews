@@ -3,12 +3,13 @@ include_once 'user.php';
 
 class Signin extends User {
 
+  // Not in use
   public function standardSignup($userInfo) {
-    $this->errorHandeling($userInfo);
-    $userExists = $this->checkIfUserExists('STANDARD', $userInfo[2], null);
-    if($userExists == 0) $this->insertSignin('STANDARD', $userInfo);
-    else if($userExists == 1 || $userExists == 2) $this->message('Error: Something went wrong');
-    else if($userExists == 3) $this->message('Error: Already exists');
+    // $this->errorHandeling($userInfo);
+    // $userExists = $this->checkIfUserExists('STANDARD', $userInfo[2], null);
+    // if($userExists == 0) $this->insertSignin('STANDARD', $userInfo);
+    // else if($userExists == 1 || $userExists == 2) $this->message('Error: Something went wrong');
+    // else if($userExists == 3) $this->message('Error: Already exists');
   }
 
   public function socialSignin($userInfo) {
@@ -33,7 +34,7 @@ class Signin extends User {
 
   public function insertSignin($type, $userInfo) {
     $date = date(time());
-    $defaultProfileImage = '<svg width="64" height="64" viewBox="-4 -4 32 32" fill="#fff" class="rounded-full bg-gray-400 "><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"></path></svg>';
+    $defaultProfileImage = null;
     if($type == 'STANDARD') {
       $dbName = 'password';
       $array = [$userInfo[0], $userInfo[1], $userInfo[2], password_hash($userInfo[3], PASSWORD_DEFAULT), $date, $defaultProfileImage];

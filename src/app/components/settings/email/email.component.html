@@ -1,0 +1,14 @@
+<div class="email-content">
+  <header>
+    <h3>Notifications</h3>
+    <hr>
+  </header>
+  <div class="settings-container" *ngIf="userInfo">
+    <div class="input-container">
+      <div class="label-container">
+        <label>Email</label>
+      </div>
+      <input type="email" [value]="userInfo.email" [readonly]="true">
+    </div>
+  </div>
+<div>
