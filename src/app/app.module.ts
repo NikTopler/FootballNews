@@ -47,6 +47,7 @@ import { AccountComponent } from './components/settings/account/account.componen
 import { SettingsComponent } from './components/settings/settings.component';
 import { EmailComponent } from './components/settings/email/email.component';
 import { ThemeComponent } from './components/settings/theme/theme.component';
+import { InsertComponent } from './components/settings/admin/insert/insert.component';
 
 @NgModule({
   declarations: [
@@ -59,7 +60,8 @@ import { ThemeComponent } from './components/settings/theme/theme.component';
     AccountComponent,
     SettingsComponent,
     EmailComponent,
-    ThemeComponent
+    ThemeComponent,
+    InsertComponent
   ],
   imports: [
     BrowserModule,
