@@ -7,7 +7,7 @@ import { UserGuard } from './guards/user/user.guard';
 import { EmailComponent } from './components/settings/email/email.component';
 import { ThemeComponent } from './components/settings/theme/theme.component';
 import { AdminGuard } from './guards/admin/admin.guard';
-import { InsertComponent } from './components/settings/admin/insert/insert.component';
+import { ImportComponent } from './components/settings/admin/import/import.component';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'home' },
@@ -17,7 +17,7 @@ const routes: Routes = [
     { path: 'account', component: AccountComponent },
     { path: 'notification', component: EmailComponent },
     { path: 'theme', component: ThemeComponent },
-    { path: 'admin/insert', component: InsertComponent, canActivate: [AdminGuard] }
+    { path: 'admin/insert', component: ImportComponent, canActivate: [AdminGuard] }
   ]},
 ];
 
