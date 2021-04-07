@@ -40,6 +40,15 @@
             <h3>{{ page.name }}</h3>
           </div>
       </section>
+      <section class="side-bar" *ngIf="userInfo.admin === '1'">
+        <header>Admin</header>
+          <div *ngFor="let page of adminSection"
+            (click)="openPage('settings/'+ page.path)"
+            class="page {{ page.active }}">
+            <div class="selector"></div>
+            <h3>{{ page.name }}</h3>
+          </div>
+      </section>
     </section>
     <section class="content-section">
       <router-outlet></router-outlet>

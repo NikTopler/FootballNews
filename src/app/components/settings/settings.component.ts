@@ -16,12 +16,14 @@ export class SettingsComponent implements OnInit {
 
   accountSettingsSection: Array<any> = [];
   preferencesSection: Array<any> = [];
+  adminSection: Array<any> = [];
 
   constructor(private router: Router, private app: AppComponent) { }
 
   ngOnInit(): void {
     this.accountSettingsSection = this.updateSidebarAccount;
     this.preferencesSection = this.updateSidebarPreferences;
+    this.adminSection = this.updateSidebarAdmin;
 
     if(localStorage.getItem('updateAccount') === 'true') {
       this.alertType = 'success';
@@ -44,11 +46,18 @@ export class SettingsComponent implements OnInit {
     ];
   }
 
+  get updateSidebarAdmin() {
+    return [
+      { name: 'Import', path: 'admin/import', active: this.router.url.includes('admin/import') ? 'active' : ''  },
+    ];
+  }
+
   openPage(page: string) {
     this.router.navigateByUrl(page)
       .then(() => {
         this.accountSettingsSection = this.updateSidebarAccount;
         this.preferencesSection = this.updateSidebarPreferences;
+        this.adminSection = this.updateSidebarAdmin;
       });
   }
 }
