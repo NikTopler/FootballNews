@@ -17,7 +17,7 @@ const routes: Routes = [
     { path: 'account', component: AccountComponent },
     { path: 'notification', component: EmailComponent },
     { path: 'theme', component: ThemeComponent },
-    { path: 'admin/insert', component: ImportComponent, canActivate: [AdminGuard] }
+    { path: 'admin/import', component: ImportComponent, canActivate: [AdminGuard] }
   ]},
 ];
 
