@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router, Routes } from '@angular/router';
+import { AppComponent } from 'src/app/app.component';
 import { AuthenticationService } from 'src/app/services/authentication/authentication.service';
 import { CommService } from 'src/app/services/comm/comm.service';
 import { UserService } from 'src/app/services/user/user.service';
 import { environment } from '../../../../environments/environment';
+import { SettingsComponent } from '../settings.component';
 
 @Component({
   selector: 'app-account',
@@ -20,7 +21,9 @@ export class AccountComponent {
     private userService: UserService,
     private authenticationService: AuthenticationService,
     private comm: CommService,
-    private fb: FormBuilder) {
+    private fb: FormBuilder,
+    private settingsComponent: SettingsComponent,
+    private appComponent: AppComponent) {
       this.updateForm = this.fb.group({
         fName: [this.userInfo.firstName, [Validators.required]],
         lName: [this.userInfo.lastName, [Validators.required]],
@@ -35,7 +38,21 @@ export class AccountComponent {
     }
 
   async onSubmit() {
-    if(!this.updateForm.valid) return;
+
+    if(!this.updateForm.valid) {
+      this.settingsComponent.alert = true;
+      this.settingsComponent.alertType = 'err';
+      this.settingsComponent.alertText = 'First name and last name are not valid';
+      return;
+    }
+    if(this.updateForm.value.fName.trim() === this.userInfo.firstName
+    && this.updateForm.value.lName.trim() === this.userInfo.lastName) {
+      this.settingsComponent.alert = true;
+      this.settingsComponent.alertType = 'err';
+      this.settingsComponent.alertText = 'No changes made';
+      return;
+    }
+
     const userInfo = JSON.stringify(Object.values(
       {"fName": this.updateForm.value.fName,
       "lName": this.updateForm.value.lName,
@@ -45,13 +62,15 @@ export class AccountComponent {
       body: this.comm.createFormData('UPDATE_ACCOUNT', userInfo)
     });
     const res = await req.text();
-    console.log(res);
 
     const refreshToken = this.authenticationService.getRefreshToken();
     let key = await this.userService.checkRefreshToken(refreshToken);
     key = key.data.token;
     this.userService.regenerateAccessToken(refreshToken, key)
-      .then(() => location.reload());
+      .then(() => {
+        localStorage.setItem('updateAccount', 'true');
+        this.appComponent.checkAuthentication();
+      });
   }
 
   convertToDate(num: string) {

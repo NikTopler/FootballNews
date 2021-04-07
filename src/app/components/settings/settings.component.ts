@@ -10,6 +10,9 @@ import { AppComponent } from 'src/app/app.component';
 export class SettingsComponent implements OnInit {
 
   userInfo: any = this.app.userInfo;
+  alert: boolean = false;
+  alertText: string = '';
+  alertType: string = '';
 
   accountSettingsSection: Array<any> = [];
   preferencesSection: Array<any> = [];
@@ -19,6 +22,13 @@ export class SettingsComponent implements OnInit {
   ngOnInit(): void {
     this.accountSettingsSection = this.updateSidebarAccount;
     this.preferencesSection = this.updateSidebarPreferences;
+
+    if(localStorage.getItem('updateAccount') === 'true') {
+      this.alertType = 'success';
+      this.alertText = 'Account successfully updated';
+      this.alert = true;
+      localStorage.removeItem('updateAccount');
+    }
   }
 
   get updateSidebarAccount() {

@@ -1,4 +1,10 @@
 <div class="main-section">
+  <div *ngIf="alert" class="alert-container">
+    <div class="alert {{ alertType }}">
+      <p>{{ alertText }}</p>
+      <div (click)="alert = false" class="x-container"></div>
+    </div>
+  </div>
   <div class="main-section-container">
     <div class="section-header" *ngIf="userInfo">
       <div class="profile-img">

@@ -1,6 +1,83 @@
+@import "../../variables.scss";
+
 div.main-section {
   width: 100%;
   height: 100%;
+}
+
+.alert-container {
+  max-width: 1012px;
+  margin-right: auto;
+  margin-left: auto;
+  padding: 16px;
+
+
+  .alert.err {
+    background-color: $light-red;
+    border: 1px dashed $medium-red;
+    p { color: $dark-red; }
+    .x-container::before,
+    .x-container::after { background-color: $medium-red; }
+    .x-container:hover::before,
+    .x-container:hover::after { background-color: $dark-red; }
+  }
+
+  .alert.success {
+    background-color: $light-green;
+    border: 1px dashed $medium-green;
+    p { color: $dark-green; }
+    .x-container::before,
+    .x-container::after { background-color: $medium-green; }
+    .x-container:hover::before,
+    .x-container:hover::after { background-color: $dark-green; }
+  }
+
+  .alert {
+    border-radius: 4px;
+    position: relative;
+    display: flex;
+    padding: 0.5rem 3rem 0.5rem 0.5rem;
+
+    p {
+      font-weight: 400;
+      margin: 0;
+    }
+
+    .x-container {
+      width: 1rem;
+      height: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2px;
+      position: absolute;
+      margin-left: auto;
+      margin-right: auto;
+      right: 10px;
+      opacity: .5;
+      cursor: pointer;
+    }
+
+    .x-container::before {
+      content: "";
+      width: 3px;
+      height: 16px;
+      position: absolute;
+      border-radius: 4px;
+      transform: rotate(-45deg);
+      transition: all ease-in-out .1s;
+    }
+
+    .x-container::after {
+      content: "";
+      width: 3px;
+      height: 16px;
+      position: absolute;
+      border-radius: 4px;
+      transform: rotate(45deg);
+      transition: all ease-in-out .1s;
+    }
+  }
 }
 
 div.main-section-container {
