@@ -5,7 +5,6 @@ import { FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './pages/home/home.component';
-import { AdminComponent } from './pages/admin/admin.component';
 import { SigninComponent } from './pages/authentication/signin/signin.component';
 import { SignupComponent } from './pages/authentication/signup/signup.component';
 
@@ -53,7 +52,6 @@ import { ThemeComponent } from './components/settings/theme/theme.component';
   declarations: [
     AppComponent,
     HomeComponent,
-    AdminComponent,
     SigninComponent,
     SignupComponent,
     ExternalComponent,
