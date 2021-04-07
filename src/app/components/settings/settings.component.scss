@@ -9,12 +9,12 @@ div.main-section {
   max-width: 1012px;
   margin-right: auto;
   margin-left: auto;
-  padding: 16px;
-
+  padding: 16px 0;
 
   .alert.err {
     background-color: $light-red;
-    border: 1px dashed $medium-red;
+    border: 1px solid $medium-red;
+    border-bottom: 1px solid $medium-red;
     p { color: $dark-red; }
     .x-container::before,
     .x-container::after { background-color: $medium-red; }
@@ -24,7 +24,8 @@ div.main-section {
 
   .alert.success {
     background-color: $light-green;
-    border: 1px dashed $medium-green;
+    border: 1px solid $medium-green;
+    border-bottom: 1px solid $medium-green;
     p { color: $dark-green; }
     .x-container::before,
     .x-container::after { background-color: $medium-green; }
@@ -36,7 +37,7 @@ div.main-section {
     border-radius: 4px;
     position: relative;
     display: flex;
-    padding: 0.5rem 3rem 0.5rem 0.5rem;
+    padding: 0.7rem;
 
     p {
       font-weight: 400;

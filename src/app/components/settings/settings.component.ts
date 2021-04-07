@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AppComponent } from 'src/app/app.component';
+import { UserService } from 'src/app/services/user/user.service';
 
 @Component({
   selector: 'app-settings',
@@ -9,7 +10,7 @@ import { AppComponent } from 'src/app/app.component';
 })
 export class SettingsComponent implements OnInit {
 
-  userInfo: any = this.app.userInfo;
+  userInfo: any = this.userService.userInfo;
   alert: boolean = false;
   alertText: string = '';
   alertType: string = '';
@@ -18,7 +19,9 @@ export class SettingsComponent implements OnInit {
   preferencesSection: Array<any> = [];
   adminSection: Array<any> = [];
 
-  constructor(private router: Router, private app: AppComponent) { }
+  constructor(
+    private router: Router,
+    private userService: UserService) { }
 
   ngOnInit(): void {
     this.accountSettingsSection = this.updateSidebarAccount;
