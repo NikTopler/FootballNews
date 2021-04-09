@@ -213,6 +213,8 @@ class User extends Dbh {
   }
 
   public function safeImport($userInfo) {
+    if((int)$userInfo[1] == 0) $this->editImport([$userInfo[0], $userInfo[1]]);
+
     $sql = 'UPDATE users SET safeImport = ? WHERE email = ?';
     $stmt = $this->connect()->prepare($sql);
     $stmt->execute([(int)$userInfo[1], $userInfo[0]]);

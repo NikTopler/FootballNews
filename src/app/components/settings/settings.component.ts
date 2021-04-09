@@ -20,12 +20,12 @@ export class SettingsComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private userService: UserService) { }
+    private userService: UserService) {
+      router.events.subscribe(() => this.updateSidebar())
+    }
 
   ngOnInit(): void {
-    this.accountSettingsSection = this.updateSidebarAccount;
-    this.preferencesSection = this.updateSidebarPreferences;
-    this.adminSection = this.updateSidebarAdmin;
+    this.updateSidebar();
 
     if(localStorage.getItem('updateAccount') === 'true') {
       this.alertType = 'success';
@@ -54,12 +54,14 @@ export class SettingsComponent implements OnInit {
     ];
   }
 
+  updateSidebar() {
+    this.accountSettingsSection = this.updateSidebarAccount;
+    this.preferencesSection = this.updateSidebarPreferences;
+    this.adminSection = this.updateSidebarAdmin;
+  }
+
   openPage(page: string) {
     this.router.navigateByUrl(page)
-      .then(() => {
-        this.accountSettingsSection = this.updateSidebarAccount;
-        this.preferencesSection = this.updateSidebarPreferences;
-        this.adminSection = this.updateSidebarAdmin;
-      });
+      .then(() => this.updateSidebar());
   }
 }

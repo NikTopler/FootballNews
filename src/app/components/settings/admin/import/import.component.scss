@@ -16,7 +16,6 @@
     right: 0;
     border: 1px solid $dark-gray;
     border-radius: 4px;
-    resize: vertical;
   }
 
   .cell.header {
@@ -55,6 +54,8 @@
     margin: auto;
   }
 
+  .row:last-child .cell{ border-bottom: none; }
+
   .cell {
     vertical-align: middle;
     display: table-cell;
@@ -68,4 +69,5 @@
     border-right: 1px solid $dark-gray;
   }
 
+  .cell:last-child { border-right: none; }
 }

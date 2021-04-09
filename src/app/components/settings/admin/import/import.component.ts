@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { UserService } from 'src/app/services/user/user.service';
 import * as XLSX from 'xlsx';
 
 @Component({
@@ -8,12 +9,14 @@ import * as XLSX from 'xlsx';
 })
 export class ImportComponent {
 
+  userInfo: any = this.userService.userInfo;
+
   data: string[][] = [];
 
   typeOfImport: string = 'team';
 
 
-  constructor() { }
+  constructor(private userService: UserService ) { }
 
   test(event: any) {
     const target: DataTransfer = <DataTransfer>(event.target);
