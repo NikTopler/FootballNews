@@ -18,6 +18,8 @@ export class SettingsComponent implements OnInit {
   preferencesSection: Array<any> = [];
   adminSection: Array<any> = [];
 
+  windowWidth: number = 0;
+
   constructor(
     private router: Router,
     private userService: UserService) {
@@ -33,6 +35,9 @@ export class SettingsComponent implements OnInit {
       this.alert = true;
       localStorage.removeItem('updateAccount');
     }
+
+    this.windowWidth = window.innerWidth;
+    window.onresize = () => { this.windowWidth = window.innerWidth };
   }
 
   get updateSidebarAccount() {
@@ -63,5 +68,18 @@ export class SettingsComponent implements OnInit {
   openPage(page: string) {
     this.router.navigateByUrl(page)
       .then(() => this.updateSidebar());
+  }
+
+  fullScreenMode() {
+    const mainContainer = document.querySelector('.main-section-container') as HTMLDivElement;
+    const contentSection = document.querySelector('.content-section') as HTMLDivElement;
+
+    if(mainContainer.classList.contains('full-mode')) {
+      mainContainer.classList.remove('full-mode');
+      contentSection.classList.remove('full-content');
+    } else {
+      mainContainer.classList.add('full-mode');
+      contentSection.classList.add('full-content');
+    }
   }
 }
