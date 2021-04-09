@@ -1,0 +1,71 @@
+@import '../../settings.component.scss';
+
+.table-external-container {
+  overflow-x: auto;
+  height: 16rem;
+  position: relative;
+
+  .overflow {
+    display: inline-block;
+    height: auto;
+    min-height: 2.5rem;
+    overflow: auto;
+    position: absolute;
+    top: 4px;
+    left: 0;
+    right: 0;
+    border: 1px solid $dark-gray;
+    border-radius: 4px;
+    resize: vertical;
+  }
+
+  .cell.header {
+    background-color: $pink;
+    input {
+      cursor: default;
+      color: #fff;
+    }
+    input:focus {
+      border: 1px solid transparent;
+      box-shadow: none;
+      outline: none;
+    }
+  }
+
+  input {
+    font-weight: 500;
+    font-size: 1rem;
+    white-space: nowrap;
+    border: none;
+    background-color: transparent;
+    height: 100%;
+    width: auto;
+    padding: 7px;
+    border: 1px solid transparent;
+  }
+  input:focus {
+    border: 1px solid #ff4081;
+    box-shadow: 0 0 3px #ff4081;
+    outline: none;
+  }
+
+  .row {
+    display: table-row;
+    height: 2rem;
+    margin: auto;
+  }
+
+  .cell {
+    vertical-align: middle;
+    display: table-cell;
+    width: auto;
+    text-align: center;
+    white-space: nowrap;
+  }
+
+  .cell:not(.header){
+    border-bottom: 1px solid $dark-gray;
+    border-right: 1px solid $dark-gray;
+  }
+
+}
