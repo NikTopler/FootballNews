@@ -47,7 +47,9 @@ class User extends Dbh {
       $row['googleID'],
       $row['facebookID'],
       $row['amazonID'],
-      $row['refreshToken']
+      $row['refreshToken'],
+      $row['safeImport'],
+      $row['editImport']
     ];
   }
 
@@ -137,7 +139,9 @@ class User extends Dbh {
       $row['googleID'],
       $row['facebookID'],
       $row['amazonID'],
-      $row['refreshToken']
+      $row['refreshToken'],
+      $row['safeImport'],
+      $row['editImport']
     ]);
 
     echo $newAccessToken;
@@ -157,7 +161,9 @@ class User extends Dbh {
       "profileImg" => $userInfo[7],
       "googleID" => $userInfo[8],
       "facebookID" => $userInfo[9],
-      "amazonID" => $userInfo[10]
+      "amazonID" => $userInfo[10],
+      "safeImport" => $userInfo[12],
+      "editImport" => $userInfo[13]
     );
 
     $payload_info = array(
