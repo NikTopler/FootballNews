@@ -201,7 +201,11 @@ div.main-section-container {
   .content-section { margin-left: 0; }
 }
 
-
+.full-mode {
+  display: flex !important;
+  flex-direction: column !important;
+}
+.full-mode-content { margin-left: 0; }
 
 .settings-content {
 
@@ -266,12 +270,10 @@ div.main-section-container {
       }
       span {
         font-size: 0.8rem;
-
       }
     }
-    .edit:hover {
-      background-color: #e4e4e4;
-    }
+
+    .edit:hover { background-color: #e4e4e4; }
 
     .input-container {
       display: flex;
@@ -280,9 +282,7 @@ div.main-section-container {
 
       .label-container {
         margin-bottom: 0.2rem;
-        label {
-          font-size: 1rem;
-        }
+        label { font-size: 1rem; }
       }
 
       input {
@@ -325,9 +325,7 @@ div.main-section-container {
           width: 1.75rem;
           height: 1.75rem;
         }
-        .icon {
-          margin-right: 1rem;
-        }
+        .icon { margin-right: 1rem; }
         span {
           font-weight: 500;
           color: rgba(0, 0, 0, 0.685);
@@ -352,9 +350,7 @@ div.main-section-container {
   }
 }
 
-.spacer {
-  flex: 1 1 auto;
-}
+.spacer { flex: 1 1 auto; }
 
 .btn {
   border: 1px solid #c7c7c7;
@@ -366,9 +362,11 @@ div.main-section-container {
   color: rgb(87, 87, 87);
   font-weight: 600;
 }
-.btn:hover {
-  background-color: #c7c7c7;
+.btn:hover { background-color: #c7c7c7; }
+.btn:not(:last-child) {
+  margin-right: 1rem;
 }
+
 
 
 @media screen and (max-width: 650px) {
@@ -376,9 +374,7 @@ div.main-section-container {
     display: flex !important;
     flex-direction: column !important;
   }
-  .image-container {
-    margin: auto;
-  }
+  .image-container { margin: auto; }
 }
 
 .mb-2 { margin-bottom: 2rem; }
