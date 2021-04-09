@@ -212,6 +212,19 @@ class User extends Dbh {
     die;
   }
 
+  public function safeImport($userInfo) {
+    $sql = 'UPDATE users SET safeImport = ? WHERE email = ?';
+    $stmt = $this->connect()->prepare($sql);
+    $stmt->execute([(int)$userInfo[1], $userInfo[0]]);
+  }
+  public function editImport($userInfo) {
+    if((int)$userInfo[1] == 1) $this->safeImport([$userInfo[0], $userInfo[1]]);
+
+    $sql = 'UPDATE users SET editImport = ? WHERE email = ?';
+    $stmt = $this->connect()->prepare($sql);
+    $stmt->execute([(int)$userInfo[1], $userInfo[0]]);
+  }
+
   public function message($string) {
     echo $string;
     die;
@@ -224,3 +237,5 @@ if(isset($_POST['VALIDATE_REFRESH_TOKEN'])) $userObj->checkRefreshToken($_POST['
 else if(isset($_POST['VALIDATE_ACCESS_TOKEN'])) $userObj->checkAccessToken($_POST['VALIDATE_ACCESS_TOKEN']);
 else if(isset($_POST['REGENERATE_ACCESS_TOKEN'])) $userObj->regenerateAccessToken($_POST['REGENERATE_ACCESS_TOKEN']);
 else if(isset($_POST['UPDATE_ACCOUNT'])) $userObj->updateAccount(json_decode($_POST['UPDATE_ACCOUNT']));
+else if(isset($_POST['SAFE_IMPORT'])) $userObj->safeImport(json_decode($_POST['SAFE_IMPORT']));
+else if(isset($_POST['EDIT_IMPORT'])) $userObj->editImport(json_decode($_POST['EDIT_IMPORT']));
