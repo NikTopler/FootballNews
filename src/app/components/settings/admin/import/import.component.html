@@ -1,105 +1,16 @@
 <div class="settings-content">
   <div class="content-conteiner">
-    <div class="mb-2">
-      <header>
-        <h3>Import Users</h3>
-        <hr>
-      </header>
-      <div>
-        <input type="file" multiple="false" (change)="test($event)">
-      </div>
-      <div class="table-external-container" *ngIf="userInfo.safeImport === '1'">
-        <div class="overflow" id="overflow">
-          <div class="table">
-            <div class="row" *ngFor="let row of data; let first = first">
-              <div class="cell {{ first ? 'header' : '' }}" *ngFor="let cell of row">
-                  <input type="text" [value]="cell" [readonly]="first || userInfo.editImport === '0' ? true : false" contenteditable>
+          </div>
+              </div>
+            </div>
+            </div>
+          </div>
               </div>
             </div>
           </div>
-        </div>
-      </div>
-    </div>
-    <div class="mb-2">
-      <header>
-        <h3>Import Teams</h3>
-        <hr>
-      </header>
-      <div>
-        <input type="file" multiple="false" (change)="test($event)">
-      </div>
-      <div class="table-external-container" *ngIf="userInfo.safeImport === '1'">
-        <div class="overflow" id="overflow">
-          <div class="table">
-            <div class="row" *ngFor="let row of data; let first = first">
-              <div class="cell {{ first ? 'header' : '' }}" *ngFor="let cell of row">
-                  <input type="text" [value]="cell" [readonly]="first || userInfo.editImport === '0' ? true : false" contenteditable>
               </div>
             </div>
           </div>
-        </div>
-      </div>
-    </div>
-    <div class="mb-2">
-      <header>
-        <h3>Import Leagues</h3>
-        <hr>
-      </header>
-      <div>
-        <input type="file" multiple="false" (change)="test($event)">
-      </div>
-      <div class="table-external-container" *ngIf="userInfo.safeImport === '1'">
-        <div class="overflow" id="overflow">
-          <div class="table">
-            <div class="row" *ngFor="let row of data; let first = first">
-              <div class="cell {{ first ? 'header' : '' }}" *ngFor="let cell of row">
-                  <input type="text" [value]="cell" [readonly]="first || userInfo.editImport === '0' ? true : false" contenteditable>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="mb-2">
-      <header>
-        <h3>Import Countries</h3>
-        <hr>
-      </header>
-      <div>
-        <input type="file" multiple="false" (change)="test($event)">
-      </div>
-      <div class="table-external-container" *ngIf="userInfo.safeImport === '1'">
-        <div class="overflow" id="overflow">
-          <div class="table">
-            <div class="row" *ngFor="let row of data; let first = first">
-              <div class="cell {{ first ? 'header' : '' }}" *ngFor="let cell of row">
-                  <input type="text" [value]="cell" [readonly]="first || userInfo.editImport === '0' ? true : false" contenteditable>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="mb-2">
-      <header>
-        <h3>Import Continents</h3>
-        <hr>
-      </header>
-      <div>
-        <input type="file" multiple="false" (change)="test($event)">
-      </div>
-      <div class="table-external-container" *ngIf="userInfo.safeImport === '1'">
-        <div class="overflow" id="overflow">
-          <div class="table">
-            <div class="row" *ngFor="let row of data; let first = first">
-              <div class="cell {{ first ? 'header' : '' }}" *ngFor="let cell of row">
-                  <input type="text" [value]="cell" [readonly]="first || userInfo.editImport === '0' ? true : false" contenteditable>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
   </div>
 </div>
 
