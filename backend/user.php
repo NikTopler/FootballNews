@@ -6,10 +6,7 @@ use \Firebase\JWT\JWT;
 $allowed_domains = ["http://localhost:4200", "https://footballnews-app.herokuapp.com"];
 
 if (in_array($_SERVER['HTTP_ORIGIN'], $allowed_domains)) header("Access-Control-Allow-Origin: " . $_SERVER['HTTP_ORIGIN']);
-else {
-    echo 'Access denied';
-    die;
-}
+else $this->response(403, 'Access denied', 'Authorization failed');
 
 class User extends Dbh {
 
@@ -125,7 +122,7 @@ class User extends Dbh {
     $stmt->execute([$refreshToken]);
     $row = $stmt->fetch();
 
-    if(!$row) $this->message('Login reqired');
+    if(!$row) $this->response(403, 'Login reqired');
 
     $newAccessToken = $this->generateAccessToken([
       $row['id'],
@@ -176,7 +173,7 @@ class User extends Dbh {
     );
 
     try { return JWT::encode($payload_info, $secret, 'HS512'); }
-    catch(Exception $e) { $this->message($e); }
+    catch(Exception $e) { $this->response(500, $e); }
   }
 
   public function generateRefreshToken($id) {
@@ -192,7 +189,7 @@ class User extends Dbh {
     );
 
      try { return JWT::encode($payloadRefresh_info, $refreshSecret, 'HS512'); }
-     catch (Exception $e) { $this->message($e); }
+     catch (Exception $e) { $this->response(500, $e); }
   }
 
   public function updateAccount($userInfo) {
@@ -219,6 +216,7 @@ class User extends Dbh {
     $stmt = $this->connect()->prepare($sql);
     $stmt->execute([(int)$userInfo[1], $userInfo[0]]);
   }
+
   public function editImport($userInfo) {
     if((int)$userInfo[1] == 1) $this->safeImport([$userInfo[0], $userInfo[1]]);
 
@@ -227,8 +225,12 @@ class User extends Dbh {
     $stmt->execute([(int)$userInfo[1], $userInfo[0]]);
   }
 
-  public function message($string) {
-    echo $string;
+  public function response($code, $status, $text = '') {
+    http_response_code($code);
+    echo json_encode(array(
+      "status" => $status,
+      "message" => $text
+    ));
     die;
   }
 }
