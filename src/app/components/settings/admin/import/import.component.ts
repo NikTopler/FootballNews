@@ -45,5 +45,6 @@ export class ImportComponent {
     reader.readAsBinaryString(target.files[0]);
 
   tabChanged(e: any) { this.openTab = e.tab.textLabel; }
+  openFileManager(e: any) { e.target.parentElement.querySelector('input').click(); }
   }
 }
