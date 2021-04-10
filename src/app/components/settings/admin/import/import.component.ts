@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from 'src/app/services/user/user.service';
+import { SettingsComponent } from '../../settings.component';
+import { environment } from '../../../../../environments/environment';
 import * as XLSX from 'xlsx';
 
 @Component({
@@ -18,6 +20,9 @@ export class ImportComponent {
 
 
   constructor(private userService: UserService ) { }
+  constructor(
+    private userService: UserService,
+    private settingsComponent: SettingsComponent) { }
 
   test(event: any) {
     const target: DataTransfer = <DataTransfer>(event.target);
