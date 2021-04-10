@@ -10,6 +10,7 @@ import * as XLSX from 'xlsx';
 export class ImportComponent {
 
   userInfo: any = this.userService.userInfo;
+  openTab: string = 'Users';
 
   data: string[][] = [];
 
@@ -43,5 +44,6 @@ export class ImportComponent {
 
     reader.readAsBinaryString(target.files[0]);
 
+  tabChanged(e: any) { this.openTab = e.tab.textLabel; }
   }
 }
