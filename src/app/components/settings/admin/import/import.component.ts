@@ -55,6 +55,9 @@ export class ImportComponent {
 
     this.readFile(event.target);
   }
+
+  readFile(file: any) {
+    const target: DataTransfer = <DataTransfer>(file);
     if(target.files.length !== 1) return console.log('lenght not 1');
 
     const reader: FileReader = new FileReader();
@@ -66,7 +69,25 @@ export class ImportComponent {
       const wName: string = wb.SheetNames[0];
       const ws: XLSX.WorkSheet = wb.Sheets[wName];
 
-      this.data = (XLSX.utils.sheet_to_json(ws, { header: 1, raw: false }));
+      if(this.openTab === 'Users') {
+        this.usersArray = (XLSX.utils.sheet_to_json(ws, { header: 1, raw: false }));
+        this.orderArray(this.usersArray);
+      }
+      else if(this.openTab === 'Teams') {
+        this.teamsArray = (XLSX.utils.sheet_to_json(ws, { header: 1, raw: false }));
+        this.orderArray(this.teamsArray);
+      }
+      else if(this.openTab === 'Leagues'){
+        this.leaguesArray = (XLSX.utils.sheet_to_json(ws, { header: 1, raw: false }));
+        this.orderArray(this.leaguesArray);
+      }
+      else if(this.openTab === 'Countries') {
+        this.countriesArray = (XLSX.utils.sheet_to_json(ws, { header: 1, raw: false }));
+        this.orderArray(this.countriesArray);
+      }
+    }
+    reader.readAsBinaryString(target.files[0]);
+  }
 
       if(this.typeOfImport === 'team') {
         if(this.data[0]) {
