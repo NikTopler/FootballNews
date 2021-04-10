@@ -14,12 +14,33 @@ export class ImportComponent {
   userInfo: any = this.userService.userInfo;
   openTab: string = 'Users';
 
-  data: string[][] = [];
+  usersArray: string[][] = [];
+  teamsArray: string[][] = [];
+  leaguesArray: string[][] = [];
+  countriesArray: string[][] = [];
 
-  typeOfImport: string = 'team';
+  userTemplateArray: string[][] = [
+    ["First name", "Last name", "Email", "Admin", "Profile image"],
+    ["Janez", "Novak", "janez.novak@gmail.com", "FALSE", "https://miro.medium.com/max/1838/1*mk1-6aYaf_Bes1E3Imhc0A.jpeg"],
+    ["Mirko ", "Car", "mirko.car@gmail.com", "TRUE", "https://miro.medium.com/max/1838/1*mk1-6aYaf_Bes1E3Imhc0A.jpeg"]
+  ];
+  teamsTemplateArray: string[][] = [
+    ["Name", "Team id", "Short code", "Logo", "Country", "League", "Season start date", "Season end date"],
+    ["Atletico Madrid ", "6406", "ATM", "https://cdn.sportdataapi.com/images/soccer/teams/100/107.png", "Spain", "Laliga", "9/13/20", "5/24/21"],
+    ["FC Barcelona", "6404", "FCB", "https://cdn.sportdataapi.com/images/soccer/teams/100/99.png", "Spain", "Laliga", "9/13/20", "5/24/21"],
+    ["Real Madrid", "6402", "RM", "https://cdn.sportdataapi.com/images/soccer/teams/100/113.png", "Spain", "Laliga", "9/13/20", "5/24/21"]
+  ];
+  leaguesTemplateArray: string[][] = [
+    ["Name"],
+    ["Laliga"],
+    ["Premier League"]
+  ];
+  countriesTemplateArray: string[][] = [
+    ["Name", "Code", "Continent"],
+    ["Slovenia", "SVN", "Europe"],
+    ["Slovakia", "SLO", "Europe"]
+  ];
 
-
-  constructor(private userService: UserService ) { }
   constructor(
     private userService: UserService,
     private settingsComponent: SettingsComponent) { }
