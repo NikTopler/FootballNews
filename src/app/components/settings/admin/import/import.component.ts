@@ -138,6 +138,9 @@ export class ImportComponent {
     }
   }
 
+  importData(type: string, array: string[][]) {
+    console.log(type, array)
+  }
 
   tabChanged(e: any) { this.openTab = e.tab.textLabel; }
   openFileManager(e: any) { e.target.parentElement.querySelector('input').click(); }

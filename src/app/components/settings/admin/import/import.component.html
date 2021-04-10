@@ -26,6 +26,7 @@
             <div class="button-container">
               <button mat-flat-button *ngIf="userInfo.editImport === '1' ? true : false" (click)="resetArray(usersArray)" class="gray">Reset</button>
               <div class="spacer"></div>
+              <button mat-flat-button color="accent" (click)="importData('IMPORT_USERS', usersArray)" class="button">Import</button>
             </div>
           </div>
         </section>
@@ -55,6 +56,7 @@
             <div class="button-container">
               <button mat-flat-button *ngIf="userInfo.editImport === '1' ? true : false" (click)="resetArray(teamsArray)" class="gray">Reset</button>
               <div class="spacer"></div>
+              <button mat-flat-button color="accent" class="button">Import</button>
             </div>
           </div>
         </section>
@@ -114,6 +116,7 @@
             <div class="button-container">
               <button mat-flat-button *ngIf="userInfo.editImport === '1' ? true : false" (click)="resetArray(countriesArray)" class="gray">Reset</button>
               <div class="spacer"></div>
+              <button mat-flat-button color="accent" class="button">Import</button>
             </div>
           </div>
         </section>
