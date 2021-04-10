@@ -89,9 +89,27 @@ export class ImportComponent {
     reader.readAsBinaryString(target.files[0]);
   }
 
-      if(this.typeOfImport === 'team') {
-        if(this.data[0]) {
+  orderArray(array: string[][]) {
+    let arrayLength = 0;
+    let subArrayLength = 0;
+    let cellArrayLength = 0;
 
+    for(let i = 0; i < array.length; i++) {
+      if(array[i].length < 5) {
+        cellArrayLength = 5 - array[i].length;
+        for(let m = 0; m < cellArrayLength; m++)
+        array[i].push('');
+      }
+      if(array.length < 15) {
+        arrayLength = 15 - array.length;
+        for(let n = 0; n < arrayLength; n++)
+        array.push([]);
+      }
+      if(subArrayLength < array[i].length) subArrayLength = array[i].length;
+      else {
+        let thisArrayLength = array[i].length;
+        for(let k = 0; k < subArrayLength - thisArrayLength; k++) {
+          array[i].push('');
         }
       }
 
