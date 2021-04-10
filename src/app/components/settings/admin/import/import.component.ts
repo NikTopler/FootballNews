@@ -45,8 +45,16 @@ export class ImportComponent {
     private userService: UserService,
     private settingsComponent: SettingsComponent) { }
 
-  test(event: any) {
-    const target: DataTransfer = <DataTransfer>(event.target);
+  checkFile(event: any) {
+
+    const name = event.target.files[0].name;
+    const extension = name.substr((name.lastIndexOf('.') +1));
+
+    if(extension !== 'xlsx')
+      return this.settingsComponent.createMessage(true, 'You can only upload .xlsx files!', 'err');
+
+    this.readFile(event.target);
+  }
     if(target.files.length !== 1) return console.log('lenght not 1');
 
     const reader: FileReader = new FileReader();

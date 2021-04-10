@@ -6,7 +6,10 @@
           <div class="button-container">
             <button (click)="openFileManager($event)" class="btn enable">Import</button>
             <a href="../../../../../assets/templates/user-import-template.xlsx" class="none" id="user-template-link" download></a>
+            <input (change)="checkFile($event)" type="file" class="none">
             <div class="spacer"></div>
+            <button (click)="downloadTemplateFile('user-template-link')" class="btn">Template</button>
+            <button (click)="previewData('user', userTemplateArray)" class="btn">Preview</button>
           </div>
               </div>
             </div>
@@ -19,7 +22,10 @@
           <div class="button-container">
             <button (click)="openFileManager($event)" class="btn enable">Import</button>
             <a href="../../../../../assets/templates/team-import-template.xlsx" class="none" id="team-template-link" download></a>
+            <input (change)="checkFile($event)" type="file" class="none">
             <div class="spacer"></div>
+            <button (click)="downloadTemplateFile('team-template-link')" class="btn">Template</button>
+            <button (click)="previewData('team', teamsTemplateArray)" class="btn">Preview</button>
           </div>
               </div>
             </div>
@@ -30,7 +36,11 @@
           <div class="button-container">
             <button (click)="openFileManager($event)" class="btn enable">Import</button>
             <a href="../../../../../assets/templates/league-import-template.xlsx" class="none" id="league-template-link" download></a>
+            <input (change)="checkFile($event)" type="file" class="none">
             <div class="spacer"></div>
+            <button (click)="downloadTemplateFile('league-template-link')" class="btn">Template</button>
+            <button (click)="previewData('league', leaguesTemplateArray)" class="btn">Preview</button>
+          </div>
           </div>
         </section>
       </mat-tab>
@@ -39,7 +49,10 @@
           <div class="button-container">
             <button (click)="openFileManager($event)" class="btn enable">Import</button>
             <a href="../../../../../assets/templates/country-import-template.xlsx" class="none" id="country-template-link" download></a>
+            <input (change)="checkFile($event)" type="file" class="none">
             <div class="spacer"></div>
+            <button (click)="downloadTemplateFile('country-template-link')" class="btn">Template</button>
+            <button (click)="previewData('country', countriesTemplateArray)" class="btn">Preview</button>
           </div>
               </div>
             </div>
