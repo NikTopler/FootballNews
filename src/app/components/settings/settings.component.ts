@@ -82,4 +82,10 @@ export class SettingsComponent implements OnInit {
       contentSection.classList.add('full-mode-content');
     }
   }
+
+  createMessage(alert: boolean, text: string, type: string) {
+    this.alert = alert;
+    this.alertText = text;
+    this.alertType = type;
+  }
 }
