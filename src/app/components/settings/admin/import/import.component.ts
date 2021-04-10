@@ -141,5 +141,8 @@ export class ImportComponent {
 
   tabChanged(e: any) { this.openTab = e.tab.textLabel; }
   openFileManager(e: any) { e.target.parentElement.querySelector('input').click(); }
+  downloadTemplateFile(path: string) {
+   const link = document.getElementById(path) as HTMLLinkElement;
+   link.click();
   }
 }
