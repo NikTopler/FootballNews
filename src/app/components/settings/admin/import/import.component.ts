@@ -122,6 +122,22 @@ export class ImportComponent {
     }
   }
 
+  async previewData(type: string, array: string[][]) {
+    if(type === 'user') {
+      this.usersArray = array;
+      this.orderArray(this.usersArray);
+    } else if(type === 'team') {
+      this.teamsArray = array;
+      this.orderArray(this.teamsArray);
+    } else if(type === 'league') {
+      this.leaguesArray = array;
+      this.orderArray(this.leaguesArray);
+    } else if(type === 'country') {
+      this.countriesArray = array;
+      this.orderArray(this.countriesArray);
+    }
+  }
+
 
   tabChanged(e: any) { this.openTab = e.tab.textLabel; }
   openFileManager(e: any) { e.target.parentElement.querySelector('input').click(); }
