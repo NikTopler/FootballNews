@@ -76,10 +76,10 @@ export class SettingsComponent implements OnInit {
 
     if(mainContainer.classList.contains('full-mode')) {
       mainContainer.classList.remove('full-mode');
-      contentSection.classList.remove('full-content');
+      contentSection.classList.remove('full-mode-content');
     } else {
       mainContainer.classList.add('full-mode');
-      contentSection.classList.add('full-content');
+      contentSection.classList.add('full-mode-content');
     }
   }
 }
