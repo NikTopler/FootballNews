@@ -112,10 +112,16 @@ export class ImportComponent {
           array[i].push('');
         }
       }
-
     }
+  }
 
-    reader.readAsBinaryString(target.files[0]);
+  resetArray(array: string[][]) {
+    for(let i = 0; i < array.length; i++) {
+      if(i === 0) continue;
+      for(let j = 0; j < array[i].length; j++) array[i][j] = '';
+    }
+  }
+
 
   tabChanged(e: any) { this.openTab = e.tab.textLabel; }
   openFileManager(e: any) { e.target.parentElement.querySelector('input').click(); }
