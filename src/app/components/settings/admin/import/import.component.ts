@@ -3,6 +3,7 @@ import { UserService } from 'src/app/services/user/user.service';
 import { SettingsComponent } from '../../settings.component';
 import { environment } from '../../../../../environments/environment';
 import * as XLSX from 'xlsx';
+import { CommService } from 'src/app/services/comm/comm.service';
 
 @Component({
   selector: 'app-import',
@@ -43,7 +44,8 @@ export class ImportComponent {
 
   constructor(
     private userService: UserService,
-    private settingsComponent: SettingsComponent) { }
+    private settingsComponent: SettingsComponent,
+    private comm: CommService) { }
 
   checkFile(event: any) {
 
@@ -138,8 +140,25 @@ export class ImportComponent {
     }
   }
 
-  importData(type: string, array: string[][]) {
-    console.log(type, array)
+
+  async importData(type: string, array: string[][]) {
+    let newArray: any = [[]];
+    for(let i = 0; i < array.length; i++) {
+      for(let j = 0; j < array[i].length; j++)
+        newArray[i] = array[i].filter(e => String(e).trim());
+      if(array[i].length !== 0) newArray.push([]);
+    }
+
+    newArray = newArray.filter((e: string[]) => { return e.length !== 0 });
+
+    const userInfo = JSON.stringify(newArray);
+    const req = await fetch(`${environment.db}/admin.php`, {
+      method: 'POST',
+      body: this.comm.createFormData(type, userInfo)
+    });
+    const res = await req.text();
+    console.log(res)
+
   }
 
   tabChanged(e: any) { this.openTab = e.tab.textLabel; }
