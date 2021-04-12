@@ -60,7 +60,7 @@ class Admin extends User {
 
       $this->checkLeagues($leagueName, $countryName);
       $this->checkTeam($teamName, $teamId, $shortCode, $logo, $countryName);
-      $this->checkSession($seasonStart, $seasonEnd, $teamId, $leagueName);
+      $this->checkSeason($seasonStart, $seasonEnd, $teamId, $leagueName);
       $teamArray = [];
     }
   }
@@ -76,6 +76,28 @@ class Admin extends User {
     $sql = 'INSERT INTO leagues(name) VALUES(?)';
     $stmt = $this->connect()->prepare($sql);
     $stmt->execute([$leagueName]);
+  }
+
+  public function checkSeason($startDate, $endDate, $team_id, $leagueName) {
+    $sql = 'SELECT id
+    FROM league_team
+    WHERE startDate = ?
+      AND endDate = ?
+      AND team_id = (SELECT id FROM teams WHERE team_id = ?)
+      AND league_id = (SELECT id FROM leagues WHERE LOWER(name) = ?)';
+
+    $stmt = $this->connect()->prepare($sql);
+    $stmt->execute([$startDate, $endDate, $team_id, strtolower($leagueName)]);
+    $row = $stmt->fetch();
+
+    if($row) return;
+
+    $sql = 'INSERT INTO league_team(startDate, endDate, team_id, league_id)
+    VALUES(?, ?,
+      (SELECT id FROM teams WHERE team_id = ?),
+      (SELECT id FROM leagues WHERE LOWER(name) = ?))';
+    $stmt = $this->connect()->prepare($sql);
+    $stmt->execute([$startDate, $endDate, (int)$team_id, strtolower($leagueName)]);
   }
 
   public function checkTeam($teamName, $team_id, $short_code, $logo, $countryName) {
