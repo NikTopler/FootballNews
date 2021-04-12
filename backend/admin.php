@@ -64,6 +64,21 @@ class Admin extends User {
     $stmt = $this->connect()->prepare($sql);
     $stmt->execute([$name]);
   }
+
+  public function countryImport($array) {
+
+    $countryArray = [];
+
+    for($i = 1; $i < count($array); $i++) {
+      for($j = 0; $j < count($array[$i]); $j++)
+        array_push($countryArray, $array[$i][$j]);
+
+      if($this->checkContinents($countryArray[2])) $this->insertContinent($countryArray[2]);
+      if($this->checkCountry($countryArray[0],$countryArray[1])) $this->insertCountry($countryArray[0], $countryArray[1], $countryArray[2]);
+
+      $countryArray = [];
+    }
+  }
 }
 
 $adminObj = new Admin();
