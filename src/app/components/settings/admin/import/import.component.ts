@@ -124,7 +124,7 @@ export class ImportComponent {
     }
   }
 
-  async previewData(type: string, array: string[][]) {
+  previewData(type: string, array: string[][]) {
     if(type === 'user') {
       this.usersArray = array;
       this.orderArray(this.usersArray);
@@ -139,7 +139,6 @@ export class ImportComponent {
       this.orderArray(this.countriesArray);
     }
   }
-
 
   async importData(type: string, array: string[][]) {
     let newArray: any = [[]];
@@ -158,6 +157,7 @@ export class ImportComponent {
     });
     const res = await req.text();
     console.log(res)
+  }
 
   editArray(type: string, e: any): void {
     const input = e.target;
@@ -170,6 +170,8 @@ export class ImportComponent {
     else if(type === 'leagues') this.leaguesArray[x][y] = value;
     else if(type === 'countries') this.countriesArray[x][y] = value;
   }
+
+  trackByFn(index: number) { return index; }
 
   tabChanged(e: any) { this.openTab = e.tab.textLabel; }
   openFileManager(e: any) { e.target.parentElement.querySelector('input').click(); }
