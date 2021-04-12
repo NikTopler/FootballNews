@@ -158,7 +158,7 @@ class Admin extends User {
   }
 
   public function checkCountry($name, $code) {
-    $sql = 'SELECT id FROM countries WHERE LOWER(name) = ? AND LOWER(code) = ?';
+    $sql = 'SELECT id FROM countries WHERE LOWER(name) = ? OR LOWER(code) = ?';
     $stmt = $this->connect()->prepare($sql);
     $stmt->execute([strtolower($name), strtolower($code)]);
     $row = $stmt->fetch();
