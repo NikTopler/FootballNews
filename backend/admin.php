@@ -49,6 +49,15 @@ class Admin extends User {
       $leagueArray = [];
     }
   }
+
+  public function checkForLeague($name) {
+    $sql = 'SELECT id FROM leagues WHERE LOWER(name) = ?';
+    $stmt = $this->connect()->prepare($sql);
+    $stmt->execute([$name]);
+    $row = $stmt->fetch();
+    if(!$row) return true;
+    else return false;
+  }
 }
 
 $adminObj = new Admin();
