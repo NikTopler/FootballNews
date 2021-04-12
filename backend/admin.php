@@ -89,6 +89,12 @@ class Admin extends User {
     else return false;
   }
 
+  public function insertCountry($name, $code, $continent) {
+    $sql = 'INSERT INTO countries(name, code, continent_id) VALUES(?, ?, (SELECT id FROM continents WHERE LOWER(name) = ?))';
+    $stmt = $this->connect()->prepare($sql);
+    $stmt->execute([$name, $code, $continent]);
+  }
+
   public function checkContinents($name) {
     $sql = 'SELECT id FROM continents WHERE LOWER(name) = ?';
     $stmt = $this->connect()->prepare($sql);
@@ -97,9 +103,17 @@ class Admin extends User {
     if(!$row) return true;
     else return false;
   }
+
+  public function insertContinent($name) {
+    $sql = 'INSERT INTO continents(name) VALUES(?)';
+    $stmt = $this->connect()->prepare($sql);
+    $stmt->execute([$name]);
+  }
+
 }
 
 $adminObj = new Admin();
 if($_SERVER['REQUEST_METHOD'] !== 'POST') die;
 if(isset($_POST['IMPORT_USERS'])) $adminObj->userImport(json_decode($_POST['IMPORT_USERS']));
 else if(isset($_POST['IMPORT_LEAGUES'])) $adminObj->leagueImport(json_decode($_POST['IMPORT_LEAGUES']));
+else if(isset($_POST['IMPORT_COUNTRIES'])) $adminObj->countryImport(json_decode($_POST['IMPORT_COUNTRIES']));
