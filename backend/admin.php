@@ -37,6 +37,33 @@ class Admin extends User {
     $stmt = $this->connect()->prepare($sql);
     $stmt->execute($array);
   }
+
+  public function teamImport($array) {
+    $teamArray = [];
+
+    for($i = 1; $i < count($array); $i++) {
+      for($j = 0; $j < count($array[$i]); $j++)
+        array_push($teamArray, $array[$i][$j]);
+
+      $teamName = $teamArray[0];
+      $teamId = $teamArray[1];
+      $shortCode = $teamArray[2];
+      $logo = $teamArray[3];
+      $countryName = $teamArray[4];
+      $continentName = $teamArray[5];
+      $leagueName = $teamArray[6];
+      $seasonStart = $teamArray[7];
+      $seasonEnd = $teamArray[8];
+
+      if($this->checkContinents($continentName)) $this->insertContinent($continentName);
+      if($this->checkCountry($countryName, NULL)) $this->insertCountry($countryName, NULL, $continentName);
+
+      $this->checkLeagues($leagueName, $countryName);
+      $this->checkTeam($teamName, $teamId, $shortCode, $logo, $countryName);
+      $this->checkSession($seasonStart, $seasonEnd, $teamId, $leagueName);
+      $teamArray = [];
+    }
+  }
   public function leagueImport($array) {
     $leagueArray = [];
 
