@@ -15,9 +15,13 @@
             <div class="table-external-container">
               <div class="overflow" id="overflow">
                 <div class="table">
-                  <div class="row" *ngFor="let row of usersArray; let first = first">
-                    <div class="cell {{ first ? 'header' : '' }}" *ngFor="let cell of row">
-                        <input type="text" [value]="cell.trim()" [readonly]="first || userInfo.editImport === '0' ? true : false">
+                  <div class="row" *ngFor="let row of usersArray; let first = first; let rowCount = index; trackBy: trackByFn">
+                    <div class="cell {{ first ? 'header' : '' }}" *ngFor="let cell of row; let columnCount = index; trackBy: trackByFn">
+                        <input type="text"
+                          [value]="cell.trim()"
+                          [readonly]="first || userInfo.editImport === '0' ? true : false"
+                          (input)="editArray('users', $event)"
+                          [id]="rowCount+'-'+columnCount">
                     </div>
                   </div>
                 </div>
@@ -45,9 +49,13 @@
             <div class="table-external-container">
               <div class="overflow" id="overflow">
                 <div class="table">
-                  <div class="row" *ngFor="let row of teamsArray; let first = first">
-                    <div class="cell {{ first ? 'header' : '' }}" *ngFor="let cell of row">
-                        <input type="text" [value]="cell.trim()" [readonly]="first || userInfo.editImport === '0' ? true : false">
+                  <div class="row" *ngFor="let row of teamsArray; let first = first; let rowCount = index; trackBy: trackByFn">
+                    <div class="cell {{ first ? 'header' : '' }}" *ngFor="let cell of row; let columnCount = index; trackBy: trackByFn">
+                        <input type="text"
+                          [value]="cell.trim()"
+                          [readonly]="first || userInfo.editImport === '0' ? true : false"
+                          (input)="editArray('teams', $event)"
+                          [id]="rowCount+'-'+columnCount">
                     </div>
                   </div>
                 </div>
@@ -75,9 +83,13 @@
            <div class="table-external-container">
              <div class="overflow" id="overflow">
                <div class="table">
-                 <div class="row" *ngFor="let row of leaguesArray; let first = first">
-                   <div class="cell {{ first ? 'header' : '' }}" *ngFor="let cell of row">
-                       <input type="text" [value]="cell.trim()" [readonly]="first || userInfo.editImport === '0' ? true : false">
+                 <div class="row" *ngFor="let row of leaguesArray; let first = first; let rowCount = index; trackBy: trackByFn">
+                   <div class="cell {{ first ? 'header' : '' }}" *ngFor="let cell of row; let columnCount = index; trackBy: trackByFn">
+                       <input type="text"
+                        [value]="cell.trim()"
+                        [readonly]="first || userInfo.editImport === '0' ? true : false"
+                        (input)="editArray('leagues', $event)"
+                        [id]="rowCount+'-'+columnCount">
                    </div>
                  </div>
                </div>
@@ -105,9 +117,13 @@
             <div class="table-external-container">
               <div class="overflow" id="overflow">
                 <div class="table">
-                  <div class="row" *ngFor="let row of countriesArray; let first = first">
-                    <div class="cell {{ first ? 'header' : '' }}" *ngFor="let cell of row">
-                        <input type="text" [value]="cell.trim()" [readonly]="first || userInfo.editImport === '0' ? true : false">
+                  <div class="row" *ngFor="let row of countriesArray; let first = first; let rowCount = index; trackBy: trackByFn">
+                    <div class="cell {{ first ? 'header' : '' }}" *ngFor="let cell of row; let columnCount = index; trackBy: trackByFn">
+                        <input type="text"
+                          [value]="cell.trim()"
+                          [readonly]="first || userInfo.editImport === '0' ? true : false"
+                          (input)="editArray('countries', $event)"
+                          [id]="rowCount+'-'+columnCount">
                     </div>
                   </div>
                 </div>
