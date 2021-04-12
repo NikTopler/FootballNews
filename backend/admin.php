@@ -64,6 +64,20 @@ class Admin extends User {
       $teamArray = [];
     }
   }
+
+  public function checkLeagues($leagueName) {
+    $sql = 'SELECT id FROM leagues WHERE LOWER(name) = ?';
+    $stmt = $this->connect()->prepare($sql);
+    $stmt->execute([strtolower($leagueName)]);
+    $row = $stmt->fetch();
+
+    if($row) return;
+
+    $sql = 'INSERT INTO leagues(name) VALUES(?)';
+    $stmt = $this->connect()->prepare($sql);
+    $stmt->execute([$leagueName]);
+  }
+
   public function leagueImport($array) {
     $leagueArray = [];
 
