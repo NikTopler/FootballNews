@@ -159,6 +159,16 @@ export class ImportComponent {
     const res = await req.text();
     console.log(res)
 
+  editArray(type: string, e: any): void {
+    const input = e.target;
+    const value = e.target.value;
+    const x =  input.id.split('-')[0];
+    const y =  input.id.split('-')[1];
+
+    if(type === 'users') this.usersArray[x][y] = value;
+    else if(type === 'teams') this.teamsArray[x][y] = value;
+    else if(type === 'leagues') this.leaguesArray[x][y] = value;
+    else if(type === 'countries') this.countriesArray[x][y] = value;
   }
 
   tabChanged(e: any) { this.openTab = e.tab.textLabel; }
