@@ -37,9 +37,21 @@ class Admin extends User {
     $stmt = $this->connect()->prepare($sql);
     $stmt->execute($array);
   }
+  public function leagueImport($array) {
+    $leagueArray = [];
+
+    for($i = 1; $i < count($array); $i++) {
+      for($j = 0; $j < count($array[$i]); $j++)
+        array_push($leagueArray, $array[$i][$j]);
+
+      if($this->checkForLeague($leagueArray[0])) $this->insertLeague($leagueArray[0]);
+
+      $leagueArray = [];
+    }
+  }
 }
 
 $adminObj = new Admin();
 if($_SERVER['REQUEST_METHOD'] !== 'POST') die;
 if(isset($_POST['IMPORT_USERS'])) $adminObj->userImport(json_decode($_POST['IMPORT_USERS']));
-
+else if(isset($_POST['IMPORT_LEAGUES'])) $adminObj->leagueImport(json_decode($_POST['IMPORT_LEAGUES']));
