@@ -79,6 +79,24 @@ class Admin extends User {
       $countryArray = [];
     }
   }
+
+  public function checkCountry($name, $code) {
+    $sql = 'SELECT id FROM countries WHERE LOWER(name) = ? AND LOWER(code) = ?';
+    $stmt = $this->connect()->prepare($sql);
+    $stmt->execute([strtolower($name), strtolower($code)]);
+    $row = $stmt->fetch();
+    if(!$row) return true;
+    else return false;
+  }
+
+  public function checkContinents($name) {
+    $sql = 'SELECT id FROM continents WHERE LOWER(name) = ?';
+    $stmt = $this->connect()->prepare($sql);
+    $stmt->execute([strtolower($name)]);
+    $row = $stmt->fetch();
+    if(!$row) return true;
+    else return false;
+  }
 }
 
 $adminObj = new Admin();
