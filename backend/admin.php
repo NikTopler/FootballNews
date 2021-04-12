@@ -58,6 +58,12 @@ class Admin extends User {
     if(!$row) return true;
     else return false;
   }
+
+  public function insertLeague($name) {
+    $sql = 'INSERT INTO leagues(name) VALUES(?)';
+    $stmt = $this->connect()->prepare($sql);
+    $stmt->execute([$name]);
+  }
 }
 
 $adminObj = new Admin();
