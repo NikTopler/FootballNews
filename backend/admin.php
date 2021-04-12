@@ -78,6 +78,20 @@ class Admin extends User {
     $stmt->execute([$leagueName]);
   }
 
+  public function checkTeam($teamName, $team_id, $short_code, $logo, $countryName) {
+    $sql = 'SELECT id FROM teams WHERE team_id = ?';
+    $stmt = $this->connect()->prepare($sql);
+    $stmt->execute([$team_id]);
+    $row = $stmt->fetch();
+
+    if($row) return;
+
+    $sql = 'INSERT INTO teams(name, team_id, short_code, logo, country_id)
+    VALUES(?, ?, ?, ?, (SELECT id FROM countries WHERE LOWER(name) = ?))';
+    $stmt = $this->connect()->prepare($sql);
+    $stmt->execute([$teamName, (int)$team_id, $short_code, $logo, strtolower($countryName)]);
+  }
+
   public function leagueImport($array) {
     $leagueArray = [];
 
