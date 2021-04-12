@@ -28,8 +28,8 @@ class Admin extends User {
   public function insertUser($userInfo) {
     $date = date(time());
 
-    $admin = 0;
-    if(strtolower($userInfo[3]) == 'TRUE') $admin = 1;
+    if(strtolower($userInfo[3]) == 'true' || $userInfo[3] == '1') $admin = 1;
+    else $admin = 0;
 
     $array = [$userInfo[0], $userInfo[1], $userInfo[2], $admin, $date, $userInfo[4]];
 
@@ -115,5 +115,6 @@ class Admin extends User {
 $adminObj = new Admin();
 if($_SERVER['REQUEST_METHOD'] !== 'POST') die;
 if(isset($_POST['IMPORT_USERS'])) $adminObj->userImport(json_decode($_POST['IMPORT_USERS']));
+else if(isset($_POST['IMPORT_TEAMS'])) $adminObj->teamImport(json_decode($_POST['IMPORT_TEAMS']));
 else if(isset($_POST['IMPORT_LEAGUES'])) $adminObj->leagueImport(json_decode($_POST['IMPORT_LEAGUES']));
 else if(isset($_POST['IMPORT_COUNTRIES'])) $adminObj->countryImport(json_decode($_POST['IMPORT_COUNTRIES']));
