@@ -32,10 +32,21 @@ export class ImportVerificationService {
   }
 
   importValidation(type: string, func: any, array: string[][]) {
+
     let resMessage: responseMessage = { 'code': 200, 'message': '', 'body': [] }
     let errArray: string[] = [];
+    let arrayInnerSize: number = array[0].length;
+    let emptyFields: boolean = false;
 
     for(let i = 0; i < array.length; i++) {
+
+      if(array[i].length !== arrayInnerSize && array[i].length === 0) continue;
+      else if(array[i].length !== arrayInnerSize) {
+        for(let k = 0; k < arrayInnerSize; k++)
+          errArray.push(i + '-' + k);
+        emptyFields = true;
+      }
+
       for(let j = 0; j < array[i].length; j++) {
         if(i === 0) {
           if(!this.headerImport(type, array[i][j])) {
@@ -47,7 +58,9 @@ export class ImportVerificationService {
       }
     }
 
-    if(errArray.length !== 0) resMessage.message = 'Wrong values inserted into the table!'
+    if(errArray.length !== 0 && !emptyFields) resMessage.message = `Wrong values inserted into the table!`
+    else if(emptyFields) resMessage.message = `All columns in a row must be full!`;
+
     resMessage.body = errArray;
     return resMessage;
   }
