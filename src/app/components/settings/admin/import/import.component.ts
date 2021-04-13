@@ -4,6 +4,7 @@ import { SettingsComponent } from '../../settings.component';
 import { environment } from '../../../../../environments/environment';
 import * as XLSX from 'xlsx';
 import { CommService } from 'src/app/services/comm/comm.service';
+import { ImportVerificationService } from 'src/app/services/import-verification/import-verification.service';
 
 @Component({
   selector: 'app-import',
@@ -45,7 +46,8 @@ export class ImportComponent {
   constructor(
     private userService: UserService,
     private settingsComponent: SettingsComponent,
-    private comm: CommService) { }
+    private comm: CommService,
+    private importVerifyService: ImportVerificationService) { }
 
   checkFile(event: any) {
 
@@ -150,6 +152,11 @@ export class ImportComponent {
 
     newArray = newArray.filter((e: string[]) => { return e.length !== 0 });
 
+    const resMessage: responseMessage = this.importVerifyService.importValidation('USERS', this.importVerifyService.userValidation, newArray);
+
+    if(resMessage.code === 404) return this.settingsComponent.createMessage(true, resMessage.message, 'err');
+    if(resMessage.code === 200 && resMessage.body.length !== 0) return this.displayErrors(resMessage.message, resMessage.body);
+
     const userInfo = JSON.stringify(newArray);
     const req = await fetch(`${environment.db}/admin.php`, {
       method: 'POST',
@@ -157,7 +164,10 @@ export class ImportComponent {
     });
     const res = await req.text();
     console.log(res)
-    const resMessage: responseMessage = this.importVerifyService.importValidation('USERS', this.importVerifyService.userValidation, newArray);
+
+    this.settingsComponent.createMessage(true, 'Values successfully imported into the database!', 'success');
+  }
+
   displayErrors(message: string, array: string[]): void {
     for(let i = 0; i < array.length; i++) {
       const id = array[i];
