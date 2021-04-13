@@ -11,6 +11,8 @@ export class AuthenticationService {
 
   UserInfo: any;
 
+  regex = new RegExp("^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$");
+
   constructor(
     private socialAuthService: SocialAuthService,
     private router: Router) { }
@@ -24,13 +26,20 @@ export class AuthenticationService {
     this.router.navigateByUrl('home')
       .then(() => { location.reload() });
   }
+
+  firstLastName(word: string) { return this.regex.test(word) ? true : false; }
+
   name(word: string) {
     return (formGroup: FormGroup) => {
       const nameControl = formGroup.controls[word];
-      const regex = new RegExp("^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$");
-      return regex.test(nameControl.value) ? nameControl.setErrors(null) : nameControl.setErrors({ valid: false });
+      return this.regex.test(nameControl.value) ? nameControl.setErrors(null) : nameControl.setErrors({ valid: false });
     }
   }
+
+  validateEmail(email: string) {
+    const regularExpression = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return regularExpression.test(String(email).toLowerCase());
+   }
 
   matchPasswords(psw: string, pswConfirm: string) {
     return (formGroup: FormGroup) => {
