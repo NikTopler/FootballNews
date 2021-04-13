@@ -122,7 +122,13 @@ export class ImportComponent {
   resetArray(array: string[][]) {
     for(let i = 0; i < array.length; i++) {
       if(i === 0) continue;
-      for(let j = 0; j < array[i].length; j++) array[i][j] = '';
+      for(let j = 0; j < array[i].length; j++) {
+        const input = document.getElementById(i+'-'+j) as HTMLInputElement;
+        const container = input.parentElement as HTMLDivElement;;
+
+        container.classList.remove('errInput');
+        array[i][j] = '';
+      }
     }
   }
 
