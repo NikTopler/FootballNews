@@ -157,10 +157,18 @@ export class ImportComponent {
     });
     const res = await req.text();
     console.log(res)
+  displayErrors(message: string, array: string[]): void {
+    for(let i = 0; i < array.length; i++) {
+      const id = array[i];
+      const container = document.getElementById(id)?.parentElement as HTMLDivElement;
+      container.classList.add('errInput');
+    }
+    this.settingsComponent.createMessage(true, message, 'err')
   }
 
   editArray(type: string, e: any): void {
     const input = e.target;
+    const container = input.parentElement as HTMLDivElement;
     const value = e.target.value;
     const x =  input.id.split('-')[0];
     const y =  input.id.split('-')[1];
@@ -169,6 +177,8 @@ export class ImportComponent {
     else if(type === 'teams') this.teamsArray[x][y] = value;
     else if(type === 'leagues') this.leaguesArray[x][y] = value;
     else if(type === 'countries') this.countriesArray[x][y] = value;
+
+    if(container.classList.contains('errInput')) container.classList.remove('errInput')
   }
 
   trackByFn(index: number) { return index; }
