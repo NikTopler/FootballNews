@@ -9,7 +9,7 @@
             <input (change)="checkFile($event)" type="file" class="none">
             <div class="spacer"></div>
             <button (click)="downloadTemplateFile('user-template-link')" class="btn">Template</button>
-            <button (click)="previewData('user', userTemplateArray)" class="btn">Preview</button>
+            <button *ngIf="userInfo.safeImport === '1'" (click)="previewData('user', userTemplateArray)" class="btn">Preview</button>
           </div>
           <div *ngIf="userInfo.safeImport === '1' && usersArray[0];" class="mb-2">
             <div class="table-external-container">
@@ -43,7 +43,7 @@
             <input (change)="checkFile($event)" type="file" class="none">
             <div class="spacer"></div>
             <button (click)="downloadTemplateFile('team-template-link')" class="btn">Template</button>
-            <button (click)="previewData('team', teamsTemplateArray)" class="btn">Preview</button>
+            <button *ngIf="userInfo.safeImport === '1'" (click)="previewData('team', teamsTemplateArray)" class="btn">Preview</button>
           </div>
           <div *ngIf="userInfo.safeImport === '1' && teamsArray[0]" class="mb-2">
             <div class="table-external-container">
@@ -77,7 +77,7 @@
             <input (change)="checkFile($event)" type="file" class="none">
             <div class="spacer"></div>
             <button (click)="downloadTemplateFile('league-template-link')" class="btn">Template</button>
-            <button (click)="previewData('league', leaguesTemplateArray)" class="btn">Preview</button>
+            <button *ngIf="userInfo.safeImport === '1'" (click)="previewData('league', leaguesTemplateArray)" class="btn">Preview</button>
           </div>
           <div *ngIf="userInfo.safeImport === '1' && leaguesArray[0]" class="mb-2">
            <div class="table-external-container">
@@ -111,7 +111,7 @@
             <input (change)="checkFile($event)" type="file" class="none">
             <div class="spacer"></div>
             <button (click)="downloadTemplateFile('country-template-link')" class="btn">Template</button>
-            <button (click)="previewData('country', countriesTemplateArray)" class="btn">Preview</button>
+            <button *ngIf="userInfo.safeImport === '1'" (click)="previewData('country', countriesTemplateArray)" class="btn">Preview</button>
           </div>
           <div *ngIf="userInfo.safeImport === '1' && countriesArray[0]" class="mb-2">
             <div class="table-external-container">
