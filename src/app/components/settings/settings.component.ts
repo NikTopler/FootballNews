@@ -84,8 +84,21 @@ export class SettingsComponent implements OnInit {
   }
 
   createMessage(alert: boolean, text: string, type: string) {
-    this.alert = alert;
-    this.alertText = text;
-    this.alertType = type;
+    const obj: Message = { "alert": alert, "text": text, "type": type };
+    let alreadyInArray: boolean = false;
+
+    if(this.alertArray.length > 2) this.alertArray.shift();
+
+    for(let i = 0; i < this.alertArray.length; i++)
+      if(this.alertArray[i].text === text)
+        alreadyInArray = true;
+
+    if(!alreadyInArray) this.alertArray.push(obj);
   }
+}
+
+export interface Message {
+  alert: boolean,
+  text: string,
+  type: string
 }
