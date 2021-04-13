@@ -39,19 +39,12 @@ export class AccountComponent {
 
   async onSubmit() {
 
-    if(!this.updateForm.valid) {
-      this.settingsComponent.alert = true;
-      this.settingsComponent.alertType = 'err';
-      this.settingsComponent.alertText = 'First name and last name are not valid';
-      return;
-    }
+    if(!this.updateForm.valid)
+      return this.settingsComponent.createMessage(true, 'First name and last name are not valid', 'err');
+
     if(this.updateForm.value.fName.trim() === this.userInfo.firstName
-    && this.updateForm.value.lName.trim() === this.userInfo.lastName) {
-      this.settingsComponent.alert = true;
-      this.settingsComponent.alertType = 'err';
-      this.settingsComponent.alertText = 'No changes made';
-      return;
-    }
+    && this.updateForm.value.lName.trim() === this.userInfo.lastName)
+      return this.settingsComponent.createMessage(true, 'No changes made', 'err');
 
     const userInfo = JSON.stringify(Object.values(
       {"fName": this.updateForm.value.fName,
