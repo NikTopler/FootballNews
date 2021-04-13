@@ -79,6 +79,8 @@ div.main-section {
       transition: all ease-in-out .1s;
     }
   }
+
+  .alert:not(:first-child) { margin-top: 0.5rem; }
 }
 
 div.main-section-container {

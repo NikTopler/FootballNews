@@ -10,6 +10,7 @@ import { UserService } from 'src/app/services/user/user.service';
 export class SettingsComponent implements OnInit {
 
   userInfo: any = this.userService.userInfo;
+  alertArray: any[] = [];
   alert: boolean = false;
   alertText: string = '';
   alertType: string = '';

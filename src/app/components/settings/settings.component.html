@@ -1,7 +1,7 @@
-<div *ngIf="alert" class="alert-container">
-  <div class="alert {{ alertType }}">
-    <p>{{ alertText }}</p>
-    <div (click)="alert = false" class="x-container"></div>
+<div *ngIf="alertArray.length !== 0" class="alert-container">
+  <div *ngFor="let notification of alertArray; let index = index" class="alert {{ notification.type }}">
+    <p>{{ notification.text }}</p>
+    <div (click)="alertArray.splice(index, 1)" class="x-container"></div>
   </div>
 </div>
 <div class="main-section">
