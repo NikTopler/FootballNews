@@ -30,17 +30,23 @@ export class ImportVerificationService {
   }
 
   importValidation(type: string, func: any, array: string[][]) {
+    let resMessage: responseMessage = { 'code': 200, 'message': '', 'body': [] }
     let errArray: string[] = [];
     for(let i = 0; i < array.length; i++) {
       for(let j = 0; j < array[i].length; j++) {
         if(i === 0) {
-          if(!this.headerImport(type, array[i][j]))
-            errArray.push(i + '-' + j);
-        }
-        else errArray = func(array[i][j], i, j, errArray);
+          if(!this.headerImport(type, array[i][j])) {
+            resMessage.code = 404;
+            resMessage.message = 'Wrong import type, check the template!';
+            return resMessage;
+          }
+        } else errArray = func(array[i][j], i, j, errArray);
       }
     }
-    return errArray;
+
+    if(errArray.length !== 0) resMessage.message = 'Wrong values inserted into the table!'
+    resMessage.body = errArray;
+    return resMessage;
   }
 
   userValidation = (word: string, i: number, j: number, errArray: string[]) => {
@@ -57,3 +63,10 @@ export class ImportVerificationService {
     return errArray;
   }
 }
+
+export interface responseMessage {
+  code: number,
+  message: string,
+  body: string[]
+}
+

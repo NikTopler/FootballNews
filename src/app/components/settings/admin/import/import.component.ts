@@ -157,6 +157,7 @@ export class ImportComponent {
     });
     const res = await req.text();
     console.log(res)
+    const resMessage: responseMessage = this.importVerifyService.importValidation('USERS', this.importVerifyService.userValidation, newArray);
   displayErrors(message: string, array: string[]): void {
     for(let i = 0; i < array.length; i++) {
       const id = array[i];
@@ -189,4 +190,10 @@ export class ImportComponent {
    const link = document.getElementById(path) as HTMLLinkElement;
    link.click();
   }
+}
+
+export interface responseMessage {
+  code: number,
+  message: string,
+  body: string[]
 }
