@@ -6,10 +6,19 @@ import { Injectable } from '@angular/core';
 export class ImportVerificationService {
 
   constructor() { }
+  userFormStructure = [
+    ['first name', 'firstname'],
+    ['last name', 'lastname', 'surname'],
+    ['mail', 'email', 'gmail'],
+    ['admin'],
+    ['image', 'profile img', 'profileimg', 'profile image']
+  ];
+
   headerImport(type: string, word: string) {
 
     let structureArray: string[][] = [];
 
+    if(type === 'USERS') structureArray = this.userFormStructure;
 
     for(let n = 0; n < structureArray.length; n++)
       for(let m = 0; m < structureArray[n].length; m++)
