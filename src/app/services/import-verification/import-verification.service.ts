@@ -19,19 +19,22 @@ export class ImportVerificationService {
   headerImport(type: string, word: string) {
 
     let structureArray: string[][] = [];
+    let check: boolean = false;
 
     if(type === 'USERS') structureArray = this.userFormStructure;
 
     for(let n = 0; n < structureArray.length; n++)
       for(let m = 0; m < structureArray[n].length; m++)
-        if(word.toLowerCase() === structureArray[n][m])
-          return true;
-    return false;
+        if(word.toLowerCase() === structureArray[n][m]) {
+          check = true;
+        }
+    return check;
   }
 
   importValidation(type: string, func: any, array: string[][]) {
     let resMessage: responseMessage = { 'code': 200, 'message': '', 'body': [] }
     let errArray: string[] = [];
+
     for(let i = 0; i < array.length; i++) {
       for(let j = 0; j < array[i].length; j++) {
         if(i === 0) {
