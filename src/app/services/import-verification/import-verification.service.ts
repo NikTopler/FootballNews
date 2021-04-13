@@ -37,6 +37,7 @@ export class ImportVerificationService {
     let errArray: string[] = [];
     let arrayInnerSize: number = array[0].length;
     let emptyFields: boolean = false;
+    let notEmptyArray: boolean = false;
 
     for(let i = 0; i < array.length; i++) {
 
@@ -54,11 +55,18 @@ export class ImportVerificationService {
             resMessage.message = 'Wrong import type, check the template!';
             return resMessage;
           }
-        } else errArray = func(array[i][j], i, j, errArray);
+        } else {
+          if(array[i][j].trim().length !== 0) notEmptyArray = true;
+          errArray = func(array[i][j], i, j, errArray);
+        }
       }
     }
 
-    if(errArray.length !== 0 && !emptyFields) resMessage.message = `Wrong values inserted into the table!`
+    if(!notEmptyArray) {
+      resMessage.code = 204;
+      resMessage.message = `Cannot import empty array!`;
+    }
+    else if(errArray.length !== 0 && !emptyFields) resMessage.message = `Wrong values inserted into the table!`
     else if(emptyFields) resMessage.message = `All columns in a row must be full!`;
 
     resMessage.body = errArray;

@@ -150,12 +150,13 @@ export class ImportComponent {
       if(array[i].length !== 0) newArray.push([]);
     }
 
-    newArray = newArray.filter((e: string[]) => { return e.length !== 0 });
 
     const resMessage: responseMessage = this.importVerifyService.importValidation('USERS', this.importVerifyService.userValidation, newArray);
 
-    if(resMessage.code === 404) return this.settingsComponent.createMessage(true, resMessage.message, 'err');
-    if(resMessage.code === 200 && resMessage.body.length !== 0) return this.displayErrors(resMessage.message, resMessage.body);
+    if(resMessage.code === 404 || resMessage.code === 204) return this.settingsComponent.createMessage(true, resMessage.message, 'err');
+    else if(resMessage.code === 200 && resMessage.body.length !== 0) return this.displayErrors(resMessage.message, resMessage.body);
+
+    newArray = newArray.filter((e: string[]) => { return e.length !== 0 });
 
     const userInfo = JSON.stringify(newArray);
     const req = await fetch(`${environment.db}/admin.php`, {
