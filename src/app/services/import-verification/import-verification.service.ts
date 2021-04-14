@@ -16,12 +16,25 @@ export class ImportVerificationService {
     ['image', 'profile img', 'profileimg', 'profile image']
   ];
 
+  teamFormStructure = [
+    ['team name', 'team', 'name'],
+    ['team id', 'team_id', 'teamid', 'id'],
+    ['short code', 'short_code'],
+    ['logo'],
+    ['country', 'countries'],
+    ['continent', 'continents'],
+    ['league', 'leagues'],
+    ['start', 'season start', 'season start date'],
+    ['end', 'season end', 'season end date'],
+  ];
+
   headerImport(type: string, word: string) {
 
     let structureArray: string[][] = [];
     let check: boolean = false;
 
     if(type === 'USERS') structureArray = this.userFormStructure;
+    else if(type === 'TEAMS') structureArray = this.teamFormStructure;
 
     for(let n = 0; n < structureArray.length; n++)
       for(let m = 0; m < structureArray[n].length; m++)
@@ -86,6 +99,17 @@ export class ImportVerificationService {
 
     return errArray;
   }
+
+  teamValidation = (word: string, i: number, j: number, errArray: string[]) => {
+    if((j === 0 || j === 2 || j === 4 || j === 5 || j === 6) && !this.authenticationService.firstLastName(word))
+      errArray.push(i + '-' + j);
+    else if(j === 1 && !Number(word))
+      errArray.push(i + '-' + j);
+    else if((j === 7 || j === 8) && !this.authenticationService.checkDate(word.trim()))
+      errArray.push(i + '-' + j);
+    return errArray;
+  }
+
 }
 
 export interface responseMessage {
