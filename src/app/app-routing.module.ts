@@ -8,6 +8,7 @@ import { EmailComponent } from './components/settings/email/email.component';
 import { ThemeComponent } from './components/settings/theme/theme.component';
 import { AdminGuard } from './guards/admin/admin.guard';
 import { ImportComponent } from './components/settings/admin/import/import.component';
+import { AdminPanelComponent } from './components/settings/admin/admin-panel/admin-panel.component';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'home' },
@@ -17,6 +18,7 @@ const routes: Routes = [
     { path: 'account', component: AccountComponent },
     { path: 'notification', component: EmailComponent },
     { path: 'theme', component: ThemeComponent },
+    { path: 'admin/panel', component: AdminPanelComponent },
     { path: 'admin/import', component: ImportComponent, canActivate: [AdminGuard] }
   ]},
 ];

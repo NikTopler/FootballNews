@@ -56,6 +56,7 @@ export class SettingsComponent implements OnInit {
 
   get updateSidebarAdmin() {
     return [
+      { name: 'Panel', path: 'admin/panel', active: this.router.url.includes('admin/panel') ? 'active' : '' },
       { name: 'Import', path: 'admin/import', active: this.router.url.includes('admin/import') ? 'active' : ''  },
     ];
   }

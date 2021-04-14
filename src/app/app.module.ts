@@ -48,6 +48,7 @@ import { SettingsComponent } from './components/settings/settings.component';
 import { EmailComponent } from './components/settings/email/email.component';
 import { ThemeComponent } from './components/settings/theme/theme.component';
 import { ImportComponent } from './components/settings/admin/import/import.component';
+import { AdminPanelComponent } from './components/settings/admin/admin-panel/admin-panel.component';
 
 @NgModule({
   declarations: [
@@ -61,7 +62,8 @@ import { ImportComponent } from './components/settings/admin/import/import.compo
     SettingsComponent,
     EmailComponent,
     ThemeComponent,
-    ImportComponent
+    ImportComponent,
+    AdminPanelComponent
   ],
   imports: [
     BrowserModule,
