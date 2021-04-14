@@ -82,24 +82,4 @@ export class AccountComponent {
   }
 
   verifySocialLogin() { this.authenticationService.logout(); }
-
-  async importingData(type: string) {
-
-    let newPreference: number = 0;
-
-    if(type === 'SAFE_IMPORT')
-      if(Number(this.userInfo.safeImport) === 0) newPreference = 1;
-
-    if(type === 'EDIT_IMPORT')
-      if(Number(this.userInfo.editImport) === 0) newPreference = 1;
-
-    const req = await fetch(`${environment.db}/user.php`, {
-      method: 'POST',
-      body: this.comm.createFormData(type, JSON.stringify([this.userInfo.email, newPreference.toString()]))
-    });
-    const res = await req.text();
-    console.log(res)
-    this.updateUserData();
-  }
-
 }
