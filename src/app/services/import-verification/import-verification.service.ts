@@ -28,6 +28,16 @@ export class ImportVerificationService {
     ['end', 'season end', 'season end date'],
   ];
 
+  leagueFormStructure = [
+    ['name']
+  ]
+
+  countryFormStructure = [
+    ['name', 'names'],
+    ['code', 'codes'],
+    ['continent', 'continents']
+  ]
+
   headerImport(type: string, word: string) {
 
     let structureArray: string[][] = [];
@@ -35,6 +45,8 @@ export class ImportVerificationService {
 
     if(type === 'USERS') structureArray = this.userFormStructure;
     else if(type === 'TEAMS') structureArray = this.teamFormStructure;
+    else if(type === 'LEAGUES') structureArray = this.leagueFormStructure;
+    else if(type === 'COUNTRIES') structureArray = this.countryFormStructure;
 
     for(let n = 0; n < structureArray.length; n++)
       for(let m = 0; m < structureArray[n].length; m++)
@@ -110,6 +122,11 @@ export class ImportVerificationService {
     return errArray;
   }
 
+  leagueCountryValidation = (word: string, i: number, j: number, errArray: string[]) => {
+    if(!this.authenticationService.firstLastName(word))
+      errArray.push(i + '-' + j);
+    return errArray;
+  }
 }
 
 export interface responseMessage {

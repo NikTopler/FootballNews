@@ -12,6 +12,7 @@ export class AuthenticationService {
   UserInfo: any;
 
   regex = new RegExp("^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$");
+  regexDate = new RegExp("^[0-3]?[0-9].[0-3]?[0-9].(?:[0-9]{2})?[0-9]{2}$");
 
   constructor(
     private socialAuthService: SocialAuthService,
@@ -26,6 +27,8 @@ export class AuthenticationService {
     this.router.navigateByUrl('home')
       .then(() => { location.reload() });
   }
+
+  checkDate(word: string) { return word.match(this.regexDate); }
 
   firstLastName(word: string) { return this.regex.test(word) ? true : false; }
 
