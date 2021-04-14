@@ -28,9 +28,9 @@ export class ImportComponent {
   ];
   teamsTemplateArray: string[][] = [
     ["Name", "Team id", "Short code", "Logo", "Country", "Continent", "League", "Season start date", "Season end date"],
-    ["Atletico Madrid ", "6406", "ATM", "https://cdn.sportdataapi.com/images/soccer/teams/100/107.png", "Spain", "Europe", "Laliga", "9/13/20", "5/24/21"],
-    ["FC Barcelona", "6404", "FCB", "https://cdn.sportdataapi.com/images/soccer/teams/100/99.png", "Spain", "Europe", "Laliga", "9/13/20", "5/24/21"],
-    ["Real Madrid", "6402", "RM", "https://cdn.sportdataapi.com/images/soccer/teams/100/113.png", "Spain", "Europe", "Laliga", "9/13/20", "5/24/21"]
+    ["Atletico Madrid ", "6406", "ATM", "https://cdn.sportdataapi.com/images/soccer/teams/100/107.png", "Spain", "Europe", "Laliga", "09/13/2020", "05/24/2021"],
+    ["FC Barcelona", "6404", "FCB", "https://cdn.sportdataapi.com/images/soccer/teams/100/99.png", "Spain", "Europe", "Laliga", "09/13/2020", "05/24/2021"],
+    ["Real Madrid", "6402", "RM", "https://cdn.sportdataapi.com/images/soccer/teams/100/113.png", "Spain", "Europe", "Laliga", "09/13/2020", "05/24/2021"]
   ];
   leaguesTemplateArray: string[][] = [
     ["Name"],
@@ -156,8 +156,12 @@ export class ImportComponent {
       if(array[i].length !== 0) newArray.push([]);
     }
 
+    let func: any;
+    if(type === 'USERS') func = this.importVerifyService.userValidation;
+    else if(type === 'TEAMS') func = this.importVerifyService.teamValidation;
+    else func = this.importVerifyService.leagueCountryValidation;
 
-    const resMessage: responseMessage = this.importVerifyService.importValidation('USERS', this.importVerifyService.userValidation, newArray);
+    const resMessage: responseMessage = this.importVerifyService.importValidation(type, func, newArray);
 
     if(resMessage.code === 404 || resMessage.code === 204) return this.settingsComponent.createMessage(true, resMessage.message, 'err');
     else if(resMessage.code === 200 && resMessage.body.length !== 0) return this.displayErrors(resMessage.message, resMessage.body);
