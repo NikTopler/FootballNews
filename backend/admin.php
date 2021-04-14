@@ -191,7 +191,7 @@ class Admin extends User {
 
 $adminObj = new Admin();
 if($_SERVER['REQUEST_METHOD'] !== 'POST') die;
-if(isset($_POST['IMPORT_USERS'])) $adminObj->userImport(json_decode($_POST['IMPORT_USERS']));
-else if(isset($_POST['IMPORT_TEAMS'])) $adminObj->teamImport(json_decode($_POST['IMPORT_TEAMS']));
-else if(isset($_POST['IMPORT_LEAGUES'])) $adminObj->leagueImport(json_decode($_POST['IMPORT_LEAGUES']));
-else if(isset($_POST['IMPORT_COUNTRIES'])) $adminObj->countryImport(json_decode($_POST['IMPORT_COUNTRIES']));
+if(isset($_POST['USERS'])) $adminObj->userImport(json_decode($_POST['USERS']));
+else if(isset($_POST['TEAMS'])) $adminObj->teamImport(json_decode($_POST['TEAMS']));
+else if(isset($_POST['LEAGUES'])) $adminObj->leagueImport(json_decode($_POST['LEAGUES']));
+else if(isset($_POST['COUNTRIES'])) $adminObj->countryImport(json_decode($_POST['COUNTRIES']));
