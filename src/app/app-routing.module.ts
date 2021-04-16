@@ -9,6 +9,7 @@ import { ThemeComponent } from './components/settings/theme/theme.component';
 import { AdminGuard } from './guards/admin/admin.guard';
 import { ImportComponent } from './components/settings/admin/import/import.component';
 import { AdminPanelComponent } from './components/settings/admin/admin-panel/admin-panel.component';
+import { DisplayComponent } from './components/settings/admin/display/display.component';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'home' },
@@ -19,7 +20,8 @@ const routes: Routes = [
     { path: 'notification', component: EmailComponent },
     { path: 'theme', component: ThemeComponent },
     { path: 'admin/panel', component: AdminPanelComponent, canActivate: [AdminGuard] },
-    { path: 'admin/import', component: ImportComponent, canActivate: [AdminGuard] }
+    { path: 'admin/import', component: ImportComponent, canActivate: [AdminGuard] },
+    { path: 'admin/display', component: DisplayComponent, canActivate: [AdminGuard] }
   ]},
 ];
 
