@@ -49,6 +49,7 @@ import { EmailComponent } from './components/settings/email/email.component';
 import { ThemeComponent } from './components/settings/theme/theme.component';
 import { ImportComponent } from './components/settings/admin/import/import.component';
 import { AdminPanelComponent } from './components/settings/admin/admin-panel/admin-panel.component';
+import { DisplayComponent } from './components/settings/admin/display/display.component';
 
 @NgModule({
   declarations: [
@@ -63,7 +64,8 @@ import { AdminPanelComponent } from './components/settings/admin/admin-panel/adm
     EmailComponent,
     ThemeComponent,
     ImportComponent,
-    AdminPanelComponent
+    AdminPanelComponent,
+    DisplayComponent
   ],
   imports: [
     BrowserModule,
