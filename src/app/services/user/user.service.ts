@@ -8,7 +8,7 @@ import * as CryptoJS from "crypto-js";
 })
 export class UserService {
 
-  userInfo: object = {};
+  userInfo: userData | null = null;
 
   constructor(private comm: CommService) { }
 
@@ -68,4 +68,42 @@ export class UserService {
 
   deleteCookie(name: string, path: string) { this.setCookie(name, '', -1, path); }
 
+
+  async validateUser() {
+
+    const refreshToken = this.getRefreshToken();
+    const validateRefreshToken = await this.checkRefreshToken(refreshToken);
+
+    if(!validateRefreshToken) return { "status": 401, "body": "Authentication failure - Refresh token" };
+    const key = validateRefreshToken.data.token;
+
+    const accessToken = this.getAccessToken();
+    if(!accessToken) return { "status": 401, "body": "Authentication failure - Access Token" };
+
+    const decryptToken = this.decryptToken(accessToken.toString(), key);
+    if(!decryptToken) return { "status": 401, "body": "Authentication failure - Decrypt Token" };
+
+    const validateAccessToken = await this.checkAccessToken(decryptToken);
+    if(!validateAccessToken)
+      if(this.regenerateAccessToken(refreshToken, key))
+        return { "status": 404, "body": "Refresh needed!" };
+
+    return { "status": 200, "body": validateAccessToken };
+  }
+}
+
+export interface userData {
+  id: string,
+  firstName: string,
+  lastName: string,
+  email: string,
+  admin: string,
+  createdAt: string,
+  updatedAt: string,
+  profileImg: string,
+  googleID: string,
+  facebookID: string,
+  amazonID: string,
+  safeImport: string,
+  editImport: string
 }

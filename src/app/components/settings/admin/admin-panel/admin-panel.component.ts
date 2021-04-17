@@ -17,7 +17,6 @@ export class AdminPanelComponent {
   constructor(
     private userService: UserService,
     private comm: CommService,
-    private authenticationService: AuthenticationService,
     private appComponent: AppComponent) { }
 
 

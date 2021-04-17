@@ -5,6 +5,7 @@ import { environment } from '../../../../../environments/environment';
 import * as XLSX from 'xlsx';
 import { CommService } from 'src/app/services/comm/comm.service';
 import { ImportVerificationService } from 'src/app/services/import-verification/import-verification.service';
+import { AuthenticationService } from 'src/app/services/authentication/authentication.service';
 
 @Component({
   selector: 'app-import',
@@ -47,7 +48,8 @@ export class ImportComponent {
     private userService: UserService,
     private settingsComponent: SettingsComponent,
     private comm: CommService,
-    private importVerifyService: ImportVerificationService) { }
+    private importVerifyService: ImportVerificationService,
+    private authenticationService: AuthenticationService) { }
 
   checkFile(event: any) {
 
@@ -168,7 +170,11 @@ export class ImportComponent {
 
     newArray = newArray.filter((e: string[]) => { return e.length !== 0 });
 
-    const userInfo = JSON.stringify(newArray);
+    const userValidation = await this.validateUser();
+
+    if(!userValidation) return this.settingsComponent.createMessage(true, 'Something went wrong!', 'err')
+
+    const userInfo = JSON.stringify({ "email": this.userInfo.email, "array": newArray });
     const req = await fetch(`${environment.db}/admin.php`, {
       method: 'POST',
       body: this.comm.createFormData(type, userInfo)
@@ -177,6 +183,17 @@ export class ImportComponent {
     console.log(res)
 
     this.settingsComponent.createMessage(true, 'Values successfully imported into the database!', 'success');
+  }
+
+  async validateUser() {
+    const res = await this.userService.validateUser();
+    if(res.status === 401 && res.body.includes('Refresh'))
+      return location.reload();
+    else if(res.status === 401 && res.body.includes('Access'))
+      return this.authenticationService.logout();
+    else if(res.status === 404)
+      this.validateUser();
+    return true;
   }
 
   displayErrors(message: string, array: string[]): void {
