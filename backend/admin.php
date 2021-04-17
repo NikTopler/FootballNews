@@ -3,7 +3,22 @@ include_once 'user.php';
 
 class Admin extends User {
 
-  public function userImport($array) {
+
+  public function adminCheckUp($adminEmail, $newUserEmail, $type) {
+    $date = date(time());
+
+    $sql = 'INSERT INTO
+      track_admin(time, admin_id, type, user_import_id)
+      VALUES (?, (SELECT id FROM users WHERE email = ?), ?,
+        (SELECT id FROM users WHERE email = ?))';
+    $stmt = $this->connect()->prepare($sql);
+    $stmt->execute([$date, $adminEmail, $type, $newUserEmail]);
+  }
+
+  public function userImport($data) {
+
+    $email = $data->email;
+    $array = $data->array;
 
     $userArray = [];
 
@@ -11,7 +26,10 @@ class Admin extends User {
       for($j = 0; $j < count($array[$i]); $j++)
         array_push($userArray, $array[$i][$j]);
 
-      if($this->checkForUser($userArray[2])) $this->insertUser($userArray);
+      if($this->checkForUser($userArray[2])) {
+        $this->insertUser($userArray);
+        $this->adminCheckUp($email, $userArray[2], 'import');
+      }
       $userArray = [];
     }
   }
