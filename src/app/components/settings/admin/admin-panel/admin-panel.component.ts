@@ -41,7 +41,7 @@ export class AdminPanelComponent {
   }
 
   async updateUserData() {
-    const refreshToken = this.authenticationService.getRefreshToken();
+    const refreshToken = this.userService.getRefreshToken();
     let key = await this.userService.checkRefreshToken(refreshToken);
     key = key.data.token;
     this.userService.regenerateAccessToken(refreshToken, key)

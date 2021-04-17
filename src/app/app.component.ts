@@ -53,15 +53,15 @@ export class AppComponent implements OnInit{
     this.reload = true;
     this.waitForResponse = true;
 
-    const refreshToken = this.authentication.getRefreshToken();
+    const refreshToken = this.userService.getRefreshToken();
     let key = await this.userService.checkRefreshToken(refreshToken);
 
     if(!key) return this.over('LOGIN'); // ne naredi nič
     key = key.data.token;
-    const accessToken = this.authentication.getAccessToken();
+    const accessToken = this.userService.getAccessToken();
 
     if(!accessToken) return this.over('Neki je narobe');
-    const decryptToken = this.authentication.decryptToken(accessToken.toString(), key);
+    const decryptToken = this.userService.decryptToken(accessToken.toString(), key);
 
     // Checks if access token is valid
     if(!decryptToken) return this.over('Wrong key');
@@ -98,12 +98,12 @@ export class AppComponent implements OnInit{
     });
     const res = await req.text();
 
-    const encrypted = this.authentication.encryptToken(JSON.parse(res).jwt, JSON.parse(res).id);
+    const encrypted = this.userService.encryptToken(JSON.parse(res).jwt, JSON.parse(res).id);
 
     window.localStorage.setItem('accessToken', encrypted.toString());
 
-    this.authentication.deleteCookie('refreshToken', '/');
-    this.authentication.setCookie('refreshToken', JSON.parse(res).refreshToken, 5, '/');
+    this.userService.deleteCookie('refreshToken', '/');
+    this.userService.setCookie('refreshToken', JSON.parse(res).refreshToken, 5, '/');
 
     this.waitForResponse = false;
     this.loggedIn = true;

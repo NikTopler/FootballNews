@@ -3,6 +3,7 @@ import { FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { SocialAuthService, GoogleLoginProvider, FacebookLoginProvider, AmazonLoginProvider} from 'angularx-social-login';
 import * as CryptoJS from "crypto-js";
+import { UserService } from '../user/user.service';
 
 @Injectable({
   providedIn: 'root'
@@ -16,14 +17,15 @@ export class AuthenticationService {
 
   constructor(
     private socialAuthService: SocialAuthService,
-    private router: Router) { }
+    private router: Router,
+    private userService: UserService) { }
 
   loginWithGoogle(): void { this.socialAuthService.signIn(GoogleLoginProvider.PROVIDER_ID).catch(err => console.log('Google err')); }
   loginWithFacebook(): void { this.socialAuthService.signIn(FacebookLoginProvider.PROVIDER_ID).catch(err => console.log('Facebook err')); }
   loginWithAmazon(): void { this.socialAuthService.signIn(AmazonLoginProvider.PROVIDER_ID).catch(err => console.log('Facebook err')); }
   logout(): void {
     window.localStorage.removeItem('accessToken');
-    this.deleteCookie('refreshToken', '/');
+    this.userService.deleteCookie('refreshToken', '/');
     this.router.navigateByUrl('home')
       .then(() => { location.reload() });
   }
@@ -56,31 +58,4 @@ export class AuthenticationService {
       return !null;
     }
   }
-
-  getAccessToken() { return window.localStorage.getItem('accessToken'); }
-  getRefreshToken() { return this.getCookie('refreshToken'); }
-
-  encryptToken(token: string, key: string) { return CryptoJS.AES.encrypt(token, key); }
-  decryptToken(token: string, key: string) {
-    try {
-      const decrypt = CryptoJS.AES.decrypt(token, key);
-      return decrypt.toString(CryptoJS.enc.Utf8);
-    } catch(e) {
-      return null;
-    }
-  }
-
-  setCookie(name: string, value: string, days = 7, path = '/') {
-    const expires = new Date(Date.now() + days * 864e5).toUTCString();
-    document.cookie = name + '=' + encodeURIComponent(value) + '; expires=' + expires + '; path=' + path;
-  }
-
-  getCookie(name: string) {
-    return document.cookie.split('; ').reduce((r, v) => {
-      const parts = v.split('=');
-      return parts[0] === name ? decodeURIComponent(parts[1]) : r
-    }, '');
-  }
-
-  deleteCookie(name: string, path: string) { this.setCookie(name, '', -1, path); }
 }
