@@ -18,6 +18,7 @@ export class SettingsComponent implements OnInit {
   accountSettingsSection: Array<any> = [];
   preferencesSection: Array<any> = [];
   adminSection: Array<any> = [];
+  insightSection: Array<any> = [];
 
   windowWidth: number = 0;
 
@@ -62,10 +63,17 @@ export class SettingsComponent implements OnInit {
     ];
   }
 
+  get updateSidebarInsight() {
+    return [
+      { name: 'Imports', path: 'admin/insight/imports', active: this.router.url.includes('insight/imports') ? 'active' : '' }
+    ];
+  }
+
   updateSidebar() {
     this.accountSettingsSection = this.updateSidebarAccount;
     this.preferencesSection = this.updateSidebarPreferences;
     this.adminSection = this.updateSidebarAdmin;
+    this.insightSection = this.updateSidebarInsight;
   }
 
   openPage(page: string) {

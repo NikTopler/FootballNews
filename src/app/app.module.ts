@@ -50,6 +50,7 @@ import { ThemeComponent } from './components/settings/theme/theme.component';
 import { ImportComponent } from './components/settings/admin/import/import.component';
 import { AdminPanelComponent } from './components/settings/admin/admin-panel/admin-panel.component';
 import { DisplayComponent } from './components/settings/admin/display/display.component';
+import { ImportsComponent } from './components/settings/admin/insight/imports/imports.component';
 
 @NgModule({
   declarations: [
@@ -65,7 +66,8 @@ import { DisplayComponent } from './components/settings/admin/display/display.co
     ThemeComponent,
     ImportComponent,
     AdminPanelComponent,
-    DisplayComponent
+    DisplayComponent,
+    ImportsComponent
   ],
   imports: [
     BrowserModule,
