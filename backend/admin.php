@@ -3,16 +3,20 @@ include_once 'user.php';
 
 class Admin extends User {
 
-
-  public function adminCheckUp($adminEmail, $newUserEmail, $type) {
+  public function adminCheckUp($adminEmail, $value, $actionType, $type, $columnName, $seasonId) {
     $date = date(time());
 
+    if($type == 'user') $sqlSelect = '(SELECT id FROM users WHERE email = ?)';
+    else if($type == 'team') $sqlSelect = '(SELECT id FROM teams WHERE team_id = ?)';
+    else if($type == 'league') $sqlSelect = '(SELECT id FROM leagues WHERE LOWER(name) = ?)';
+    else if($type == 'country') $sqlSelect = '(SELECT id FROM countries WHERE LOWER(name) = ?)';
+    else if($type == 'season') $sqlSelect = $seasonId;
+
     $sql = 'INSERT INTO
-      track_admin(time, admin_id, type, user_import_id)
-      VALUES (?, (SELECT id FROM users WHERE email = ?), ?,
-        (SELECT id FROM users WHERE email = ?))';
+      track_admin(time, admin_id, type, '.$columnName.')
+      VALUES (?, (SELECT id FROM users WHERE email = ?), ?, '.$sqlSelect.')';
     $stmt = $this->connect()->prepare($sql);
-    $stmt->execute([$date, $adminEmail, $type, $newUserEmail]);
+    $stmt->execute([$date, $adminEmail, $actionType, $value]);
   }
 
   public function userImport($data) {
@@ -28,7 +32,7 @@ class Admin extends User {
 
       if($this->checkForUser($userArray[2])) {
         $this->insertUser($userArray);
-        $this->adminCheckUp($email, $userArray[2], 'import');
+        $this->adminCheckUp($email, $userArray[2], 'import', 'user', 'user_import_id', null);
       }
       $userArray = [];
     }
@@ -56,7 +60,11 @@ class Admin extends User {
     $stmt->execute($array);
   }
 
-  public function teamImport($array) {
+  public function teamImport($data) {
+
+    $email = $data->email;
+    $array = $data->array;
+
     $teamArray = [];
 
     for($i = 1; $i < count($array); $i++) {
@@ -74,13 +82,33 @@ class Admin extends User {
       $seasonEnd = $teamArray[8];
 
       if($this->checkContinents($continentName)) $this->insertContinent($continentName);
-      if($this->checkCountry($countryName, NULL)) $this->insertCountry($countryName, NULL, $continentName);
+      if($this->checkCountry($countryName, NULL)) {
+        $this->insertCountry($countryName, NULL, $continentName);
+        $this->adminCheckUp($email, $countryName, 'import', 'country', 'country_import_id', null);
+      }
 
-      $this->checkLeagues($leagueName, $countryName);
-      $this->checkTeam($teamName, $teamId, $shortCode, $logo, $countryName);
-      $this->checkSeason($seasonStart, $seasonEnd, $teamId, $leagueName);
+      if($this->checkLeagues($leagueName, $countryName)) {
+        $this->insertLeague($leagueName);
+        $this->adminCheckUp($email, $leagueName, 'import', 'league', 'league_import_id', null);
+      }
+
+      if($this->checkTeam($teamId)) {
+        $this->insertTeam($teamName, $teamId, $shortCode, $logo, $countryName);
+        $this->adminCheckUp($email, $teamId, 'import', 'team', 'team_import_id', null);
+      }
+
+      if($this->checkSeason($seasonStart, $seasonEnd, $teamId, $leagueName, false)) {
+        $this->insertSeason($seasonStart, $seasonEnd, $teamId, $leagueName);
+        $this->adminCheckUp($email, $teamId, 'import', 'season', 'season_import_id', $this->checkSeason($seasonStart, $seasonEnd, $teamId, $leagueName, true));
+      }
       $teamArray = [];
     }
+  }
+
+  public function insertLeague($leagueName) {
+    $sql = 'INSERT INTO leagues(name) VALUES(?)';
+    $stmt = $this->connect()->prepare($sql);
+    $stmt->execute([$leagueName]);
   }
 
   public function checkLeagues($leagueName) {
@@ -89,14 +117,11 @@ class Admin extends User {
     $stmt->execute([strtolower($leagueName)]);
     $row = $stmt->fetch();
 
-    if($row) return;
-
-    $sql = 'INSERT INTO leagues(name) VALUES(?)';
-    $stmt = $this->connect()->prepare($sql);
-    $stmt->execute([$leagueName]);
+    if(!$row) return true;
+    return false;
   }
 
-  public function checkSeason($startDate, $endDate, $team_id, $leagueName) {
+  public function checkSeason($startDate, $endDate, $team_id, $leagueName, $returnId) {
     $sql = 'SELECT id
     FROM league_team
     WHERE startDate = ?
@@ -108,8 +133,13 @@ class Admin extends User {
     $stmt->execute([$startDate, $endDate, $team_id, strtolower($leagueName)]);
     $row = $stmt->fetch();
 
-    if($row) return;
+    if($returnId) return $row['id'];
 
+    if(!$row) return true;
+    return false;
+  }
+
+  public function insertSeason($startDate, $endDate, $team_id, $leagueName) {
     $sql = 'INSERT INTO league_team(startDate, endDate, team_id, league_id)
     VALUES(?, ?,
       (SELECT id FROM teams WHERE team_id = ?),
@@ -118,28 +148,38 @@ class Admin extends User {
     $stmt->execute([$startDate, $endDate, (int)$team_id, strtolower($leagueName)]);
   }
 
-  public function checkTeam($teamName, $team_id, $short_code, $logo, $countryName) {
+  public function checkTeam($team_id) {
     $sql = 'SELECT id FROM teams WHERE team_id = ?';
     $stmt = $this->connect()->prepare($sql);
     $stmt->execute([$team_id]);
     $row = $stmt->fetch();
 
-    if($row) return;
+    if(!$row) return true;
+    else return false;
+  }
 
+  public function insertTeam($teamName, $team_id, $short_code, $logo, $countryName) {
     $sql = 'INSERT INTO teams(name, team_id, short_code, logo, country_id)
     VALUES(?, ?, ?, ?, (SELECT id FROM countries WHERE LOWER(name) = ?))';
     $stmt = $this->connect()->prepare($sql);
     $stmt->execute([$teamName, (int)$team_id, $short_code, $logo, strtolower($countryName)]);
   }
 
-  public function leagueImport($array) {
+  public function leagueImport($data) {
+
+    $email = $data->email;
+    $array = $data->array;
+
     $leagueArray = [];
 
     for($i = 1; $i < count($array); $i++) {
       for($j = 0; $j < count($array[$i]); $j++)
         array_push($leagueArray, $array[$i][$j]);
 
-      if($this->checkForLeague($leagueArray[0])) $this->insertLeague($leagueArray[0]);
+      if($this->checkForLeague($leagueArray[0])) {
+        $this->insertLeague($leagueArray[0]);
+        $this->adminCheckUp($email, $leagueArray[0], 'import', 'league', 'league_import_id', null);
+      }
 
       $leagueArray = [];
     }
@@ -154,13 +194,10 @@ class Admin extends User {
     else return false;
   }
 
-  public function insertLeague($name) {
-    $sql = 'INSERT INTO leagues(name) VALUES(?)';
-    $stmt = $this->connect()->prepare($sql);
-    $stmt->execute([$name]);
-  }
+  public function countryImport($data) {
 
-  public function countryImport($array) {
+    $email = $data->email;
+    $array = $data->array;
 
     $countryArray = [];
 
@@ -169,7 +206,10 @@ class Admin extends User {
         array_push($countryArray, $array[$i][$j]);
 
       if($this->checkContinents($countryArray[2])) $this->insertContinent($countryArray[2]);
-      if($this->checkCountry($countryArray[0],$countryArray[1])) $this->insertCountry($countryArray[0], $countryArray[1], $countryArray[2]);
+      if($this->checkCountry($countryArray[0],$countryArray[1])) {
+        $this->insertCountry($countryArray[0], $countryArray[1], $countryArray[2]);
+        $this->adminCheckUp($email, $countryArray[0], 'import', 'country', 'country_import_id', null);
+      }
 
       $countryArray = [];
     }
