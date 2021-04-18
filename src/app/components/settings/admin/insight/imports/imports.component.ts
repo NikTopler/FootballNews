@@ -74,4 +74,43 @@ export class ImportsComponent {
     }
   }
 
+  yourImports(array: string[][]) {
+
+    let counter: number = 0;
+    let firstDate: boolean = true;
+    let lastDate: string = '';
+
+    for(let i = 0; i < array.length; i++) {
+      if(array[i][2] !== this.userService.userInfo?.email)
+        continue;
+
+      const number = Number(array[i][4]);
+      const date = new Date(number * 1000)
+      const fullDate = ((date.getDate() > 9) ? date.getDate() : '0' + date.getDate()) + '-' + (((date.getMonth()+1) > 9) ? (date.getMonth()+1) : '0' + (date.getMonth()+1) + '-' + date.getFullYear());
+
+      if(firstDate) {
+        const dayBefore = (((date.getDate() - 1) > 9) ? (date.getDate() - 1) : '0' + (date.getDate() - 1)) + '-' + (((date.getMonth()+1) > 9) ? (date.getMonth()+1) : '0' + (date.getMonth()+1) + '-' + date.getFullYear());
+        this.lineChartLabels.push(dayBefore);
+        this.lineChartData.push(0)
+        firstDate = false;
+        lastDate = fullDate;
+      }
+
+      if(!this.lineChartLabels.includes(fullDate))
+        this.lineChartLabels.push(fullDate);
+
+      if(lastDate === fullDate) {
+        counter++;
+      } else {
+        this.lineChartData.push(counter);
+        lastDate = fullDate;
+        counter = 1;
+      }
+      if(array.length - 1 === i) {
+        this.lineChartData.push(counter - 1);
+      }
+    }
+
+    if(counter > 0) this.lineChartData.push(counter - 1);
+  }
 }
