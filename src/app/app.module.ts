@@ -52,6 +52,8 @@ import { AdminPanelComponent } from './components/settings/admin/admin-panel/adm
 import { DisplayComponent } from './components/settings/admin/display/display.component';
 import { ImportsComponent } from './components/settings/admin/insight/imports/imports.component';
 
+import { ChartsModule } from 'ng2-charts';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -104,7 +106,8 @@ import { ImportsComponent } from './components/settings/admin/insight/imports/im
     MatSortModule,
     MatPaginatorModule,
     SocialLoginModule,
-    MatButtonModule
+    MatButtonModule,
+    ChartsModule
   ],
   providers: [{
       provide: 'SocialAuthServiceConfig',
