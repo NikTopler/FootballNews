@@ -12,6 +12,29 @@ import { environment } from '../../../../../../environments/environment';
 })
 export class ImportsComponent {
 
+  pieChartOptions: ChartOptions = { responsive: true, maintainAspectRatio: false };
+  pieChartLabels: Label[] = [];
+  pieChartData: SingleDataSet = [];
+  pieChartType: ChartType = 'pie';
+  pieChartLegend = true;
+  pieChartPlugins = [];
+
+  lineChartOptions: ChartOptions = { responsive: true, maintainAspectRatio: false };
+  lineChartLabels: Label[] = [];
+  lineChartData: SingleDataSet = [];
+  lineChartType: ChartType = 'line';
+  lineChartLegend = true;
+  lineChartPlugins = [];
+
+  colors: Color[] = [
+    {
+      backgroundColor: [
+        '#ff4081',
+        'rgba(0,172,193,1)',
+        'rgba(84,58,183,1)'
+      ]
+    }
+  ];
 
   }
 
