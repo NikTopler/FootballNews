@@ -36,6 +36,25 @@ export class ImportsComponent {
     }
   ];
 
+  constructor(
+    private comm: CommService,
+    private userService: UserService) { this.getValues(); }
+
+  async getValues() {
+    const req = await fetch(`${environment.db}/graph.php`, {
+      method: 'POST',
+      body: this.comm.createFormData('ADMIN_IMPORT', '')
+    });
+    const res = await req.text();
+    const data = JSON.parse(res).data;
+
+    const adminImports = JSON.parse(res).data.admin_imports;
+    const yourImports = JSON.parse(res).data.your_imports;
+
+    this.allAdminImports(adminImports);
+    this.yourImports(yourImports);
+  }
+
   }
 
 }
