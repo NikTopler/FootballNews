@@ -21,6 +21,7 @@ export class ImportComponent {
   teamsArray: string[][] = [];
   leaguesArray: string[][] = [];
   countriesArray: string[][] = [];
+  safeModeOffArray: string[][] = [];
 
   userTemplateArray: string[][] = [
     ["First name", "Last name", "Email", "Admin", "Profile image"],
@@ -74,21 +75,27 @@ export class ImportComponent {
       const wb: XLSX.WorkBook = XLSX.read(result, { type: 'binary' });
       const wName: string = wb.SheetNames[0];
       const ws: XLSX.WorkSheet = wb.Sheets[wName];
+      const array: string[][] = (XLSX.utils.sheet_to_json(ws, { header: 1, raw: false }));
 
-      if(this.openTab === 'Users') {
-        this.usersArray = (XLSX.utils.sheet_to_json(ws, { header: 1, raw: false }));
+      if(this.userInfo.safeImport === '0') {
+        this.safeModeOffArray = array;
+        this.orderArray(this.safeModeOffArray);
+        this.importData(this.openTab.toUpperCase(), this.safeModeOffArray);
+      }
+      else if(this.openTab === 'Users') {
+        this.usersArray = array;
         this.orderArray(this.usersArray);
       }
       else if(this.openTab === 'Teams') {
-        this.teamsArray = (XLSX.utils.sheet_to_json(ws, { header: 1, raw: false }));
+        this.teamsArray = array;
         this.orderArray(this.teamsArray);
       }
       else if(this.openTab === 'Leagues'){
-        this.leaguesArray = (XLSX.utils.sheet_to_json(ws, { header: 1, raw: false }));
+        this.leaguesArray = array;
         this.orderArray(this.leaguesArray);
       }
       else if(this.openTab === 'Countries') {
-        this.countriesArray = (XLSX.utils.sheet_to_json(ws, { header: 1, raw: false }));
+        this.countriesArray = array;
         this.orderArray(this.countriesArray);
       }
     }
