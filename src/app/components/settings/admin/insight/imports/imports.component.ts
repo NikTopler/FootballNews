@@ -55,6 +55,23 @@ export class ImportsComponent {
     this.yourImports(yourImports);
   }
 
+  allAdminImports(array: string[][]) {
+
+    let admin: string = `${array[0][0]} ${array[0][1]}`;
+    let counter: number = 0;
+
+    for(let i = 0; i < array.length; i++) {
+      if(!this.pieChartLabels.includes(`${array[i][0]} ${array[i][1]}`))
+        this.pieChartLabels.push(`${array[i][0]} ${array[i][1]}`);
+
+      if(`${array[i][0]} ${array[i][1]}` === admin && array.length !== i+1)
+        counter++;
+      else {
+        this.pieChartData.push(counter);
+        counter = 0;
+        admin = `${array[i][0]} ${array[i][1]}`;
+      }
+    }
   }
 
 }
