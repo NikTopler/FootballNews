@@ -24,7 +24,7 @@ export class AppComponent implements OnInit{
   constructor(
     private socialAuthService: SocialAuthService,
     private comm: CommService,
-    private authentication: AuthenticationService,
+    private authenticationService: AuthenticationService,
     private userService: UserService) {
     this.socialAuthService.authState.subscribe((user) => {
       this.userInfo = user;
@@ -49,29 +49,21 @@ export class AppComponent implements OnInit{
   }
 
   async checkAuthentication() {
-
     this.reload = true;
     this.waitForResponse = true;
 
-    const refreshToken = this.authentication.getRefreshToken();
-    let key = await this.userService.checkRefreshToken(refreshToken);
+    const res = await this.userService.validateUser();
 
-    if(!key) return this.over('LOGIN'); // ne naredi nič
-    key = key.data.token;
-    const accessToken = this.authentication.getAccessToken();
+    if(res.status === 401 && res.body.includes('Refresh')) {
+      this.reload = false;
+      this.waitForResponse = false;
+      return;
+    }
+    else if(res.status === 401 && res.body.includes('Access')) return this.authenticationService.logout();
+    else if(res.status === 404) this.checkAuthentication();
 
-    if(!accessToken) return this.over('Neki je narobe');
-    const decryptToken = this.authentication.decryptToken(accessToken.toString(), key);
-
-    // Checks if access token is valid
-    if(!decryptToken) return this.over('Wrong key');
-    const res = await this.userService.checkAccessToken(decryptToken);
-
-    if(!res) {
-      if(this.userService.regenerateAccessToken(refreshToken, key))
-        this.checkAuthentication();
-    } else {
-      this.userService.userInfo = res.data.data;
+    if(res.body.data) {
+      this.userService.userInfo = res.body.data.data;
       this.userInfo = this.userService.userInfo;
       this.loggedIn = true;
       this.waitForResponse = false;
@@ -98,12 +90,12 @@ export class AppComponent implements OnInit{
     });
     const res = await req.text();
 
-    const encrypted = this.authentication.encryptToken(JSON.parse(res).jwt, JSON.parse(res).id);
+    const encrypted = this.userService.encryptToken(JSON.parse(res).jwt, JSON.parse(res).id);
 
     window.localStorage.setItem('accessToken', encrypted.toString());
 
-    this.authentication.deleteCookie('refreshToken', '/');
-    this.authentication.setCookie('refreshToken', JSON.parse(res).refreshToken, 5, '/');
+    this.userService.deleteCookie('refreshToken', '/');
+    this.userService.setCookie('refreshToken', JSON.parse(res).refreshToken, 5, '/');
 
     this.waitForResponse = false;
     this.loggedIn = true;

@@ -1,0 +1,52 @@
+<div class="settings-content">
+  <div class="content-conteiner">
+    <mat-tab-group #tabGroup (selectedTabChange)="tabChanged($event)" color="accent" mat-align-tabs="center" animationDuration="0ms">
+      <mat-tab label="Users">
+        <section class="content">
+          <div class="mb-2">
+            <div class="table-external-container">
+              <div class="overflow" id="overflow">
+                <div class="table">
+                  <div class="row" *ngFor="let row of usersArray; let first = first; let rowCount = index; trackBy: trackByFn">
+                    <div class="cell {{ first ? 'header' : '' }}" *ngFor="let cell of row; let columnCount = index; trackBy: trackByFn">
+                        <input type="text"
+                          [value]="cell"
+                          [readonly]="first || [4, 5, 7, 8, 9].includes(columnCount)? true : false"
+                          (input)="editArray('users', $event)"
+                          [id]="rowCount+'-'+columnCount">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="page-number-container">
+              <div class="all-numbers">
+                <div class="page-number active">
+                  1
+                </div>
+                <div class="page-number">
+                  2
+                </div>
+                <div class="page-number">
+                  3
+                </div>
+                <div class="page-number">
+                  4
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </mat-tab>
+      <mat-tab label="Teams">
+
+      </mat-tab>
+      <mat-tab label="Leagues">
+
+      </mat-tab>
+      <mat-tab label="Countries">
+
+      </mat-tab>
+    </mat-tab-group>
+    </div>
+</div>

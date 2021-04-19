@@ -1,0 +1,32 @@
+@import '../import/import.component.scss';
+
+.page-number-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .all-numbers {
+    border: 1px solid $medium-gray;
+    border-radius: 4px;
+    display: flex;
+
+    .page-number {
+      padding: 8px;
+      color: $dark-gray;
+      background-color: $light-gray;
+      transition: all ease-in-out .24s;
+      cursor: pointer;
+    }
+    .page-number:first-child {
+      border-top-left-radius: 3px;
+      border-bottom-left-radius: 3px;
+    }
+
+    .page-number:not(:last-child) { border-right: 1px solid $medium-gray; }
+    .page-number:hover { background-color: $medium-gray; }
+    .page-number.active {
+      color: $bg !important;
+      background-color: $pink;
+    }
+  }
+}

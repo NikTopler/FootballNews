@@ -39,19 +39,12 @@ export class AccountComponent {
 
   async onSubmit() {
 
-    if(!this.updateForm.valid) {
-      this.settingsComponent.alert = true;
-      this.settingsComponent.alertType = 'err';
-      this.settingsComponent.alertText = 'First name and last name are not valid';
-      return;
-    }
+    if(!this.updateForm.valid)
+      return this.settingsComponent.createMessage(true, 'First name and last name are not valid', 'err');
+
     if(this.updateForm.value.fName.trim() === this.userInfo.firstName
-    && this.updateForm.value.lName.trim() === this.userInfo.lastName) {
-      this.settingsComponent.alert = true;
-      this.settingsComponent.alertType = 'err';
-      this.settingsComponent.alertText = 'No changes made';
-      return;
-    }
+    && this.updateForm.value.lName.trim() === this.userInfo.lastName)
+      return this.settingsComponent.createMessage(true, 'No changes made', 'err');
 
     const userInfo = JSON.stringify(Object.values(
       {"fName": this.updateForm.value.fName,
@@ -62,15 +55,7 @@ export class AccountComponent {
       body: this.comm.createFormData('UPDATE_ACCOUNT', userInfo)
     });
     const res = await req.text();
-
-    const refreshToken = this.authenticationService.getRefreshToken();
-    let key = await this.userService.checkRefreshToken(refreshToken);
-    key = key.data.token;
-    this.userService.regenerateAccessToken(refreshToken, key)
-      .then(() => {
-        localStorage.setItem('updateAccount', 'true');
-        this.appComponent.checkAuthentication();
-      });
+    this.updateUserData();
   }
 
   convertToDate(num: string) {
@@ -84,6 +69,17 @@ export class AccountComponent {
           ((currentdate.getSeconds() > 9) ? currentdate.getSeconds() : '0' + currentdate.getSeconds());
   }
 
+
+  async updateUserData() {
+    const refreshToken = this.userService.getRefreshToken();
+    let key = await this.userService.checkRefreshToken(refreshToken);
+    key = key.data.token;
+    this.userService.regenerateAccessToken(refreshToken, key)
+      .then(() => {
+        localStorage.setItem('updateAccount', 'true');
+        this.appComponent.checkAuthentication();
+      });
+  }
 
   verifySocialLogin() { this.authenticationService.logout(); }
 }

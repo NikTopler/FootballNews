@@ -17,7 +17,7 @@ class Signin extends User {
 
     if($userExists == 0) $this->insertSignin($userInfo[5], $userInfo);
     else if ($userExists == 2) $this->updateSocialId($userInfo[5], $userInfo[3], $userInfo[0]);
-    else if ($userInfo == 3) $this->message('Error: Something went wrong');
+    // else if ($userInfo == 3) $this->message('Error: Something went wrong');
 
     $userData = $this->getuserData($userInfo[3]);
     $res = $this->generateTokens($userData);
@@ -68,14 +68,14 @@ class Signin extends User {
 
   public function errorHandeling($userInfo) {
     $string = '';
-    if(empty($userInfo[0])) $string = $string.' name';
-    if(empty($userInfo[1])) $string = $string.' surname';
-    if(empty($userInfo[2])) $string = $string.' email';
-    if(empty($userInfo[3])) $string = $string.' password';
-    if(empty($userInfo[4])) $string = $string.' password-repeat';
-    if($string != '') $this->message('Error: '.$string);
-    if(!filter_var($userInfo[2], FILTER_VALIDATE_EMAIL)) $this->message('Error: Incorrect email');
-    if(preg_match('/\s/', $userInfo[3])) $this->message("Error: No white spaces in password");
+    // if(empty($userInfo[0])) $string = $string.' name';
+    // if(empty($userInfo[1])) $string = $string.' surname';
+    // if(empty($userInfo[2])) $string = $string.' email';
+    // if(empty($userInfo[3])) $string = $string.' password';
+    // if(empty($userInfo[4])) $string = $string.' password-repeat';
+    // if($string != '') $this->message('Error: '.$string);
+    // if(!filter_var($userInfo[2], FILTER_VALIDATE_EMAIL)) $this->message('Error: Incorrect email');
+    // if(preg_match('/\s/', $userInfo[3])) $this->message("Error: No white spaces in password");
   }
 }
 

@@ -6,10 +6,7 @@ use \Firebase\JWT\JWT;
 $allowed_domains = ["http://localhost:4200", "https://footballnews-app.herokuapp.com"];
 
 if (in_array($_SERVER['HTTP_ORIGIN'], $allowed_domains)) header("Access-Control-Allow-Origin: " . $_SERVER['HTTP_ORIGIN']);
-else {
-    echo 'Access denied';
-    die;
-}
+else $this->response(403, 'Access denied', 'Authorization failed');
 
 class User extends Dbh {
 
@@ -47,7 +44,9 @@ class User extends Dbh {
       $row['googleID'],
       $row['facebookID'],
       $row['amazonID'],
-      $row['refreshToken']
+      $row['refreshToken'],
+      $row['safeImport'],
+      $row['editImport']
     ];
   }
 
@@ -123,7 +122,7 @@ class User extends Dbh {
     $stmt->execute([$refreshToken]);
     $row = $stmt->fetch();
 
-    if(!$row) $this->message('Login reqired');
+    if(!$row) $this->response(403, 'Login reqired');
 
     $newAccessToken = $this->generateAccessToken([
       $row['id'],
@@ -137,7 +136,9 @@ class User extends Dbh {
       $row['googleID'],
       $row['facebookID'],
       $row['amazonID'],
-      $row['refreshToken']
+      $row['refreshToken'],
+      $row['safeImport'],
+      $row['editImport']
     ]);
 
     echo $newAccessToken;
@@ -157,7 +158,9 @@ class User extends Dbh {
       "profileImg" => $userInfo[7],
       "googleID" => $userInfo[8],
       "facebookID" => $userInfo[9],
-      "amazonID" => $userInfo[10]
+      "amazonID" => $userInfo[10],
+      "safeImport" => $userInfo[12],
+      "editImport" => $userInfo[13]
     );
 
     $payload_info = array(
@@ -170,7 +173,7 @@ class User extends Dbh {
     );
 
     try { return JWT::encode($payload_info, $secret, 'HS512'); }
-    catch(Exception $e) { $this->message($e); }
+    catch(Exception $e) { $this->response(500, $e); }
   }
 
   public function generateRefreshToken($id) {
@@ -186,7 +189,7 @@ class User extends Dbh {
     );
 
      try { return JWT::encode($payloadRefresh_info, $refreshSecret, 'HS512'); }
-     catch (Exception $e) { $this->message($e); }
+     catch (Exception $e) { $this->response(500, $e); }
   }
 
   public function updateAccount($userInfo) {
@@ -206,8 +209,28 @@ class User extends Dbh {
     die;
   }
 
-  public function message($string) {
-    echo $string;
+  public function safeImport($userInfo) {
+    if((int)$userInfo[1] == 0) $this->editImport([$userInfo[0], $userInfo[1]]);
+
+    $sql = 'UPDATE users SET safeImport = ? WHERE email = ?';
+    $stmt = $this->connect()->prepare($sql);
+    $stmt->execute([(int)$userInfo[1], $userInfo[0]]);
+  }
+
+  public function editImport($userInfo) {
+    if((int)$userInfo[1] == 1) $this->safeImport([$userInfo[0], $userInfo[1]]);
+
+    $sql = 'UPDATE users SET editImport = ? WHERE email = ?';
+    $stmt = $this->connect()->prepare($sql);
+    $stmt->execute([(int)$userInfo[1], $userInfo[0]]);
+  }
+
+  public function response($code, $status, $text = '') {
+    http_response_code($code);
+    echo json_encode(array(
+      "status" => $status,
+      "message" => $text
+    ));
     die;
   }
 }
@@ -218,3 +241,5 @@ if(isset($_POST['VALIDATE_REFRESH_TOKEN'])) $userObj->checkRefreshToken($_POST['
 else if(isset($_POST['VALIDATE_ACCESS_TOKEN'])) $userObj->checkAccessToken($_POST['VALIDATE_ACCESS_TOKEN']);
 else if(isset($_POST['REGENERATE_ACCESS_TOKEN'])) $userObj->regenerateAccessToken($_POST['REGENERATE_ACCESS_TOKEN']);
 else if(isset($_POST['UPDATE_ACCOUNT'])) $userObj->updateAccount(json_decode($_POST['UPDATE_ACCOUNT']));
+else if(isset($_POST['SAFE_IMPORT'])) $userObj->safeImport(json_decode($_POST['SAFE_IMPORT']));
+else if(isset($_POST['EDIT_IMPORT'])) $userObj->editImport(json_decode($_POST['EDIT_IMPORT']));
