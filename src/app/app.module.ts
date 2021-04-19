@@ -11,7 +11,6 @@ import { SignupComponent } from './pages/authentication/signup/signup.component'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatInputModule } from '@angular/material/input';
 import { MatAutocompleteModule} from '@angular/material/autocomplete';
-import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
@@ -53,6 +52,19 @@ import { DisplayComponent } from './components/settings/admin/display/display.co
 import { ImportsComponent } from './components/settings/admin/insight/imports/imports.component';
 
 import { ChartsModule } from 'ng2-charts';
+import { BootstrapComponent } from './components/bootstrap/bootstrap.component';
+import { NavBarComponent } from './components/nav-bar/nav-bar.component';
+import { LaligaComponent } from './pages/laliga/laliga.component';
+
+import { HttpClientModule } from '@angular/common/http';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { LaligaNewsComponent } from './pages/laliga-news/laliga-news.component';
+import { LaligaStandingsComponent } from './pages/laliga-standings/laliga-standings.component';
+import { PremiereLeagueComponent } from './pages/premiere-league/premiere-league.component';
+import { PremiereLeagueNewsComponent } from './pages/premiere-league-news/premiere-league-news.component';
+import { PremiereLeagueStandingsComponent } from './pages/premiere-league-standings/premiere-league-standings.component';
+
 
 @NgModule({
   declarations: [
@@ -69,9 +81,19 @@ import { ChartsModule } from 'ng2-charts';
     ImportComponent,
     AdminPanelComponent,
     DisplayComponent,
-    ImportsComponent
+    ImportsComponent,
+    BootstrapComponent,
+    NavBarComponent,
+    LaligaComponent,
+    LaligaNewsComponent,
+    LaligaStandingsComponent,
+    PremiereLeagueComponent,
+    PremiereLeagueNewsComponent,
+    PremiereLeagueStandingsComponent
   ],
   imports: [
+    MatNativeDateModule,
+    HttpClientModule,
     BrowserModule,
     AppRoutingModule,
     FormsModule,
