@@ -91,6 +91,35 @@ class Update extends User {
     ));
   }
 
+  public function getAllCountries($data) {
+
+    $sql = 'SELECT c.name
+              AS countryName,
+              c.code AS code,
+              co.name AS continentName
+            FROM countries c
+              INNER JOIN continents co ON c.continent_id = co.id
+            ORDER BY c.id
+            LIMIT '.$data->start.', '.$data->end;
+    $stmt = $this->connect()->prepare($sql);
+    $stmt->execute();
+
+    $allCountries = [];
+
+    while($row = $stmt->fetch()) {
+      array_push($allCountries, [
+        $row['countryName'],
+        $row['code'],
+        $row['continentName']
+      ]);
+    }
+
+    echo json_encode(array(
+      "status" => "ok",
+      "data" => $allCountries
+    ));
+  }
+
 }
 
 $updateObj = new Update();
@@ -98,3 +127,4 @@ if($_SERVER['REQUEST_METHOD'] !== 'POST') die;
 if(isset($_POST['GET_USERS'])) $updateObj->getAllUsers(json_decode($_POST['GET_USERS']));
 else if(isset($_POST['GET_TEAMS'])) $updateObj->getAllTeams(json_decode($_POST['GET_TEAMS']));
 else if(isset($_POST['GET_LEAGUES'])) $updateObj->getAllLeagues(json_decode($_POST['GET_LEAGUES']));
+else if(isset($_POST['GET_COUNTRIES'])) $updateObj->getAllCountries(json_decode($_POST['GET_COUNTRIES']));
