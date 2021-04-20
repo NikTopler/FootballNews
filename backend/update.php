@@ -3,11 +3,11 @@ include_once 'user.php';
 
 class Update extends User {
 
-  public function getAllUsers() {
-    $sql = 'SELECT * FROM users';
+  public function getAllUsers($data) {
+
+    $sql = 'SELECT * FROM users ORDER BY id LIMIT '.$data->start.', '.$data->end;
     $stmt = $this->connect()->prepare($sql);
     $stmt->execute();
-    $row = $stmt->fetch();
 
     $allUsers = [];
 
@@ -33,8 +33,9 @@ class Update extends User {
       "data" => $allUsers
     ));
   }
+
 }
 
 $updateObj = new Update();
 if($_SERVER['REQUEST_METHOD'] !== 'POST') die;
-if(isset($_POST['GET_USERS'])) $updateObj->getAllUsers();
+if(isset($_POST['GET_USERS'])) $updateObj->getAllUsers(json_decode($_POST['GET_USERS']));
