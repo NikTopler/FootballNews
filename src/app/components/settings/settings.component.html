@@ -36,9 +36,13 @@
         <header>Preferences</header>
           <div *ngFor="let page of preferencesSection"
             (click)="openPage('settings/'+ page.path)"
-            class="page {{ page.active }}">
+            class="page {{ page.active }}" style="display: flex; align-items: center;">
             <div class="selector"></div>
             <h3>{{ page.name }}</h3>
+            <div class="spacer"></div>
+            <div class="under">
+              <span>Under construction</span>
+            </div>
           </div>
       </section>
       <section class="side-bar" *ngIf="userInfo.admin === '1'">
