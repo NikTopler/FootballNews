@@ -110,8 +110,41 @@
         </section>
       </mat-tab>
       <mat-tab label="Countries">
-
+        <section class="content">
+          <div class="mb-2" *ngIf="countriesArray.length !== 0">
+            <div class="table-external-container">
+              <div class="overflow" id="overflow">
+                <div class="table">
+                  <div class="row" *ngFor="let row of countriesArray; let first = first; let rowCount = index; trackBy: trackByFn">
+                    <div class="cell {{ first ? 'header' : '' }}" *ngFor="let cell of row; let columnCount = index; trackBy: trackByFn">
+                        <input type="text"
+                          [value]="cell"
+                          [readonly]="first ? true : false"
+                          (input)="editArray('leagues', $event)"
+                          [id]="rowCount+'-'+columnCount">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="footer">
+              <div class="btn-container download">
+                <button mat-flat-button (click)="download('Countries', countriesArray)" color="accent" class="gray">Download</button>
+              </div>
+              <div class="all-numbers Countries">
+                <div *ngFor="let page of countryPages; let index = index"
+                  (click)="changePage($event, index)"
+                  class="page-number {{ index === 0 ? 'active' : '' }}">
+                  {{ index + 1 }}
+                </div>
+              </div>
+              <div class="btn-container update">
+                <button mat-flat-button (click)="update('Countries', countriesArray)" color="accent">Update</button>
+              </div>
+            </div>
+          </div>
+        </section>
       </mat-tab>
     </mat-tab-group>
-    </div>
+  </div>
 </div>
