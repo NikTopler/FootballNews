@@ -34,8 +34,45 @@ class Update extends User {
     ));
   }
 
+  public function getAllTeams($data) {
+
+    $sql = 'SELECT t.name AS teamName,
+            t.team_id, t.short_code, t.logo,
+            c.name AS countryName,
+            co.name AS continentName, l.name AS leagueName, lt.startDate, lt.endDate FROM teams t
+            INNER JOIN league_team lt ON lt.team_id = t.id
+              INNER JOIN leagues l ON lt.league_id = l.id
+              INNER JOIN countries c ON t.country_id = c.id
+              INNER JOIN continents co ON c.continent_id = co.id
+            ORDER BY t.id LIMIT '.$data->start.', '.$data->end;
+    $stmt = $this->connect()->prepare($sql);
+    $stmt->execute();
+
+    $allTeams = [];
+
+    while($row = $stmt->fetch()) {
+      array_push($allTeams, [
+        $row['teamName'],
+        $row['team_id'],
+        $row['short_code'],
+        $row['logo'],
+        $row['countryName'],
+        $row['continentName'],
+        $row['leagueName'],
+        $row['startDate'],
+        $row['endDate']
+      ]);
+    }
+
+    echo json_encode(array(
+      "status" => "ok",
+      "data" => $allTeams
+    ));
+  }
+
 }
 
 $updateObj = new Update();
 if($_SERVER['REQUEST_METHOD'] !== 'POST') die;
 if(isset($_POST['GET_USERS'])) $updateObj->getAllUsers(json_decode($_POST['GET_USERS']));
+else if(isset($_POST['GET_TEAMS'])) $updateObj->getAllTeams(json_decode($_POST['GET_TEAMS']));
