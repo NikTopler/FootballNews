@@ -14,6 +14,7 @@ export class HomeComponent implements OnInit {
   premier: any;
   laliga:any;
   top:any;
+  news:any;
   date1 = new FormControl(new Date())
   constructor(private http: HttpClient) { }
 
@@ -45,6 +46,16 @@ export class HomeComponent implements OnInit {
       this.laliga = data;
       this.laliga = this.laliga.data;
     });
+    
+
+    let url = "https://newsapi.org/v2/top-headlines?q=football&apiKey=b25fa1c7df0c478984b760f83b18d9a5";
+
+    let rez = this.http.get(url)
+    rez.subscribe(data => {
+      this.news = data;
+      this.news = this.news.articles.slice(0,5);
+      console.log(data);
+    })
 
 
   }
