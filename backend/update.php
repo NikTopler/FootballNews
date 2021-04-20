@@ -133,6 +133,27 @@ class Update extends User {
     $stmt = $this->connect()->prepare($sql);
     $stmt->execute([$data->subscription, $data->email]);
   }
+
+  public function getWhoUserFollows($data) {
+    $sql = 'SELECT l.name AS leagueName
+            FROM follow f
+            INNER JOIN users u ON f.user_id = u.id
+            INNER JOIN leagues l ON f.league_id = l.id
+            WHERE u.email = ?';
+    $stmt = $this->connect()->prepare($sql);
+    $stmt->execute([$data->email]);
+
+    $leagueArray = [];
+
+    while($row = $stmt->fetch())
+      array_push($leagueArray, $row['leagueName']);
+
+    echo json_encode(array(
+      "status" => "ok",
+      "leagues" => $leagueArray
+    ));
+  }
+
 }
 
 $updateObj = new Update();
@@ -143,4 +164,4 @@ else if(isset($_POST['GET_LEAGUES'])) $updateObj->getAllLeagues(json_decode($_PO
 else if(isset($_POST['GET_COUNTRIES'])) $updateObj->getAllCountries(json_decode($_POST['GET_COUNTRIES']));
 else if(isset($_POST['COUNT'])) $updateObj->count($_POST['COUNT']);
 else if(isset($_POST['EMAIL_SUBSCRIPTION'])) $updateObj->emailingSubscription(json_decode($_POST['EMAIL_SUBSCRIPTION']));
-
+else if(isset($_POST['GET_USER_FOLLOWS'])) $updateObj->getWhoUserFollows(json_decode($_POST['GET_USER_FOLLOWS']));
