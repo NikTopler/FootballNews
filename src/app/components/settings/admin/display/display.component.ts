@@ -31,7 +31,6 @@ export class DisplayComponent implements OnInit {
   startLimit: number = 0;
   endLimit: number = this.rowsInTable;
 
-  async fetchData() {
   constructor(private comm: CommService) { }
 
   ngOnInit(): void { this.updateArray(); }
@@ -50,28 +49,15 @@ export class DisplayComponent implements OnInit {
     else if(this.openTab === 'Countries') this.countryPages = Array(pages).fill(0).map((x,i)=>i);
   }
 
+  async fetchData() {
+    const limit = JSON.stringify({ "start": this.startLimit, "end": this.endLimit });
     const req = await fetch(`${environment.db}/update.php`, {
       method: 'POST',
-      body: this.comm.createFormData('GET_USERS', '')
+      body: this.comm.createFormData(`GET_${this.openTab.toUpperCase()}`, limit)
     });
     const res = await req.text();
 
     const array: string[][] = JSON.parse(res).data;
-    this.usersArray = array;
-    let newArray = [['First name',
-                    'Last name',
-                    'Email',
-                    'Admin',
-                    'Created at',
-                    'Updated at',
-                    'Profile image',
-                    'Google ID',
-                    'Facebook ID',
-                    'Amazon ID',
-                    'Safe import',
-                    'Edit import']];
-
-    for(let i = 1; i < array.length; i++)
       newArray.push(this.setupArray(this.openTab, array[i]));
 
       this.usersArray = newArray;
