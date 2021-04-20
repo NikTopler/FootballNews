@@ -72,7 +72,10 @@ class Update extends User {
 
   public function getAllLeagues($data) {
 
-    $sql = 'SELECT * FROM leagues ORDER BY id LIMIT '.$data->start.', '.$data->end;
+    if(property_exists($data, $data->start)) $limit = 'LIMIT '.$data->start.', '.$data->end;
+    else $limit = '';
+
+    $sql = 'SELECT * FROM leagues ORDER BY id '.$limit;
     $stmt = $this->connect()->prepare($sql);
     $stmt->execute();
 
@@ -86,8 +89,7 @@ class Update extends User {
 
     echo json_encode(array(
       "status" => "ok",
-      "data" => $allLeagues,
-      "hello" =>  $sql
+      "data" => $allLeagues
     ));
   }
 
