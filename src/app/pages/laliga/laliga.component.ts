@@ -49,6 +49,7 @@ export class LaligaComponent implements OnInit {
 
 
   addEvent(type: string, event: MatDatepickerInputEvent<Date>) {
+    this.array=null;
     this.events = [];
     this.events.push(`${type}: ${event.value}`);
     var s_date = this.events[0].slice(11, 23);

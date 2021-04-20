@@ -39,7 +39,7 @@ export class PremiereLeagueComponent implements OnInit {
     });
 
 
-    let a = this.http.get("https://app.sportdataapi.com/api/v1/soccer/topscorers?apikey=2f2b7820-86f4-11eb-b165-0792cfd2240a&season_id=1511");
+    let a = this.http.get("https://app.sportdataapi.com/api/v1/soccer/topscorers?apikey=2f2b7820-86f4-11eb-b165-0792cfd2240a&season_id=352");
     a.subscribe((data) => {
       this.top = data;
       this.top = this.top.data.slice(0,5);
@@ -50,6 +50,7 @@ export class PremiereLeagueComponent implements OnInit {
 
 
   addEvent(type: string, event: MatDatepickerInputEvent<Date>) {
+    this.array=null;
     this.events = [];
     this.events.push(`${type}: ${event.value}`);
     var s_date = this.events[0].slice(11, 23);
@@ -69,5 +70,6 @@ export class PremiereLeagueComponent implements OnInit {
       this.array = data;
       this.array = this.array.data;
     });
+    console.log(this.array);
   }
 }

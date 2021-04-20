@@ -55,6 +55,8 @@ export class HomeComponent implements OnInit {
 
 
   addEvent(type: string, event: MatDatepickerInputEvent<Date>) {
+    this.laliga=null;
+    this.premier=null;
     this.events = [];
     this.events.push(`${type}: ${event.value}`);
     var s_date = this.events[0].slice(11, 23);

@@ -16,7 +16,7 @@
 
                     </tr>
                 </thead>
-                <tbody>
+                <tbody *ngIf="laliga else no">
                     <tr *ngFor="let item of laliga">
 
                         <td align="center">{{item.match_start | date: 'MMMM d, y, HH:mm z' }}</td>
@@ -43,6 +43,9 @@
 
                     </tr>
                 </tbody>
+                <ng-template #no>
+                    <td></td><td ></td><td align="center">No matches on this date</td>
+                 </ng-template>
             </table>
             <br>
             <a href="/premiere-league"><h2>Premier League:</h2></a>
@@ -56,7 +59,7 @@
 
                     </tr>
                 </thead>
-                <tbody>
+                <tbody *ngIf="premier else no">
                     <tr *ngFor="let item of premier">
 
                         <td align="center">{{item.match_start | date: 'MMMM d, y, HH:mm z' }}</td>

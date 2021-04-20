@@ -15,7 +15,7 @@
 
                     </tr>
                 </thead>
-                <tbody>
+                <tbody *ngIf="array else no">
                     <tr *ngFor="let item of array">
 
                         <td align="center">{{item.match_start | date: 'MMMM d, y, HH:mm z' }}</td>
@@ -42,6 +42,9 @@
 
                     </tr>
                 </tbody>
+                <ng-template #no>
+                    <td></td><td ></td><td align="center">No matches on this date</td>
+                 </ng-template>
             </table>
         </div>
         <div class="col-2" align=center>
@@ -59,8 +62,6 @@
                         <td align="center">Name</td>
                         <td align="center">Team</td>
                         <td align="center">Goals</td>
-                        <td align="center">Matches</td>
-      
                     </tr>
                 </thead>
                 <tbody>
@@ -69,7 +70,6 @@
                         <td align="center">{{score.player.player_name}}</td>
                         <td align="center">{{score.team.team_name}}</td>
                         <td align="center">{{score.goals.overall}}</td>
-                        <td align="center">{{score.matches_played}}</td>
                     </tr>
                 </tbody>
             </table>
