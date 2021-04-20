@@ -19,7 +19,7 @@ import { PremiereLeagueComponent } from './pages/premiere-league/premiere-league
 import { PremiereLeagueStandingsComponent } from './pages/premiere-league-standings/premiere-league-standings.component';
 
 const routes: Routes = [
-  { path: '', pathMatch: 'full', redirectTo: 'laliga' },
+  { path: '', pathMatch: 'full', redirectTo: 'home' },
   { path: 'home', component: HomeComponent },
   { path: 'laliga', component: LaligaComponent },
   { path: 'news/laliga', component: LaligaNewsComponent },

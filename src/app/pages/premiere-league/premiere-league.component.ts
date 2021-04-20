@@ -10,6 +10,7 @@ import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 })
 export class PremiereLeagueComponent implements OnInit {
   array: any;
+  top:any;
   date1 = new FormControl(new Date())
   constructor(private http: HttpClient) { }
 
@@ -36,6 +37,13 @@ export class PremiereLeagueComponent implements OnInit {
       this.array = data;
       this.array = this.array.data;
     });
+
+
+    let a = this.http.get("https://app.sportdataapi.com/api/v1/soccer/topscorers?apikey=2f2b7820-86f4-11eb-b165-0792cfd2240a&season_id=1511");
+    a.subscribe((data) => {
+      this.top = data;
+      this.top = this.top.data.slice(0,5);
+    })
   }
 
   events: string[] = [];

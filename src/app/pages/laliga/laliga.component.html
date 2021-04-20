@@ -51,7 +51,30 @@
                 <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                 <mat-datepicker touchUi #picker></mat-datepicker>
             </mat-form-field>
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <td align="center">Position</td>
+                        <td align="center">Name</td>
+                        <td align="center">Team</td>
+                        <td align="center">Goals</td>
+                        <td align="center">Matches</td>
+      
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let score of top ">
+                        <td align="center">{{score.pos}}.</td>
+                        <td align="center">{{score.player.player_name}}</td>
+                        <td align="center">{{score.team.team_name}}</td>
+                        <td align="center">{{score.goals.overall}}</td>
+                        <td align="center">{{score.matches_played}}</td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
+        
     </div>
 </div>
 <br>
