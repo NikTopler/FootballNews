@@ -3,7 +3,7 @@
     <mat-tab-group #tabGroup (selectedTabChange)="tabChanged($event)" color="accent" mat-align-tabs="center" animationDuration="0ms">
       <mat-tab label="Users">
         <section class="content">
-          <div class="mb-2">
+          <div class="mb-2" *ngIf="usersArray.length !== 0">
             <div class="table-external-container">
               <div class="overflow" id="overflow">
                 <div class="table">
@@ -19,20 +19,19 @@
                 </div>
               </div>
             </div>
-            <div class="page-number-container">
-              <div class="all-numbers">
-                <div class="page-number active">
-                  1
-                </div>
-                <div class="page-number">
-                  2
-                </div>
-                <div class="page-number">
-                  3
-                </div>
-                <div class="page-number">
-                  4
-                </div>
+            <div class="footer">
+              <div class="btn-container download">
+                <button mat-flat-button (click)="download('users', usersArray)" color="accent" class="gray">Download</button>
+              </div>
+              <div class="all-numbers Users">
+                  <div *ngFor="let page of userPages; let index = index"
+                  (click)="changePage($event, index)"
+                  class="page-number {{ index === 0 ? 'active' : '' }}">
+                    {{ index + 1 }}
+                  </div>
+              </div>
+              <div class="btn-container update">
+                  <button mat-flat-button (click)="update('users', usersArray)" color="accent">Update</button>
               </div>
             </div>
           </div>
