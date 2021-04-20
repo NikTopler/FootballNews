@@ -73,4 +73,19 @@ export class EmailComponent {
       this.allLeagues.push(leagues[i][0]);
   }
 
+  async getFollowList() {
+
+    const isUserValidated = await this.validateUser();
+    if(!isUserValidated) return location.reload();
+
+    const email = JSON.stringify({ "email": this.userInfo.email });
+    const req = await fetch(`${environment.db}/update.php`, {
+      method: 'POST',
+      body: this.comm.createFormData('GET_USER_FOLLOWS', email)
+    });
+    const res = await req.text();
+
+    this.followingLeagues = JSON.parse(res).leagues;
+  }
+
 }
