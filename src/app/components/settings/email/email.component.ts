@@ -30,6 +30,25 @@ export class EmailComponent {
       this.getFollowList();
     }
 
+  async emailingService() {
+
+    this.AppComponent.waitForResponse = true;
+
+    const isUserValidated = await this.validateUser();
+    if(!isUserValidated) return location.reload();
+
+    const userInfo = JSON.stringify({"email": this.userInfo.email, "subscription": this.subscribed ? 1 : 0});
+    const req = await fetch(`${environment.db}/update.php`, {
+      method: 'POST',
+      body: this.comm.createFormData('EMAIL_SUBSCRIPTION', userInfo)
+    });
+    const res = await req.text();
+
+    this.SettingsComponent.createMessage(true, this.subscribed ? 'You have subscribed to our email service' : 'You have unsubscribed to our email service', 'success');
+    this.AppComponent.waitForResponse = false;
+
+  }
+
   }
 
 }
