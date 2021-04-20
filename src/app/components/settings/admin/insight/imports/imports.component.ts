@@ -47,8 +47,8 @@ export class ImportsComponent {
     const res = await req.text();
     const data = JSON.parse(res).data;
 
-    const adminImports = JSON.parse(res).data.admin_imports;
-    const yourImports = JSON.parse(res).data.your_imports;
+    const adminImports = data.admin_imports;
+    const yourImports = data.your_imports;
 
     this.allAdminImports(adminImports);
     this.yourImports(yourImports);

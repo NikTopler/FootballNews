@@ -1,9 +1,33 @@
 @import '../import/import.component.scss';
 
-.page-number-container {
+.gray {
+  background-color: $medium-gray;
+  color: #fff;
+}
+
+.footer {
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+
+
+  .btn-container {
+    width: 8rem;
+
+    button { width: auto; }
+  }
+
+  .btn-container.download {
+    display: flex;
+    justify-content: flex-start;
+  }
+  .btn-container.update {
+    display: flex;
+    justify-content: flex-end;
+  }
 
   .all-numbers {
     border: 1px solid $medium-gray;
@@ -20,6 +44,10 @@
     .page-number:first-child {
       border-top-left-radius: 3px;
       border-bottom-left-radius: 3px;
+    }
+    .page-number:last-child {
+      border-top-right-radius: 3px;
+      border-bottom-right-radius: 3px;
     }
 
     .page-number:not(:last-child) { border-right: 1px solid $medium-gray; }

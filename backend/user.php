@@ -122,7 +122,7 @@ class User extends Dbh {
     $stmt->execute([$refreshToken]);
     $row = $stmt->fetch();
 
-    if(!$row) $this->response(403, 'Login reqired');
+    // if(!$row) $this->response(403, 'Login reqired');
 
     $newAccessToken = $this->generateAccessToken([
       $row['id'],
