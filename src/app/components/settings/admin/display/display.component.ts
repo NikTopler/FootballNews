@@ -36,6 +36,20 @@ export class DisplayComponent implements OnInit {
 
   ngOnInit(): void { this.updateArray(); }
 
+  async getNumberOfRows() {
+    const req = await fetch(`${environment.db}/update.php`, {
+      method: 'POST',
+      body: this.comm.createFormData('COUNT', this.openTab.toLowerCase())
+    });
+    const res = await req.text();
+    const pages = Math.ceil(Number(res) / this.rowsInTable);
+
+    if(this.openTab === 'Users') this.userPages = Array(pages).fill(0).map((x,i)=>i);
+    else if(this.openTab === 'Teams') this.teamPages = Array(pages).fill(0).map((x,i)=>i);
+    else if(this.openTab === 'Leagues') this.leaguePages = Array(pages).fill(0).map((x,i)=>i);
+    else if(this.openTab === 'Countries') this.countryPages = Array(pages).fill(0).map((x,i)=>i);
+  }
+
     const req = await fetch(`${environment.db}/update.php`, {
       method: 'POST',
       body: this.comm.createFormData('GET_USERS', '')
