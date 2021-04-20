@@ -10,12 +10,26 @@ import { environment } from '../../../../../environments/environment';
 export class DisplayComponent implements OnInit {
 
   openTab: string = 'Users';
+  rowsInTable: number = 14;
 
   usersArray: string[][] = [];
-  teamsArray: string[][] = [];
-  leaguesArray: string[][] = [];
-  countriesArray: string[][] = [];
+  userPages: number[] = [];
+  userTemplate: string[] = ['First name','Last name','Email','Admin','Created at','Updated at','Profile image','Google ID','Facebook ID','Amazon ID','Safe import','Edit import'];
 
+  teamsArray: string[][] = [];
+  teamPages: number[] = [];
+  teamTemplate: string[] = ['Name', 'Team id', 'Short code', 'Logo', 'Country', 'Continent', 'League', 'Season start date', 'Season end date'];
+
+  leaguesArray: string[][] = [];
+  leaguePages: number[] = [];
+  leagueTemplate: string[] = ['Name'];
+
+  countriesArray: string[][] = [];
+  countryPages: number[] = [];
+  countryTemplate: string[] = ["Name", "Code", "Continent"];
+
+  startLimit: number = 0;
+  endLimit: number = this.rowsInTable;
 
   async fetchData() {
   constructor(private comm: CommService) { }
