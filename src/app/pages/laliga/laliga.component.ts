@@ -13,6 +13,7 @@ export class LaligaComponent implements OnInit {
   array: any;
   top:any;
   news:any;
+  search:any;
   date1 = new FormControl(new Date())
   constructor(private http: HttpClient) { }
 
@@ -83,5 +84,7 @@ export class LaligaComponent implements OnInit {
 
 
   }
+
+
 
 }

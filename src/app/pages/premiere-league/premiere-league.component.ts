@@ -12,6 +12,7 @@ export class PremiereLeagueComponent implements OnInit {
   array: any;
   top:any;
   news:any;
+  searche:any;
   date1 = new FormControl(new Date())
   constructor(private http: HttpClient) { }
 
@@ -43,7 +44,7 @@ export class PremiereLeagueComponent implements OnInit {
     let a = this.http.get("https://app.sportdataapi.com/api/v1/soccer/topscorers?apikey=2f2b7820-86f4-11eb-b165-0792cfd2240a&season_id=352");
     a.subscribe((data) => {
       this.top = data;
-      this.top = this.top.data.slice(0,5);
+      this.top = this.top.data.slice(0,8);
     })
 
 
@@ -84,4 +85,6 @@ export class PremiereLeagueComponent implements OnInit {
     });
     console.log(this.array);
   }
+
+
 }
