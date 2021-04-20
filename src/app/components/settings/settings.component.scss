@@ -400,3 +400,13 @@ div.main-section-container {
   background-color: $medium-gray;
   color: #fff;
 }
+
+.under span {
+  font-size: 0.75rem;
+  color: $medium-orange;
+  font-weight: 500;
+  padding: 5px;
+  border: 1px solid $medium-orange;
+  border-radius: 10px;
+  background-color: $light-orange;
+}
