@@ -46,7 +46,8 @@ class User extends Dbh {
       $row['amazonID'],
       $row['refreshToken'],
       $row['safeImport'],
-      $row['editImport']
+      $row['editImport'],
+      $row['emailingService']
     ];
   }
 
@@ -63,7 +64,8 @@ class User extends Dbh {
       "profileImg" => $userInfo[7],
       "googleID" => $userInfo[8],
       "facebookID" => $userInfo[9],
-      "amazonID" => $userInfo[10]
+      "amazonID" => $userInfo[10],
+      "emailingService" => $userInfo[14]
     );
 
     $jwtAccessToken = $this->generateAccessToken($userInfo);
@@ -138,7 +140,8 @@ class User extends Dbh {
       $row['amazonID'],
       $row['refreshToken'],
       $row['safeImport'],
-      $row['editImport']
+      $row['editImport'],
+      $row['emailingService']
     ]);
 
     echo $newAccessToken;
@@ -160,7 +163,8 @@ class User extends Dbh {
       "facebookID" => $userInfo[9],
       "amazonID" => $userInfo[10],
       "safeImport" => $userInfo[12],
-      "editImport" => $userInfo[13]
+      "editImport" => $userInfo[13],
+      "emailingService" => $userInfo[14]
     );
 
     $payload_info = array(
