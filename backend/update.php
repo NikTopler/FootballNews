@@ -154,6 +154,22 @@ class Update extends User {
     ));
   }
 
+  public function followLeague($data) {
+
+    $sql = 'SELECT id FROM follow WHERE user_id = (SELECT id FROM users WHERE email = ?) AND league_id = (SELECT id FROM leagues WHERE name = ?) ';
+    $stmt = $this->connect()->prepare($sql);
+    $stmt->execute([$data->email, $data->leagueName]);
+
+    $row = $stmt->fetch();
+
+    if($row) die;
+
+    $date = date(time());
+    $sql = 'INSERT INTO follow(user_id, league_id, time) VALUES ((SELECT id FROM users WHERE email = ?), (SELECT id FROM leagues WHERE name = ?), ?)';
+    $stmt = $this->connect()->prepare($sql);
+    $stmt->execute([$data->email, $data->leagueName, $date]);
+  }
+
 }
 
 $updateObj = new Update();
@@ -165,3 +181,4 @@ else if(isset($_POST['GET_COUNTRIES'])) $updateObj->getAllCountries(json_decode(
 else if(isset($_POST['COUNT'])) $updateObj->count($_POST['COUNT']);
 else if(isset($_POST['EMAIL_SUBSCRIPTION'])) $updateObj->emailingSubscription(json_decode($_POST['EMAIL_SUBSCRIPTION']));
 else if(isset($_POST['GET_USER_FOLLOWS'])) $updateObj->getWhoUserFollows(json_decode($_POST['GET_USER_FOLLOWS']));
+else if(isset($_POST['FOLLOW_LEAGUE'])) $updateObj->followLeague(json_decode($_POST['FOLLOW_LEAGUE']));
