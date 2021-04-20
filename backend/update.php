@@ -120,6 +120,14 @@ class Update extends User {
     ));
   }
 
+  public function count($type) {
+    $sql = 'SELECT * FROM '.$type;
+    $stmt = $this->connect()->prepare($sql);
+    $stmt->execute();
+    $count = $stmt->rowCount();
+    echo $count;
+  }
+
 }
 
 $updateObj = new Update();
@@ -128,3 +136,4 @@ if(isset($_POST['GET_USERS'])) $updateObj->getAllUsers(json_decode($_POST['GET_U
 else if(isset($_POST['GET_TEAMS'])) $updateObj->getAllTeams(json_decode($_POST['GET_TEAMS']));
 else if(isset($_POST['GET_LEAGUES'])) $updateObj->getAllLeagues(json_decode($_POST['GET_LEAGUES']));
 else if(isset($_POST['GET_COUNTRIES'])) $updateObj->getAllCountries(json_decode($_POST['GET_COUNTRIES']));
+else if(isset($_POST['COUNT'])) $updateObj->count($_POST['COUNT']);
