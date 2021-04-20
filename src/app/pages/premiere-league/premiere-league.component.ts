@@ -11,6 +11,7 @@ import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 export class PremiereLeagueComponent implements OnInit {
   array: any;
   top:any;
+  news:any;
   date1 = new FormControl(new Date())
   constructor(private http: HttpClient) { }
 
@@ -43,6 +44,17 @@ export class PremiereLeagueComponent implements OnInit {
     a.subscribe((data) => {
       this.top = data;
       this.top = this.top.data.slice(0,5);
+    })
+
+
+
+    let url = "https://newsapi.org/v2/everything?q=barclays-premier-league&sortBy=popularity&apiKey=b25fa1c7df0c478984b760f83b18d9a5";
+
+    let rey = this.http.get(url)
+    rey.subscribe(data => {
+      this.news = data;
+      this.news = this.news.articles.slice(0,4);
+      console.log(data);
     })
   }
 

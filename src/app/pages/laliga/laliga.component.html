@@ -20,7 +20,7 @@
 
                         <td align="center">{{item.match_start | date: 'MMMM d, y, HH:mm z' }}</td>
 
-                        <td align="center"><img [src]="item.home_team.logo" />{{item.home_team.name}}</td>
+                        <td align="center"><img class="img" [src]="item.home_team.logo" />{{item.home_team.name}}</td>
 
 
                         <td align="center" *ngIf="item.stats.ft_score; else test">
@@ -38,13 +38,15 @@
                             <td align="center">-</td>
                         </ng-template>
 
-                        <td align="center">{{item.away_team.name}}<img [src]="item.away_team.logo" /></td>
+                        <td align="center">{{item.away_team.name}}<img class="img" [src]="item.away_team.logo" /></td>
 
                     </tr>
                 </tbody>
                 <ng-template #no>
-                    <td></td><td ></td><td align="center">No matches on this date</td>
-                 </ng-template>
+                    <td></td>
+                    <td></td>
+                    <td align="center">No matches on this date</td>
+                </ng-template>
             </table>
         </div>
         <div class="col-2" align=center>
@@ -74,7 +76,23 @@
                 </tbody>
             </table>
         </div>
-        
+
+    </div>
+    <br>
+
+    <div class="row" id="row"  >
+        <div class="column" *ngFor="let novica of news">
+            <div class="card" style="width: 18rem;">
+                <a class="img-card" [href]="novica.url">
+                    <img class="card-img-top" [src]="novica.urlToImage" />
+                </a>
+                <div class="card-body">
+                    <h2 class="card-title">{{novica.title}}</h2>
+                    <p class="card-text">{{novica.description}}</p>
+                    <p class="card-text"><small class="text-muted">{{novica.source.name}}</small></p>
+                </div>
+
+            </div>
+        </div>
     </div>
 </div>
-<br>

@@ -76,6 +76,25 @@
             </table>
         </div>
     </div>
+
+
+    <br>
+
+    <div class="row" id="row"  >
+        <div class="column" *ngFor="let novica of news">
+            <div class="card" style="width: 18rem;">
+                <a class="img-card" [href]="novica.url">
+                    <img class="card-img-top" [src]="novica.urlToImage" />
+                </a>
+                <div class="card-body">
+                    <h2 class="card-title">{{novica.title}}</h2>
+                    <p class="card-text">{{novica.description}}</p>
+                    <p class="card-text"><small class="text-muted">{{novica.source.name}}</small></p>
+                </div>
+
+            </div>
+        </div>
+    </div>
 </div>
 <br>
 
