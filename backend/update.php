@@ -128,6 +128,11 @@ class Update extends User {
     echo $count;
   }
 
+  public function emailingSubscription($data) {
+    $sql = 'UPDATE users SET emailingService = ? WHERE email = ?';
+    $stmt = $this->connect()->prepare($sql);
+    $stmt->execute([$data->subscription, $data->email]);
+  }
 }
 
 $updateObj = new Update();
@@ -137,3 +142,5 @@ else if(isset($_POST['GET_TEAMS'])) $updateObj->getAllTeams(json_decode($_POST['
 else if(isset($_POST['GET_LEAGUES'])) $updateObj->getAllLeagues(json_decode($_POST['GET_LEAGUES']));
 else if(isset($_POST['GET_COUNTRIES'])) $updateObj->getAllCountries(json_decode($_POST['GET_COUNTRIES']));
 else if(isset($_POST['COUNT'])) $updateObj->count($_POST['COUNT']);
+else if(isset($_POST['EMAIL_SUBSCRIPTION'])) $updateObj->emailingSubscription(json_decode($_POST['EMAIL_SUBSCRIPTION']));
+
