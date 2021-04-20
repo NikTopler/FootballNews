@@ -7,7 +7,7 @@ import { environment } from '../../../../../environments/environment';
   templateUrl: './display.component.html',
   styleUrls: ['./display.component.scss']
 })
-export class DisplayComponent {
+export class DisplayComponent implements OnInit {
 
   openTab: string = 'Users';
 
@@ -16,9 +16,11 @@ export class DisplayComponent {
   leaguesArray: string[][] = [];
   countriesArray: string[][] = [];
 
-  constructor(private comm: CommService) { this.fetchData(); }
 
   async fetchData() {
+  constructor(private comm: CommService) { }
+
+  ngOnInit(): void { this.updateArray(); }
 
     const req = await fetch(`${environment.db}/update.php`, {
       method: 'POST',
