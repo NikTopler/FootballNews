@@ -4,7 +4,7 @@ include_once 'user.php';
 class Graph extends User {
 
   public function adminImport() {
-    $sql = 'SELECT u.firstName, u.lastName, u.email, ta.time, ta.type FROM track_admin ta INNER JOIN users u ON u.id = ta.admin_id';
+    $sql = 'SELECT u.firstName, u.lastName, u.email, ta.time, ta.type FROM track_admin ta INNER JOIN users u ON u.id = ta.admin_id ORDER BY ta.admin_id';
     $stmt = $this->connect()->prepare($sql);
     $stmt->execute();
     $row = $stmt->fetch();
