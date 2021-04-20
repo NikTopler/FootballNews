@@ -58,9 +58,29 @@ export class DisplayComponent implements OnInit {
     const res = await req.text();
 
     const array: string[][] = JSON.parse(res).data;
+
+    let newArray = [];
+
+    for(let i = 0; i < array.length; i++)
       newArray.push(this.setupArray(this.openTab, array[i]));
 
+    if(this.openTab === 'Users') {
       this.usersArray = newArray;
+      this.usersArray.unshift(this.userTemplate);
+      this.orderArray(this.usersArray);
+    } else if(this.openTab === 'Teams') {
+      this.teamsArray = newArray;
+      this.teamsArray.unshift(this.teamTemplate);
+      this.orderArray(this.teamsArray);
+    } else if(this.openTab === 'Leagues') {
+      this.leaguesArray = newArray;
+      this.leaguesArray.unshift(this.leagueTemplate);
+      this.orderArray(this.leaguesArray);
+    } else if(this.openTab === 'Countries') {
+      this.countriesArray = newArray;
+      this.countriesArray.unshift(this.countryTemplate);
+      this.orderArray(this.countriesArray);
+    }
   }
 
   setupArray(type: string, array: string[]) {
@@ -74,6 +94,32 @@ export class DisplayComponent implements OnInit {
     }
 
     return newArray;
+  }
+
+  orderArray(array: string[][]) {
+    let arrayLength = 0;
+    let subArrayLength = 0;
+    let cellArrayLength = 0;
+
+    for(let i = 0; i < array.length; i++) {
+      if(array[i].length < 5) {
+        cellArrayLength = 5 - array[i].length;
+        for(let m = 0; m < cellArrayLength; m++)
+        array[i].push('');
+      }
+      if(array.length < 15) {
+        arrayLength = 15 - array.length;
+        for(let n = 0; n < arrayLength; n++)
+        array.push([]);
+      }
+      if(subArrayLength < array[i].length) subArrayLength = array[i].length;
+      else {
+        let thisArrayLength = array[i].length;
+        for(let k = 0; k < subArrayLength - thisArrayLength; k++) {
+          array[i].push('');
+        }
+      }
+    }
   }
 
   editArray(type: string, e: any) { }
