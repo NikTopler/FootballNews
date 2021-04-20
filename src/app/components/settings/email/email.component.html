@@ -3,12 +3,54 @@
     <h3>Notifications</h3>
     <hr>
   </header>
-  <div class="settings-container" *ngIf="userInfo">
-    <div class="input-container">
-      <div class="label-container">
-        <label>Email</label>
+  <div class="text-container">
+    <p>
+      By default, you aren't subscribed to our mailing service.
+      If you want to recieve:
+    </p>
+    <ul class="list">
+        <li>Up to date football news from top leagues in Europe</li>
+        <li>Team standings from top leagues in Europe</li>
+        <li>Upcoming games with live score</li>
+    </ul>
+    <p>you can subscribe by clicking the "Subscribe" button below.</p>
+  </div>
+  <div class="mb-2">
+    <div>
+      <button (click)="subscribed = !subscribed; emailingService()" class="btn enable">{{ subscribed ? 'Unsubscribe' : 'Subscribe'  }}</button>
+    </div>
+    <span><strong>Disclamer:</strong> You can unsubscribe to our service everytime you like.</span>
+  </div>
+  <div class="mb-2">
+    <div class="settings-container" *ngIf="userInfo">
+      <div class="input-container">
+        <div class="label-container">
+          <label>This email will recieve all notifications</label>
+        </div>
+        <input type="email" [value]="userInfo.email" [readonly]="true">
       </div>
-      <input type="email" [value]="userInfo.email" [readonly]="true">
+    </div>
+  </div>
+  <header>
+    <h3>Following</h3>
+    <hr>
+  </header>
+  <div class="text-container">
+    <p> News, standings, games only about leagues or teams you follow will be sent to you. </p>
+  </div>
+
+  <div class="mb-2">
+    <div class="sub-header">
+      <h4>Leagues</h4>
+    </div>
+    <div *ngFor="let league of allLeagues" class="box">
+      <strong>{{ league }}</strong>
+      <div class="spacer"></div>
+      <button (click)="manageFollowLeagues($event, league)" class="btn">{{ compareLeagues(league, followingLeagues) ? 'Unfollow' : 'Follow' }}</button>
+    </div>
+  </div>
+  <div class="mb-2">
+    <div class="sub-header">
       <h4 class="under">Teams <span>Under construction</span></h4>
     </div>
   </div>
