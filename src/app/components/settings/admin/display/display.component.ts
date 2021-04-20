@@ -122,9 +122,49 @@ export class DisplayComponent implements OnInit {
     }
   }
 
+  async updateArray() {
+    await this.getNumberOfRows();
+    await this.fetchData();
+  }
+
+  download(type: string, array: string[][]) { }
+
+  update(type: string, array: string[][]) { }
+
+  changePage(e: any, num: number) {
+
+    const selectedDiv = e.target as HTMLDivElement;
+    const selecedDivContainer = selectedDiv.parentElement as HTMLDivElement;
+
+    for(let i = 0; i < selecedDivContainer.children.length; i++)
+      if(selecedDivContainer.children[i].classList.contains('active'))
+        selecedDivContainer.children[i].classList.remove('active');
+
+    selectedDiv.classList.add('active');
+
+    this.startLimit = num === 0 ? 0 : num * 13;
+    this.endLimit = num === 0 ? this.rowsInTable : this.rowsInTable + num * 13;
+
+    this.updateArray();
+  }
+
   editArray(type: string, e: any) { }
 
   trackByFn(index: number) { return index; }
-  tabChanged(e: any) { this.openTab = e.tab.textLabel; }
+  async tabChanged(e: any) {
+    this.openTab = e.tab.textLabel;
+    const pageNumber = document.querySelector('.'+this.openTab) as HTMLDivElement;
+
+    if(pageNumber) {
+      const activePage = pageNumber.querySelector('.active') as HTMLDivElement;
+      const num = Number(activePage.innerHTML);
+      this.startLimit = num === 1 ? 0 : (num - 1) * 13;
+      this.endLimit = num === 1 ? this.rowsInTable : this.rowsInTable + (num - 1) * 13;
+    }
+
+    await this.updateArray();
+    this.startLimit = 0;
+    this.endLimit = this.rowsInTable;
+  }
 
 }
