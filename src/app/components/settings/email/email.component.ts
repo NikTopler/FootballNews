@@ -49,6 +49,28 @@ export class EmailComponent {
 
   }
 
+  async validateUser() {
+    const userValidation = await this.userService.validateUser();
+
+    if(userValidation.status === 401 && userValidation.body.includes('Refresh'))
+      return location.reload();
+    else if(userValidation.status === 401 && userValidation.body.includes('Access'))
+      return this.authenticationService.logout();
+    else if(userValidation.status === 404)
+      return false;
+    return true;
+  }
+
+  async getAllLeagues() {
+    const req = await fetch(`${environment.db}/update.php`, {
+      method: 'POST',
+      body: this.comm.createFormData('GET_LEAGUES', '')
+    });
+    const res = await req.text();
+    const leagues: string[][] = JSON.parse(res).data;
+
+    for(let i = 0; i < leagues.length; i++)
+      this.allLeagues.push(leagues[i][0]);
   }
 
 }
