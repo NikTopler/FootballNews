@@ -70,9 +70,31 @@ class Update extends User {
     ));
   }
 
+  public function getAllLeagues($data) {
+
+    $sql = 'SELECT * FROM leagues ORDER BY id LIMIT '.$data->start.', '.$data->end;
+    $stmt = $this->connect()->prepare($sql);
+    $stmt->execute();
+
+    $allLeagues = [];
+
+    while($row = $stmt->fetch()) {
+      array_push($allLeagues, [
+        $row['name']
+      ]);
+    }
+
+    echo json_encode(array(
+      "status" => "ok",
+      "data" => $allLeagues,
+      "hello" =>  $sql
+    ));
+  }
+
 }
 
 $updateObj = new Update();
 if($_SERVER['REQUEST_METHOD'] !== 'POST') die;
 if(isset($_POST['GET_USERS'])) $updateObj->getAllUsers(json_decode($_POST['GET_USERS']));
 else if(isset($_POST['GET_TEAMS'])) $updateObj->getAllTeams(json_decode($_POST['GET_TEAMS']));
+else if(isset($_POST['GET_LEAGUES'])) $updateObj->getAllLeagues(json_decode($_POST['GET_LEAGUES']));
