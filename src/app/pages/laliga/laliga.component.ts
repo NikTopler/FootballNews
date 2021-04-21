@@ -17,7 +17,7 @@ export class LaligaComponent implements OnInit {
   date1 = new FormControl(new Date())
   constructor(private http: HttpClient) { }
 
-  ngOnInit() {
+  async ngOnInit() {
     var today = new Date();
     var dd = String(today.getDate()).padStart(2, '0');
     var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
@@ -46,15 +46,11 @@ export class LaligaComponent implements OnInit {
     })
 
 
-    let url = "https://newsapi.org/v2/everything?q=la%20liga&sortBy=popularity&apiKey=b25fa1c7df0c478984b760f83b18d9a5";
-
-    let rey = this.http.get(url)
-    rey.subscribe(data => {
-      this.news = data;
-      this.news = this.news.articles.slice(0,4);
-      console.log(data);
-    })
-
+    const url = "https://newsapi.org/v2/everything?q=la%20liga&sortBy=popularity&apiKey=b25fa1c7df0c478984b760f83b18d9a5";
+    const response = await fetch(url);
+    const json = await response.json();
+    const articles = await json.articles;
+    this.news = articles.slice(0,4);
   }
 
   events: string[] = [];
@@ -95,7 +91,7 @@ export class LaligaComponent implements OnInit {
 
 
 
-    
+
     let url = "https://newsapi.org/v2/everything?q="+s+"&sortBy=popularity&apiKey=b25fa1c7df0c478984b760f83b18d9a5";
 
     let rey = this.http.get(url)
