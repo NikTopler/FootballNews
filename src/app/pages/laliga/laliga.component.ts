@@ -12,6 +12,8 @@ export class LaligaComponent implements OnInit {
 
   array: any;
   top:any;
+  news:any;
+  club:any;
   date1 = new FormControl(new Date())
   constructor(private http: HttpClient) { }
 
@@ -30,7 +32,7 @@ export class LaligaComponent implements OnInit {
     var start_date = yyyy + "-" + mm + "-" + dd;
     var end_date = ty + "-" + tm + "-" + td;
 
-    let res = this.http.get("https://app.sportdataapi.com/api/v1/soccer/matches?apikey=2f2b7820-86f4-11eb-b165-0792cfd2240a&season_id=1511&date_from="+start_date+"&date_to="+end_date+"");
+   let res = this.http.get("https://app.sportdataapi.com/api/v1/soccer/matches?apikey=2f2b7820-86f4-11eb-b165-0792cfd2240a&season_id=1511&date_from="+start_date+"&date_to="+end_date+"");
     res.subscribe((data) => {
       this.array = data;
       this.array = this.array.data;
@@ -41,6 +43,16 @@ export class LaligaComponent implements OnInit {
     a.subscribe((data) => {
       this.top = data;
       this.top = this.top.data.slice(0,5);
+    })
+
+
+    let url = "https://newsapi.org/v2/everything?q=la%20liga&sortBy=popularity&apiKey=b25fa1c7df0c478984b760f83b18d9a5";
+
+    let rey = this.http.get(url)
+    rey.subscribe(data => {
+      this.news = data;
+      this.news = this.news.articles.slice(0,4);
+      console.log(data);
     })
 
   }
@@ -64,13 +76,37 @@ export class LaligaComponent implements OnInit {
 
     var end = yyyy + "-" + mm + "-" + dd;
 
-    let res = this.http.get("https://app.sportdataapi.com/api/v1/soccer/matches?apikey=2f2b7820-86f4-11eb-b165-0792cfd2240a&season_id=1511&date_from="+s_date+"&date_to="+end+"");
-    res.subscribe((data) => {
+    let rea = this.http.get("https://app.sportdataapi.com/api/v1/soccer/matches?apikey=2f2b7820-86f4-11eb-b165-0792cfd2240a&season_id=1511&date_from="+s_date+"&date_to="+end+"");
+    rea.subscribe((data) => {
       this.array = data;
       this.array = this.array.data;
     });
 
 
   }
+
+
+  search(s:any){
+
+
+    this.club = s;
+
+    console.log(this.club);
+
+
+
+    
+    let url = "https://newsapi.org/v2/everything?q="+s+"&sortBy=popularity&apiKey=b25fa1c7df0c478984b760f83b18d9a5";
+
+    let rey = this.http.get(url)
+    rey.subscribe(data => {
+      this.news = data;
+      this.news = this.news.articles.slice(0,4);
+      console.log(data);
+    })
+
+  }
+
+
 
 }

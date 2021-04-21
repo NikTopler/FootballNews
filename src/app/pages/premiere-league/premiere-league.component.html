@@ -1,3 +1,18 @@
+<div class="color" align=center>
+    <div class="container">
+        <div class="row justify-content-md-center">
+            <div class="col col-lg-2">
+                <button class="btn btn-primary" routerLink="/premiere-league">Matches</button>
+            </div>
+            <div class="col col-lg-2">
+                <button class="btn btn-primary" routerLink="/news/premiere-league">News</button>
+            </div>
+            <div class="col col-lg-2">
+                <button class="btn btn-primary" routerLink="/standings/premiere-league">Standings</button>
+            </div>
+        </div>
+    </div>
+</div>
 <br>
 <br>
 <div class="container">
@@ -16,11 +31,11 @@
                 </thead>
                 <tbody *ngIf="array else no">
                     <tr *ngFor="let item of array">
-                    
-                        
+
+
                         <td align="center">{{item.match_start | date: 'MMMM d, y, HH:mm z' }}</td>
 
-                        <td align="center"><img [src]="item.home_team.logo" />{{item.home_team.name}}</td>
+                        <td align="center"><img class="img" [src]="item.home_team.logo" />{{item.home_team.name}}</td>
 
 
                         <td align="center" *ngIf="item.stats.ft_score; else test">
@@ -38,13 +53,15 @@
                             <td align="center">-</td>
                         </ng-template>
 
-                        <td align="center">{{item.away_team.name}}<img [src]="item.away_team.logo" /></td>
+                        <td align="center">{{item.away_team.name}}<img class="img" [src]="item.away_team.logo" /></td>
 
                     </tr>
 
                 </tbody>
                 <ng-template #no>
-                   <td></td><td ></td><td align="center">No matches on this date</td>
+                    <td></td>
+                    <td></td>
+                    <td align="center">No matches on this date</td>
                 </ng-template>
             </table>
         </div>
@@ -55,6 +72,15 @@
                 <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                 <mat-datepicker touchUi #picker></mat-datepicker>
             </mat-form-field>
+
+
+            <mat-form-field class="example-full-width">
+                <mat-label>Search club news</mat-label>
+                <input matInput placeholder="Your club"/>
+                <button mat-button color="accent">Search</button>
+              </mat-form-field>
+
+
             <table class="table">
                 <thead>
                     <tr>
@@ -62,7 +88,7 @@
                         <td align="center">Name</td>
                         <td align="center">Team</td>
                         <td align="center">Goals</td>
-      
+
                     </tr>
                 </thead>
                 <tbody>
@@ -74,6 +100,23 @@
                     </tr>
                 </tbody>
             </table>
+        </div>
+    </div>
+    <br>
+
+    <div class="row" id="row">
+        <div class="column" *ngFor="let novica of news">
+            <div class="card" style="width: 18rem;">
+                <a class="img-card" [href]="novica.url">
+                    <img class="card-img-top" [src]="novica.urlToImage" />
+                </a>
+                <div class="card-body">
+                    <h2 class="card-title">{{novica.title}}</h2>
+                    <p class="card-text">{{novica.description}}</p>
+                    <p class="card-text"><small class="text-muted">{{novica.source.name}}</small></p>
+                </div>
+
+            </div>
         </div>
     </div>
 </div>
