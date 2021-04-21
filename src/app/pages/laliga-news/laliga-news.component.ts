@@ -13,7 +13,7 @@ export class LaligaNewsComponent implements OnInit {
 
   ngOnInit() {
 
-    let url = "https://newsapi.org/v2/everything?q=la-liga&language=en&apiKey=b25fa1c7df0c478984b760f83b18d9a5";
+    let url = "https://cors-anywhere.herokuapp.com/https://newsapi.org/v2/everything?q=la-liga&language=en&apiKey=b25fa1c7df0c478984b760f83b18d9a5";
 
     let res = this.http.get(url)
     res.subscribe(data => {

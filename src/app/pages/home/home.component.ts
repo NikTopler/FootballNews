@@ -46,9 +46,9 @@ export class HomeComponent implements OnInit {
       this.laliga = data;
       this.laliga = this.laliga.data;
     });
-    
 
-    let url = "https://newsapi.org/v2/top-headlines?q=football&apiKey=b25fa1c7df0c478984b760f83b18d9a5";
+
+    let url = "https://cors-anywhere.herokuapp.com/https://newsapi.org/v2/top-headlines?q=football&apiKey=b25fa1c7df0c478984b760f83b18d9a5";
 
     let rez = this.http.get(url)
     rez.subscribe(data => {
