@@ -10,6 +10,7 @@ import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 })
 export class LaligaComponent implements OnInit {
 
+  searchInput: string = '';
   array: any;
   top:any;
   news:any;
@@ -81,28 +82,16 @@ export class LaligaComponent implements OnInit {
 
   }
 
+  setSearchValue(e: any) { this.searchInput = e.target.value; }
 
-  search(s:any){
+  async search(){
 
+    const value = this.searchInput.trim();
 
-    this.club = s;
-
-    console.log(this.club);
-
-
-
-
-    let url = "https://newsapi.org/v2/everything?q="+s+"&sortBy=popularity&apiKey=b25fa1c7df0c478984b760f83b18d9a5";
-
-    let rey = this.http.get(url)
-    rey.subscribe(data => {
-      this.news = data;
-      this.news = this.news.articles.slice(0,4);
-      console.log(data);
-    })
-
+    const url = "https://cors-anywhere.herokuapp.com/https://newsapi.org/v2/everything?q="+value+"&sortBy=popularity&apiKey=b25fa1c7df0c478984b760f83b18d9a5";
+    const response = await fetch(url);
+    const json = await response.json();
+    const articles = await json.articles;
+    this.news = articles.slice(0,4);
   }
-
-
-
 }

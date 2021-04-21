@@ -73,12 +73,11 @@
                 <mat-datepicker touchUi #picker></mat-datepicker>
             </mat-form-field>
 
-
-            <mat-form-field class="example-full-width">
+              <mat-form-field class="example-full-width">
                 <mat-label>Search club news</mat-label>
-                <input matInput placeholder="Your club"/>
-                <button mat-button color="accent">Search</button>
+                <input matInput placeholder="Your club" (input)="setSearchValue($event);"/>
               </mat-form-field>
+            <button mat-button color="accent" (click)="search()" >Search</button>
 
 
             <table class="table">

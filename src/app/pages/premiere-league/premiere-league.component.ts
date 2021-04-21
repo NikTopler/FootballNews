@@ -9,6 +9,8 @@ import { MatDatepickerInputEvent } from '@angular/material/datepicker';
   styleUrls: ['./premiere-league.component.scss']
 })
 export class PremiereLeagueComponent implements OnInit {
+
+  searchInput: string = '';
   array: any;
   top:any;
   news:any;
@@ -79,5 +81,17 @@ export class PremiereLeagueComponent implements OnInit {
     console.log(this.array);
   }
 
+  setSearchValue(e: any) { this.searchInput = e.target.value; }
+
+  async search(){
+
+    const value = this.searchInput.trim();
+
+    const url = "https://cors-anywhere.herokuapp.com/https://newsapi.org/v2/everything?q="+value+"&sortBy=popularity&apiKey=b25fa1c7df0c478984b760f83b18d9a5";
+    const response = await fetch(url);
+    const json = await response.json();
+    const articles = await json.articles;
+    this.news = articles.slice(0,4);
+  }
 
 }
