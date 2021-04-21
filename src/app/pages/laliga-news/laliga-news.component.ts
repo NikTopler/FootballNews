@@ -11,16 +11,22 @@ export class LaligaNewsComponent implements OnInit {
 
   constructor(private http: HttpClient) { }
 
-  ngOnInit() {
+  async ngOnInit() {
 
-    let url = "https://cors-anywhere.herokuapp.com/https://newsapi.org/v2/everything?q=la-liga&language=en&apiKey=b25fa1c7df0c478984b760f83b18d9a5";
+    // let url = "https://cors-anywhere.herokuapp.com/https://newsapi.org/v2/everything?q=la-liga&language=en&apiKey=b25fa1c7df0c478984b760f83b18d9a5";
 
-    let res = this.http.get(url)
-    res.subscribe(data => {
-      this.news = data;
-      this.news = this.news.articles;
-      console.log(data);
-    })
+    // let res = this.http.get(url)
+    // res.subscribe(data => {
+    //   this.news = data;
+    //   this.news = this.news.articles;
+    //   console.log(data);
+    // })
+
+    const url = "https://cors-anywhere.herokuapp.com/https://newsapi.org/v2/everything?q=la-liga&language=en&apiKey=b25fa1c7df0c478984b760f83b18d9a5";
+    const response = await fetch(url)
+    const json = await response.json()
+    const articles = await json.articles
+    this.news = articles;
   }
 
 }
