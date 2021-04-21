@@ -13,7 +13,7 @@ export class LaligaComponent implements OnInit {
   array: any;
   top:any;
   news:any;
-  search:any;
+  club:any;
   date1 = new FormControl(new Date())
   constructor(private http: HttpClient) { }
 
@@ -82,6 +82,28 @@ export class LaligaComponent implements OnInit {
       this.array = this.array.data;
     });
 
+
+  }
+
+
+  search(s:any){
+
+
+    this.club = s;
+
+    console.log(this.club);
+
+
+
+    
+    let url = "https://newsapi.org/v2/everything?q="+s+"&sortBy=popularity&apiKey=b25fa1c7df0c478984b760f83b18d9a5";
+
+    let rey = this.http.get(url)
+    rey.subscribe(data => {
+      this.news = data;
+      this.news = this.news.articles.slice(0,4);
+      console.log(data);
+    })
 
   }
 
