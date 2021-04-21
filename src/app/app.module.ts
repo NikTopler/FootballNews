@@ -64,6 +64,7 @@ import { LaligaStandingsComponent } from './pages/laliga-standings/laliga-standi
 import { PremiereLeagueComponent } from './pages/premiere-league/premiere-league.component';
 import { PremiereLeagueNewsComponent } from './pages/premiere-league-news/premiere-league-news.component';
 import { PremiereLeagueStandingsComponent } from './pages/premiere-league-standings/premiere-league-standings.component';
+import { DownloadComponent } from './components/download/download.component';
 
 
 @NgModule({
@@ -89,7 +90,8 @@ import { PremiereLeagueStandingsComponent } from './pages/premiere-league-standi
     LaligaStandingsComponent,
     PremiereLeagueComponent,
     PremiereLeagueNewsComponent,
-    PremiereLeagueStandingsComponent
+    PremiereLeagueStandingsComponent,
+    DownloadComponent
   ],
   imports: [
     MatNativeDateModule,
