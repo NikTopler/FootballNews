@@ -50,6 +50,7 @@ import { ImportComponent } from './components/settings/admin/import/import.compo
 import { AdminPanelComponent } from './components/settings/admin/admin-panel/admin-panel.component';
 import { DisplayComponent } from './components/settings/admin/display/display.component';
 import { ImportsComponent } from './components/settings/admin/insight/imports/imports.component';
+import { DownloadComponent } from './components/download/download.component';
 
 import { ChartsModule } from 'ng2-charts';
 import { BootstrapComponent } from './components/bootstrap/bootstrap.component';
@@ -64,7 +65,6 @@ import { LaligaStandingsComponent } from './pages/laliga-standings/laliga-standi
 import { PremiereLeagueComponent } from './pages/premiere-league/premiere-league.component';
 import { PremiereLeagueNewsComponent } from './pages/premiere-league-news/premiere-league-news.component';
 import { PremiereLeagueStandingsComponent } from './pages/premiere-league-standings/premiere-league-standings.component';
-import { DownloadComponent } from './components/download/download.component';
 
 
 @NgModule({
@@ -159,7 +159,8 @@ import { DownloadComponent } from './components/download/download.component';
         ]
       } as SocialAuthServiceConfig,
     },
-    AppComponent
+    AppComponent,
+    DownloadComponent
   ],
   bootstrap: [AppComponent]
 })
