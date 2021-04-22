@@ -20,6 +20,7 @@ export class AppComponent implements OnInit{
   reload: boolean = false;
   slp: number = 0;
   waitForResponse: boolean = false;
+  downloadOpen: boolean = false;
 
   constructor(
     private socialAuthService: SocialAuthService,
