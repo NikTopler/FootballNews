@@ -5,7 +5,10 @@ class Update extends User {
 
   public function getAllUsers($data) {
 
-    $sql = 'SELECT * FROM users ORDER BY id LIMIT '.$data->start.', '.$data->end;
+    if($data->start != false) $limit = 'LIMIT '.$data->start.', '.$data->end;
+    else $limit = '';
+
+    $sql = 'SELECT * FROM users ORDER BY id '.$limit;
     $stmt = $this->connect()->prepare($sql);
     $stmt->execute();
 
@@ -36,6 +39,9 @@ class Update extends User {
 
   public function getAllTeams($data) {
 
+    if($data->start != false) $limit = 'LIMIT '.$data->start.', '.$data->end;
+    else $limit = '';
+
     $sql = 'SELECT t.name AS teamName,
             t.team_id, t.short_code, t.logo,
             c.name AS countryName,
@@ -44,7 +50,7 @@ class Update extends User {
               INNER JOIN leagues l ON lt.league_id = l.id
               INNER JOIN countries c ON t.country_id = c.id
               INNER JOIN continents co ON c.continent_id = co.id
-            ORDER BY t.id LIMIT '.$data->start.', '.$data->end;
+            ORDER BY t.id '.$limit;
     $stmt = $this->connect()->prepare($sql);
     $stmt->execute();
 
@@ -72,7 +78,7 @@ class Update extends User {
 
   public function getAllLeagues($data) {
 
-    if(property_exists($data, $data->start)) $limit = 'LIMIT '.$data->start.', '.$data->end;
+    if($data->start != false) $limit = 'LIMIT '.$data->start.', '.$data->end;
     else $limit = '';
 
     $sql = 'SELECT * FROM leagues ORDER BY id '.$limit;
@@ -95,14 +101,16 @@ class Update extends User {
 
   public function getAllCountries($data) {
 
+    if($data->start != false) $limit = 'LIMIT '.$data->start.', '.$data->end;
+    else $limit = '';
+
     $sql = 'SELECT c.name
               AS countryName,
               c.code AS code,
               co.name AS continentName
             FROM countries c
               INNER JOIN continents co ON c.continent_id = co.id
-            ORDER BY c.id
-            LIMIT '.$data->start.', '.$data->end;
+            ORDER BY c.id '.$limit;
     $stmt = $this->connect()->prepare($sql);
     $stmt->execute();
 
