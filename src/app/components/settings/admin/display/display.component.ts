@@ -1,6 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+import { AppComponent } from 'src/app/app.component';
+import { DownloadComponent } from 'src/app/components/download/download.component';
 import { CommService } from 'src/app/services/comm/comm.service';
+import { DownloadService } from 'src/app/services/download/download.service';
+import { ImportVerificationService } from 'src/app/services/import-verification/import-verification.service';
 import { environment } from '../../../../../environments/environment';
+import { SettingsComponent } from '../../settings.component';
 
 @Component({
   selector: 'app-display',
@@ -31,7 +36,11 @@ export class DisplayComponent implements OnInit {
   startLimit: number = 0;
   endLimit: number = this.rowsInTable;
 
-  constructor(private comm: CommService) { }
+  constructor(
+    private comm: CommService,
+    private appComponent: AppComponent,
+    private downloadComponent: DownloadComponent,
+    private downloadService: DownloadService ) { }
 
   ngOnInit(): void { this.updateArray(); }
 
@@ -49,8 +58,17 @@ export class DisplayComponent implements OnInit {
     else if(this.openTab === 'Countries') this.countryPages = Array(pages).fill(0).map((x,i)=>i);
   }
 
-  async fetchData() {
-    const limit = JSON.stringify({ "start": this.startLimit, "end": this.endLimit });
+  async fetchData(noLimit: boolean) {
+
+    let startLimit: boolean | number = this.startLimit;
+    let endLimit: boolean | number = this.endLimit;
+
+    if(noLimit) {
+      startLimit = false;
+      endLimit = false;
+    }
+
+    const limit = JSON.stringify({ "start": startLimit, "end": endLimit });
     const req = await fetch(`${environment.db}/update.php`, {
       method: 'POST',
       body: this.comm.createFormData(`GET_${this.openTab.toUpperCase()}`, limit)
@@ -64,22 +82,23 @@ export class DisplayComponent implements OnInit {
     for(let i = 0; i < array.length; i++)
       newArray.push(this.setupArray(this.openTab, array[i]));
 
-    if(this.openTab === 'Users') {
+    if(noLimit) return newArray;
+    else if(this.openTab === 'Users') {
       this.usersArray = newArray;
       this.usersArray.unshift(this.userTemplate);
-      this.orderArray(this.usersArray);
+      return this.orderArray(this.usersArray);
     } else if(this.openTab === 'Teams') {
       this.teamsArray = newArray;
       this.teamsArray.unshift(this.teamTemplate);
-      this.orderArray(this.teamsArray);
+      return this.orderArray(this.teamsArray);
     } else if(this.openTab === 'Leagues') {
       this.leaguesArray = newArray;
       this.leaguesArray.unshift(this.leagueTemplate);
-      this.orderArray(this.leaguesArray);
+      return this.orderArray(this.leaguesArray);
     } else if(this.openTab === 'Countries') {
       this.countriesArray = newArray;
       this.countriesArray.unshift(this.countryTemplate);
-      this.orderArray(this.countriesArray);
+      return this.orderArray(this.countriesArray);
     }
   }
 
@@ -124,10 +143,15 @@ export class DisplayComponent implements OnInit {
 
   async updateArray() {
     await this.getNumberOfRows();
-    await this.fetchData();
+    await this.fetchData(false);
   }
 
-  download(type: string, array: string[][]) { }
+  async download(type: string) {
+    const array: any = await this.fetchData(true);
+    this.appComponent.downloadOpen = true;
+    this.downloadService.downloadsArray.push({ "text": `${type}`, "finished": false });
+    this.downloadComponent.transformArrayToXLSX(type, array);
+  }
 
   update(type: string, array: string[][]) { }
 

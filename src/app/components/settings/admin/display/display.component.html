@@ -21,7 +21,7 @@
             </div>
             <div class="footer">
               <div class="btn-container download">
-                <button mat-flat-button (click)="download('users', usersArray)" color="accent" class="gray">Download</button>
+                <button mat-flat-button (click)="download('users')" color="accent" class="gray">Download</button>
               </div>
               <div class="all-numbers Users">
                   <div *ngFor="let page of userPages; let index = index"
@@ -57,7 +57,7 @@
             </div>
             <div class="footer">
               <div class="btn-container download">
-                <button mat-flat-button (click)="download('teams', teamsArray)" color="accent" class="gray">Download</button>
+                <button mat-flat-button (click)="download('teams')" color="accent" class="gray">Download</button>
               </div>
               <div class="all-numbers Teams">
                 <div *ngFor="let page of teamPages; let index = index"
@@ -93,7 +93,7 @@
             </div>
             <div class="footer">
               <div class="btn-container download">
-                <button mat-flat-button (click)="download('leagues', leaguesArray)" color="accent" class="gray">Download</button>
+                <button mat-flat-button (click)="download('leagues')" color="accent" class="gray">Download</button>
               </div>
               <div class="all-numbers Leagues">
                 <div *ngFor="let page of leaguePages; let index = index"
@@ -129,7 +129,7 @@
             </div>
             <div class="footer">
               <div class="btn-container download">
-                <button mat-flat-button (click)="download('Countries', countriesArray)" color="accent" class="gray">Download</button>
+                <button mat-flat-button (click)="download('countries')" color="accent" class="gray">Download</button>
               </div>
               <div class="all-numbers Countries">
                 <div *ngFor="let page of countryPages; let index = index"
@@ -139,7 +139,7 @@
                 </div>
               </div>
               <div class="btn-container update">
-                <button mat-flat-button (click)="update('Countries', countriesArray)" color="accent">Update</button>
+                <button mat-flat-button (click)="update('countries', countriesArray)" color="accent">Update</button>
               </div>
             </div>
           </div>
