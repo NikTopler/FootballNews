@@ -1,1 +1,28 @@
-<p>download works!</p>
+<div id="download-container" class="download-container">
+  <div class="content">
+    <header>
+      <div class="text">
+        <span>1 download complete</span>
+      </div>
+      <div class="icon-container">
+        <div class="icon {{rotateIcon}}" (click)="downloadsOpen = !downloadsOpen; rotateIcon = rotateIcon === '' ? 'rotate' : ''">
+          <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24">
+            <path d="M0 7.33l2.829-2.83 9.175 9.339 9.167-9.339 2.829 2.83-11.996 12.17z" fill="#fff"/>
+          </svg>
+        </div>
+        <div class="icon" (click)="close()">
+          <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24">
+            <path d="M23 20.168l-8.185-8.187 8.185-8.174-2.832-2.807-8.182 8.179-8.176-8.179-2.81 2.81 8.186 8.196-8.186 8.184 2.81 2.81 8.203-8.192 8.18 8.192z" fill="#fff"/>
+          </svg>
+        </div>
+      </div>
+    </header>
+    <div *ngIf="downloadsOpen">
+      <div *ngFor="let download of downloadsArray" class="download">
+        {{download.text}}
+      </div>
+    </div>
+  </div>
+</div>
+
+
