@@ -5,14 +5,12 @@ import { FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './pages/home/home.component';
-import { AdminComponent } from './pages/admin/admin.component';
 import { SigninComponent } from './pages/authentication/signin/signin.component';
 import { SignupComponent } from './pages/authentication/signup/signup.component';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatInputModule } from '@angular/material/input';
 import { MatAutocompleteModule} from '@angular/material/autocomplete';
-import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
@@ -41,22 +39,63 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatButtonModule } from '@angular/material/button';
 import { ExternalComponent } from './pages/authentication/external/external.component';
 
-import { SocialLoginModule, SocialAuthServiceConfig, FacebookLoginProvider, AmazonLoginProvider } from 'angularx-social-login';
-import { GoogleLoginProvider } from 'angularx-social-login';
+import { SocialLoginModule, SocialAuthServiceConfig, GoogleLoginProvider, FacebookLoginProvider, AmazonLoginProvider } from 'angularx-social-login';
 import { environment } from '../environments/environment';
 import { NavbarComponent } from './components/navbar/navbar.component';
+import { AccountComponent } from './components/settings/account/account.component';
+import { SettingsComponent } from './components/settings/settings.component';
+import { EmailComponent } from './components/settings/email/email.component';
+import { ThemeComponent } from './components/settings/theme/theme.component';
+import { ImportComponent } from './components/settings/admin/import/import.component';
+import { AdminPanelComponent } from './components/settings/admin/admin-panel/admin-panel.component';
+import { DisplayComponent } from './components/settings/admin/display/display.component';
+import { ImportsComponent } from './components/settings/admin/insight/imports/imports.component';
+import { DownloadComponent } from './components/download/download.component';
+
+import { ChartsModule } from 'ng2-charts';
+import { BootstrapComponent } from './components/bootstrap/bootstrap.component';
+import { NavBarComponent } from './components/nav-bar/nav-bar.component';
+import { LaligaComponent } from './pages/laliga/laliga.component';
+
+import { HttpClientModule } from '@angular/common/http';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { LaligaNewsComponent } from './pages/laliga-news/laliga-news.component';
+import { LaligaStandingsComponent } from './pages/laliga-standings/laliga-standings.component';
+import { PremiereLeagueComponent } from './pages/premiere-league/premiere-league.component';
+import { PremiereLeagueNewsComponent } from './pages/premiere-league-news/premiere-league-news.component';
+import { PremiereLeagueStandingsComponent } from './pages/premiere-league-standings/premiere-league-standings.component';
+
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
-    AdminComponent,
     SigninComponent,
     SignupComponent,
     ExternalComponent,
-    NavbarComponent
+    NavbarComponent,
+    AccountComponent,
+    SettingsComponent,
+    EmailComponent,
+    ThemeComponent,
+    ImportComponent,
+    AdminPanelComponent,
+    DisplayComponent,
+    ImportsComponent,
+    BootstrapComponent,
+    NavBarComponent,
+    LaligaComponent,
+    LaligaNewsComponent,
+    LaligaStandingsComponent,
+    PremiereLeagueComponent,
+    PremiereLeagueNewsComponent,
+    PremiereLeagueStandingsComponent,
+    DownloadComponent
   ],
   imports: [
+    MatNativeDateModule,
+    HttpClientModule,
     BrowserModule,
     AppRoutingModule,
     FormsModule,
@@ -91,7 +130,8 @@ import { NavbarComponent } from './components/navbar/navbar.component';
     MatSortModule,
     MatPaginatorModule,
     SocialLoginModule,
-    MatButtonModule
+    MatButtonModule,
+    ChartsModule
   ],
   providers: [{
       provide: 'SocialAuthServiceConfig',
@@ -119,7 +159,8 @@ import { NavbarComponent } from './components/navbar/navbar.component';
         ]
       } as SocialAuthServiceConfig,
     },
-    AppComponent
+    AppComponent,
+    DownloadComponent
   ],
   bootstrap: [AppComponent]
 })

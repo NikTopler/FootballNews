@@ -23,13 +23,18 @@
     "@angular/platform-browser": "~11.2.3",
     "@angular/platform-browser-dynamic": "~11.2.3",
     "@angular/router": "~11.2.3",
+    "@types/crypto-js": "^4.0.1",
     "angularx-social-login": "^3.5.4",
+    "chart.js": "^2.9.3",
+    "crypto-js": "^4.0.0",
     "express": "^4.17.1",
     "highcharts": "^9.0.1",
     "highcharts-angular": "^2.10.0",
+    "ng2-charts": "2.3.0",
     "path": "^0.12.7",
     "rxjs": "~6.6.0",
     "tslib": "^2.0.0",
+    "xlsx": "^0.16.9",
     "zone.js": "~0.11.3"
   },
   "devDependencies": {

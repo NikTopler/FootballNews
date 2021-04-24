@@ -1,0 +1,150 @@
+<div class="settings-content">
+  <div class="content-conteiner">
+    <mat-tab-group #tabGroup (selectedTabChange)="tabChanged($event)" color="accent" mat-align-tabs="center" animationDuration="0ms">
+      <mat-tab label="Users">
+        <section class="content">
+          <div class="mb-2" *ngIf="usersArray.length !== 0">
+            <div class="table-external-container">
+              <div class="overflow" id="overflow">
+                <div class="table">
+                  <div class="row" *ngFor="let row of usersArray; let first = first; let rowCount = index; trackBy: trackByFn">
+                    <div class="cell {{ first ? 'header' : '' }}" *ngFor="let cell of row; let columnCount = index; trackBy: trackByFn">
+                        <input type="text"
+                          [value]="cell"
+                          [readonly]="first || [4, 5, 7, 8, 9].includes(columnCount)? true : false"
+                          (input)="editArray('users', $event)"
+                          [id]="rowCount+'-'+columnCount">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="footer">
+              <div class="btn-container download">
+                <button mat-flat-button (click)="download('users')" color="accent" class="gray">Download</button>
+              </div>
+              <div class="all-numbers Users">
+                  <div *ngFor="let page of userPages; let index = index"
+                  (click)="changePage($event, index)"
+                  class="page-number {{ index === 0 ? 'active' : '' }}">
+                    {{ index + 1 }}
+                  </div>
+              </div>
+              <div class="btn-container update">
+                  <button mat-flat-button (click)="update('users', usersArray)" color="accent">Update</button>
+              </div>
+            </div>
+          </div>
+        </section>
+      </mat-tab>
+      <mat-tab label="Teams">
+        <section class="content">
+          <div class="mb-2" *ngIf="teamsArray.length !== 0">
+            <div class="table-external-container">
+              <div class="overflow" id="overflow">
+                <div class="table">
+                  <div class="row" *ngFor="let row of teamsArray; let first = first; let rowCount = index; trackBy: trackByFn">
+                    <div class="cell {{ first ? 'header' : '' }}" *ngFor="let cell of row; let columnCount = index; trackBy: trackByFn">
+                        <input type="text"
+                          [value]="cell"
+                          [readonly]="first ? true : false"
+                          (input)="editArray('teams', $event)"
+                          [id]="rowCount+'-'+columnCount">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="footer">
+              <div class="btn-container download">
+                <button mat-flat-button (click)="download('teams')" color="accent" class="gray">Download</button>
+              </div>
+              <div class="all-numbers Teams">
+                <div *ngFor="let page of teamPages; let index = index"
+                  (click)="changePage($event, index)"
+                  class="page-number {{ index === 0 ? 'active' : '' }}">
+                  {{ index + 1 }}
+                </div>
+              </div>
+              <div class="btn-container update">
+                <button mat-flat-button (click)="update('teams', teamsArray)" color="accent">Update</button>
+              </div>
+            </div>
+          </div>
+        </section>
+      </mat-tab>
+      <mat-tab label="Leagues">
+        <section class="content">
+          <div class="mb-2" *ngIf="leaguesArray.length !== 0">
+            <div class="table-external-container">
+              <div class="overflow" id="overflow">
+                <div class="table">
+                  <div class="row" *ngFor="let row of leaguesArray; let first = first; let rowCount = index; trackBy: trackByFn">
+                    <div class="cell {{ first ? 'header' : '' }}" *ngFor="let cell of row; let columnCount = index; trackBy: trackByFn">
+                        <input type="text"
+                          [value]="cell"
+                          [readonly]="first ? true : false"
+                          (input)="editArray('leagues', $event)"
+                          [id]="rowCount+'-'+columnCount">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="footer">
+              <div class="btn-container download">
+                <button mat-flat-button (click)="download('leagues')" color="accent" class="gray">Download</button>
+              </div>
+              <div class="all-numbers Leagues">
+                <div *ngFor="let page of leaguePages; let index = index"
+                  (click)="changePage($event, index)"
+                  class="page-number {{ index === 0 ? 'active' : '' }}">
+                  {{ index + 1 }}
+                </div>
+              </div>
+              <div class="btn-container update">
+                <button mat-flat-button (click)="update('leagues', leaguesArray)" color="accent">Update</button>
+              </div>
+            </div>
+          </div>
+        </section>
+      </mat-tab>
+      <mat-tab label="Countries">
+        <section class="content">
+          <div class="mb-2" *ngIf="countriesArray.length !== 0">
+            <div class="table-external-container">
+              <div class="overflow" id="overflow">
+                <div class="table">
+                  <div class="row" *ngFor="let row of countriesArray; let first = first; let rowCount = index; trackBy: trackByFn">
+                    <div class="cell {{ first ? 'header' : '' }}" *ngFor="let cell of row; let columnCount = index; trackBy: trackByFn">
+                        <input type="text"
+                          [value]="cell"
+                          [readonly]="first ? true : false"
+                          (input)="editArray('leagues', $event)"
+                          [id]="rowCount+'-'+columnCount">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="footer">
+              <div class="btn-container download">
+                <button mat-flat-button (click)="download('countries')" color="accent" class="gray">Download</button>
+              </div>
+              <div class="all-numbers Countries">
+                <div *ngFor="let page of countryPages; let index = index"
+                  (click)="changePage($event, index)"
+                  class="page-number {{ index === 0 ? 'active' : '' }}">
+                  {{ index + 1 }}
+                </div>
+              </div>
+              <div class="btn-container update">
+                <button mat-flat-button (click)="update('countries', countriesArray)" color="accent">Update</button>
+              </div>
+            </div>
+          </div>
+        </section>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+</div>

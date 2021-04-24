@@ -1,0 +1,143 @@
+<div class="settings-content">
+  <div class="content-conteiner">
+    <mat-tab-group #tabGroup (selectedTabChange)="tabChanged($event)" color="accent" mat-align-tabs="center" animationDuration="0ms">
+      <mat-tab label="Users">
+        <section class="content">
+          <div class="button-container">
+            <button (click)="openFileManager($event)" class="btn enable">Import</button>
+            <a href="../../../../../assets/templates/user-import-template.xlsx" class="none" id="user-template-link" download></a>
+            <input (change)="checkFile($event)" type="file" class="none">
+            <div class="spacer"></div>
+            <button (click)="downloadTemplateFile('user-template-link')" class="btn">Template</button>
+            <button *ngIf="userInfo.safeImport === '1'" (click)="previewData('user', userTemplateArray)" class="btn">Preview</button>
+          </div>
+          <div *ngIf="userInfo.safeImport === '1' && usersArray[0];" class="mb-2">
+            <div class="table-external-container">
+              <div class="overflow" id="overflow">
+                <div class="table">
+                  <div class="row" *ngFor="let row of usersArray; let first = first; let rowCount = index; trackBy: trackByFn">
+                    <div class="cell {{ first ? 'header' : '' }}" *ngFor="let cell of row; let columnCount = index; trackBy: trackByFn">
+                        <input type="text"
+                          [value]="cell.trim()"
+                          [readonly]="first || userInfo.editImport === '0' ? true : false"
+                          (input)="editArray('users', $event)"
+                          [id]="rowCount+'-'+columnCount">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="button-container">
+              <button mat-flat-button *ngIf="userInfo.editImport === '1' ? true : false" (click)="resetArray(usersArray)" class="gray">Reset</button>
+              <div class="spacer"></div>
+              <button mat-flat-button color="accent" (click)="importData('USERS', usersArray)" class="button">Import</button>
+            </div>
+          </div>
+        </section>
+      </mat-tab>
+      <mat-tab label="Teams">
+        <section class="content">
+          <div class="button-container">
+            <button (click)="openFileManager($event)" class="btn enable">Import</button>
+            <a href="../../../../../assets/templates/team-import-template.xlsx" class="none" id="team-template-link" download></a>
+            <input (change)="checkFile($event)" type="file" class="none">
+            <div class="spacer"></div>
+            <button (click)="downloadTemplateFile('team-template-link')" class="btn">Template</button>
+            <button *ngIf="userInfo.safeImport === '1'" (click)="previewData('team', teamsTemplateArray)" class="btn">Preview</button>
+          </div>
+          <div *ngIf="userInfo.safeImport === '1' && teamsArray[0]" class="mb-2">
+            <div class="table-external-container">
+              <div class="overflow" id="overflow">
+                <div class="table">
+                  <div class="row" *ngFor="let row of teamsArray; let first = first; let rowCount = index; trackBy: trackByFn">
+                    <div class="cell {{ first ? 'header' : '' }}" *ngFor="let cell of row; let columnCount = index; trackBy: trackByFn">
+                        <input type="text"
+                          [value]="cell.trim()"
+                          [readonly]="first || userInfo.editImport === '0' ? true : false"
+                          (input)="editArray('teams', $event)"
+                          [id]="rowCount+'-'+columnCount">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="button-container">
+              <button mat-flat-button *ngIf="userInfo.editImport === '1' ? true : false" (click)="resetArray(teamsArray)" class="gray">Reset</button>
+              <div class="spacer"></div>
+              <button mat-flat-button color="accent" (click)="importData('TEAMS', teamsArray)" class="button">Import</button>
+            </div>
+          </div>
+        </section>
+      </mat-tab>
+      <mat-tab label="Leagues">
+        <section class="content">
+          <div class="button-container">
+            <button (click)="openFileManager($event)" class="btn enable">Import</button>
+            <a href="../../../../../assets/templates/league-import-template.xlsx" class="none" id="league-template-link" download></a>
+            <input (change)="checkFile($event)" type="file" class="none">
+            <div class="spacer"></div>
+            <button (click)="downloadTemplateFile('league-template-link')" class="btn">Template</button>
+            <button *ngIf="userInfo.safeImport === '1'" (click)="previewData('league', leaguesTemplateArray)" class="btn">Preview</button>
+          </div>
+          <div *ngIf="userInfo.safeImport === '1' && leaguesArray[0]" class="mb-2">
+           <div class="table-external-container">
+             <div class="overflow" id="overflow">
+               <div class="table">
+                 <div class="row" *ngFor="let row of leaguesArray; let first = first; let rowCount = index; trackBy: trackByFn">
+                   <div class="cell {{ first ? 'header' : '' }}" *ngFor="let cell of row; let columnCount = index; trackBy: trackByFn">
+                       <input type="text"
+                        [value]="cell.trim()"
+                        [readonly]="first || userInfo.editImport === '0' ? true : false"
+                        (input)="editArray('leagues', $event)"
+                        [id]="rowCount+'-'+columnCount">
+                   </div>
+                 </div>
+               </div>
+             </div>
+           </div>
+           <div class="button-container">
+             <button mat-flat-button *ngIf="userInfo.editImport === '1' ? true : false" (click)="resetArray(leaguesArray)" class="gray">Reset</button>
+             <div class="spacer"></div>
+             <button mat-flat-button color="accent" (click)="importData('LEAGUES', leaguesArray)" class="button">Import</button>
+           </div>
+          </div>
+        </section>
+      </mat-tab>
+      <mat-tab label="Countries">
+        <section class="content">
+          <div class="button-container">
+            <button (click)="openFileManager($event)" class="btn enable">Import</button>
+            <a href="../../../../../assets/templates/country-import-template.xlsx" class="none" id="country-template-link" download></a>
+            <input (change)="checkFile($event)" type="file" class="none">
+            <div class="spacer"></div>
+            <button (click)="downloadTemplateFile('country-template-link')" class="btn">Template</button>
+            <button *ngIf="userInfo.safeImport === '1'" (click)="previewData('country', countriesTemplateArray)" class="btn">Preview</button>
+          </div>
+          <div *ngIf="userInfo.safeImport === '1' && countriesArray[0]" class="mb-2">
+            <div class="table-external-container">
+              <div class="overflow" id="overflow">
+                <div class="table">
+                  <div class="row" *ngFor="let row of countriesArray; let first = first; let rowCount = index; trackBy: trackByFn">
+                    <div class="cell {{ first ? 'header' : '' }}" *ngFor="let cell of row; let columnCount = index; trackBy: trackByFn">
+                        <input type="text"
+                          [value]="cell.trim()"
+                          [readonly]="first || userInfo.editImport === '0' ? true : false"
+                          (input)="editArray('countries', $event)"
+                          [id]="rowCount+'-'+columnCount">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="button-container">
+              <button mat-flat-button *ngIf="userInfo.editImport === '1' ? true : false" (click)="resetArray(countriesArray)" class="gray">Reset</button>
+              <div class="spacer"></div>
+              <button mat-flat-button color="accent" (click)="importData('COUNTRIES', countriesArray)" class="button">Import</button>
+            </div>
+          </div>
+        </section>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+</div>
+
