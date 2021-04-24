@@ -3,9 +3,7 @@ import { AppComponent } from 'src/app/app.component';
 import { DownloadComponent } from 'src/app/components/download/download.component';
 import { CommService } from 'src/app/services/comm/comm.service';
 import { DownloadService } from 'src/app/services/download/download.service';
-import { ImportVerificationService } from 'src/app/services/import-verification/import-verification.service';
 import { environment } from '../../../../../environments/environment';
-import { SettingsComponent } from '../../settings.component';
 
 @Component({
   selector: 'app-display',
@@ -147,10 +145,24 @@ export class DisplayComponent implements OnInit {
   }
 
   async download(type: string) {
+    this.downloadService.setHeader(true);
+    const id = Date.now();
+    const fileName = `${type}_${id}`;
+    const downloadsArray = this.downloadService.downloadsArray;
+
+    downloadsArray.push({"id": id, "text": `${type.charAt(0).toUpperCase() + type.slice(1)} information download`, "finished": false });
     const array: any = await this.fetchData(true);
     this.appComponent.downloadOpen = true;
-    this.downloadService.downloadsArray.push({ "text": `${type}`, "finished": false });
-    this.downloadComponent.transformArrayToXLSX(type, array);
+    await this.downloadComponent.transformArrayToXLSX(fileName, array);
+
+    for(let i = 0; i < downloadsArray.length; i++)
+      if(downloadsArray[i].id === id) {
+        downloadsArray[i].finished = true;
+        break;
+      }
+
+    this.downloadService.finishedDownloads.push(id);
+    this.downloadService.setHeader(true);
   }
 
   update(type: string, array: string[][]) { }
