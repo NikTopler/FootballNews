@@ -51,10 +51,21 @@
     }
 
     .download {
+      display: flex;
+      align-items: center;
       border-left: 1px solid $medium-gray;
       border-bottom: 1px solid $medium-gray;
       border-right: 1px solid $medium-gray;
       padding: 0.75rem;
+
+      .text { flex: 1 1 auto; }
+      .icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .icon:first-child { padding: 0 1rem 0 0.25rem; }
+      .icon:last-child { padding: 0 0.25rem 0 1rem; }
     }
     .download:last-child {
       border-bottom-right-radius: 4px;
