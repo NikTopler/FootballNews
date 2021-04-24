@@ -18,18 +18,26 @@ export class DisplayComponent implements OnInit {
   usersArray: string[][] = [];
   userPages: number[] = [];
   userTemplate: string[] = ['First name','Last name','Email','Admin','Created at','Updated at','Profile image','Google ID','Facebook ID','Amazon ID','Safe import','Edit import'];
+  userOpenTable: boolean = true;
+  userOpenJSON: boolean = false;
 
   teamsArray: string[][] = [];
   teamPages: number[] = [];
   teamTemplate: string[] = ['Name', 'Team id', 'Short code', 'Logo', 'Country', 'Continent', 'League', 'Season start date', 'Season end date'];
+  teamOpenTable: boolean = true;
+  teamOpenJSON: boolean = false;
 
   leaguesArray: string[][] = [];
   leaguePages: number[] = [];
   leagueTemplate: string[] = ['Name'];
+  leagueOpenTable: boolean = true;
+  leagueOpenJSON: boolean = false;
 
   countriesArray: string[][] = [];
   countryPages: number[] = [];
   countryTemplate: string[] = ["Name", "Code", "Continent"];
+  countryOpenTable: boolean = true;
+  countryOpenJSON: boolean = false;
 
   startLimit: number = 0;
   endLimit: number = this.rowsInTable;

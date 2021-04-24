@@ -3,7 +3,16 @@
     <mat-tab-group #tabGroup (selectedTabChange)="tabChanged($event)" color="accent" mat-align-tabs="center" animationDuration="0ms">
       <mat-tab label="Users">
         <section class="content">
-          <div class="mb-2" *ngIf="usersArray.length !== 0">
+          <div class="type-container">
+            <div class="double-button-container">
+              <div (click)="userOpenTable = true; userOpenJSON = false;" class="{{userOpenTable ? 'active' : ''}}">Table</div>
+              <div (click)="userOpenTable = false; userOpenJSON = true;" class="{{userOpenJSON ? 'active' : ''}}">JSON</div>
+            </div>
+          </div>
+          <div class="mb-2" *ngIf="userOpenJSON">
+
+          </div>
+          <div class="mb-2" *ngIf="usersArray.length !== 0 && userOpenTable">
             <div class="table-external-container">
               <div class="overflow" id="overflow">
                 <div class="table">
@@ -39,7 +48,16 @@
       </mat-tab>
       <mat-tab label="Teams">
         <section class="content">
-          <div class="mb-2" *ngIf="teamsArray.length !== 0">
+          <div class="type-container">
+            <div class="double-button-container">
+              <div (click)="teamOpenTable = true; teamOpenJSON = false;" class="{{teamOpenTable ? 'active' : ''}}">Table</div>
+              <div (click)="teamOpenTable = false; teamOpenJSON = true;" class="{{teamOpenJSON ? 'active' : ''}}">JSON</div>
+            </div>
+          </div>
+          <div class="mb-2" *ngIf="teamOpenJSON">
+
+          </div>
+          <div class="mb-2" *ngIf="teamsArray.length !== 0  && teamOpenTable">
             <div class="table-external-container">
               <div class="overflow" id="overflow">
                 <div class="table">
@@ -75,7 +93,16 @@
       </mat-tab>
       <mat-tab label="Leagues">
         <section class="content">
-          <div class="mb-2" *ngIf="leaguesArray.length !== 0">
+          <div class="type-container">
+            <div class="double-button-container">
+              <div (click)="leagueOpenTable = true; leagueOpenJSON = false;" class="{{leagueOpenTable ? 'active' : ''}}">Table</div>
+              <div (click)="leagueOpenTable = false; leagueOpenJSON = true;" class="{{leagueOpenJSON ? 'active' : ''}}">JSON</div>
+            </div>
+          </div>
+          <div class="mb-2" *ngIf="leagueOpenJSON">
+
+          </div>
+          <div class="mb-2" *ngIf="leaguesArray.length !== 0 && leagueOpenTable">
             <div class="table-external-container">
               <div class="overflow" id="overflow">
                 <div class="table">
@@ -111,7 +138,16 @@
       </mat-tab>
       <mat-tab label="Countries">
         <section class="content">
-          <div class="mb-2" *ngIf="countriesArray.length !== 0">
+          <div class="type-container">
+            <div class="double-button-container">
+              <div (click)="countryOpenTable = true; countryOpenJSON = false;" class="{{countryOpenTable ? 'active' : ''}}">Table</div>
+              <div (click)="countryOpenTable = false; countryOpenJSON = true;" class="{{countryOpenJSON ? 'active' : ''}}">JSON</div>
+            </div>
+          </div>
+          <div class="mb-2" *ngIf="countryOpenJSON">
+
+          </div>
+          <div class="mb-2" *ngIf="countriesArray.length !== 0 && countryOpenTable">
             <div class="table-external-container">
               <div class="overflow" id="overflow">
                 <div class="table">
