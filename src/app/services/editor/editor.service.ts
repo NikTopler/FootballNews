@@ -1,3 +1,4 @@
+import { Clipboard } from '@angular/cdk/clipboard';
 import { Injectable } from '@angular/core';
 
 @Injectable({
@@ -11,6 +12,8 @@ export class EditorService {
   teamTemplate: string[] = ['name', 'teamID', 'shortCode', 'logo', 'country', 'continent', 'league', 'seasonStartDate', 'seasonEndDate'];
   leagueTemplate: string[] = ['name'];
   countryTemplate: string[] = ['name', 'code', 'continent'];
+
+  constructor(private clipboard: Clipboard) { }
 
   orderDoubleArray(type: string, array: string[][]) {
     if(type === 'Users') this.activeArray = this.multidimensionalArrayToJSON(this.userTemplate, array);

@@ -49,6 +49,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { ClipboardModule } from '@angular/cdk/clipboard'
 
 import { SocialLoginModule, SocialAuthServiceConfig, GoogleLoginProvider, FacebookLoginProvider, AmazonLoginProvider } from 'angularx-social-login';
 import { environment } from '../environments/environment';
@@ -102,6 +103,7 @@ import { PremiereLeagueStandingsComponent } from './pages/premiere-league-standi
     MatNativeDateModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
+    ClipboardModule,
     MatInputModule,
     MatAutocompleteModule,
     MatDatepickerModule,
