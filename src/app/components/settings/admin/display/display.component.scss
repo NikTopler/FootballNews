@@ -60,7 +60,22 @@
 }
 
 .type-container {
+  display: flex;
+  align-items: center;
   padding: 0.25rem 0;
+
+  .btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: fit-content;
+    padding: 2px;
+    svg { margin-right: 0.25rem; }
+    span {
+      font-weight: 400;
+      color: $bg;
+    }
+  }
 
   .double-button-container {
     width: fit-content;
