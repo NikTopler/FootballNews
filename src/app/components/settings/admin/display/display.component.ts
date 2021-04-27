@@ -3,6 +3,7 @@ import { AppComponent } from 'src/app/app.component';
 import { DownloadComponent } from 'src/app/components/download/download.component';
 import { CommService } from 'src/app/services/comm/comm.service';
 import { DownloadService } from 'src/app/services/download/download.service';
+import { EditorService } from 'src/app/services/editor/editor.service';
 import { environment } from '../../../../../environments/environment';
 
 @Component({
@@ -46,7 +47,8 @@ export class DisplayComponent implements OnInit {
     private comm: CommService,
     private appComponent: AppComponent,
     private downloadComponent: DownloadComponent,
-    private downloadService: DownloadService ) { }
+    private downloadService: DownloadService,
+    private editorService: EditorService) { }
 
   ngOnInit(): void { this.updateArray(); }
 
@@ -92,20 +94,21 @@ export class DisplayComponent implements OnInit {
     else if(this.openTab === 'Users') {
       this.usersArray = newArray;
       this.usersArray.unshift(this.userTemplate);
-      return this.orderArray(this.usersArray);
+      this.orderArray(this.usersArray);
     } else if(this.openTab === 'Teams') {
       this.teamsArray = newArray;
       this.teamsArray.unshift(this.teamTemplate);
-      return this.orderArray(this.teamsArray);
+      this.orderArray(this.teamsArray);
     } else if(this.openTab === 'Leagues') {
       this.leaguesArray = newArray;
       this.leaguesArray.unshift(this.leagueTemplate);
-      return this.orderArray(this.leaguesArray);
+      this.orderArray(this.leaguesArray);
     } else if(this.openTab === 'Countries') {
       this.countriesArray = newArray;
       this.countriesArray.unshift(this.countryTemplate);
-      return this.orderArray(this.countriesArray);
+      this.orderArray(this.countriesArray);
     }
+    return this.editorService.orderDoubleArray(this.openTab, array);
   }
 
   setupArray(type: string, array: string[]) {
