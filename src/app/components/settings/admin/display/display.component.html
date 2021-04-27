@@ -3,7 +3,23 @@
     <mat-tab-group #tabGroup (selectedTabChange)="tabChanged($event)" color="accent" mat-align-tabs="center" animationDuration="0ms">
       <mat-tab label="Users">
         <section class="content">
-          <div class="mb-2" *ngIf="usersArray.length !== 0">
+          <div class="type-container">
+            <div class="double-button-container">
+              <div (click)="userOpenTable = true; userOpenJSON = false;" class="{{userOpenTable ? 'active' : ''}}">Table</div>
+              <div (click)="userOpenTable = false; userOpenJSON = true;" class="{{userOpenJSON ? 'active' : ''}}">JSON</div>
+            </div>
+            <div class="spacer"></div>
+            <div *ngIf="userOpenJSON" (click)="userCopy=true; copy()" class="btn">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24">
+                <path d="M22 2v22h-20v-22h3c1.23 0 2.181-1.084 3-2h8c.82.916 1.771 2 3 2h3zm-11 1c0 .552.448 1 1 1 .553 0 1-.448 1-1s-.447-1-1-1c-.552 0-1 .448-1 1zm9 1h-4l-2 2h-3.897l-2.103-2h-4v18h16v-18zm-13 9.729l.855-.791c1 .484 1.635.852 2.76 1.654 2.113-2.399 3.511-3.616 6.106-5.231l.279.64c-2.141 1.869-3.709 3.949-5.967 7.999-1.393-1.64-2.322-2.686-4.033-4.271z" fill="#fff"/>
+              </svg>
+              <span>{{ userCopy ? 'Copied' : 'Copy' }}</span>
+            </div>
+          </div>
+          <div class="mb-2" *ngIf="userOpenJSON">
+            <app-editor></app-editor>
+          </div>
+          <div class="mb-2" *ngIf="usersArray.length !== 0 && userOpenTable">
             <div class="table-external-container">
               <div class="overflow" id="overflow">
                 <div class="table">
@@ -39,7 +55,23 @@
       </mat-tab>
       <mat-tab label="Teams">
         <section class="content">
-          <div class="mb-2" *ngIf="teamsArray.length !== 0">
+          <div class="type-container">
+            <div class="double-button-container">
+              <div (click)="teamOpenTable = true; teamOpenJSON = false;" class="{{teamOpenTable ? 'active' : ''}}">Table</div>
+              <div (click)="teamOpenTable = false; teamOpenJSON = true;" class="{{teamOpenJSON ? 'active' : ''}}">JSON</div>
+            </div>
+            <div class="spacer"></div>
+            <div *ngIf="teamOpenJSON" (click)="teamCopy=true; copy()" class="btn">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24">
+                <path d="M22 2v22h-20v-22h3c1.23 0 2.181-1.084 3-2h8c.82.916 1.771 2 3 2h3zm-11 1c0 .552.448 1 1 1 .553 0 1-.448 1-1s-.447-1-1-1c-.552 0-1 .448-1 1zm9 1h-4l-2 2h-3.897l-2.103-2h-4v18h16v-18zm-13 9.729l.855-.791c1 .484 1.635.852 2.76 1.654 2.113-2.399 3.511-3.616 6.106-5.231l.279.64c-2.141 1.869-3.709 3.949-5.967 7.999-1.393-1.64-2.322-2.686-4.033-4.271z" fill="#fff"/>
+              </svg>
+              <span>{{ teamCopy ? 'Copied' : 'Copy' }}</span>
+            </div>
+          </div>
+          <div class="mb-2" *ngIf="teamOpenJSON">
+            <app-editor></app-editor>
+          </div>
+          <div class="mb-2" *ngIf="teamsArray.length !== 0  && teamOpenTable">
             <div class="table-external-container">
               <div class="overflow" id="overflow">
                 <div class="table">
@@ -75,7 +107,23 @@
       </mat-tab>
       <mat-tab label="Leagues">
         <section class="content">
-          <div class="mb-2" *ngIf="leaguesArray.length !== 0">
+          <div class="type-container">
+            <div class="double-button-container">
+              <div (click)="leagueOpenTable = true; leagueOpenJSON = false;" class="{{leagueOpenTable ? 'active' : ''}}">Table</div>
+              <div (click)="leagueOpenTable = false; leagueOpenJSON = true;" class="{{leagueOpenJSON ? 'active' : ''}}">JSON</div>
+            </div>
+            <div class="spacer"></div>
+            <div *ngIf="leagueOpenJSON" (click)="leagueCopy=true; copy()" class="btn">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24">
+                <path d="M22 2v22h-20v-22h3c1.23 0 2.181-1.084 3-2h8c.82.916 1.771 2 3 2h3zm-11 1c0 .552.448 1 1 1 .553 0 1-.448 1-1s-.447-1-1-1c-.552 0-1 .448-1 1zm9 1h-4l-2 2h-3.897l-2.103-2h-4v18h16v-18zm-13 9.729l.855-.791c1 .484 1.635.852 2.76 1.654 2.113-2.399 3.511-3.616 6.106-5.231l.279.64c-2.141 1.869-3.709 3.949-5.967 7.999-1.393-1.64-2.322-2.686-4.033-4.271z" fill="#fff"/>
+              </svg>
+              <span>{{ leagueCopy ? 'Copied' : 'Copy' }}</span>
+            </div>
+          </div>
+          <div class="mb-2" *ngIf="leagueOpenJSON">
+            <app-editor></app-editor>
+          </div>
+          <div class="mb-2" *ngIf="leaguesArray.length !== 0 && leagueOpenTable">
             <div class="table-external-container">
               <div class="overflow" id="overflow">
                 <div class="table">
@@ -111,7 +159,23 @@
       </mat-tab>
       <mat-tab label="Countries">
         <section class="content">
-          <div class="mb-2" *ngIf="countriesArray.length !== 0">
+          <div class="type-container">
+            <div class="double-button-container">
+              <div (click)="countryOpenTable = true; countryOpenJSON = false;" class="{{countryOpenTable ? 'active' : ''}}">Table</div>
+              <div (click)="countryOpenTable = false; countryOpenJSON = true;" class="{{countryOpenJSON ? 'active' : ''}}">JSON</div>
+            </div>
+            <div class="spacer"></div>
+          <div *ngIf="countryOpenJSON" (click)="countryCopy=true; copy()" class="btn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24">
+              <path d="M22 2v22h-20v-22h3c1.23 0 2.181-1.084 3-2h8c.82.916 1.771 2 3 2h3zm-11 1c0 .552.448 1 1 1 .553 0 1-.448 1-1s-.447-1-1-1c-.552 0-1 .448-1 1zm9 1h-4l-2 2h-3.897l-2.103-2h-4v18h16v-18zm-13 9.729l.855-.791c1 .484 1.635.852 2.76 1.654 2.113-2.399 3.511-3.616 6.106-5.231l.279.64c-2.141 1.869-3.709 3.949-5.967 7.999-1.393-1.64-2.322-2.686-4.033-4.271z" fill="#fff"/>
+            </svg>
+            <span>{{ countryCopy ? 'Copied' : 'Copy' }}</span>
+          </div>
+          </div>
+          <div class="mb-2" *ngIf="countryOpenJSON">
+            <app-editor></app-editor>
+          </div>
+          <div class="mb-2" *ngIf="countriesArray.length !== 0 && countryOpenTable">
             <div class="table-external-container">
               <div class="overflow" id="overflow">
                 <div class="table">

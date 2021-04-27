@@ -7,6 +7,18 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './pages/home/home.component';
 import { SigninComponent } from './pages/authentication/signin/signin.component';
 import { SignupComponent } from './pages/authentication/signup/signup.component';
+import { ExternalComponent } from './pages/authentication/external/external.component';
+import { NavbarComponent } from './components/navbar/navbar.component';
+import { AccountComponent } from './components/settings/account/account.component';
+import { SettingsComponent } from './components/settings/settings.component';
+import { EmailComponent } from './components/settings/email/email.component';
+import { ThemeComponent } from './components/settings/theme/theme.component';
+import { ImportComponent } from './components/settings/admin/import/import.component';
+import { AdminPanelComponent } from './components/settings/admin/admin-panel/admin-panel.component';
+import { DisplayComponent } from './components/settings/admin/display/display.component';
+import { ImportsComponent } from './components/settings/admin/insight/imports/imports.component';
+import { DownloadComponent } from './components/download/download.component';
+import { EditorComponent } from './components/editor/editor.component';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatInputModule } from '@angular/material/input';
@@ -35,22 +47,12 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
-import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatButtonModule } from '@angular/material/button';
-import { ExternalComponent } from './pages/authentication/external/external.component';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { ClipboardModule } from '@angular/cdk/clipboard'
 
 import { SocialLoginModule, SocialAuthServiceConfig, GoogleLoginProvider, FacebookLoginProvider, AmazonLoginProvider } from 'angularx-social-login';
 import { environment } from '../environments/environment';
-import { NavbarComponent } from './components/navbar/navbar.component';
-import { AccountComponent } from './components/settings/account/account.component';
-import { SettingsComponent } from './components/settings/settings.component';
-import { EmailComponent } from './components/settings/email/email.component';
-import { ThemeComponent } from './components/settings/theme/theme.component';
-import { ImportComponent } from './components/settings/admin/import/import.component';
-import { AdminPanelComponent } from './components/settings/admin/admin-panel/admin-panel.component';
-import { DisplayComponent } from './components/settings/admin/display/display.component';
-import { ImportsComponent } from './components/settings/admin/insight/imports/imports.component';
-import { DownloadComponent } from './components/download/download.component';
 
 import { ChartsModule } from 'ng2-charts';
 import { BootstrapComponent } from './components/bootstrap/bootstrap.component';
@@ -59,7 +61,6 @@ import { LaligaComponent } from './pages/laliga/laliga.component';
 
 import { HttpClientModule } from '@angular/common/http';
 import { MatNativeDateModule } from '@angular/material/core';
-import { MatDatepickerModule } from '@angular/material/datepicker';
 import { LaligaNewsComponent } from './pages/laliga-news/laliga-news.component';
 import { LaligaStandingsComponent } from './pages/laliga-standings/laliga-standings.component';
 import { PremiereLeagueComponent } from './pages/premiere-league/premiere-league.component';
@@ -91,16 +92,18 @@ import { PremiereLeagueStandingsComponent } from './pages/premiere-league-standi
     PremiereLeagueComponent,
     PremiereLeagueNewsComponent,
     PremiereLeagueStandingsComponent,
-    DownloadComponent
+    DownloadComponent,
+    EditorComponent
   ],
   imports: [
-    MatNativeDateModule,
-    HttpClientModule,
     BrowserModule,
     AppRoutingModule,
+    HttpClientModule,
     FormsModule,
+    MatNativeDateModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
+    ClipboardModule,
     MatInputModule,
     MatAutocompleteModule,
     MatDatepickerModule,
@@ -128,7 +131,6 @@ import { PremiereLeagueStandingsComponent } from './pages/premiere-league-standi
     MatSnackBarModule,
     MatTableModule,
     MatSortModule,
-    MatPaginatorModule,
     SocialLoginModule,
     MatButtonModule,
     ChartsModule
