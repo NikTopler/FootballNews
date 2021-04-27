@@ -1,1 +1,18 @@
-<p>editor works!</p>
+<div class="editor-container">
+  <div class="side-bar">
+      <div class="side-bar-container">
+        <div *ngFor="let content of contentArray; let index = index" class="row">
+          <span>{{index + 1}}</span>
+        </div>
+      </div>
+  </div>
+  <div id="content-container" class="content">
+    <div class="blinking-cursor"></div>
+    <div id="row-container" class="row-container">
+      <pre *ngFor="let content of contentArray">
+        <span *ngFor="let data of content; let index = index; let last = last">
+          <div class="{{ data === '' ? 'white-space': content.length - 2 === index ? 'red' : '' }}">{{data}}</div>
+        </span>
+      </pre>
+    </div>
+</div>
