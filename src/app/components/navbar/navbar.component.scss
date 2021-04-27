@@ -2,6 +2,8 @@
 .example-spacer {
   flex: 1 1 auto;
 }
+@import '../../../styles.scss';
+
 .container {
   height: 2.5rem !important;
   width: 2.5rem !important;
