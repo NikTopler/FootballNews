@@ -4,6 +4,7 @@ import { environment } from '../environments/environment';
 import { CommService } from 'src/app/services/comm/comm.service';
 import { AuthenticationService } from './services/authentication/authentication.service';
 import { UserService } from './services/user/user.service';
+import { DownloadService } from './services/download/download.service';
 
 @Component({
   selector: 'app-root',
@@ -26,11 +27,13 @@ export class AppComponent implements OnInit{
     private socialAuthService: SocialAuthService,
     private comm: CommService,
     private authenticationService: AuthenticationService,
-    private userService: UserService) {
+    private userService: UserService,
+    private downloadService: DownloadService) {
     this.socialAuthService.authState.subscribe((user) => {
       this.userInfo = user;
       this.socialLoginPopup = false;
     });
+    this.downloadService.getIsOpen().subscribe((val) => { this.downloadOpen = val; });
   }
 
   ngOnInit() {
