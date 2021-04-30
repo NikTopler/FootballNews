@@ -393,12 +393,12 @@ div.main-section-container {
   padding: 0.38rem 1.25rem;
   border-radius: 4px;
   color: $dark-gray;
-  background-color: $light-gray;
-  border: 1px solid $medium-gray;
+  background-color: $green-500;
+  border: 1px solid $green-500;
 }
 .enable:hover {
-  background-color: $medium-gray;
-  color: #fff;
+  background-color: $green-600;
+  border-color: $green-600;
 }
 
 .under span {

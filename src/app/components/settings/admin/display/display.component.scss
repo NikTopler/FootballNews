@@ -35,9 +35,9 @@
     display: flex;
 
     .page-number {
-      padding: 8px;
-      color: $dark-gray;
-      background-color: $light-gray;
+      padding: 6px 8px;
+      color: $gray-700;
+      background-color: $gray-100;
       transition: all ease-in-out .24s;
       cursor: pointer;
     }
@@ -50,8 +50,8 @@
       border-bottom-right-radius: 3px;
     }
 
-    .page-number:not(:last-child) { border-right: 1px solid $medium-gray; }
-    .page-number:hover { background-color: $medium-gray; }
+    .page-number:not(:last-child) { border-right: 1px solid $gray-200; }
+    .page-number:hover { background-color: $gray-200; }
     .page-number.active {
       color: $bg !important;
       background-color: $pink;
@@ -81,7 +81,7 @@
     width: fit-content;
     display: flex;
     align-items: center;
-    border: 1px solid $medium-gray;
+    border: 1px solid $gray-300;
     border-radius: 4px;
 
     div {
@@ -94,13 +94,13 @@
     div:first-child {
       border-top-left-radius: 3px;
       border-bottom-left-radius: 3px;
-      border-right: 1px solid $medium-gray;
+      border-right: 1px solid $gray-300;
     }
     div:last-child {
       border-top-right-radius: 3px;
       border-bottom-right-radius: 3px;
     }
-    div:hover { background-color: $light-gray; }
-    div.active { background-color: $light-gray; }
+    div:hover { background-color: $gray-200; }
+    div.active { background-color: $gray-200; }
   }
 }
