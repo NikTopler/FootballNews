@@ -6,14 +6,26 @@ import { BehaviorSubject, Observable } from 'rxjs';
 })
 export class DownloadService {
 
-  downloadsArray: downloadArray[] = [];
+  downloadsArray: customInterface[] = [];
   finishedDownloads: number[] = [];
+
+  importsArray: customInterface[] = [];
+  finishedImports: number[] = []
+
+  isOpen: BehaviorSubject<boolean>;
   changeHeader: BehaviorSubject<boolean>;
 
-  constructor() { this.changeHeader = new BehaviorSubject<boolean>(false); }
+  constructor() {
+    this.changeHeader = new BehaviorSubject<boolean>(false);
+    this.isOpen = new BehaviorSubject<boolean>(false);
+  }
 
   setHeader(newValue: boolean): void { this.changeHeader.next(newValue); }
   getHeader(): Observable<boolean> { return this.changeHeader.asObservable(); }
+
+  setIsOpen(newValue: boolean): void { this.isOpen.next(newValue); }
+  getIsOpen(): Observable<boolean> { return this.isOpen.asObservable(); }
+
   update(type: string, id: number) {
     let array: any;
 
@@ -28,7 +40,7 @@ export class DownloadService {
   }
 }
 
-export interface downloadArray {
+export interface customInterface {
   id: number,
   text: string,
   finished: boolean
