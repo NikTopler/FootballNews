@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { AppComponent } from 'src/app/app.component';
 import { DownloadComponent } from 'src/app/components/download/download.component';
 import { CommService } from 'src/app/services/comm/comm.service';
 import { DownloadService } from 'src/app/services/download/download.service';
@@ -49,7 +48,6 @@ export class DisplayComponent implements OnInit {
 
   constructor(
     private comm: CommService,
-    private appComponent: AppComponent,
     private downloadComponent: DownloadComponent,
     private downloadService: DownloadService,
     private editorService: EditorService) { }

@@ -72,13 +72,6 @@ export class AppComponent implements OnInit{
     }
   }
 
-  over(message: string) {
-    console.log(message);
-    this.loggedIn = false;
-    this.reload = false;
-    this.waitForResponse = false;
-  }
-
   async socialLogin(
     {id, firstName, lastName, email ,photoUrl, provider} :
     {id: string, firstName: string, lastName: string, email: string, photoUrl: string, provider: string}
