@@ -43,7 +43,7 @@ export class AppComponent implements OnInit{
         "photoUrl": null,
         "provider": 'AMAZON'
       }
-      this.loggedIn = (user != null);
+      this.loggedIn = (user != null && user.email != null);
       if(this.loggedIn) this.socialLogin(this.userInfo);
     });
     this.checkAuthentication()
