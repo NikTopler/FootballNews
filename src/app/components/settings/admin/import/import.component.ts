@@ -6,6 +6,7 @@ import * as XLSX from 'xlsx';
 import { CommService } from 'src/app/services/comm/comm.service';
 import { ImportVerificationService } from 'src/app/services/import-verification/import-verification.service';
 import { AuthenticationService } from 'src/app/services/authentication/authentication.service';
+import { DownloadService } from 'src/app/services/download/download.service';
 
 @Component({
   selector: 'app-import',
@@ -50,7 +51,8 @@ export class ImportComponent {
     private settingsComponent: SettingsComponent,
     private comm: CommService,
     private importVerifyService: ImportVerificationService,
-    private authenticationService: AuthenticationService) { }
+    private authenticationService: AuthenticationService,
+    private downloadService: DownloadService) { }
 
   checkFile(event: any) {
 
@@ -64,6 +66,12 @@ export class ImportComponent {
   }
 
   readFile(file: any) {
+    this.downloadService.setIsOpen(true);
+    this.downloadService.setHeader(true);
+
+    const id = Date.now();
+    this.downloadService.importsArray.push({"id": id, "text": `${this.openTab} information import`, "finished": false});
+
     const target: DataTransfer = <DataTransfer>(file);
     if(target.files.length !== 1) return console.log('lenght not 1');
 
@@ -102,6 +110,8 @@ export class ImportComponent {
     reader.readAsBinaryString(target.files[0]);
 
     this.downloadService.update('import', id);
+    this.downloadService.finishedImports.push(id);
+    this.downloadService.setHeader(true);
   }
 
   orderArray(array: string[][]) {

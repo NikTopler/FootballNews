@@ -158,7 +158,9 @@ export class DisplayComponent implements OnInit {
   }
 
   async download(type: string) {
+    this.downloadService.setIsOpen(true);
     this.downloadService.setHeader(true);
+
     const id = Date.now();
     const fileName = `${type}_${id}`;
     const downloadsArray = this.downloadService.downloadsArray;
@@ -167,6 +169,7 @@ export class DisplayComponent implements OnInit {
     const array: any = await this.fetchData(true);
     await this.downloadComponent.transformArrayToXLSX(fileName, array);
 
+    this.downloadService.update('download', id);
     this.downloadService.finishedDownloads.push(id);
     this.downloadService.setHeader(true);
   }
