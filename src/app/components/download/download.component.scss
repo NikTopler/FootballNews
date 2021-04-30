@@ -25,9 +25,14 @@
       border-top-left-radius: 4px;
 
       .text {
+        display: flex;
+        flex-direction: column;
         color: $bg;
         font-weight: 400;
-        span { color: $bg; }
+        span {
+          color: $bg;
+          padding: 2px 0;
+        }
       }
 
       .icon-container {
