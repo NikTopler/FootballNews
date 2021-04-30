@@ -100,6 +100,8 @@ export class ImportComponent {
       }
     }
     reader.readAsBinaryString(target.files[0]);
+
+    this.downloadService.update('import', id);
   }
 
   orderArray(array: string[][]) {

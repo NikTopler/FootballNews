@@ -165,14 +165,7 @@ export class DisplayComponent implements OnInit {
 
     downloadsArray.push({"id": id, "text": `${type.charAt(0).toUpperCase() + type.slice(1)} information download`, "finished": false });
     const array: any = await this.fetchData(true);
-    this.appComponent.downloadOpen = true;
     await this.downloadComponent.transformArrayToXLSX(fileName, array);
-
-    for(let i = 0; i < downloadsArray.length; i++)
-      if(downloadsArray[i].id === id) {
-        downloadsArray[i].finished = true;
-        break;
-      }
 
     this.downloadService.finishedDownloads.push(id);
     this.downloadService.setHeader(true);
