@@ -20,7 +20,7 @@
   }
 
   .cell.header {
-    background-color: $pink;
+    background-color: $pink-500;
     input {
       cursor: default;
       color: #fff;
@@ -78,18 +78,10 @@ section.content {
   .button-container {
     display: flex;
     margin-bottom: 1rem;
+    button.btn-100:last-child { margin-left: 1rem; }
   }
 }
 
 .none { display: none; }
 
-button[mat-flat-button] {
-  line-height: 32px;
-}
-
-.gray {
-  background-color: $medium-gray;
-  color: #fff;
-}
-
-.errInput { background-color: $medium-red; }
+.errInput { background-color: $red-100; }
