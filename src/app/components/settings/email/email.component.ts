@@ -44,7 +44,7 @@ export class EmailComponent {
     });
     const res = await req.text();
 
-    this.SettingsComponent.createMessage(true, this.subscribed ? 'You have subscribed to our email service' : 'You have unsubscribed to our email service', 'success');
+    this.SettingsComponent.createMessage(true, this.subscribed ? 'You have subscribed to our email service' : 'You have unsubscribed to our email service', 'notification');
     this.AppComponent.waitForResponse = false;
 
   }
