@@ -67,4 +67,32 @@ export class EmailComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  getSelectContainer(id: string) { return document.getElementById(id) as HTMLDivElement; }
+
+  manageSelect(id: string) {
+    const expandContainer = this.getSelectContainer(id).querySelector('.select-expand') as HTMLDivElement;
+
+    if(this.selectOpen) expandContainer.classList.add('active');
+    else expandContainer.classList.remove('active');
+  }
+
+  changeOption(text: string, id: string) {
+    let array: any = [];
+    if(id.includes('resend')) {
+      this.resendSpan = text;
+      array = this.resendOptions;
+    } else if(id.includes('week')) {
+      array = this.weekOptions;
+      this.weekSpan = text;
+    } else if(id.includes('month')) {
+      array = this.monthOptions;
+      this.monthSpan = text;
+    }
+
+    for(let i = 0; i < array.length; i++)
+      if(array[i].text === text) array[i].active = true;
+      else array[i].active = false;
+    this.selectOpen = false;
+    this.manageSelect(id);
+  }
 }
