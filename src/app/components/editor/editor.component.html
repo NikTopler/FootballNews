@@ -11,7 +11,7 @@
     <div id="row-container" class="row-container">
       <pre *ngFor="let content of contentArray">
         <span *ngFor="let data of content; let index = index; let last = last">
-          <div class="{{ data === '' ? 'white-space': content.length - 2 === index ? 'red' : '' }}">{{data}}</div>
+          <div class="{{selectClass(data)[0]}}">{{selectClass(data)[1]}}</div>
         </span>
       </pre>
     </div>

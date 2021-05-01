@@ -4,6 +4,7 @@ import { environment } from '../environments/environment';
 import { CommService } from 'src/app/services/comm/comm.service';
 import { AuthenticationService } from './services/authentication/authentication.service';
 import { UserService } from './services/user/user.service';
+import { DownloadService } from './services/download/download.service';
 
 @Component({
   selector: 'app-root',
@@ -26,11 +27,13 @@ export class AppComponent implements OnInit{
     private socialAuthService: SocialAuthService,
     private comm: CommService,
     private authenticationService: AuthenticationService,
-    private userService: UserService) {
+    private userService: UserService,
+    private downloadService: DownloadService) {
     this.socialAuthService.authState.subscribe((user) => {
       this.userInfo = user;
       this.socialLoginPopup = false;
     });
+    this.downloadService.getIsOpen().subscribe((val) => { this.downloadOpen = val; });
   }
 
   ngOnInit() {
@@ -43,7 +46,7 @@ export class AppComponent implements OnInit{
         "photoUrl": null,
         "provider": 'AMAZON'
       }
-      this.loggedIn = (user != null);
+      this.loggedIn = (user != null && user.email != null);
       if(this.loggedIn) this.socialLogin(this.userInfo);
     });
     this.checkAuthentication()
@@ -63,20 +66,13 @@ export class AppComponent implements OnInit{
     else if(res.status === 401 && res.body.includes('Access')) return this.authenticationService.logout();
     else if(res.status === 404) this.checkAuthentication();
 
-    if(res.body.data) {
+    if(res.body.data.data.email) {
       this.userService.userInfo = res.body.data.data;
       this.userInfo = this.userService.userInfo;
       this.loggedIn = true;
       this.waitForResponse = false;
       this.reload = false;
-    }
-  }
-
-  over(message: string) {
-    console.log(message);
-    this.loggedIn = false;
-    this.reload = false;
-    this.waitForResponse = false;
+    } else this.authenticationService.logout();
   }
 
   async socialLogin(

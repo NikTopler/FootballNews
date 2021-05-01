@@ -1,7 +1,6 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthenticationService } from 'src/app/services/authentication/authentication.service';
-import { UserService } from 'src/app/services/user/user.service';
 
 @Component({
   selector: 'app-navbar',
@@ -12,7 +11,6 @@ export class NavbarComponent implements OnInit{
 
   constructor(
     private router: Router,
-    private userService: UserService,
     private authenticationService: AuthenticationService) { }
 
   ngOnInit() { }

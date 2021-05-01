@@ -35,13 +35,22 @@ export class EditorService {
 
       for(let j = 0; j < array[i].length; j++) {
         let comma = array[i].length !== j + 1 ? ',' : '';
+        let quote = Number(array[i][j]) || array[i][j] === '0' || array[i][j] === null ? '' : '"';
+
         whiteSpace = this.createWhiteSpace([], pushCounter);
-        jsonArray.push([whiteSpace.join(''), `"${template[j]}"`, `: "${array[i][j]}"${comma}`]);
+        whiteSpace.push(`"${template[j]}"`, ':', quote+array[i][j]+quote, comma);
+        jsonArray.push(whiteSpace);
       }
 
-      if(i === array.length - 1) jsonArray.push([whiteSpace.join(''), '}'], [']']);
-      else jsonArray.push([whiteSpace.join(''), '},']);
+      whiteSpace = this.createWhiteSpace([], pushCounter - 1);
 
+      if(i === array.length - 1) {
+        whiteSpace.push('}');
+        jsonArray.push(whiteSpace, [']']);
+      } else {
+        whiteSpace.push('},');
+        jsonArray.push(whiteSpace);
+      }
       pushCounter = 1;
       whiteSpace = this.createWhiteSpace([], pushCounter);
     }
@@ -50,7 +59,7 @@ export class EditorService {
 
   createWhiteSpace(array: string[], num: number) {
     for(let i = 0; i < num; i++)
-      array.push('');
+      array.push('BREAK');
     return array;
   }
 

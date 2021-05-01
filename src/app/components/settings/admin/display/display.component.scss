@@ -13,12 +13,7 @@
   flex-wrap: nowrap;
   justify-content: space-between;
 
-
-  .btn-container {
-    width: 8rem;
-
-    button { width: auto; }
-  }
+  .btn-container { width: 8rem; }
 
   .btn-container.download {
     display: flex;
@@ -35,9 +30,9 @@
     display: flex;
 
     .page-number {
-      padding: 8px;
-      color: $dark-gray;
-      background-color: $light-gray;
+      padding: 6px 8px;
+      color: $gray-700;
+      background-color: $gray-100;
       transition: all ease-in-out .24s;
       cursor: pointer;
     }
@@ -50,11 +45,11 @@
       border-bottom-right-radius: 3px;
     }
 
-    .page-number:not(:last-child) { border-right: 1px solid $medium-gray; }
-    .page-number:hover { background-color: $medium-gray; }
+    .page-number:not(:last-child) { border-right: 1px solid $gray-200; }
+    .page-number:hover { background-color: $gray-200; }
     .page-number.active {
       color: $bg !important;
-      background-color: $pink;
+      background-color: $pink-500;
     }
   }
 }
@@ -64,16 +59,13 @@
   align-items: center;
   padding: 0.25rem 0;
 
-  .btn {
+  .btn-100 {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: fit-content;
-    padding: 2px;
-    svg { margin-right: 0.25rem; }
     span {
       font-weight: 400;
-      color: $bg;
+      color: $gray-700;
     }
   }
 
@@ -81,26 +73,26 @@
     width: fit-content;
     display: flex;
     align-items: center;
-    border: 1px solid $medium-gray;
+    border: 1px solid $gray-300;
     border-radius: 4px;
 
     div {
       padding: 0.25rem 1rem;
       cursor: pointer;
-      background-color: $bg;
+      background-color: $gray-000;
       transition: all ease-in-out .3s, color 1ms;
-      color: $dark-gray;
+      color: $gray-700;
     }
     div:first-child {
       border-top-left-radius: 3px;
       border-bottom-left-radius: 3px;
-      border-right: 1px solid $medium-gray;
+      border-right: 1px solid $gray-300;
     }
     div:last-child {
       border-top-right-radius: 3px;
       border-bottom-right-radius: 3px;
     }
-    div:hover { background-color: $light-gray; }
-    div.active { background-color: $light-gray; }
+    div:hover { background-color: $gray-200; }
+    div.active { background-color: $gray-200; }
   }
 }

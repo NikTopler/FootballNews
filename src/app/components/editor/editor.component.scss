@@ -1,7 +1,6 @@
-@import '../../variables.scss';
+@import '../../../styles.scss';
 
 .editor-container {
-  border: 1px solid $medium-gray;
   border-radius: 4px;
   height: 30rem;
   width: auto;
@@ -15,17 +14,17 @@
     left: 0;
     width: 3rem;
     height: 100%;
-    background-color: $light-gray;
-    border-right: 1px solid $medium-gray;
+    background-color: $gray-100;
+    border-right: 1px solid $gray-200;
     border-top-left-radius: 4px;
     border-bottom-left-radius: 4px;
     .side-bar-container {
       height: fit-content;
       width: inherit;
-      background-color: $light-gray;
-      border-right: 1px solid $medium-gray;
+      background-color: $gray-100;
+      border-right: 1px solid $gray-200;
     }
-    div { border-bottom: 1px solid $medium-gray; }
+    div { border-bottom: 1px solid $gray-200; }
     div:last-child { border-bottom: none; }
     span {
       display: flex;
@@ -81,9 +80,10 @@
         display: flex;
         align-items: center;
       }
-      span .red{
-        color: #fb8532;
-      }
+      span .dark-red { color: $pink-700; }
+      span .red{ color: $pink-200; }
+      span .null { color: $purple-500; }
+      span .number { color: $purple-300; }
     }
   }
 }

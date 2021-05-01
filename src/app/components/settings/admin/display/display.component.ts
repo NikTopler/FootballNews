@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { AppComponent } from 'src/app/app.component';
 import { DownloadComponent } from 'src/app/components/download/download.component';
 import { CommService } from 'src/app/services/comm/comm.service';
 import { DownloadService } from 'src/app/services/download/download.service';
@@ -49,7 +48,6 @@ export class DisplayComponent implements OnInit {
 
   constructor(
     private comm: CommService,
-    private appComponent: AppComponent,
     private downloadComponent: DownloadComponent,
     private downloadService: DownloadService,
     private editorService: EditorService) { }
@@ -160,22 +158,18 @@ export class DisplayComponent implements OnInit {
   }
 
   async download(type: string) {
+    this.downloadService.setIsOpen(true);
     this.downloadService.setHeader(true);
+
     const id = Date.now();
     const fileName = `${type}_${id}`;
     const downloadsArray = this.downloadService.downloadsArray;
 
     downloadsArray.push({"id": id, "text": `${type.charAt(0).toUpperCase() + type.slice(1)} information download`, "finished": false });
     const array: any = await this.fetchData(true);
-    this.appComponent.downloadOpen = true;
     await this.downloadComponent.transformArrayToXLSX(fileName, array);
 
-    for(let i = 0; i < downloadsArray.length; i++)
-      if(downloadsArray[i].id === id) {
-        downloadsArray[i].finished = true;
-        break;
-      }
-
+    this.downloadService.update('download', id);
     this.downloadService.finishedDownloads.push(id);
     this.downloadService.setHeader(true);
   }
