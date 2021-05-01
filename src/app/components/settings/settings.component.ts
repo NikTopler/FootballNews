@@ -59,7 +59,8 @@ export class SettingsComponent implements OnInit {
     return [
       { name: 'Panel', path: 'admin/panel', active: this.router.url.includes('admin/panel') ? 'active' : '' },
       { name: 'Import', path: 'admin/import', active: this.router.url.includes('admin/import') ? 'active' : ''  },
-      { name: 'Display & Edit', path: 'admin/display', active: this.router.url.includes('admin/display') ? 'active' : ''  }
+      { name: 'Display & Edit', path: 'admin/display', active: this.router.url.includes('admin/display') ? 'active' : ''  },
+      { name: 'Email', path: 'admin/email', active: this.router.url.includes('admin/email') ? 'active' : ''  }
     ];
   }
 

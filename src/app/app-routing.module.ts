@@ -17,6 +17,7 @@ import { LaligaStandingsComponent } from './pages/laliga-standings/laliga-standi
 import { PremiereLeagueNewsComponent } from './pages/premiere-league-news/premiere-league-news.component';
 import { PremiereLeagueComponent } from './pages/premiere-league/premiere-league.component';
 import { PremiereLeagueStandingsComponent } from './pages/premiere-league-standings/premiere-league-standings.component';
+import { EmailComponent } from './components/settings/admin/email/email.component';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'home' },
@@ -35,7 +36,8 @@ const routes: Routes = [
     { path: 'admin/panel', component: AdminPanelComponent, canActivate: [AdminGuard] },
     { path: 'admin/import', component: ImportComponent, canActivate: [AdminGuard] },
     { path: 'admin/display', component: DisplayComponent, canActivate: [AdminGuard] },
-    { path: 'admin/insight/imports', component: ImportsComponent, canActivate: [AdminGuard] }
+    { path: 'admin/insight/imports', component: ImportsComponent, canActivate: [AdminGuard] },
+    { path: 'admin/email', component: EmailComponent, canActivate: [AdminGuard] }
   ]},
 ];
 
