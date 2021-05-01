@@ -15,7 +15,7 @@ export class ExternalComponent implements OnInit {
 
   ngOnInit() {
     const extraSocialLogin = document.querySelector('.external-social-login') as HTMLDivElement;
-    const loginBtn = document.querySelector('.login-btn') as HTMLDivElement;
+    const loginBtn = document.getElementById('login-btn') as HTMLDivElement;
     window.addEventListener('click', () => {
       if(this.app.socialLoginPopup && this.app.slp !== 0) this.loginPopup.emit(false)
       else this.app.slp = 1;

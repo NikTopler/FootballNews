@@ -1,10 +1,12 @@
+@import '../../../../styles.scss';
+
 .external-social-login {
   width: 100%;
   max-width: 300px;
   border-radius: 6px;
   overflow: hidden;
-  background-color: #fff;
-  border-top: 5px solid #ff4081;
+  background-color: $white;
+  border-top: 5px solid $pink-500;
   padding: 25px;
   position: relative;
   margin: 0 auto;
@@ -30,7 +32,7 @@ h2 {
 .description p {
   font-size: medium;
   text-align: center;
-  color: #445d6e;
+  color: $gray-700;
 }
 
 .internal-social-login {
@@ -56,27 +58,27 @@ h2 {
   content: "";
   width: 4px;
   height: 20px;
-  background-color: gray;
+  background-color: $gray-400;
   position: absolute;
   border-radius: 4px;
   transform: rotate(-45deg);
-  transition: all ease-in-out .3;
+  transition: all ease-in-out .2s;
 }
 
 .x-container::after {
   content: "";
   width: 4px;
   height: 20px;
-  background-color: gray;
+  background-color: $gray-400;
   position: absolute;
   border-radius: 4px;
   transform: rotate(45deg);
-  transition: all ease-in-out .3;
+  transition: all ease-in-out .2s;
 }
 
 .x-container:hover::after,
 .x-container:hover::before {
-  background-color: rgb(53, 53, 53);
+  background-color: $gray-500;
 }
 
 .button-container {
@@ -89,7 +91,7 @@ h2 {
   flex-direction: row;
   align-items: center;
   cursor: pointer;
-  background-color: #fff;
+  background-color: $white;
   width: 100%;
   box-shadow: 0 2px 4px 0 rgb(0 0 0 / 10%);
   border-radius: 4px;
@@ -97,7 +99,7 @@ h2 {
   padding: 0;
   border: 1px solid transparent;
   margin: 0 0 10px 0;
-  color: #fff;
+  color: $white;
   margin-top: 3px;
   margin-bottom: 0;
   transition: ease-in-out .18s;
@@ -109,9 +111,9 @@ h2 {
   box-shadow: 0 2px 4px 0 rgb(0 0 0 / 25%);
 }
 
-.social-button.google { background-color: #4285f4; }
-.social-button.facebook { background-color: #1877f2; }
-.social-button.amazon { background-color: #000000; }
+.social-button.google { background-color: $blue-google; }
+.social-button.facebook { background-color: $blue-facebook; }
+.social-button.amazon { background-color: $black; }
 
 .logo-container {
   line-height: 0;
@@ -120,11 +122,11 @@ h2 {
 }
 
 .facebook .logo-container {
-  background-color: #1877f2;
+  background-color: $blue-facebook;
   padding: 11px;
 }
 .google .logo-container {
-  background-color: #fff;
+  background-color: $white;
   padding: 14px;
 }
 
@@ -137,6 +139,6 @@ h2 {
 .social-button .text {
   margin: auto;
   font-size: 1.05rem;
-  color: #fff;
+  span { color: $white; }
 }
 
