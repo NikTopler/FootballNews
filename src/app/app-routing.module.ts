@@ -4,7 +4,7 @@ import { HomeComponent } from './pages/home/home.component';
 import { SettingsComponent } from './components/settings/settings.component';
 import { AccountComponent } from './components/settings/account/account.component';
 import { UserGuard } from './guards/user/user.guard';
-import { EmailComponent } from './components/settings/email/email.component';
+import { NotificationComponent } from './components/settings/notification/notification.component';
 import { ThemeComponent } from './components/settings/theme/theme.component';
 import { AdminGuard } from './guards/admin/admin.guard';
 import { ImportComponent } from './components/settings/admin/import/import.component';
@@ -30,7 +30,7 @@ const routes: Routes = [
   { path: 'settings', component: SettingsComponent, canActivate: [UserGuard], children: [
     { path: '', pathMatch: 'full', redirectTo: 'account'},
     { path: 'account', component: AccountComponent },
-    { path: 'notification', component: EmailComponent },
+    { path: 'notification', component: NotificationComponent },
     { path: 'theme', component: ThemeComponent },
     { path: 'admin/panel', component: AdminPanelComponent, canActivate: [AdminGuard] },
     { path: 'admin/import', component: ImportComponent, canActivate: [AdminGuard] },

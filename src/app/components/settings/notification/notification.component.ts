@@ -7,11 +7,11 @@ import { environment } from '../../../../environments/environment';
 import { SettingsComponent } from '../settings.component';
 
 @Component({
-  selector: 'app-email',
-  templateUrl: './email.component.html',
-  styleUrls: ['./email.component.scss']
+  selector: 'app-notification',
+  templateUrl: './notification.component.html',
+  styleUrls: ['./notification.component.scss']
 })
-export class EmailComponent {
+export class NotificationComponent {
 
   userInfo: any = this.app.userInfo;
   subscribed: boolean = Number(this.app.userInfo.emailingService) === 0 ? false : true;

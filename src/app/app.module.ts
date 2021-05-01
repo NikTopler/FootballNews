@@ -11,7 +11,7 @@ import { ExternalComponent } from './pages/authentication/external/external.comp
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { AccountComponent } from './components/settings/account/account.component';
 import { SettingsComponent } from './components/settings/settings.component';
-import { EmailComponent } from './components/settings/email/email.component';
+import { NotificationComponent } from './components/settings/notification/notification.component';
 import { ThemeComponent } from './components/settings/theme/theme.component';
 import { ImportComponent } from './components/settings/admin/import/import.component';
 import { AdminPanelComponent } from './components/settings/admin/admin-panel/admin-panel.component';
@@ -59,7 +59,7 @@ import { PremiereLeagueStandingsComponent } from './pages/premiere-league-standi
     NavbarComponent,
     AccountComponent,
     SettingsComponent,
-    EmailComponent,
+    NotificationComponent,
     ThemeComponent,
     ImportComponent,
     AdminPanelComponent,
