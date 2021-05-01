@@ -1,1 +1,60 @@
-<p>email works!</p>
+<div class="settings-content">
+  <div class="content-conteiner">
+    <header>
+      <div class="button-container">
+        <div class="select-container" id="resend-select-container">
+            <button (click)="selectOpen = !selectOpen; manageSelect('resend-select-container')" class="select">
+              <span id="resend-text">{{resendSpan}}</span>
+              <svg xmlns="http://www.w3.org/2000/svg" width="9" height="9" style="transform: rotate(90deg);" viewBox="0 0 24 24">
+                <path d="M6 0l12 12-12 12z" fill="#586069"/></svg>
+            </button>
+            <div class="select-expand">
+              <div *ngFor="let option of resendOptions" class="option {{ option.active ? 'active' : '' }}"
+                (click)="changeOption(option.text, 'resend-select-container')">
+                <span>{{ option.text }}</span>
+              </div>
+            </div>
+        </div>
+        <div class="select-container {{ resendSpan === 'Once a week' ? '' : 'disabled' }}" id="week-select-container">
+          <button (click)="selectOpen = !selectOpen; manageSelect('week-select-container')" class="select">
+            <span id="resend-text">{{weekSpan}}</span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="9" height="9" style="transform: rotate(90deg);" viewBox="0 0 24 24">
+              <path d="M6 0l12 12-12 12z" fill="#586069"/></svg>
+          </button>
+          <div class="select-expand">
+            <div *ngFor="let option of weekOptions" class="option {{ option.active ? 'active' : '' }}"
+              (click)="changeOption(option.text, 'week-select-container')">
+              <span>{{ option.text }}</span>
+            </div>
+          </div>
+        </div>
+        <div class="select-container {{ resendSpan === 'Once a month' ? '' : 'disabled' }}" id="month-select-container">
+          <button (click)="selectOpen = !selectOpen; manageSelect('month-select-container')" class="select">
+            <span id="resend-text">{{monthSpan}}</span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="9" height="9" style="transform: rotate(90deg);" viewBox="0 0 24 24">
+              <path d="M6 0l12 12-12 12z" fill="#586069"/></svg>
+          </button>
+          <div class="select-expand">
+            <div *ngFor="let option of monthOptions" class="option {{ option.active ? 'active' : '' }}"
+              (click)="changeOption(option.text, 'month-select-container')">
+              <span>{{ option.text }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+    <form>
+      <div class="input-area">
+        <div class="tag-input">
+          <ul>
+            <li></li>
+          </ul>
+          <input type="text">
+        </div>
+        <div class="side-button-container">
+
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

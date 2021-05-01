@@ -85,6 +85,24 @@ button {
   color: $white;
 }
 
+.select {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 1px solid $gray-300;
+  background-color: $gray-000;
+  color: $gray-600;
+  border-radius: 6px;
+  padding: 6px 16px;
+  width: auto;
+  transition: ease-in .1s;
+  span { color: $gray-600; }
+  svg { margin-left: 0.5rem; }
+}
+.select:hover { background-color: $gray-100; }
+.select:active { background-color: $gray-200; }
+
 .spacer { flex: 1 1 auto; }
 
 hr {
@@ -134,4 +152,3 @@ hr {
     background-color: $orange-000;
   }
 }
-
