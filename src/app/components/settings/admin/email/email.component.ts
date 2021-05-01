@@ -7,6 +7,61 @@ import { Component, OnInit } from '@angular/core';
 })
 export class EmailComponent implements OnInit {
 
+  selectOpen: boolean = false;
+
+  resendOptions = [
+    { text: 'One time', active: true },
+    { text: 'Once a week', active: false },
+    { text: 'Once a month', active: false }
+  ];
+  resendSpan = 'One time';
+
+  weekOptions = [
+    { text: 'Monday', active: true },
+    { text: 'Tuesday', active: false },
+    { text: 'Wednesday', active: false },
+    { text: 'Thursday', active: false },
+    { text: 'Friday', active: false },
+    { text: 'Saturday', active: false },
+    { text: 'Sunday', active: false },
+  ];
+  weekSpan = 'Monday';
+
+  monthOptions = [
+    { text: '1st', active: true },
+    { text: '2nd', active: false },
+    { text: '3rd', active: false },
+    { text: '4th', active: false },
+    { text: '5th', active: false },
+    { text: '6th', active: false },
+    { text: '7th', active: false },
+    { text: '8th', active: false },
+    { text: '9th', active: false },
+    { text: '10th', active: false },
+    { text: '11th', active: false },
+    { text: '12th', active: false },
+    { text: '13th', active: false },
+    { text: '14th', active: false },
+    { text: '15th', active: false },
+    { text: '16th', active: false },
+    { text: '17th', active: false },
+    { text: '18th', active: false },
+    { text: '19th', active: false },
+    { text: '20th', active: false },
+    { text: '21st', active: false },
+    { text: '22nd', active: false },
+    { text: '23rd', active: false },
+    { text: '24th', active: false },
+    { text: '25th', active: false },
+    { text: '26th', active: false },
+    { text: '27th', active: false },
+    { text: '28th', active: false },
+    { text: '29th', active: false },
+    { text: '30th', active: false },
+    { text: '31st', active: false },
+  ];
+  monthSpan = '1st';
+
   constructor() { }
 
   ngOnInit(): void {
