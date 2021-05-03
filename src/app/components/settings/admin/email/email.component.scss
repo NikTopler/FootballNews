@@ -250,3 +250,10 @@
   .x-container:hover { background-color: #fbaac5; }
 }
 
+@media screen and (max-width: 550px) {
+  .form-container {
+    display: flex;
+    flex-direction: column;
+  }
+  .tag-input { max-height: 10rem; }
+}
