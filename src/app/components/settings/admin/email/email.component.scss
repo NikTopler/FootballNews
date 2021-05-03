@@ -1,20 +1,25 @@
 @import '../../../../../styles.scss';
 
-.input-area {
-  display: flex;
-  align-items: center;
-  width: calc(100% - 0.5rem);
-  height: auto;
-  padding: 0.5rem 0.25rem;
-
-  .tag-input {
-    width: inherit;
-  }
-}
-
 .button-container {
   display: flex;
   align-items: center;
+}
+
+.form-container {
+  display: grid;
+  grid-template-columns: 1fr 15rem;
+  grid-template-rows: 1fr;
+
+  .left {
+    grid-column: 1/2;
+    grid-row: 1/2;
+  }
+  .right {
+    grid-column: 2/3;
+    grid-row: 1/2;
+  }
+
+  .all-email { padding: 8px; }
 }
 
 .select-container {
@@ -38,6 +43,7 @@
     visibility: hidden;
     transition: all ease-in-out .2s;
     overflow: auto;
+    z-index: 200;
 
     .option {
       cursor: pointer;

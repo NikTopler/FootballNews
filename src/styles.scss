@@ -8,12 +8,12 @@
 html, body {
   height: 100%;
   width: 100%;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
 body {
   min-width: 100vw;
   min-height: 100vh;
-  font-family: Roboto, "Helvetica Neue", sans-serif;
   position: relative;
   background-color: $bg;
 }
