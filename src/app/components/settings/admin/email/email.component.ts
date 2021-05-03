@@ -77,6 +77,18 @@ export class EmailComponent implements OnInit {
 
   ngOnInit(): void { this.setupEvents(); }
 
+  setupEvents() {
+    const addEmailInput = document.getElementById('add-email') as HTMLInputElement;
+    addEmailInput.onkeyup = (e) => {
+      const userInput = addEmailInput.value.trim().toLowerCase();
+      if(e.key !== 'Enter') return;
+      if(!this.authenticationService.validateEmail(userInput)) return;
+      if(this.allAddedEmails.filter((object) => object.text === userInput).length !== 0) return;
+      if(!this.getEmailTagContainer.classList.contains('active')) this.getEmailTagContainer.classList.add('active');
+
+      this.allAddedEmails.push({text: userInput, class: this.randomColor()});
+      addEmailInput.value = '';
+    }
   }
 
   getSelectContainer(id: string) { return document.getElementById(id) as HTMLDivElement; }
