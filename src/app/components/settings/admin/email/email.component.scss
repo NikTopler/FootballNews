@@ -73,3 +73,63 @@
   pointer-events: none;
   button { background-color: $gray-300; }
 }
+.redTag {
+  color: #fdaeb7;
+  background-color: #ffeef0;
+  span { color: #b31d28; }
+  .x-container { background-color: #ffdce0; }
+  .x-container::before { background-color: #b31d28; }
+  .x-container::after { background-color: #b31d28; }
+  .x-container:hover { background-color: #fdaeb7; }
+}
+
+.blueTag {
+  color: #c8e1ff;
+  background-color: #f1f8ff;
+  span { color: #044289; }
+  .x-container { background-color: #dbedff; }
+  .x-container::before { background-color: #044289; }
+  .x-container::after { background-color: #044289; }
+  .x-container:hover { background-color: #c8e1ff; }
+}
+
+.purpleTag {
+  color: #d1bcf9;
+  background-color: #f5f0ff;
+  span { color: #4c2889; }
+  .x-container { background-color: #e6dcfd; }
+  .x-container::before { background-color: #4c2889; }
+  .x-container::after { background-color: #4c2889; }
+  .x-container:hover { background-color: #d1bcf9; }
+}
+
+.greenTag {
+  color: #bef5cb;
+  background-color: #f0fff4;
+  span { color: #176f2c; }
+  .x-container { background-color: #dcffe4; }
+  .x-container::before { background-color: #176f2c; }
+  .x-container::after { background-color: #176f2c; }
+  .x-container:hover { background-color: #bef5cb; }
+}
+
+.orangeTag {
+  color: #ffd1ac;
+  background-color: #fff8f2;
+  span { color: #d15704; }
+  .x-container { background-color: #ffebda; }
+  .x-container::before { background-color: #d15704; }
+  .x-container::after { background-color: #d15704; }
+  .x-container:hover { background-color: #ffd1ac; }
+}
+
+.pinkTag {
+  color: #fbaac5;
+  background-color: #ffe3ec;
+  span { color: #c81954; }
+  .x-container { background-color: #fbaac5; }
+  .x-container::before { background-color: #c81954; }
+  .x-container::after { background-color: #c81954; }
+  .x-container:hover { background-color: #fbaac5; }
+}
+
