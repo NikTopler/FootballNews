@@ -73,6 +73,123 @@
   pointer-events: none;
   button { background-color: $gray-300; }
 }
+
+.input-area {
+  display: flex;
+  flex-direction: column;
+  width: calc(100% - 0.5rem);
+  height: auto;
+  padding: 0.5rem 0.25rem;
+
+  .input {
+    position: relative;
+
+    .icon {
+      position: absolute;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: calc(100% - 2px);
+      width: 2rem;
+      margin: auto;
+      top: 1px;
+      bottom: 1px;
+      left: 1px;
+      background-color: $gray-300;
+      border-top-left-radius: 3px;
+      border-bottom-left-radius: 3px;
+    }
+  }
+  input {
+    width: calc(100% - (16px + 2.25rem));
+    padding-left: 2.25rem;
+  }
+  textarea {
+    min-height: 1rem;
+    max-height: 40rem;
+    resize: vertical;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+  }
+}
+
+.button-container {
+  .btn-200 {
+    width: 100%;
+  }
+}
+
+.tag-input {
+  height: 1rem;
+  max-width: 30rem;
+  border: 1px;
+  font-size: 0.9rem;
+  padding: 5px;
+  width: calc(100% - 10px);
+  border: 1px solid $gray-300;
+  background-color: $gray-200;
+  border-radius: 4px;
+  color: $gray-700;
+  transition: all ease-in-out .2s;
+
+  .email-container {
+    width: fit-content;
+    cursor: default;
+    padding: 3px 1.5rem 3px 5px;
+    border-radius: 12px;
+    margin: 0 6px 6px 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid;
+
+    .icon {
+      position: relative;
+      .x-container {
+        width: 1rem;
+        height: 1rem;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 5px;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        margin: auto;
+        right: -1.68rem;
+        cursor: pointer;
+        transition: all ease-in-out .2s;
+      }
+      .x-container::before {
+        opacity: .8;
+        content: "";
+        width: 2px;
+        height: 15px;
+        position: absolute;
+        border-radius: 3px;
+        transform: rotate(-45deg);
+        transition: all ease-in-out .2s;
+      }
+      .x-container::after {
+        opacity: .8;
+        content: "";
+        width: 2px;
+        height: 15px;
+        position: absolute;
+        border-radius: 3px;
+        transform: rotate(45deg);
+        transition: all ease-in-out .2s;
+      }
+    }
+  }
+}
+
+.tag-input.active {
+  height: 15rem;
+  overflow: auto;
+  background-color: $gray-000;
+}
+
 .redTag {
   color: #fdaeb7;
   background-color: #ffeef0;
