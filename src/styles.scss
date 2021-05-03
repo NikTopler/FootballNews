@@ -152,3 +152,18 @@ hr {
     background-color: $orange-000;
   }
 }
+
+.input-100 {
+  font-size: 0.9rem;
+  padding: 5px;
+  width: calc(100% - 10px);
+  border: 1px solid $gray-300;
+  background-color: $gray-100;
+  border-radius: 4px;
+  color: $gray-700;
+}
+.input-100:focus {
+  border: 1px solid $pink-500;
+  box-shadow: 0 0 3px $pink-500;
+  outline: none;
+}
