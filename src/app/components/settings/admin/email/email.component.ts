@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthenticationService } from 'src/app/services/authentication/authentication.service';
 
 @Component({
   selector: 'app-email',
@@ -62,9 +63,20 @@ export class EmailComponent implements OnInit {
   ];
   monthSpan = '1st';
 
-  constructor() { }
+  allAddedEmails: headerEmail[] = [];
+  allHeaders: headerEmail[] = [
+    { text: 'From: footballnews.com', class: 'blueTag' },
+    { text: 'MIME-Version: 1.0', class: 'blueTag' },
+    { text: 'Content-type:text/html;charset=UTF-8', class: 'blueTag' },
+    { text: 'Content-type: text/css;', class: 'blueTag' },
+  ];
 
-  ngOnInit(): void {
+  colorScheme: string[] = ['redTag', 'blueTag', 'purpleTag', 'greenTag', 'orangeTag', 'pinkTag'];
+
+  constructor(private authenticationService: AuthenticationService) { }
+
+  ngOnInit(): void { this.setupEvents(); }
+
   }
 
   getSelectContainer(id: string) { return document.getElementById(id) as HTMLDivElement; }
