@@ -77,18 +77,27 @@ export class EmailComponent implements OnInit {
 
   ngOnInit(): void { this.setupEvents(); }
 
+  get getEmailTagContainer() { return document.querySelector('.tag-input.emails') as HTMLDivElement; }
+  get getHeaderTagContainer() { return document.querySelector('.tag-input.headers') as HTMLDivElement; }
+  get getEmailInput() { return document.getElementById('add-email') as HTMLInputElement; }
+
   setupEvents() {
     const addEmailInput = document.getElementById('add-email') as HTMLInputElement;
     addEmailInput.onkeyup = (e) => {
       const userInput = addEmailInput.value.trim().toLowerCase();
       if(e.key !== 'Enter') return;
-      if(!this.authenticationService.validateEmail(userInput)) return;
-      if(this.allAddedEmails.filter((object) => object.text === userInput).length !== 0) return;
-      if(!this.getEmailTagContainer.classList.contains('active')) this.getEmailTagContainer.classList.add('active');
-
-      this.allAddedEmails.push({text: userInput, class: this.randomColor()});
-      addEmailInput.value = '';
+      this.manageNewEmail(this.getEmailInput);
     }
+  }
+
+  manageNewEmail(input: HTMLInputElement) {
+    const value = input.value;
+    if(!this.authenticationService.validateEmail(value)) return;
+    if(this.allAddedEmails.filter((object) => object.text === value).length !== 0) return;
+    if(!this.getEmailTagContainer.classList.contains('active')) this.getEmailTagContainer.classList.add('active');
+
+    this.allAddedEmails.push({text: value, class: this.randomColor()});
+    input.value = '';
   }
 
   getSelectContainer(id: string) { return document.getElementById(id) as HTMLDivElement; }
@@ -128,9 +137,6 @@ export class EmailComponent implements OnInit {
     this.allHeaders = this.allHeaders.filter(f => f.text !== header);
     this.checkForEmptyArray(this.allHeaders, this.getHeaderTagContainer);
   }
-
-  get getEmailTagContainer() { return document.querySelector('.tag-input.emails') as HTMLDivElement; }
-  get getHeaderTagContainer() { return document.querySelector('.tag-input.headers') as HTMLDivElement; }
 
   checkForEmptyArray(array: headerEmail[], container: HTMLDivElement) {
     if(array.length === 0) container.classList.remove('active');
