@@ -57,6 +57,9 @@
                   <div class="x-container"></div>
                 </div>
               </div>
+              <div *ngIf="allAddedEmails.length === 0">
+                <span>No emails</span>
+              </div>
             </div>
           </div>
           <div class="all-email">
@@ -69,6 +72,9 @@
                 <div (click)="removeHeader(header.text)" class="icon">
                   <div class="x-container"></div>
                 </div>
+              </div>
+              <div *ngIf="allHeaders.length === 0">
+                <span>No headers</span>
               </div>
             </div>
           </div>
