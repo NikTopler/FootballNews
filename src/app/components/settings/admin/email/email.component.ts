@@ -119,4 +119,31 @@ export class EmailComponent implements OnInit {
     this.selectOpen = false;
     this.manageSelect(id);
   }
+
+  removeEmail(email: string) {
+    this.allAddedEmails = this.allAddedEmails.filter(f => f.text !== email);
+    this.checkForEmptyArray(this.allAddedEmails, this.getEmailTagContainer);
+  }
+  removeHeader(header: string) {
+    this.allHeaders = this.allHeaders.filter(f => f.text !== header);
+    this.checkForEmptyArray(this.allHeaders, this.getHeaderTagContainer);
+  }
+
+  get getEmailTagContainer() { return document.querySelector('.tag-input.emails') as HTMLDivElement; }
+  get getHeaderTagContainer() { return document.querySelector('.tag-input.headers') as HTMLDivElement; }
+
+  checkForEmptyArray(array: headerEmail[], container: HTMLDivElement) {
+    if(array.length === 0) container.classList.remove('active');
+    else container.classList.add('active');
+  }
+
+  randomColor() {
+    const randomNumber = Math.floor(Math.random() * this.colorScheme.length);
+    return this.colorScheme[randomNumber];
+  }
+}
+
+export interface headerEmail {
+  text: string,
+  class: string
 }
