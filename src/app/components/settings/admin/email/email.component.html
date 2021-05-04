@@ -43,7 +43,6 @@
         </div>
       </div>
     </header>
-    <form>
       <div class="form-container">
         <div class="right">
           <div class="all-email">
@@ -78,6 +77,22 @@
               </div>
             </div>
           </div>
+          <!-- <div class="all-email">
+            <div>
+              <span>Available Headers</span>
+            </div>
+            <div class="tag-input headers active">
+              <div *ngFor="let header of allHeaders;" class="email-container {{header.class}}">
+                <span>{{header.text}}</span>
+                <div (click)="removeHeader(header.text)" class="icon">
+                  <div class="x-container"></div>
+                </div>
+              </div>
+              <div *ngIf="allHeaders.length === 0">
+                <span>No headers</span>
+              </div>
+            </div>
+          </div> -->
         </div>
         <div class="left">
           <div class="input-area">
@@ -93,35 +108,53 @@
               <div (click)="manageNewEmail(this.getEmailInput)" class="submit-container">
                 <span>Add</span>
               </div>
-              <input type="email" id="add-email" class="input-100">
+              <input
+                type="email"
+                id="add-email"
+                class="input-100">
             </div>
           </div>
-          <div class="input-area">
-            <div>
-              <span>Subject</span>
-            </div>
-            <div class="input">
-              <div class="icon">
-                <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24">
-                  <path d="M.026 24l11.974-11.607 11.974 11.607h-23.948zm11.964-23.961l-11.99 8.725v12.476l7.352-7.127-5.653-4.113 10.291-7.488 10.309 7.488-5.655 4.108 7.356 7.132v-12.476l-12.01-8.725z" fill="#fff"/>
-                </svg>
+          <form [formGroup]="emailForm" (ngSubmit)="sendEmail()">
+            <div class="input-area">
+              <div>
+                <span>Subject</span>
               </div>
-              <input type="text" id="add-subject" class="input-100">
+              <div class="input">
+                <div class="icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24">
+                    <path d="M.026 24l11.974-11.607 11.974 11.607h-23.948zm11.964-23.961l-11.99 8.725v12.476l7.352-7.127-5.653-4.113 10.291-7.488 10.309 7.488-5.655 4.108 7.356 7.132v-12.476l-12.01-8.725z" fill="#fff"/>
+                  </svg>
+                </div>
+                <input
+                  type="text"
+                  formControlName="subject"
+                  id="add-subject"
+                  class="input-100">
+              </div>
             </div>
-          </div>
-          <div class="input-area">
-            <div>
-              <span>Message</span>
+            <div class="input-area">
+              <div>
+                <span>Message</span>
+              </div>
+              <div class="input">
+                <textarea
+                  name="message"
+                  formControlName="message"
+                  id="message-textarea"
+                  class="input-100"
+                  cols="30"
+                  rows="11">
+                </textarea>
+              </div>
             </div>
-            <div class="input">
-              <textarea name="" id="" cols="30" rows="10" class="input-100"></textarea>
+            <div class="button-container">
+              <button
+                type="submit"
+                id="submitButton"
+                class="btn-200">Send</button>
             </div>
-          </div>
-          <div class="button-container">
-            <button class="btn-200">Send</button>
-          </div>
+          </form>
         </div>
       </div>
-    </form>
   </div>
 </div>
