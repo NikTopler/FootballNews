@@ -4,6 +4,7 @@ import { AuthenticationService } from 'src/app/services/authentication/authentic
 import { CommService } from 'src/app/services/comm/comm.service';
 import { UserService } from 'src/app/services/user/user.service';
 import { environment } from '../../../../../environments/environment';
+import { SettingsComponent } from '../../settings.component';
 
 @Component({
   selector: 'app-email',
@@ -12,7 +13,10 @@ import { environment } from '../../../../../environments/environment';
 })
 export class EmailComponent implements OnInit {
 
+  userInfo: any = this.userService.userInfo;
+
   emailForm: FormGroup;
+  sending: boolean = false;
 
   selectOpen: boolean = false;
 
@@ -76,6 +80,7 @@ export class EmailComponent implements OnInit {
     { text: 'Content-type:text/html;charset=UTF-8', class: 'blueTag' },
     { text: 'Content-type: text/css;', class: 'blueTag' },
   ];
+  allRecentSentEmails: { adminFirstName: string, adminLastName: string, admin: string, time: string, reciever: string, subject: string, message: string }[] = [];
 
   colorScheme: string[] = ['redTag', 'blueTag', 'purpleTag', 'greenTag', 'orangeTag', 'pinkTag'];
 
@@ -83,7 +88,9 @@ export class EmailComponent implements OnInit {
     private fb: FormBuilder,
     private authenticationService: AuthenticationService,
     private comm: CommService,
-    private userService: UserService) {
+    private userService: UserService,
+    private settingsComponent: SettingsComponent) {
+    this.setAllRecentSentEmails();
     this.emailForm = this.fb.group({
       subject: ['', [Validators.required]],
       message: ['', [Validators.required]]
@@ -105,24 +112,39 @@ export class EmailComponent implements OnInit {
     }
   }
 
+  async setAllRecentSentEmails() { this.allRecentSentEmails = await this.getRecentSentMails();  }
+
+  async getRecentSentMails() {
+
+    if(!(await this.validateUser())) return [];
+
+    const limit =
+      JSON.stringify({
+        startLimit: 0,
+        endLimit: 10
+      })
+    const req = await fetch(`${environment.db}/mail.php`, {
+      method: 'POST',
+      body: this.comm.createFormData('GET_ALL_SENT_MAILS', limit)
+    });
+    const res = await req.text();
+    const json = JSON.parse(res)
+
+    if(json.status !== 'ok') return [];
+
+    return json.data.emails;
+  }
+
   manageNewEmail(input: HTMLInputElement) {
     const value = input.value;
     if(!this.authenticationService.validateEmail(value)) return;
     if(this.allAddedEmails.filter((object) => object.text === value).length !== 0) return;
-    if(!this.getEmailTagContainer.classList.contains('active')) this.getEmailTagContainer.classList.add('active');
 
     this.allAddedEmails.push({text: value, class: this.randomColor()});
     input.value = '';
   }
 
   getSelectContainer(id: string) { return document.getElementById(id) as HTMLDivElement; }
-
-  manageSelect(id: string) {
-    const expandContainer = this.getSelectContainer(id).querySelector('.select-expand') as HTMLDivElement;
-
-    if(this.selectOpen) expandContainer.classList.add('active');
-    else expandContainer.classList.remove('active');
-  }
 
   changeOption(text: string, id: string) {
     let array: any = [];
@@ -184,7 +206,9 @@ export class EmailComponent implements OnInit {
   async sendEmail() {
     if(!(await this.validateUser())) return;
     if(!this.emailForm.valid) return;
+    if(this.sending) return this.settingsComponent.createMessage(true, 'Wait, still sending!', 'err');
 
+    this.sending = true;
     const emailArray = this.getArrayFromObject(this.allAddedEmails);
     const headerArray = this.getArrayFromObject(this.allHeaders);
 
@@ -201,7 +225,32 @@ export class EmailComponent implements OnInit {
       body: this.comm.createFormData('CUSTOM_EMAIL', emailInfo)
     });
     const res = await req.text();
-    console.log(res);
+    const json = JSON.parse(res);
+
+    if(json.status !== 'ok') return this.settingsComponent.createMessage(true, json.data, 'err');
+
+    setTimeout(() => {
+      this.sending = false;
+      this.settingsComponent.createMessage(true, 'Mail successfully sent!', 'notification');
+    }, 500);
+  }
+
+  manageSelect(id: string) {
+    const expandContainer = this.getSelectContainer(id).querySelector('.select-expand') as HTMLDivElement;
+
+    if(this.selectOpen) expandContainer.classList.add('active');
+    else expandContainer.classList.remove('active');
+  }
+
+  transformNumberToDate(num: string) {
+    const number = Number(num);
+    const currentdate = new Date(1000 * number);
+    return ((currentdate.getDate() > 9) ? currentdate.getDate() : '0' + currentdate.getDate()) + '-' +
+          (((currentdate.getMonth()+1) > 9) ? (currentdate.getMonth()+1) : '0' + (currentdate.getMonth()+1)) + '-' +
+          currentdate.getFullYear() + ' ' +
+          ((currentdate.getHours() > 9) ? currentdate.getHours() : '0' + currentdate.getHours()) + ':' +
+          ((currentdate.getMinutes() > 9) ? currentdate.getMinutes() : '0' + currentdate.getMinutes()) + ':' +
+          ((currentdate.getSeconds() > 9) ? currentdate.getSeconds() : '0' + currentdate.getSeconds());
   }
 }
 
