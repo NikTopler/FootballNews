@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthenticationService } from 'src/app/services/authentication/authentication.service';
 import { CommService } from 'src/app/services/comm/comm.service';
 import { UserService } from 'src/app/services/user/user.service';
@@ -97,10 +98,10 @@ export class EmailComponent implements OnInit {
 
   setupEvents() {
     const addEmailInput = document.getElementById('add-email') as HTMLInputElement;
+
     addEmailInput.onkeyup = (e) => {
-      const userInput = addEmailInput.value.trim().toLowerCase();
-      if(e.key !== 'Enter') return;
-      this.manageNewEmail(this.getEmailInput);
+      if(e.key === 'Enter') this.manageNewEmail(this.getEmailInput);
+      else return;
     }
   }
 
@@ -160,6 +161,38 @@ export class EmailComponent implements OnInit {
   randomColor() {
     const randomNumber = Math.floor(Math.random() * this.colorScheme.length);
     return this.colorScheme[randomNumber];
+  }
+
+  async validateUser() {
+    const res = await this.userService.validateUser();
+    if(res.status === 401 && res.body.includes('Refresh'))
+      return location.reload();
+    else if(res.status === 401 && res.body.includes('Access'))
+      return this.authenticationService.logout();
+    else if(res.status === 404)
+      this.validateUser();
+    return true;
+  }
+
+  getAllEmailsIntoArray() {
+    let newArray: string[] = [];
+    for(let i = 0; i < this.allAddedEmails.length; i++)
+      newArray.push(this.allAddedEmails[i].text);
+    return newArray;
+  }
+
+  async sendEmail() {
+    if(!(await this.validateUser())) return;
+    if(!this.emailForm.valid) return;
+
+    const emailArray = this.getAllEmailsIntoArray();
+    const emailInfo = JSON.stringify({adminEmail: this.userService.userInfo?.email ,emails: emailArray, subject: this.emailForm.value.subject, message: this.emailForm.value.message})
+    const req = await fetch(`${environment.db}/mail.php`, {
+      method: 'POST',
+      body: this.comm.createFormData('CUSTOM_EMAIL', emailInfo)
+    });
+    const res = await req.text();
+    console.log(res);
   }
 }
 
