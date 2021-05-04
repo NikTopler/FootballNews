@@ -44,7 +44,7 @@
         </header>
           <div *ngFor="let page of preferencesSection"
             (click)="openPage('settings/'+ page.path)"
-            class="page {{ page.active }}" style="display: flex; align-items: center;">
+            class="page {{ page.active }}">
             <div class="selector"></div>
             <h3>{{ page.name }}</h3>
             <div class="spacer"></div>
@@ -62,6 +62,10 @@
             class="page {{ page.active }}">
             <div class="selector"></div>
             <h3>{{ page.name }}</h3>
+            <div class="spacer"></div>
+            <div *ngIf="page.name === 'Email'" class="tag err">
+              <span>Supports HTML and CSS</span>
+            </div>
           </div>
       </section>
       <section class="side-bar" *ngIf="userInfo.admin === '1'">
