@@ -47,7 +47,7 @@ label {
   color: $gray-800;
 }
 
-button.profile { background-color: $gray-300 !important; }
+svg.profile, button.profile { background-color: $gray-300 !important; }
 
 button {
   height: auto;
