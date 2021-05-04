@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthenticationService } from 'src/app/services/authentication/authentication.service';
+import { CommService } from 'src/app/services/comm/comm.service';
+import { UserService } from 'src/app/services/user/user.service';
+import { environment } from '../../../../../environments/environment';
 
 @Component({
   selector: 'app-email',
@@ -7,6 +10,8 @@ import { AuthenticationService } from 'src/app/services/authentication/authentic
   styleUrls: ['./email.component.scss']
 })
 export class EmailComponent implements OnInit {
+
+  emailForm: FormGroup;
 
   selectOpen: boolean = false;
 
@@ -73,7 +78,16 @@ export class EmailComponent implements OnInit {
 
   colorScheme: string[] = ['redTag', 'blueTag', 'purpleTag', 'greenTag', 'orangeTag', 'pinkTag'];
 
-  constructor(private authenticationService: AuthenticationService) { }
+  constructor(
+    private fb: FormBuilder,
+    private authenticationService: AuthenticationService,
+    private comm: CommService,
+    private userService: UserService) {
+    this.emailForm = this.fb.group({
+      subject: ['', [Validators.required]],
+      message: ['', [Validators.required]]
+    });
+  }
 
   ngOnInit(): void { this.setupEvents(); }
 
