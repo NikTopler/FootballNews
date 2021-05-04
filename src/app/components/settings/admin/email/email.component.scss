@@ -150,6 +150,17 @@
   color: $gray-700;
   transition: all ease-in-out .2s;
 
+  .recent-emails {
+    padding: 9px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+  }
+  .recent-emails:hover {
+    background-color: $gray-200;
+  }
+
   .email-container {
     width: fit-content;
     cursor: default;
@@ -203,11 +214,18 @@
   }
 }
 
+.tag-input.recent {
+  width: 100%;
+  padding: 0;
+}
+
 .tag-input.active {
   height: 15rem;
   overflow: auto;
   background-color: $gray-000;
 }
+
+.input input.input-100:focus + .icon { background-color: $pink-200; }
 
 .redTag {
   color: #fdaeb7;
