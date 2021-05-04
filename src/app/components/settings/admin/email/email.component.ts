@@ -174,10 +174,10 @@ export class EmailComponent implements OnInit {
     return true;
   }
 
-  getAllEmailsIntoArray() {
+  getArrayFromObject(array: headerEmail[]) {
     let newArray: string[] = [];
-    for(let i = 0; i < this.allAddedEmails.length; i++)
-      newArray.push(this.allAddedEmails[i].text);
+    for(let i = 0; i < array.length; i++)
+      newArray.push(array[i].text);
     return newArray;
   }
 
@@ -185,8 +185,17 @@ export class EmailComponent implements OnInit {
     if(!(await this.validateUser())) return;
     if(!this.emailForm.valid) return;
 
-    const emailArray = this.getAllEmailsIntoArray();
-    const emailInfo = JSON.stringify({adminEmail: this.userService.userInfo?.email ,emails: emailArray, subject: this.emailForm.value.subject, message: this.emailForm.value.message})
+    const emailArray = this.getArrayFromObject(this.allAddedEmails);
+    const headerArray = this.getArrayFromObject(this.allHeaders);
+
+    const emailInfo =
+      JSON.stringify({
+        adminEmail: this.userService.userInfo?.email,
+        emails: emailArray,
+        headers: headerArray,
+        subject: this.emailForm.value.subject,
+        message: this.emailForm.value.message
+      })
     const req = await fetch(`${environment.db}/mail.php`, {
       method: 'POST',
       body: this.comm.createFormData('CUSTOM_EMAIL', emailInfo)
