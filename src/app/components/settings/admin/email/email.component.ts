@@ -207,6 +207,7 @@ export class EmailComponent implements OnInit {
     if(!(await this.validateUser())) return;
     if(!this.emailForm.valid) return;
     if(this.sending) return this.settingsComponent.createMessage(true, 'Wait, still sending!', 'err');
+    if(this.allAddedEmails.length === 0) return this.settingsComponent.createMessage(true, 'You need to add emails!', 'err');
 
     this.sending = true;
     const emailArray = this.getArrayFromObject(this.allAddedEmails);
@@ -231,7 +232,7 @@ export class EmailComponent implements OnInit {
 
     setTimeout(() => {
       this.sending = false;
-      this.settingsComponent.createMessage(true, 'Mail successfully sent!', 'notification');
+      this.settingsComponent.createMessage(true, 'Mail successfully sent!', 'success');
     }, 500);
   }
 

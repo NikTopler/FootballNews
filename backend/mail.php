@@ -12,7 +12,15 @@ class Mail extends Admin {
       for($j = 0; $j < count($data->headers); $j++)
         $headers .= $data->headers[$j]."\r\n";
 
-      mail($data->emails[$i], $data->subject, $data->message, $headers);
+      try {
+        mail($data->emails[$i], $data->subject, $data->message, $headers);
+      } catch(Exception $e) {
+        echo json_encode(array(
+          "status" => 404,
+          "data" => $e
+        ));
+        die;
+      }
 
       try {
         $sql = 'INSERT INTO sendEmails(time, subject, message, email) VALUES(?, ?, ?, ?)';
@@ -23,6 +31,7 @@ class Mail extends Admin {
           "status" => 404,
           "data" => $e
         ));
+        die;
       }
 
       $this->adminCheckUp($data->adminEmail, $date, 'email', 'email', 'sendEmails_id', null);

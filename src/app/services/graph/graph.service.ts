@@ -47,16 +47,19 @@ export class GraphService {
       body: this.comm.createFormData('ADMIN_GRAPH', type)
     });
     const res = await req.text();
+
     const data = JSON.parse(res).data;
 
-    const adminImports = data.admin_data;
-    const yourImports = data.your_data;
+    const adminData = data.admin_data;
+    const yourData = data.your_data;
 
-    this.allAdminImports(adminImports);
-    this.yourImports(yourImports);
+    this.allAdminImports(adminData);
+    this.yourImports(yourData);
   }
 
   allAdminImports(array: string[][]) {
+
+    if(array.length === 0) return;
 
     let admin: string = `${array[0][0]} ${array[0][1]}`;
     let counter: number = 0;
