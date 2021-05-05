@@ -42,4 +42,4 @@ class Graph extends User {
 
 $graphObj = new Graph();
 if($_SERVER['REQUEST_METHOD'] !== 'POST') die;
-if(isset($_POST['ADMIN_IMPORT'])) $graphObj->adminImport($_POST['ADMIN_IMPORT']);
+if(isset($_POST['ADMIN_GRAPH'])) $graphObj->adminImport($_POST['ADMIN_GRAPH']);
