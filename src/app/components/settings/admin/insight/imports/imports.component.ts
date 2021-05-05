@@ -42,13 +42,13 @@ export class ImportsComponent {
   async getValues() {
     const req = await fetch(`${environment.db}/graph.php`, {
       method: 'POST',
-      body: this.comm.createFormData('ADMIN_IMPORT', '')
+      body: this.comm.createFormData('ADMIN_IMPORT', 'import')
     });
     const res = await req.text();
     const data = JSON.parse(res).data;
 
-    const adminImports = data.admin_imports;
-    const yourImports = data.your_imports;
+    const adminImports = data.admin_data;
+    const yourImports = data.your_data;
 
     this.allAdminImports(adminImports);
     this.yourImports(yourImports);
