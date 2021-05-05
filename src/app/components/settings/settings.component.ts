@@ -66,7 +66,8 @@ export class SettingsComponent implements OnInit {
 
   get updateSidebarInsight() {
     return [
-      { name: 'Imports', path: 'admin/insight/imports', active: this.router.url.includes('insight/imports') ? 'active' : '' }
+      { name: 'Imported data', path: 'admin/insight/imports', active: this.router.url.includes('insight/imports') ? 'active' : '' },
+      { name: 'Custom emails', path: 'admin/insight/emails', active: this.router.url.includes('insight/emails') ? 'active' : '' }
     ];
   }
 

@@ -18,6 +18,7 @@ import { PremiereLeagueNewsComponent } from './pages/premiere-league-news/premie
 import { PremiereLeagueComponent } from './pages/premiere-league/premiere-league.component';
 import { PremiereLeagueStandingsComponent } from './pages/premiere-league-standings/premiere-league-standings.component';
 import { EmailComponent } from './components/settings/admin/email/email.component';
+import { CustomEmailsComponent } from './components/settings/admin/insight/custom-emails/custom-emails.component';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'home' },
@@ -36,8 +37,9 @@ const routes: Routes = [
     { path: 'admin/panel', component: AdminPanelComponent, canActivate: [AdminGuard] },
     { path: 'admin/import', component: ImportComponent, canActivate: [AdminGuard] },
     { path: 'admin/display', component: DisplayComponent, canActivate: [AdminGuard] },
+    { path: 'admin/email', component: EmailComponent, canActivate: [AdminGuard] },
     { path: 'admin/insight/imports', component: ImportsComponent, canActivate: [AdminGuard] },
-    { path: 'admin/email', component: EmailComponent, canActivate: [AdminGuard] }
+    { path: 'admin/insight/emails', component: CustomEmailsComponent, canActivate: [AdminGuard] },
   ]},
 ];
 
