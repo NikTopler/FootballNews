@@ -24,6 +24,19 @@ export class GraphService {
   lineChartLegend = false;
   lineChartPlugins = [];
 
+  colors: Color[] = [
+    {
+      backgroundColor: [
+        '#fb8532',
+        '#2188ff',
+        '#ffdf5d',
+        '#ea4a5a',
+        '#ff5f94',
+        '#8a63d2',
+      ]
+    }
+  ];
+
   constructor(
     private comm: CommService,
     private userService: UserService) { }
