@@ -1,1 +1,36 @@
-<p>custom-emails works!</p>
+<div class="settings-content">
+  <div class="content-conteiner">
+    <div class="mb-2">
+      <header>
+        <h1>Emails sent by all Admins</h1>
+      </header>
+      <hr>
+      <div class="chart-container">
+        <canvas class="chart"  baseChart
+          [data]="pieChartData"
+          [labels]="pieChartLabels"
+          [colors]="colors"
+          [chartType]="pieChartType"
+          [options]="pieChartOptions"
+          [plugins]="pieChartPlugins"
+          [legend]="pieChartLegend">
+        </canvas>
+      </div>
+    </div>
+    <div class="mb-2">
+      <header>
+        <h1>Timeline of your custom emails</h1>
+      </header>
+      <hr>
+      <div class="chart-container">
+        <canvas class="chart" baseChart
+          [data]="lineChartData"
+          [labels]="lineChartLabels"
+          [chartType]="lineChartType"
+          [options]="lineChartOptions"
+          [plugins]="lineChartPlugins"
+          [legend]="lineChartLegend">
+        </canvas>
+      </div>
+    </div>
+  </div>
