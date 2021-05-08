@@ -15,7 +15,7 @@ import { DownloadService } from 'src/app/services/download/download.service';
 })
 export class ImportComponent {
 
-  userInfo: any = this.userService.userInfo;
+  userInfo: any;
   openTab: string = 'Users';
 
   usersArray: string[][] = [];
@@ -52,7 +52,9 @@ export class ImportComponent {
     private comm: CommService,
     private importVerifyService: ImportVerificationService,
     private authenticationService: AuthenticationService,
-    private downloadService: DownloadService) { }
+    private downloadService: DownloadService) {
+      userService.getUserData().subscribe((data) => { this.userInfo = data; })
+    }
 
   checkFile(event: any) {
 

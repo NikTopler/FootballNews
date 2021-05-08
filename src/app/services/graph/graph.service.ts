@@ -10,6 +10,8 @@ import { UserService } from '../user/user.service';
 })
 export class GraphService {
 
+  userInfo: any;
+
   pieChartOptions: ChartOptions = { responsive: true, maintainAspectRatio: false };
   pieChartLabels: Label[] = [];
   pieChartData: SingleDataSet = [];
@@ -39,7 +41,9 @@ export class GraphService {
 
   constructor(
     private comm: CommService,
-    private userService: UserService) { }
+    private userService: UserService) {
+      this.userService.getUserData().subscribe((data) => { this.userInfo = data; })
+    }
 
   async getValues(type: string) {
     const req = await fetch(`${environment.db}/graph.php`, {
@@ -85,7 +89,7 @@ export class GraphService {
     let lastDate: string = '';
 
     for(let i = 0; i < array.length; i++) {
-      if(array[i][2] !== this.userService.userInfo?.email)
+      if(array[i][2] !== this.userInfo.email)
         continue;
 
       const number = Number(array[i][4]);

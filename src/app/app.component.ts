@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { SocialAuthService } from 'angularx-social-login';
 import { environment } from '../environments/environment';
 import { CommService } from 'src/app/services/comm/comm.service';
@@ -11,7 +11,7 @@ import { DownloadService } from './services/download/download.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnInit{
+export class AppComponent {
   title = 'footballApp';
 
   userInfo: any = null;
@@ -30,14 +30,6 @@ export class AppComponent implements OnInit{
     private userService: UserService,
     private downloadService: DownloadService) {
     this.socialAuthService.authState.subscribe((user) => {
-      this.userInfo = user;
-      this.socialLoginPopup = false;
-    });
-    this.downloadService.getIsOpen().subscribe((val) => { this.downloadOpen = val; });
-  }
-
-  ngOnInit() {
-    this.socialAuthService.authState.subscribe((user) => {
       this.userInfo = user.provider !== 'AMAZON' ? user : {
         "id": user.id,
         "firstName": user.name.split(' ')[0],
@@ -46,10 +38,13 @@ export class AppComponent implements OnInit{
         "photoUrl": null,
         "provider": 'AMAZON'
       }
+      this.socialLoginPopup = false;
       this.loggedIn = (user != null && user.email != null);
       if(this.loggedIn) this.socialLogin(this.userInfo);
     });
-    this.checkAuthentication()
+    Promise.resolve(this.checkAuthentication())
+    this.userService.getUserData().subscribe((data) => { this.userInfo = data; })
+    this.downloadService.getIsOpen().subscribe((val) => { this.downloadOpen = val; });
   }
 
   async checkAuthentication() {
@@ -67,8 +62,7 @@ export class AppComponent implements OnInit{
     else if(res.status === 404) this.checkAuthentication();
 
     if(res.body.data.data.email) {
-      this.userService.userInfo = res.body.data.data;
-      this.userInfo = this.userService.userInfo;
+      this.userService.setUserData(res.body.data.data);
       this.loggedIn = true;
       this.waitForResponse = false;
       this.reload = false;
@@ -97,6 +91,6 @@ export class AppComponent implements OnInit{
     this.waitForResponse = false;
     this.loggedIn = true;
 
-    this.userService.userInfo = JSON.parse(res).data;
+    this.userService.setUserData(JSON.parse(res).data);
   }
 }

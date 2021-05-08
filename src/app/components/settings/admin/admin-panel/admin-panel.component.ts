@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { AppComponent } from 'src/app/app.component';
 import { AuthenticationService } from 'src/app/services/authentication/authentication.service';
 import { CommService } from 'src/app/services/comm/comm.service';
@@ -12,41 +12,39 @@ import { environment } from '../../../../../environments/environment';
 })
 export class AdminPanelComponent {
 
-  userInfo: any = this.userService.userInfo;
+  userInfo: any;
 
   constructor(
     private userService: UserService,
     private comm: CommService,
-    private appComponent: AppComponent) { }
+    private appComponent: AppComponent,
+    private authenticationService: AuthenticationService) {
+      userService.getUserData().subscribe((data) => { this.userInfo = data; })
+    }
 
 
   async importingData(type: string) {
 
     let newPreference: number = 0;
+    this.appComponent.waitForResponse = true;
 
     if(type === 'SAFE_IMPORT')
-      if(Number(this.userInfo.safeImport) === 0) newPreference = 1;
+      if(Number(this.userInfo.safeImport) === 0)
+        newPreference = 1;
 
     if(type === 'EDIT_IMPORT')
-      if(Number(this.userInfo.editImport) === 0) newPreference = 1;
+      if(Number(this.userInfo.editImport) === 0)
+        newPreference = 1;
 
     const req = await fetch(`${environment.db}/user.php`, {
       method: 'POST',
       body: this.comm.createFormData(type, JSON.stringify([this.userInfo.email, newPreference.toString()]))
     });
     const res = await req.text();
-    console.log(res)
-    this.updateUserData();
-  }
-
-  async updateUserData() {
-    const refreshToken = this.userService.getRefreshToken();
-    let key = await this.userService.checkRefreshToken(refreshToken);
-    key = key.data.token;
-    this.userService.regenerateAccessToken(refreshToken, key)
-      .then(() => {
-        localStorage.setItem('updateAccount', 'true');
-        this.appComponent.checkAuthentication();
+    this.userService.updateUserData('admin-panel')
+      .then((res) => {
+        if(res) this.appComponent.waitForResponse = false;
+        else this.authenticationService.logout();
       })
   }
 }

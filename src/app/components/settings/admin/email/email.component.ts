@@ -13,7 +13,7 @@ import { SettingsComponent } from '../../settings.component';
 })
 export class EmailComponent implements OnInit {
 
-  userInfo: any = this.userService.userInfo;
+  userInfo: any;
 
   emailForm: FormGroup;
   sending: boolean = false;
@@ -90,6 +90,7 @@ export class EmailComponent implements OnInit {
     private comm: CommService,
     private userService: UserService,
     private settingsComponent: SettingsComponent) {
+    userService.getUserData().subscribe((data) => { this.userInfo = data; })
     this.setAllRecentSentEmails();
     this.emailForm = this.fb.group({
       subject: ['', [Validators.required]],
@@ -215,7 +216,7 @@ export class EmailComponent implements OnInit {
 
     const emailInfo =
       JSON.stringify({
-        adminEmail: this.userService.userInfo?.email,
+        adminEmail: this.userInfo?.email,
         emails: emailArray,
         headers: headerArray,
         subject: this.emailForm.value.subject,

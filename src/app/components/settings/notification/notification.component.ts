@@ -13,7 +13,7 @@ import { SettingsComponent } from '../settings.component';
 })
 export class NotificationComponent {
 
-  userInfo: any = this.app.userInfo;
+  userInfo: any;
   subscribed: boolean = Number(this.app.userInfo.emailingService) === 0 ? false : true;
 
   allLeagues: string[] = [];
@@ -28,6 +28,7 @@ export class NotificationComponent {
     private appComponent: AppComponent) {
       this.getAllLeagues();
       this.getFollowList();
+      this.userService.getUserData().subscribe((data) => { this.userInfo = data; })
     }
 
   async emailingService() {
@@ -44,6 +45,8 @@ export class NotificationComponent {
     });
     const res = await req.text();
 
+    this.userService.updateUserData('notifications')
+      .then((res) => { if(!res) this.authenticationService.logout(); })
     this.SettingsComponent.createMessage(true, this.subscribed ? 'You have subscribed to our email service' : 'You have unsubscribed to our email service', 'notification');
     this.appComponent.waitForResponse = false;
   }

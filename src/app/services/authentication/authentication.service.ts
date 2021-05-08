@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { SocialAuthService, GoogleLoginProvider, FacebookLoginProvider, AmazonLoginProvider} from 'angularx-social-login';
-import * as CryptoJS from "crypto-js";
 import { UserService } from '../user/user.service';
 
 @Injectable({

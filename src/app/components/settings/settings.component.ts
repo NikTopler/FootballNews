@@ -9,7 +9,7 @@ import { UserService } from 'src/app/services/user/user.service';
 })
 export class SettingsComponent implements OnInit {
 
-  userInfo: any = this.userService.userInfo;
+  userInfo: any;
   alertArray: any[] = [];
   alert: boolean = false;
   alertText: string = '';
@@ -26,6 +26,7 @@ export class SettingsComponent implements OnInit {
     private router: Router,
     private userService: UserService) {
       router.events.subscribe(() => this.updateSidebar())
+      userService.getUserData().subscribe((data) => { this.userInfo = data; })
     }
 
   ngOnInit(): void {
