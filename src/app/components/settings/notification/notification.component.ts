@@ -25,14 +25,14 @@ export class NotificationComponent {
     private comm: CommService,
     private authenticationService: AuthenticationService,
     private SettingsComponent: SettingsComponent,
-    private AppComponent: AppComponent) {
+    private appComponent: AppComponent) {
       this.getAllLeagues();
       this.getFollowList();
     }
 
   async emailingService() {
 
-    this.AppComponent.waitForResponse = true;
+    this.appComponent.waitForResponse = true;
 
     const isUserValidated = await this.validateUser();
     if(!isUserValidated) return location.reload();
@@ -45,8 +45,7 @@ export class NotificationComponent {
     const res = await req.text();
 
     this.SettingsComponent.createMessage(true, this.subscribed ? 'You have subscribed to our email service' : 'You have unsubscribed to our email service', 'notification');
-    this.AppComponent.waitForResponse = false;
-
+    this.appComponent.waitForResponse = false;
   }
 
   async validateUser() {

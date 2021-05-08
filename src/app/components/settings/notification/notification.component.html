@@ -17,7 +17,7 @@
   </div>
   <div class="mb-2">
     <div>
-      <button (click)="subscribed = !subscribed; emailingService()" class="btn {{ subscribed ? 'disable' : 'enable'  }}">{{ subscribed ? 'Unsubscribe' : 'Subscribe'  }}</button>
+      <button (click)="subscribed = !subscribed; emailingService()" class="btn {{ !subscribed ? 'disable' : 'enable'  }}">{{ subscribed ? 'Subscribed' : 'Unsubscribed'  }}</button>
     </div>
     <span><strong>Disclamer:</strong> You can unsubscribe to our service everytime you like.</span>
   </div>
