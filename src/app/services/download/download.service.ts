@@ -12,19 +12,19 @@ export class DownloadService {
   importsArray: customInterface[] = [];
   finishedImports: number[] = []
 
-  isOpen: BehaviorSubject<boolean>;
-  changeHeader: BehaviorSubject<boolean>;
+  $isOpen: BehaviorSubject<boolean>;
+  $changeHeader: BehaviorSubject<boolean>;
 
   constructor() {
-    this.changeHeader = new BehaviorSubject<boolean>(false);
-    this.isOpen = new BehaviorSubject<boolean>(false);
+    this.$changeHeader = new BehaviorSubject<boolean>(false);
+    this.$isOpen = new BehaviorSubject<boolean>(false);
   }
 
-  setHeader(newValue: boolean): void { this.changeHeader.next(newValue); }
-  getHeader(): Observable<boolean> { return this.changeHeader.asObservable(); }
+  setHeader(newValue: boolean): void { this.$changeHeader.next(newValue); }
+  getHeader(): Observable<boolean> { return this.$changeHeader.asObservable(); }
 
-  setIsOpen(newValue: boolean): void { this.isOpen.next(newValue); }
-  getIsOpen(): Observable<boolean> { return this.isOpen.asObservable(); }
+  setIsOpen(newValue: boolean): void { this.$isOpen.next(newValue); }
+  getIsOpen(): Observable<boolean> { return this.$isOpen.asObservable(); }
 
   update(type: string, id: number) {
     let array: any;
