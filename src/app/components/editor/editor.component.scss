@@ -88,7 +88,16 @@
   }
 }
 
-
 .visible { visibility: visible !important; }
 
 .white-space { padding: 0 0.75rem; }
+
+.editor-container.loading {
+  overflow: hidden;
+  .content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+  }
+}

@@ -6,16 +6,18 @@ import { EditorService } from 'src/app/services/editor/editor.service';
   templateUrl: './editor.component.html',
   styleUrls: ['./editor.component.scss']
 })
-export class EditorComponent implements OnInit {
+export class EditorComponent {
 
   isIntervalRunning: boolean = false;
   intervalArray: any[] = [];
   contentArray: any[] = this.editorService.activeArray;
   previous: string = '';
+  loading: boolean = true;
 
-  constructor(private editorService: EditorService) { }
-
-  async ngOnInit() { }
+  constructor(private editorService: EditorService) {
+    this.editorService.getLoading()
+      .subscribe((data) => { this.loading = data; console.log(data) })
+  }
 
   get getBlinkingCursorElement() { return document.querySelector('.blinking-cursor') as HTMLDivElement }
   get getContentContainer() { return document.getElementById('content-container') as HTMLDivElement }

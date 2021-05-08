@@ -1,5 +1,6 @@
 import { Clipboard } from '@angular/cdk/clipboard';
 import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -8,6 +9,7 @@ export class EditorService {
 
   activeArray: string[] = [];
   copyArray: string[] = [];
+  $loading = new BehaviorSubject<boolean>(true);
 
   userTemplate: string[] = ['firstName','lastName','email','admin','createdAt','updatedAt','profileImage','googleID','facebookID','amazonID','safeImport','editImport'];
   teamTemplate: string[] = ['name', 'teamID', 'shortCode', 'logo', 'country', 'continent', 'league', 'seasonStartDate', 'seasonEndDate'];
@@ -16,12 +18,17 @@ export class EditorService {
 
   constructor(private clipboard: Clipboard) { }
 
+  getLoading() { return this.$loading.asObservable(); }
+  setLoading(newVal: boolean) { this.$loading.next(newVal); }
+
   orderDoubleArray(type: string, array: string[][]) {
+    this.setLoading(true);
     this.copyArray = this.arrayToJSON(type, array);
     if(type === 'Users') this.activeArray = this.multidimensionalArrayToString(this.userTemplate, array);
     else if(type === 'Teams') this.activeArray = this.multidimensionalArrayToString(this.teamTemplate, array);
     else if(type === 'Leagues') this.activeArray = this.multidimensionalArrayToString(this.leagueTemplate, array);
     else if(type === 'Countries') this.activeArray = this.multidimensionalArrayToString(this.countryTemplate, array);
+    this.setLoading(false);
   }
 
   multidimensionalArrayToString(template: string[], array: string[][]) {
