@@ -7,13 +7,13 @@ import { environment } from '../../../../environments/environment';
 import { SettingsComponent } from '../settings.component';
 
 @Component({
-  selector: 'app-email',
-  templateUrl: './email.component.html',
-  styleUrls: ['./email.component.scss']
+  selector: 'app-notification',
+  templateUrl: './notification.component.html',
+  styleUrls: ['./notification.component.scss']
 })
-export class EmailComponent {
+export class NotificationComponent {
 
-  userInfo: any = this.app.userInfo;
+  userInfo: any;
   subscribed: boolean = Number(this.app.userInfo.emailingService) === 0 ? false : true;
 
   allLeagues: string[] = [];
@@ -25,14 +25,15 @@ export class EmailComponent {
     private comm: CommService,
     private authenticationService: AuthenticationService,
     private SettingsComponent: SettingsComponent,
-    private AppComponent: AppComponent) {
+    private appComponent: AppComponent) {
       this.getAllLeagues();
       this.getFollowList();
+      this.userService.getUserData().subscribe((data) => { this.userInfo = data; })
     }
 
   async emailingService() {
 
-    this.AppComponent.waitForResponse = true;
+    this.appComponent.waitForResponse = true;
 
     const isUserValidated = await this.validateUser();
     if(!isUserValidated) return location.reload();
@@ -44,9 +45,10 @@ export class EmailComponent {
     });
     const res = await req.text();
 
-    this.SettingsComponent.createMessage(true, this.subscribed ? 'You have subscribed to our email service' : 'You have unsubscribed to our email service', 'success');
-    this.AppComponent.waitForResponse = false;
-
+    this.userService.updateUserData('notifications')
+      .then((res) => { if(!res) this.authenticationService.logout(); })
+    this.SettingsComponent.createMessage(true, this.subscribed ? 'You have subscribed to our email service' : 'You have unsubscribed to our email service', 'notification');
+    this.appComponent.waitForResponse = false;
   }
 
   async validateUser() {

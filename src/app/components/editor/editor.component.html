@@ -1,0 +1,31 @@
+<div *ngIf="!loading" class="editor-container">
+  <div class="side-bar">
+      <div class="side-bar-container">
+        <div *ngFor="let content of contentArray; let index = index" class="row">
+          <span>{{index + 1}}</span>
+        </div>
+      </div>
+  </div>
+  <div id="content-container" class="content">
+    <div class="blinking-cursor"></div>
+    <div id="row-container" class="row-container">
+      <pre *ngFor="let content of contentArray">
+        <span *ngFor="let data of content; let index = index; let last = last">
+          <div class="{{selectClass(data)[0]}}">{{selectClass(data)[1]}}</div>
+        </span>
+      </pre>
+    </div>
+</div>
+
+<div *ngIf="loading" class="editor-container loading">
+  <div class="side-bar">
+      <div class="side-bar-container">
+        <div *ngFor="let content of contentArray; let index = index" class="row">
+          <span></span>
+        </div>
+      </div>
+  </div>
+  <div id="content-container" class="content">
+    <mat-spinner diameter="20" color="accent"></mat-spinner>
+  </div>
+</div>

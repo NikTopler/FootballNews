@@ -11,11 +11,11 @@ export class PremiereLeagueNewsComponent implements OnInit {
   constructor(private http: HttpClient) { }
 
   async ngOnInit() {
-    const url = "https://cors-anywhere.herokuapp.com/https://newsapi.org/v2/everything?q=barclays-premier-league&language=en&apiKey=b25fa1c7df0c478984b760f83b18d9a5";
-    const response = await fetch(url);
-    const json = await response.json();
-    const articles = await json.articles;
-    this.news = articles;
+    // const url = "https://cors-anywhere.herokuapp.com/https://newsapi.org/v2/everything?q=barclays-premier-league&language=en&apiKey=b25fa1c7df0c478984b760f83b18d9a5";
+    // const response = await fetch(url);
+    // const json = await response.json();
+    // const articles = await json.articles;
+    // this.news = articles;
   }
 
 }

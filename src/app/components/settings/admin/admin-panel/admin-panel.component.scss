@@ -1,11 +1,12 @@
 @import '../../settings.component.scss';
 
-h3 span {
-  font-size: 0.75rem;
-  color: $dark-green;
-  font-weight: 500;
-  padding: 5px;
-  border: 1px solid $dark-green;
-  border-radius: 10px;
-  background-color: transparent;
+header {
+  display: flex;
+  align-items: center;
+
+  .tag { margin-left: 0.5rem; }
+}
+
+.description-container {
+  margin-top: 0.5rem;
 }

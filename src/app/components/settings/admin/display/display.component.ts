@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { AppComponent } from 'src/app/app.component';
 import { DownloadComponent } from 'src/app/components/download/download.component';
 import { CommService } from 'src/app/services/comm/comm.service';
 import { DownloadService } from 'src/app/services/download/download.service';
+import { EditorService } from 'src/app/services/editor/editor.service';
 import { environment } from '../../../../../environments/environment';
 
 @Component({
@@ -18,27 +18,39 @@ export class DisplayComponent implements OnInit {
   usersArray: string[][] = [];
   userPages: number[] = [];
   userTemplate: string[] = ['First name','Last name','Email','Admin','Created at','Updated at','Profile image','Google ID','Facebook ID','Amazon ID','Safe import','Edit import'];
+  userOpenTable: boolean = true;
+  userOpenJSON: boolean = false;
+  userCopy: boolean = false;
 
   teamsArray: string[][] = [];
   teamPages: number[] = [];
   teamTemplate: string[] = ['Name', 'Team id', 'Short code', 'Logo', 'Country', 'Continent', 'League', 'Season start date', 'Season end date'];
+  teamOpenTable: boolean = true;
+  teamOpenJSON: boolean = false;
+  teamCopy: boolean = false;
 
   leaguesArray: string[][] = [];
   leaguePages: number[] = [];
   leagueTemplate: string[] = ['Name'];
+  leagueOpenTable: boolean = true;
+  leagueOpenJSON: boolean = false;
+  leagueCopy: boolean = false;
 
   countriesArray: string[][] = [];
   countryPages: number[] = [];
   countryTemplate: string[] = ["Name", "Code", "Continent"];
+  countryOpenTable: boolean = true;
+  countryOpenJSON: boolean = false;
+  countryCopy: boolean = false;
 
   startLimit: number = 0;
   endLimit: number = this.rowsInTable;
 
   constructor(
     private comm: CommService,
-    private appComponent: AppComponent,
     private downloadComponent: DownloadComponent,
-    private downloadService: DownloadService ) { }
+    private downloadService: DownloadService,
+    private editorService: EditorService) { }
 
   ngOnInit(): void { this.updateArray(); }
 
@@ -84,20 +96,21 @@ export class DisplayComponent implements OnInit {
     else if(this.openTab === 'Users') {
       this.usersArray = newArray;
       this.usersArray.unshift(this.userTemplate);
-      return this.orderArray(this.usersArray);
+      this.orderArray(this.usersArray);
     } else if(this.openTab === 'Teams') {
       this.teamsArray = newArray;
       this.teamsArray.unshift(this.teamTemplate);
-      return this.orderArray(this.teamsArray);
+      this.orderArray(this.teamsArray);
     } else if(this.openTab === 'Leagues') {
       this.leaguesArray = newArray;
       this.leaguesArray.unshift(this.leagueTemplate);
-      return this.orderArray(this.leaguesArray);
+      this.orderArray(this.leaguesArray);
     } else if(this.openTab === 'Countries') {
       this.countriesArray = newArray;
       this.countriesArray.unshift(this.countryTemplate);
-      return this.orderArray(this.countriesArray);
+      this.orderArray(this.countriesArray);
     }
+    return this.editorService.orderDoubleArray(this.openTab, array);
   }
 
   setupArray(type: string, array: string[]) {
@@ -145,22 +158,18 @@ export class DisplayComponent implements OnInit {
   }
 
   async download(type: string) {
+    this.downloadService.setIsOpen(true);
     this.downloadService.setHeader(true);
+
     const id = Date.now();
     const fileName = `${type}_${id}`;
     const downloadsArray = this.downloadService.downloadsArray;
 
     downloadsArray.push({"id": id, "text": `${type.charAt(0).toUpperCase() + type.slice(1)} information download`, "finished": false });
     const array: any = await this.fetchData(true);
-    this.appComponent.downloadOpen = true;
     await this.downloadComponent.transformArrayToXLSX(fileName, array);
 
-    for(let i = 0; i < downloadsArray.length; i++)
-      if(downloadsArray[i].id === id) {
-        downloadsArray[i].finished = true;
-        break;
-      }
-
+    this.downloadService.update('download', id);
     this.downloadService.finishedDownloads.push(id);
     this.downloadService.setHeader(true);
   }
@@ -203,4 +212,5 @@ export class DisplayComponent implements OnInit {
     this.endLimit = this.rowsInTable;
   }
 
+  copy() { this.editorService.copyToClipboard(); }
 }

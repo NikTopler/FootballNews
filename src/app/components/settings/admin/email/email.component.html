@@ -1,0 +1,162 @@
+<div class="settings-content">
+  <div class="content-conteiner">
+    <header>
+      <div class="button-container">
+        <div class="select-container" id="resend-select-container">
+            <button (click)="selectOpen = !selectOpen; manageSelect('resend-select-container')" class="select">
+              <span id="resend-text">{{resendSpan}}</span>
+              <svg xmlns="http://www.w3.org/2000/svg" width="9" height="9" style="transform: rotate(90deg);" viewBox="0 0 24 24">
+                <path d="M6 0l12 12-12 12z" fill="#586069"/></svg>
+            </button>
+            <div class="select-expand">
+              <div *ngFor="let option of resendOptions" class="option {{ option.active ? 'active' : '' }}"
+                (click)="changeOption(option.text, 'resend-select-container')">
+                <span>{{ option.text }}</span>
+              </div>
+            </div>
+        </div>
+        <div class="select-container {{ resendSpan === 'Once a week' ? '' : 'disabled' }}" id="week-select-container">
+          <button (click)="selectOpen = !selectOpen; manageSelect('week-select-container')" class="select">
+            <span id="resend-text">{{weekSpan}}</span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="9" height="9" style="transform: rotate(90deg);" viewBox="0 0 24 24">
+              <path d="M6 0l12 12-12 12z" fill="#586069"/></svg>
+          </button>
+          <div class="select-expand">
+            <div *ngFor="let option of weekOptions" class="option {{ option.active ? 'active' : '' }}"
+              (click)="changeOption(option.text, 'week-select-container')">
+              <span>{{ option.text }}</span>
+            </div>
+          </div>
+        </div>
+        <div class="select-container {{ resendSpan === 'Once a month' ? '' : 'disabled' }}" id="month-select-container">
+          <button (click)="selectOpen = !selectOpen; manageSelect('month-select-container')" class="select">
+            <span id="resend-text">{{monthSpan}}</span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="9" height="9" style="transform: rotate(90deg);" viewBox="0 0 24 24">
+              <path d="M6 0l12 12-12 12z" fill="#586069"/></svg>
+          </button>
+          <div class="select-expand">
+            <div *ngFor="let option of monthOptions" class="option {{ option.active ? 'active' : '' }}"
+              (click)="changeOption(option.text, 'month-select-container')">
+              <span>{{ option.text }}</span>
+            </div>
+          </div>
+        </div>
+        <div class="spacer"></div>
+        <mat-spinner *ngIf="sending" color="accent" [diameter]="20"></mat-spinner>
+      </div>
+    </header>
+    <div class="form-container">
+        <div class="right">
+          <div class="all-email">
+            <div>
+              <span>All emails</span>
+            </div>
+            <div class="tag-input emails {{ allAddedEmails.length === 0 ? '' : 'active' }}">
+              <div *ngFor="let email of allAddedEmails;" class="email-container {{email.class}}">
+                <span>{{email.text}}</span>
+                <div (click)="removeEmail(email.text)" class="icon">
+                  <div class="x-container"></div>
+                </div>
+              </div>
+              <div *ngIf="allAddedEmails.length === 0">
+                <span>No emails</span>
+              </div>
+            </div>
+          </div>
+          <div class="all-email">
+            <div>
+              <span>Available Headers</span>
+            </div>
+            <div class="tag-input headers {{ allHeaders.length === 0 ? '' : 'active' }}">
+              <div *ngFor="let header of allHeaders;" class="email-container {{header.class}}">
+                <span>{{header.text}}</span>
+                <div (click)="removeHeader(header.text)" class="icon">
+                  <div class="x-container"></div>
+                </div>
+              </div>
+              <div *ngIf="allHeaders.length === 0">
+                <span>No headers</span>
+              </div>
+            </div>
+          </div>
+          <!-- <div class="all-email">
+            <div>
+              <span>Recent sent mails</span>
+            </div>
+            <div class="tag-input headers recent {{ allRecentSentEmails.length === 0 ? '' : 'active' }}">
+              <div *ngFor="let sent of allRecentSentEmails;">
+                <div class="recent-emails">
+                  <span>{{ userInfo.email === sent.admin ? sent.adminFirstName + ' ' + sent.adminLastName + ' (you)' : sent.adminFirstName + ' ' + sent.adminLastName }}</span>
+                  <span class="time-span">{{ transformNumberToDate(sent.time) }}</span>
+                </div>
+              </div>
+              <div *ngIf="allRecentSentEmails.length === 0">
+                <span>No recent emails</span>
+              </div>
+            </div>
+          </div> -->
+        </div>
+        <div class="left">
+          <div class="input-area">
+            <div>
+              <span>Email</span>
+            </div>
+            <div class="input">
+              <input
+                type="email"
+                id="add-email"
+                class="input-100">
+              <div class="icon">
+                <svg _ngcontent-afs-c111="" width="24" height="24" viewBox="-4 -4 32 32" fill="#fff">
+                  <path _ngcontent-afs-c111="" d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"></path>
+                </svg>
+              </div>
+              <div (click)="manageNewEmail(this.getEmailInput)" class="submit-container">
+                <span>Add</span>
+              </div>
+            </div>
+          </div>
+          <form [formGroup]="emailForm" (ngSubmit)="sendEmail()">
+            <div class="input-area">
+              <div>
+                <span>Subject</span>
+              </div>
+              <div class="input">
+                <input
+                  type="text"
+                  formControlName="subject"
+                  id="add-subject"
+                  class="input-100">
+                <div class="icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24">
+                    <path d="M.026 24l11.974-11.607 11.974 11.607h-23.948zm11.964-23.961l-11.99 8.725v12.476l7.352-7.127-5.653-4.113 10.291-7.488 10.309 7.488-5.655 4.108 7.356 7.132v-12.476l-12.01-8.725z" fill="#fff"/>
+                  </svg>
+                </div>
+              </div>
+            </div>
+            <div class="input-area">
+              <div>
+                <span>Message</span>
+              </div>
+              <div class="input">
+                <textarea
+                  name="message"
+                  formControlName="message"
+                  id="message-textarea"
+                  class="input-100"
+                  cols="30"
+                  rows="11">
+                </textarea>
+              </div>
+            </div>
+            <div class="button-container">
+              <button
+                type="submit"
+                id="submitButton"
+                class="btn-200">Send</button>
+            </div>
+          </form>
+        </div>
+    </div>
+  </div>
+</div>

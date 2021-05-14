@@ -14,7 +14,7 @@ import { SettingsComponent } from '../settings.component';
 })
 export class AccountComponent {
 
-  userInfo: any = this.userService.userInfo;
+  userInfo: any;
   updateForm: FormGroup;
 
   constructor(
@@ -24,6 +24,7 @@ export class AccountComponent {
     private fb: FormBuilder,
     private settingsComponent: SettingsComponent,
     private appComponent: AppComponent) {
+      userService.getUserData().subscribe((data) => { this.userInfo = data; })
       this.updateForm = this.fb.group({
         fName: [this.userInfo.firstName, [Validators.required]],
         lName: [this.userInfo.lastName, [Validators.required]],

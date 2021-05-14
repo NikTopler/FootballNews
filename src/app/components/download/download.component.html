@@ -2,7 +2,8 @@
   <div class="content">
     <header>
       <div class="text">
-        <span>{{headerText}}</span>
+        <span *ngIf="headerDownloadText">{{ headerDownloadText }}</span>
+        <span *ngIf="headerImportText">{{ headerImportText }}</span>
       </div>
       <div class="icon-container">
         <div class="icon {{rotateIcon}}" (click)="downloadsOpen = !downloadsOpen; rotateIcon = rotateIcon === '' ? 'rotate' : ''">
@@ -18,7 +19,7 @@
       </div>
     </header>
     <div *ngIf="downloadsOpen">
-      <div *ngFor="let download of downloadsArray" class="download">
+      <div *ngFor="let download of allArray" class="download">
         <div class="icon">
           <svg enable-background="new 0 0 30 30" height="1.25rem" version="1.1" viewBox="0 0 30 30" width="1.25rem" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
             <g>

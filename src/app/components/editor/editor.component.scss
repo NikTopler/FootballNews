@@ -1,0 +1,103 @@
+@import '../../../styles.scss';
+
+.editor-container {
+  border-radius: 4px;
+  height: 30rem;
+  width: auto;
+  overflow: auto;
+  position: relative;
+
+  .side-bar {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 3rem;
+    height: 100%;
+    background-color: $gray-100;
+    border-right: 1px solid $gray-200;
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+    .side-bar-container {
+      height: fit-content;
+      width: inherit;
+      background-color: $gray-100;
+      border-right: 1px solid $gray-200;
+    }
+    div { border-bottom: 1px solid $gray-200; }
+    div:last-child { border-bottom: none; }
+    span {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .row {
+      padding: 4px 0;
+      height: 1.25rem;
+    }
+  }
+
+  .content {
+    position: relative;
+
+    .blinking-cursor {
+      position: absolute;
+      left: 4rem;
+      top: 4px;
+      height: 1.15rem;
+      visibility: hidden;
+      border-left: 2px solid red;
+    }
+
+    .row-container {
+      margin-left: 3.25rem;
+      border-bottom: 1px solid transparent;
+    }
+
+    pre {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      height: calc(1.75rem + 1px);
+      cursor: text;
+      margin: 0;
+      z-index: 2;
+      border-radius: 0;
+      border-width: 0;
+      background: transparent;
+      font-family: inherit;
+      font-size: inherit;
+      white-space: pre;
+      word-wrap: normal;
+      line-height: inherit;
+      color: inherit;
+      position: relative;
+      overflow: visible;
+      -webkit-tap-highlight-color: transparent;
+      font-variant-ligatures: contextual;
+      span {
+        height: inherit;
+        display: flex;
+        align-items: center;
+      }
+      span .dark-red { color: $pink-700; }
+      span .red{ color: $pink-200; }
+      span .null { color: $purple-500; }
+      span .number { color: $purple-300; }
+    }
+  }
+}
+
+.visible { visibility: visible !important; }
+
+.white-space { padding: 0 0.75rem; }
+
+.editor-container.loading {
+  overflow: hidden;
+  .content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+  }
+}

@@ -1,11 +1,11 @@
 <div class="settings-content">
   <header>
-    <h3>Private Account</h3>
+    <h1>Private Account</h1>
     <hr>
   </header>
   <div class="settings-container" *ngIf="userInfo">
     <div class="image-container">
-      <svg width="64" height="64" viewBox="-4 -4 32 32" fill="#fff" class="rounded-full bg-gray-400 ">
+      <svg class="profile rounded-full" width="64" height="64" viewBox="-4 -4 32 32" fill="#fff">
         <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"></path>
       </svg>
       <div class="edit">
@@ -43,12 +43,12 @@
         <div class="button-container">
           <span *ngIf="userInfo.updatedAt">Last update: {{ convertToDate(userInfo.updatedAt) }}</span>
           <div class="spacer"></div>
-          <button mat-flat-button color="accent">Update</button>
+          <button class="btn-200">Update</button>
         </div>
       </form>
       <div class="mb-2">
         <header>
-          <h3>Social Login</h3>
+          <h1>Social Login</h1>
         </header>
         <div class="social-container">
           <div class="provider">
@@ -65,11 +65,11 @@
             <div class="verification" *ngIf="userInfo.googleID else verifyGoogle">
               <span>Verified</span>
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                <path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm-1.25 17.292l-4.5-4.364 1.857-1.858 2.643 2.506 5.643-5.784 1.857 1.857-7.5 7.643z" fill="#238363" fill-rule="nonzero"/>
+                <path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm-1.25 17.292l-4.5-4.364 1.857-1.858 2.643 2.506 5.643-5.784 1.857 1.857-7.5 7.643z" fill="#176f2c" fill-rule="nonzero"/>
               </svg>
             </div>
             <ng-template #verifyGoogle>
-              <button (click)="verifySocialLogin()" class="btn">Verify</button>
+              <button (click)="verifySocialLogin()" class="btn-100">Verify</button>
             </ng-template>
           </div>
           <div class="provider">
@@ -84,11 +84,11 @@
             <div class="verification" *ngIf="userInfo.facebookID else verifyFacebook">
               <span>Verified</span>
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                <path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm-1.25 17.292l-4.5-4.364 1.857-1.858 2.643 2.506 5.643-5.784 1.857 1.857-7.5 7.643z" fill="#238363" fill-rule="nonzero"/>
+                <path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm-1.25 17.292l-4.5-4.364 1.857-1.858 2.643 2.506 5.643-5.784 1.857 1.857-7.5 7.643z" fill="#176f2c" fill-rule="nonzero"/>
               </svg>
             </div>
             <ng-template #verifyFacebook>
-              <button (click)="verifySocialLogin()" class="btn">Verify</button>
+              <button (click)="verifySocialLogin()" class="btn-100">Verify</button>
             </ng-template>
           </div>
           <div class="provider">
@@ -107,11 +107,11 @@
             <div class="verification" *ngIf="userInfo.amazonID else verifyAmazon">
               <span>Verified</span>
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                <path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm-1.25 17.292l-4.5-4.364 1.857-1.858 2.643 2.506 5.643-5.784 1.857 1.857-7.5 7.643z" fill="#238363" fill-rule="nonzero"/>
+                <path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm-1.25 17.292l-4.5-4.364 1.857-1.858 2.643 2.506 5.643-5.784 1.857 1.857-7.5 7.643z" fill="#176f2c" fill-rule="nonzero"/>
               </svg>
             </div>
             <ng-template #verifyAmazon>
-              <button (click)="verifySocialLogin()" class="btn">Verify</button>
+              <button (click)="verifySocialLogin()" class="btn-100">Verify</button>
             </ng-template>
           </div>
         </div>

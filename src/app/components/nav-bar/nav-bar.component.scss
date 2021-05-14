@@ -1,8 +1,7 @@
-@import '../../variables.scss';
+@import '../../../styles.scss';
 
 nav{
-  background-color: $light-gray;
-  color: $bg-dark;
+  background-color: $gray-100;
 }
 .color{
   background-color: #0d6efd;

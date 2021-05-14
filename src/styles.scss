@@ -1,3 +1,5 @@
+@import './app/variables.scss';
+
 * {
   padding: 0;
   margin: 0;
@@ -6,11 +8,162 @@
 html, body {
   height: 100%;
   width: 100%;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
 body {
   min-width: 100vw;
   min-height: 100vh;
-  font-family: Roboto, "Helvetica Neue", sans-serif;
   position: relative;
+  background-color: $bg;
+}
+
+h1 {
+  font-size: 1.5rem;
+  margin: 0;
+}
+h2 { font-size: 1.25rem; }
+h3 {
+  font-size: 1rem;
+  margin: 0;
+}
+
+h1, h2, h3 {
+  font-weight: 400;
+  color: $gray-800;
+  margin: 0 !important;
+}
+
+p {
+  font-size: 1rem;
+  color: $gray-800;
+  word-spacing: 2px;
+}
+
+span { color: $gray-600; }
+
+label {
+  font-weight: 400;
+  color: $gray-800;
+}
+
+svg.profile, button.profile { background-color: $gray-300 !important; }
+
+button {
+  height: auto;
+  width: 5rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all ease-in-out .3s, color 1ms;
+}
+
+.btn-100, .btn-200 {
+  padding: 0.4rem 0;
+  font-weight: 600;
+}
+
+.btn-100 {
+  border: 1px solid $gray-200;
+  background-color: $gray-100;
+  color: $gray-600;
+}
+
+.btn-100:hover { background-color: $gray-200; }
+
+.btn-200 {
+  background-color: $pink-500;
+  color: $white;
+  border: $green-600;
+  border: 1px solid;
+  border-radius: 6px;
+  padding: 5px 16px;
+  line-height: 20px;
+}
+.btn-200:hover {
+  background-color: $pink-600;
+  color: $white;
+}
+
+.select {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 1px solid $gray-300;
+  background-color: $gray-000;
+  color: $gray-600;
+  border-radius: 6px;
+  padding: 6px 16px;
+  width: auto;
+  transition: ease-in .1s;
+  span { color: $gray-600; }
+  svg { margin-left: 0.5rem; }
+}
+.select:hover { background-color: $gray-100; }
+.select:active { background-color: $gray-200; }
+
+.spacer { flex: 1 1 auto; }
+
+hr {
+  border: 1px solid $gray-200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tag {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 1.5rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    padding: 0 5px;
+    border-radius: 10px;
+  }
+}
+
+.tag.err {
+  span {
+    color: $red-400;
+    border: 1px solid $red-400;
+    background-color: $red-000;
+  }
+}
+
+.tag.succ {
+  span {
+    color: $green-500;
+    border: 1px solid $green-500;
+    background-color: $green-000;
+  }
+}
+
+.tag.notification {
+  span {
+    color: $orange-500;
+    border: 1px solid $orange-500;
+    background-color: $orange-000;
+  }
+}
+
+.input-100 {
+  font-size: 0.9rem;
+  padding: 5px;
+  width: calc(100% - 10px);
+  border: 1px solid $gray-300;
+  background-color: $gray-100;
+  border-radius: 4px;
+  color: $gray-700;
+}
+.input-100:focus {
+  border: 1px solid $pink-500;
+  box-shadow: 0 0 3px $pink-500;
+  outline: none;
 }

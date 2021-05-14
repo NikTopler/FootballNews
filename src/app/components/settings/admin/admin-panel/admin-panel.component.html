@@ -2,22 +2,28 @@
   <div class="content-container">
     <div class="mb-2" *ngIf="userInfo.admin === '1'">
       <header>
-        <h3>Safe Importing <span *ngIf="userInfo.safeImport === '0'">Recommended</span> </h3>
-        <hr>
+        <h1>Safe Importing</h1>
+        <div class="tag succ">
+          <span *ngIf="userInfo.safeImport === '0'">Recommended</span>
+        </div>
       </header>
+      <hr>
       <div class="description-container">
         <p>Safe importing is a feature which allows admin to view their import before updating or inserting it in database.</p>
-        <button (click)="importingData('SAFE_IMPORT')" class="btn enable">{{ userInfo.safeImport === '1' ? 'Enabled' : 'Disabled' }}</button>
+        <button (click)="importingData('SAFE_IMPORT')" class="btn {{ userInfo.safeImport === '1' ? 'enable' : 'disable' }}">{{ userInfo.safeImport === '1' ? 'Enabled' : 'Disabled' }}</button>
       </div>
     </div>
     <div class="mb-2" *ngIf="userInfo.admin === '1'">
       <header>
-        <h3>Edit Imports <span *ngIf="userInfo.editImport === '0'">Recommended</span> </h3>
-        <hr>
+        <h1>Edit Imports</h1>
+        <div class="tag succ">
+          <span *ngIf="userInfo.editImport === '0'">Recommended</span>
+        </div>
       </header>
+      <hr>
       <div class="description-container">
         <p>With this function enabled admins can, before inserting/updating database, see and edit imported table.</p>
-        <button class="btn enable" (click)="importingData('EDIT_IMPORT')">{{ userInfo.editImport === '1' ? 'Enabled' : 'Disabled' }}</button>
+        <button class="btn  {{ userInfo.editImport === '1' ? 'enable' : 'disable' }}" (click)="importingData('EDIT_IMPORT')">{{ userInfo.editImport === '1' ? 'Enabled' : 'Disabled' }}</button>
       </div>
     </div>
   </div>

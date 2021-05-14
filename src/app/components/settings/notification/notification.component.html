@@ -1,6 +1,6 @@
 <div class="settings-content">
   <header>
-    <h3>Notifications</h3>
+    <h1>Notifications</h1>
     <hr>
   </header>
   <div class="text-container">
@@ -9,15 +9,15 @@
       If you want to recieve:
     </p>
     <ul class="list">
-        <li>Up to date football news from top leagues in Europe</li>
-        <li>Team standings from top leagues in Europe</li>
-        <li>Upcoming games with live score</li>
+        <li><p>Up to date football news from top leagues in Europe</p></li>
+        <li><p>Team standings from top leagues in Europe</p></li>
+        <li><p>Upcoming games with live score</p></li>
     </ul>
     <p>you can subscribe by clicking the "Subscribe" button below.</p>
   </div>
   <div class="mb-2">
     <div>
-      <button (click)="subscribed = !subscribed; emailingService()" class="btn enable">{{ subscribed ? 'Unsubscribe' : 'Subscribe'  }}</button>
+      <button (click)="subscribed = !subscribed; emailingService()" class="btn {{ !subscribed ? 'disable' : 'enable'  }}">{{ subscribed ? 'Subscribed' : 'Unsubscribed'  }}</button>
     </div>
     <span><strong>Disclamer:</strong> You can unsubscribe to our service everytime you like.</span>
   </div>
@@ -32,7 +32,7 @@
     </div>
   </div>
   <header>
-    <h3>Following</h3>
+    <h1>Following</h1>
     <hr>
   </header>
   <div class="text-container">
@@ -41,17 +41,20 @@
 
   <div class="mb-2">
     <div class="sub-header">
-      <h4>Leagues</h4>
+      <h2>Leagues</h2>
     </div>
     <div *ngFor="let league of allLeagues" class="box">
       <strong>{{ league }}</strong>
       <div class="spacer"></div>
-      <button (click)="manageFollowLeagues($event, league)" class="btn">{{ compareLeagues(league, followingLeagues) ? 'Unfollow' : 'Follow' }}</button>
+      <button (click)="manageFollowLeagues($event, league)" class="btn-100">{{ compareLeagues(league, followingLeagues) ? 'Unfollow' : 'Follow' }}</button>
     </div>
   </div>
   <div class="mb-2">
     <div class="sub-header">
-      <h4 class="under">Teams <span>Under construction</span></h4>
+      <h2 class="under">Teams</h2>
+      <div class="tag notification">
+        <span>Under construction</span>
+      </div>
     </div>
   </div>
 <div>

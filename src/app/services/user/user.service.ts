@@ -2,15 +2,36 @@ import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { CommService } from '../comm/comm.service';
 import * as CryptoJS from "crypto-js";
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
 
-  userInfo: userData | null = null;
+  $userData: BehaviorSubject<userData>;
 
-  constructor(private comm: CommService) { }
+  constructor(private comm: CommService) {
+    this.$userData = new BehaviorSubject<userData>({
+      id: null,
+      firstName: null,
+      lastName: null,
+      email: null,
+      admin: null,
+      createdAt: null,
+      updatedAt: null,
+      profileImg: null,
+      googleID: null,
+      facebookID: null,
+      amazonID: null,
+      safeImport: null,
+      editImport: null,
+      emailingService: null
+    });
+  }
+
+  setUserData(data: userData) { this.$userData.next(data); }
+  getUserData() { return this.$userData.asObservable(); }
 
   async regenerateAccessToken(refreshToken: string, key: string) {
     const req = await fetch(`${environment.db}/user.php`, {
@@ -90,20 +111,36 @@ export class UserService {
 
     return { "status": 200, "body": validateAccessToken };
   }
+
+  async updateUserData(type: string) {
+    const refreshToken = this.getRefreshToken();
+    let key = await this.checkRefreshToken(refreshToken);
+    key = key.data.token;
+    this.regenerateAccessToken(refreshToken, key)
+      .then(async () => {
+        if(type === 'account') localStorage.setItem('updateAccount', 'true');
+        const newUserData = await this.validateUser();
+        this.setUserData(newUserData.body.data.data);
+        return true;
+      })
+      .catch((e) => { return false; })
+    return true;
+  }
 }
 
 export interface userData {
-  id: string,
-  firstName: string,
-  lastName: string,
-  email: string,
-  admin: string,
-  createdAt: string,
-  updatedAt: string,
-  profileImg: string,
-  googleID: string,
-  facebookID: string,
-  amazonID: string,
-  safeImport: string,
-  editImport: string
+  id: string | null,
+  firstName: string | null,
+  lastName: string | null,
+  email: string | null,
+  admin: string | null,
+  createdAt: string | null,
+  updatedAt: string | null,
+  profileImg: string | null,
+  googleID: string | null,
+  facebookID: string | null,
+  amazonID: string | null,
+  safeImport: string | null,
+  editImport: string | null,
+  emailingService: string | null
 }

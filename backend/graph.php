@@ -3,37 +3,43 @@ include_once 'user.php';
 
 class Graph extends User {
 
-  public function adminImport() {
-    $sql = 'SELECT u.firstName, u.lastName, u.email, ta.time, ta.type FROM track_admin ta INNER JOIN users u ON u.id = ta.admin_id ORDER BY ta.admin_id';
+  public function adminImport($type) {
+    $sql = 'SELECT u.firstName, u.lastName, u.email, ta.time, ta.type
+            FROM track_admin ta
+              INNER JOIN users u ON u.id = ta.admin_id
+            WHERE LOWER(ta.type) = ?
+              ORDER BY ta.admin_id';
     $stmt = $this->connect()->prepare($sql);
-    $stmt->execute();
+    $stmt->execute([$type]);
     $row = $stmt->fetch();
 
-    $admin_imports = [];
+    $admin_data = [];
     while($row = $stmt->fetch())
-      array_push($admin_imports, [$row["firstName"],$row["lastName"],$row["email"], $row["type"],$row["time"]]);
+      array_push($admin_data, [$row["firstName"],$row["lastName"],$row["email"], $row["type"],$row["time"]]);
 
-    $sql = 'SELECT u.firstName, u.lastName, u.email, ta.time, ta.type FROM track_admin ta INNER JOIN users u ON u.id = ta.admin_id ORDER BY ta.time';
+    $sql = 'SELECT u.firstName, u.lastName, u.email, ta.time, ta.type
+            FROM track_admin ta INNER JOIN users u ON u.id = ta.admin_id
+            WHERE LOWER(ta.type) = ?
+              ORDER BY ta.time';
     $stmt = $this->connect()->prepare($sql);
-    $stmt->execute();
+    $stmt->execute([$type]);
     $row = $stmt->fetch();
 
-    $your_imports = [];
+    $your_data = [];
     while($row = $stmt->fetch())
-      array_push($your_imports, [$row["firstName"],$row["lastName"],$row["email"], $row["type"],$row["time"]]);
+      array_push($your_data, [$row["firstName"],$row["lastName"],$row["email"], $row["type"],$row["time"]]);
 
 
     echo json_encode(array(
       "status" => "ok",
       "data" => [
-        "admin_imports" => $admin_imports,
-        "your_imports" => $your_imports
+        "admin_data" => $admin_data,
+        "your_data" => $your_data
       ]
     ));
-
   }
 }
 
 $graphObj = new Graph();
 if($_SERVER['REQUEST_METHOD'] !== 'POST') die;
-if(isset($_POST['ADMIN_IMPORT'])) $graphObj->adminImport();
+if(isset($_POST['ADMIN_GRAPH'])) $graphObj->adminImport($_POST['ADMIN_GRAPH']);

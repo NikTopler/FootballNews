@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { AppComponent } from 'src/app/app.component';
 import { DownloadService } from 'src/app/services/download/download.service';
 import * as XLSX from 'xlsx';
 
@@ -13,16 +12,32 @@ export class DownloadComponent {
   open: boolean = false;
   downloadsOpen: boolean = true;
   rotateIcon: string = '';
-  headerText: string = '0 of 1 downloads completed';
+  headerDownloadText: string | null = null;
+  headerImportText: string | null = null;
 
-  downloadsArray: downloadArray[] = [];
+  allArray: downloadArray[] = [];
 
   constructor(
-    private appComponent: AppComponent,
     private downloadService: DownloadService) {
-    this.downloadsArray = downloadService.downloadsArray;
     this.downloadService.getHeader()
-      .subscribe((val) => { if(val) this.updateHeaderText() })
+      .subscribe((val) => {
+        if(val) this.updateHeaderText();
+        this.setupArray(this.downloadService.downloadsArray);
+        this.setupArray(this.downloadService.importsArray);
+      })
+  }
+
+  setupArray(array: downloadArray[]) {
+    let isInside = false;
+    let newArray: downloadArray[] = this.allArray;
+    for(let i = 0; i < array.length; i++) {
+      for(let j = 0; j < newArray.length; j++)
+        if(newArray[j].id === array[i].id)
+          isInside = true;
+      if(newArray.length === 0 || !isInside)
+        this.allArray.push(array[i]);
+      isInside = false;
+    }
   }
 
   transformArrayToXLSX(type: string, array: string[][]) {
@@ -34,18 +49,30 @@ export class DownloadComponent {
 
   close(): void {
     this.downloadService.downloadsArray = [];
-    this.appComponent.downloadOpen = false;
+    this.downloadService.finishedDownloads = [];
+    this.downloadService.importsArray = [];
+    this.downloadService.finishedImports = [];
+    this.downloadService.setIsOpen(false);
   }
 
   updateHeaderText() {
-    const allInteractions = this.downloadService.downloadsArray.length;
-    const finishedInteractions = this.downloadService.finishedDownloads.length;
+    const allDownloadInteractions = this.downloadService.downloadsArray.length;
+    const finishedDownloadInteractions = this.downloadService.finishedDownloads.length;
+    const allImportInteractions = this.downloadService.importsArray.length;
+    const finishedImportInteractions = this.downloadService.finishedImports.length;
 
-    this.headerText = `${finishedInteractions} of ${allInteractions} downloads completed`;
+    if(allDownloadInteractions !== 0)
+      this.headerDownloadText = `${finishedDownloadInteractions} of ${allDownloadInteractions} downloads completed`;
+    else this.headerDownloadText = null;
+
+    if(allImportInteractions !== 0)
+      this.headerImportText = `${finishedImportInteractions} of ${allImportInteractions} imports completed`;
+    else this.headerImportText = null;
   }
 }
 
-export interface downloadArray {
+export interface downloadArray  {
+  id: number,
   text: string,
   finished: boolean
 }

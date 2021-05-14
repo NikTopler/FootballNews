@@ -11,6 +11,7 @@ class Admin extends User {
     else if($type == 'league') $sqlSelect = '(SELECT id FROM leagues WHERE LOWER(name) = ?)';
     else if($type == 'country') $sqlSelect = '(SELECT id FROM countries WHERE LOWER(name) = ?)';
     else if($type == 'season') $sqlSelect = $seasonId;
+    else if($type == 'email') $sqlSelect = '(SELECT id FROM sendEmails WHERE time = ?)';
 
     $sql = 'INSERT INTO
       track_admin(time, admin_id, type, '.$columnName.')

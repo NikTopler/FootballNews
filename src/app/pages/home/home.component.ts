@@ -35,17 +35,17 @@ export class HomeComponent implements OnInit {
     var start_date = yyyy + "-" + mm + "-" + dd;
     var end_date = ty + "-" + tm + "-" + td;
 
-    let res = this.http.get("https://app.sportdataapi.com/api/v1/soccer/matches?apikey=2f2b7820-86f4-11eb-b165-0792cfd2240a&season_id=352&date_from=" + start_date + "&date_to=" + end_date + "");
-    res.subscribe((data) => {
-      this.premier = data;
-      this.premier = this.premier.data;
-    });
+    // let res = this.http.get("https://app.sportdataapi.com/api/v1/soccer/matches?apikey=2f2b7820-86f4-11eb-b165-0792cfd2240a&season_id=352&date_from=" + start_date + "&date_to=" + end_date + "");
+    // res.subscribe((data) => {
+    //   this.premier = data;
+    //   this.premier = this.premier.data;
+    // });
 
-    let respone = this.http.get("https://app.sportdataapi.com/api/v1/soccer/matches?apikey=2f2b7820-86f4-11eb-b165-0792cfd2240a&season_id=1511&date_from="+start_date+"&date_to="+end_date+"");
-    respone.subscribe((data) => {
-      this.laliga = data;
-      this.laliga = this.laliga.data;
-    });
+    // let respone = this.http.get("https://app.sportdataapi.com/api/v1/soccer/matches?apikey=2f2b7820-86f4-11eb-b165-0792cfd2240a&season_id=1511&date_from="+start_date+"&date_to="+end_date+"");
+    // respone.subscribe((data) => {
+    //   this.laliga = data;
+    //   this.laliga = this.laliga.data;
+    // });
   }
 
   events: string[] = [];
@@ -68,18 +68,18 @@ export class HomeComponent implements OnInit {
 
     var end = yyyy + "-" + mm + "-" + dd;
 
-    let res = this.http.get("https://app.sportdataapi.com/api/v1/soccer/matches?apikey=2f2b7820-86f4-11eb-b165-0792cfd2240a&season_id=352&date_from=" + s_date + "&date_to=" + end + "");
-    res.subscribe((data) => {
-      this.premier = data;
-      this.premier = this.premier.data;
-    });
+    // let res = this.http.get("https://app.sportdataapi.com/api/v1/soccer/matches?apikey=2f2b7820-86f4-11eb-b165-0792cfd2240a&season_id=352&date_from=" + s_date + "&date_to=" + end + "");
+    // res.subscribe((data) => {
+    //   this.premier = data;
+    //   this.premier = this.premier.data;
+    // });
 
 
-    let respones = this.http.get("https://app.sportdataapi.com/api/v1/soccer/matches?apikey=2f2b7820-86f4-11eb-b165-0792cfd2240a&season_id=1511&date_from=" + s_date + "&date_to=" + end + "");
-    respones.subscribe((data) => {
-      this.laliga = data;
-      this.laliga = this.laliga.data;
-    });
+    // let respones = this.http.get("https://app.sportdataapi.com/api/v1/soccer/matches?apikey=2f2b7820-86f4-11eb-b165-0792cfd2240a&season_id=1511&date_from=" + s_date + "&date_to=" + end + "");
+    // respones.subscribe((data) => {
+    //   this.laliga = data;
+    //   this.laliga = this.laliga.data;
+    // });
   }
 
 }

@@ -3,7 +3,24 @@
     <mat-tab-group #tabGroup (selectedTabChange)="tabChanged($event)" color="accent" mat-align-tabs="center" animationDuration="0ms">
       <mat-tab label="Users">
         <section class="content">
-          <div class="mb-2" *ngIf="usersArray.length !== 0">
+          <div class="type-container">
+            <div class="double-button-container">
+              <div (click)="userOpenTable = true; userOpenJSON = false;" class="{{userOpenTable ? 'active' : ''}}">Table</div>
+              <div (click)="userOpenTable = false; userOpenJSON = true;" class="{{userOpenJSON ? 'active' : ''}}">JSON</div>
+            </div>
+            <div class="spacer"></div>
+            <button *ngIf="userOpenJSON" (click)="userCopy=true; copy()" class="btn-100">
+              <span>{{ userCopy ? 'Copied' : 'Copy' }}</span>
+            </button>
+          </div>
+          <div class="mb-2" *ngIf="userOpenJSON">
+            <div class="table-external-container editor">
+                <div class="overflow">
+                  <app-editor></app-editor>
+              </div>
+            </div>
+          </div>
+          <div class="mb-2" *ngIf="usersArray.length !== 0 && userOpenTable">
             <div class="table-external-container">
               <div class="overflow" id="overflow">
                 <div class="table">
@@ -21,7 +38,7 @@
             </div>
             <div class="footer">
               <div class="btn-container download">
-                <button mat-flat-button (click)="download('users')" color="accent" class="gray">Download</button>
+                <button (click)="download('users')" class="btn-100">Download</button>
               </div>
               <div class="all-numbers Users">
                   <div *ngFor="let page of userPages; let index = index"
@@ -31,7 +48,7 @@
                   </div>
               </div>
               <div class="btn-container update">
-                  <button mat-flat-button (click)="update('users', usersArray)" color="accent">Update</button>
+                <button (click)="update('users', usersArray)" class="btn-200">Update</button>
               </div>
             </div>
           </div>
@@ -39,7 +56,24 @@
       </mat-tab>
       <mat-tab label="Teams">
         <section class="content">
-          <div class="mb-2" *ngIf="teamsArray.length !== 0">
+          <div class="type-container">
+            <div class="double-button-container">
+              <div (click)="teamOpenTable = true; teamOpenJSON = false;" class="{{teamOpenTable ? 'active' : ''}}">Table</div>
+              <div (click)="teamOpenTable = false; teamOpenJSON = true;" class="{{teamOpenJSON ? 'active' : ''}}">JSON</div>
+            </div>
+            <div class="spacer"></div>
+            <button *ngIf="teamOpenJSON" (click)="teamCopy=true; copy()" class="btn-100">
+              <span>{{ teamCopy ? 'Copied' : 'Copy' }}</span>
+            </button>
+          </div>
+          <div class="mb-2" *ngIf="teamOpenJSON">
+            <div class="table-external-container editor">
+              <div class="overflow">
+                <app-editor></app-editor>
+              </div>
+            </div>
+          </div>
+          <div class="mb-2" *ngIf="teamsArray.length !== 0  && teamOpenTable">
             <div class="table-external-container">
               <div class="overflow" id="overflow">
                 <div class="table">
@@ -57,7 +91,7 @@
             </div>
             <div class="footer">
               <div class="btn-container download">
-                <button mat-flat-button (click)="download('teams')" color="accent" class="gray">Download</button>
+                <button (click)="download('teams')" class="btn-100">Download</button>
               </div>
               <div class="all-numbers Teams">
                 <div *ngFor="let page of teamPages; let index = index"
@@ -67,7 +101,7 @@
                 </div>
               </div>
               <div class="btn-container update">
-                <button mat-flat-button (click)="update('teams', teamsArray)" color="accent">Update</button>
+                <button (click)="update('teams', teamsArray)" class="btn-200">Update</button>
               </div>
             </div>
           </div>
@@ -75,7 +109,24 @@
       </mat-tab>
       <mat-tab label="Leagues">
         <section class="content">
-          <div class="mb-2" *ngIf="leaguesArray.length !== 0">
+          <div class="type-container">
+            <div class="double-button-container">
+              <div (click)="leagueOpenTable = true; leagueOpenJSON = false;" class="{{leagueOpenTable ? 'active' : ''}}">Table</div>
+              <div (click)="leagueOpenTable = false; leagueOpenJSON = true;" class="{{leagueOpenJSON ? 'active' : ''}}">JSON</div>
+            </div>
+            <div class="spacer"></div>
+            <button *ngIf="leagueOpenJSON" (click)="leagueCopy=true; copy()" class="btn-100">
+              <span>{{ leagueCopy ? 'Copied' : 'Copy' }}</span>
+            </button>
+          </div>
+          <div class="mb-2" *ngIf="leagueOpenJSON">
+            <div class="table-external-container editor">
+              <div class="overflow">
+                <app-editor></app-editor>
+              </div>
+            </div>
+          </div>
+          <div class="mb-2" *ngIf="leaguesArray.length !== 0 && leagueOpenTable">
             <div class="table-external-container">
               <div class="overflow" id="overflow">
                 <div class="table">
@@ -93,7 +144,7 @@
             </div>
             <div class="footer">
               <div class="btn-container download">
-                <button mat-flat-button (click)="download('leagues')" color="accent" class="gray">Download</button>
+                <button (click)="download('leagues')" class="btn-100">Download</button>
               </div>
               <div class="all-numbers Leagues">
                 <div *ngFor="let page of leaguePages; let index = index"
@@ -103,7 +154,7 @@
                 </div>
               </div>
               <div class="btn-container update">
-                <button mat-flat-button (click)="update('leagues', leaguesArray)" color="accent">Update</button>
+                <button (click)="update('leagues', leaguesArray)" class="btn-200">Update</button>
               </div>
             </div>
           </div>
@@ -111,7 +162,24 @@
       </mat-tab>
       <mat-tab label="Countries">
         <section class="content">
-          <div class="mb-2" *ngIf="countriesArray.length !== 0">
+          <div class="type-container">
+            <div class="double-button-container">
+              <div (click)="countryOpenTable = true; countryOpenJSON = false;" class="{{countryOpenTable ? 'active' : ''}}">Table</div>
+              <div (click)="countryOpenTable = false; countryOpenJSON = true;" class="{{countryOpenJSON ? 'active' : ''}}">JSON</div>
+            </div>
+            <div class="spacer"></div>
+          <button *ngIf="countryOpenJSON" (click)="countryCopy=true; copy()" class="btn-100">
+            <span>{{ countryCopy ? 'Copied' : 'Copy' }}</span>
+          </button>
+          </div>
+          <div class="mb-2" *ngIf="countryOpenJSON">
+            <div class="table-external-container editor">
+              <div class="overflow">
+                <app-editor></app-editor>
+              </div>
+            </div>
+          </div>
+          <div class="mb-2" *ngIf="countriesArray.length !== 0 && countryOpenTable">
             <div class="table-external-container">
               <div class="overflow" id="overflow">
                 <div class="table">
@@ -129,7 +197,7 @@
             </div>
             <div class="footer">
               <div class="btn-container download">
-                <button mat-flat-button (click)="download('countries')" color="accent" class="gray">Download</button>
+                <button (click)="download('countries')" class="btn-100">Download</button>
               </div>
               <div class="all-numbers Countries">
                 <div *ngFor="let page of countryPages; let index = index"
@@ -139,7 +207,7 @@
                 </div>
               </div>
               <div class="btn-container update">
-                <button mat-flat-button (click)="update('countries', countriesArray)" color="accent">Update</button>
+                <button (click)="update('countries', countriesArray)" class="btn-200">Update</button>
               </div>
             </div>
           </div>

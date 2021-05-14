@@ -9,7 +9,7 @@ import { UserService } from 'src/app/services/user/user.service';
 })
 export class SettingsComponent implements OnInit {
 
-  userInfo: any = this.userService.userInfo;
+  userInfo: any;
   alertArray: any[] = [];
   alert: boolean = false;
   alertText: string = '';
@@ -26,6 +26,7 @@ export class SettingsComponent implements OnInit {
     private router: Router,
     private userService: UserService) {
       router.events.subscribe(() => this.updateSidebar())
+      userService.getUserData().subscribe((data) => { this.userInfo = data; })
     }
 
   ngOnInit(): void {
@@ -59,13 +60,15 @@ export class SettingsComponent implements OnInit {
     return [
       { name: 'Panel', path: 'admin/panel', active: this.router.url.includes('admin/panel') ? 'active' : '' },
       { name: 'Import', path: 'admin/import', active: this.router.url.includes('admin/import') ? 'active' : ''  },
-      { name: 'Display & Edit', path: 'admin/display', active: this.router.url.includes('admin/display') ? 'active' : ''  }
+      { name: 'Display & Edit', path: 'admin/display', active: this.router.url.includes('admin/display') ? 'active' : ''  },
+      { name: 'Email', path: 'admin/email', active: this.router.url.includes('admin/email') ? 'active' : ''  }
     ];
   }
 
   get updateSidebarInsight() {
     return [
-      { name: 'Imports', path: 'admin/insight/imports', active: this.router.url.includes('insight/imports') ? 'active' : '' }
+      { name: 'Imported data', path: 'admin/insight/imports', active: this.router.url.includes('insight/imports') ? 'active' : '' },
+      { name: 'Custom emails', path: 'admin/insight/emails', active: this.router.url.includes('insight/emails') ? 'active' : '' }
     ];
   }
 
