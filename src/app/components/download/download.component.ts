@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { AppComponent } from 'src/app/app.component';
 import { DownloadService } from 'src/app/services/download/download.service';
 import * as XLSX from 'xlsx';
 

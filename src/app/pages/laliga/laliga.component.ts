@@ -33,25 +33,25 @@ export class LaligaComponent implements OnInit {
     var start_date = yyyy + "-" + mm + "-" + dd;
     var end_date = ty + "-" + tm + "-" + td;
 
-   let res = this.http.get("https://app.sportdataapi.com/api/v1/soccer/matches?apikey=2f2b7820-86f4-11eb-b165-0792cfd2240a&season_id=1511&date_from="+start_date+"&date_to="+end_date+"");
-    res.subscribe((data) => {
-      this.array = data;
-      this.array = this.array.data;
-    });
+  //  let res = this.http.get("https://app.sportdataapi.com/api/v1/soccer/matches?apikey=2f2b7820-86f4-11eb-b165-0792cfd2240a&season_id=1511&date_from="+start_date+"&date_to="+end_date+"");
+  //   res.subscribe((data) => {
+  //     this.array = data;
+  //     this.array = this.array.data;
+  //   });
 
 
-    let a = this.http.get("https://app.sportdataapi.com/api/v1/soccer/topscorers?apikey=2f2b7820-86f4-11eb-b165-0792cfd2240a&season_id=1511");
-    a.subscribe((data) => {
-      this.top = data;
-      this.top = this.top.data.slice(0,5);
-    })
+  //   let a = this.http.get("https://app.sportdataapi.com/api/v1/soccer/topscorers?apikey=2f2b7820-86f4-11eb-b165-0792cfd2240a&season_id=1511");
+  //   a.subscribe((data) => {
+  //     this.top = data;
+  //     this.top = this.top.data.slice(0,5);
+  //   })
 
 
-    const url = "https://newsapi.org/v2/everything?q=la%20liga&sortBy=popularity&apiKey=b25fa1c7df0c478984b760f83b18d9a5";
-    const response = await fetch(url);
-    const json = await response.json();
-    const articles = await json.articles;
-    this.news = articles.slice(0,4);
+  //   const url = "https://newsapi.org/v2/everything?q=la%20liga&sortBy=popularity&apiKey=b25fa1c7df0c478984b760f83b18d9a5";
+  //   const response = await fetch(url);
+  //   const json = await response.json();
+  //   const articles = await json.articles;
+  //   this.news = articles.slice(0,4);
   }
 
   events: string[] = [];

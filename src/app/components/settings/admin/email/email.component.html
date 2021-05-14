@@ -81,17 +81,17 @@
           </div>
           <!-- <div class="all-email">
             <div>
-              <span>Available Headers</span>
+              <span>Recent sent mails</span>
             </div>
-            <div class="tag-input headers active">
-              <div *ngFor="let header of allHeaders;" class="email-container {{header.class}}">
-                <span>{{header.text}}</span>
-                <div (click)="removeHeader(header.text)" class="icon">
-                  <div class="x-container"></div>
+            <div class="tag-input headers recent {{ allRecentSentEmails.length === 0 ? '' : 'active' }}">
+              <div *ngFor="let sent of allRecentSentEmails;">
+                <div class="recent-emails">
+                  <span>{{ userInfo.email === sent.admin ? sent.adminFirstName + ' ' + sent.adminLastName + ' (you)' : sent.adminFirstName + ' ' + sent.adminLastName }}</span>
+                  <span class="time-span">{{ transformNumberToDate(sent.time) }}</span>
                 </div>
               </div>
-              <div *ngIf="allHeaders.length === 0">
-                <span>No headers</span>
+              <div *ngIf="allRecentSentEmails.length === 0">
+                <span>No recent emails</span>
               </div>
             </div>
           </div> -->
