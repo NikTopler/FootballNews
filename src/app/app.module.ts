@@ -36,7 +36,6 @@ import { SocialLoginModule, SocialAuthServiceConfig, GoogleLoginProvider, Facebo
 import { environment } from '../environments/environment';
 
 import { ChartsModule } from 'ng2-charts';
-import { NavBarComponent } from './components/nav-bar/nav-bar.component';
 import { LaligaComponent } from './pages/laliga/laliga.component';
 
 import { HttpClientModule } from '@angular/common/http';
@@ -66,7 +65,6 @@ import { CustomEmailsComponent } from './components/settings/admin/insight/custo
     AdminPanelComponent,
     DisplayComponent,
     ImportsComponent,
-    NavBarComponent,
     LaligaComponent,
     LaligaNewsComponent,
     LaligaStandingsComponent,
