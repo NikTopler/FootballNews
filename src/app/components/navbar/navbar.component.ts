@@ -17,11 +17,17 @@ export class NavbarComponent implements OnInit{
   extraSearchOpen: boolean = false;
 
   isMainInputOpen: boolean = false;
+  isAccountPageOpen: boolean = false;
 
   constructor(
     private router: Router,
     private authenticationService: AuthenticationService,
-    private searchService: SearchService) { }
+    private searchService: SearchService) {
+      router.events.subscribe((e) => {
+        if(router.url.includes('settings')) this.isAccountPageOpen = true;
+        else this.isAccountPageOpen = false
+      })
+    }
 
   ngOnInit() { this.setElementEvents(); }
 
