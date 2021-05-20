@@ -16,6 +16,8 @@ export class NavbarComponent implements OnInit{
 
   extraSearchOpen: boolean = false;
 
+  isMainInputOpen: boolean = false;
+
   constructor(
     private router: Router,
     private authenticationService: AuthenticationService,
