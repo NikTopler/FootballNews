@@ -1,24 +1,43 @@
-<mat-toolbar>
- <a (click)="openPage('home')">
-  <span>Football News</span>
- </a>
- <a class="nav-link" routerLink="/laliga">La liga</a>
- <a class="nav-link" routerLink="/premiere-league" >Premier league</a>
- <div class="spacer"></div>
- <button *ngIf="loggedIn"
-    mat-fab class="profile container"
-    [matMenuTriggerFor]="profile">
-    <svg class="profile rounded-full" width="64" height="64" viewBox="-4 -4 32 32" fill="#fff" class="profile rounded-full">
-      <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"></path>
-    </svg>
- </button>
-<mat-menu #profile="matMenu">
-  <button mat-menu-item (click)="openPage('settings/account')">Account</button>
-  <button mat-menu-item (click)="logout()">Log out</button>
-</mat-menu>
- <button
-  *ngIf="!loggedIn"
-  class="btn-200"
-  id="login-btn"
-  (click)="openLogin(true)">Login</button>
-</mat-toolbar>
+<nav>
+  <div class="left">
+    <a (click)="openPage('home')" class="logo">
+      <span>Football News</span>
+    </a>
+  </div>
+  <div class="middle">
+    <div class="search-container">
+      <figure class="search-icon-container">
+        <div class="circle">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24">
+            <path d="M23.809 21.646l-6.205-6.205c1.167-1.605 1.857-3.579 1.857-5.711 0-5.365-4.365-9.73-9.731-9.73-5.365 0-9.73 4.365-9.73 9.73 0 5.366 4.365 9.73 9.73 9.73 2.034 0 3.923-.627 5.487-1.698l6.238 6.238 2.354-2.354zm-20.955-11.916c0-3.792 3.085-6.877 6.877-6.877s6.877 3.085 6.877 6.877-3.085 6.877-6.877 6.877c-3.793 0-6.877-3.085-6.877-6.877z" fill="#6a737d"/>
+          </svg>
+        </div>
+      </figure>
+      <input type="text">
+      <figure class="option-icon-container">
+        <div class="circle">
+          <div class="extra-option-icon"></div>
+        </div>
+      </figure>
+    </div>
+  </div>
+  <div class="right">
+    <button *ngIf="loggedIn"
+      mat-fab class="profile container"
+      [matMenuTriggerFor]="profile">
+      <svg class="profile rounded-full" width="64" height="64" viewBox="-4 -4 32 32" fill="#fff" class="profile rounded-full">
+        <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"></path>
+      </svg>
+    </button>
+    <mat-menu #profile="matMenu">
+      <button mat-menu-item (click)="openPage('settings/account')">Account</button>
+      <button mat-menu-item (click)="logout()">Log out</button>
+    </mat-menu>
+    <button
+      *ngIf="!loggedIn"
+      class="btn-200"
+      id="login-btn"
+      (click)="openLogin(true)">Login</button>
+    </div>
+</nav>
+
