@@ -1,6 +1,7 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthenticationService } from 'src/app/services/authentication/authentication.service';
+import { SearchService } from 'src/app/services/search/search.service';
 
 @Component({
   selector: 'app-navbar',
@@ -9,11 +10,15 @@ import { AuthenticationService } from 'src/app/services/authentication/authentic
 })
 export class NavbarComponent implements OnInit{
 
+  suggestionOpen: boolean = false;
+  suggestionArray: string[] = [];
+
   constructor(
     private router: Router,
-    private authenticationService: AuthenticationService) { }
+    private authenticationService: AuthenticationService,
+    private searchService: SearchService) { }
 
-  ngOnInit() { }
+  ngOnInit() { this.setElementEvents(); }
 
   @Input() userInfo: any = null;
   @Input() loggedIn: boolean = false;
@@ -25,5 +30,28 @@ export class NavbarComponent implements OnInit{
 
   logout() { this.authenticationService.logout(); }
 
+  get getSearchInput() { return document.getElementById('search-input') as HTMLInputElement; }
+
+  setElementEvents() {
+
+    let suggestTimeout: any = null;
+
+    this.getSearchInput.oninput = async () => {
+      const value = this.getSearchInput.value;
+
+      clearTimeout(suggestTimeout);
+
+      suggestTimeout = setTimeout(() => {
+        if(value.length === 0) {
+          this.suggestionOpen = false;
+          this.suggestionArray = [];
+        } else {
+          this.suggestionOpen = true;
+          this.searchService.suggestWords(value)
+            .then(() => { this.suggestionArray = this.searchService.suggestionArray; })
+        }
+      }, 200);
+    }
+  }
 }
 
