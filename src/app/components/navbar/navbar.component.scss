@@ -42,6 +42,7 @@ nav {
 
   div.left {
     .logo {
+      white-space: nowrap;
       font-size: 1.5rem;
       cursor: pointer;
     }
@@ -120,7 +121,8 @@ nav {
         }
       }
 
-      .word-suggest-container {
+      .word-suggest-container,
+      .extra-container {
         position: absolute;
         top: 42px;
         left: 0;
@@ -134,7 +136,9 @@ nav {
         border-bottom-left-radius: 4px;
         box-shadow: 2px 2px 1px $gray-150,
                     1px 0px 1px $gray-150 inset;
+      }
 
+      .word-suggest-container {
         span {
           display: flex;
           padding: 6px 8px;
@@ -146,10 +150,16 @@ nav {
         }
         span:hover { background-color: $gray-100; }
       }
-      .word-suggest-container.active { visibility: visible; }
-      .word-suggest-container.active + .search-input {
+      .word-suggest-container.active,
+      .extra-container.active { visibility: visible; }
+
+      .word-suggest-container.active + .search-input,
+      .extra-container.active + .search-input {
         border-bottom-right-radius: 0;
         border-bottom-left-radius: 0;
+      }
+      .extra-container {
+
       }
     }
   }

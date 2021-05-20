@@ -12,6 +12,9 @@ export class NavbarComponent implements OnInit{
 
   suggestionOpen: boolean = false;
   suggestionArray: string[] = [];
+  isMouseOverSuggest: boolean = false;
+
+  extraSearchOpen: boolean = false;
 
   constructor(
     private router: Router,
@@ -31,10 +34,14 @@ export class NavbarComponent implements OnInit{
   logout() { this.authenticationService.logout(); }
 
   get getSearchInput() { return document.getElementById('search-input') as HTMLInputElement; }
+  get getSuggestContainer() { return document.getElementById('word-suggest-container') as HTMLDivElement; }
 
   setElementEvents() {
 
     let suggestTimeout: any = null;
+
+    this.getSuggestContainer.onmouseenter = (e) => { this.isMouseOverSuggest = true; }
+    this.getSuggestContainer.onmouseleave = (e) => { this.isMouseOverSuggest = false; }
 
     this.getSearchInput.oninput = async () => {
       const value = this.getSearchInput.value;
@@ -52,6 +59,21 @@ export class NavbarComponent implements OnInit{
         }
       }, 200);
     }
+    this.getSearchInput.onkeyup = (e) => {
+      if(e.key === 'Enter' && this.getSearchInput.value.length !== 0)
+        this.search(null);
+    }
+    this.getSearchInput.onfocus = () => {
+      if(this.getSearchInput.value.length !== 0)
+        this.suggestionOpen = true;
+      this.extraSearchOpen = false;
+    }
+    this.getSearchInput.onblur = () => {
+      if(!this.isMouseOverSuggest)
+        this.suggestionOpen = false;
+    }
   }
+
+  search(query: string | null) { }
 }
 
