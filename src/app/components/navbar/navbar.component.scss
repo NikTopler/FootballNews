@@ -265,7 +265,7 @@ nav {
 
 
 @media screen and (max-width: 1000px) {
-  nav { grid-template-columns: 1fr 50% 1fr; }
+  nav { grid-template-columns: auto 1fr auto; }
 }
 
 @media screen and (max-width: 600px) {
