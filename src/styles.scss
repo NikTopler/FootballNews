@@ -167,3 +167,6 @@ hr {
   box-shadow: 0 0 3px $pink-500;
   outline: none;
 }
+
+.disabled { display: none; }
+.disabled-children > * { display: none; }
