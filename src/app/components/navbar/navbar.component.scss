@@ -131,7 +131,7 @@ nav {
       .word-suggest-container,
       .extra-container {
         position: absolute;
-        top: 42px;
+        top: 48px;
         left: 0;
         right: 0;
         width: 100%;
@@ -160,8 +160,8 @@ nav {
       .word-suggest-container.active,
       .extra-container.active { visibility: visible; }
 
-      .word-suggest-container.active + .search-input,
-      .extra-container.active + .search-input {
+      .word-suggest-container.active ~ .search-input,
+      .extra-container.active ~ .search-input {
         border-bottom-right-radius: 0;
         border-bottom-left-radius: 0;
       }
