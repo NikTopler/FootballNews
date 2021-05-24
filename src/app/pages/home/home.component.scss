@@ -1,3 +1,5 @@
+@import '../../../styles.scss';
+
 .latest-news-container {
   width: 100%;
   padding: 4rem 0 1.5rem 0;
@@ -56,6 +58,8 @@
     height: 5rem;
     padding: 0 1rem;
     cursor: pointer;
+    transition: all ease-in-out .3s;
+    border-right: 1px solid $gray-300;
 
     header {
       padding: 0.5rem 0;
@@ -63,7 +67,6 @@
     }
     p { font-weight: 500; }
   }
-  .news-article.active:not(:nth-child(4)) { border-right: 1px solid $gray-300; }
   .news-article:hover p { text-decoration: underline; }
 }
 

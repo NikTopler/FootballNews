@@ -3,13 +3,13 @@
     <aside class="tag err">
       <span>Breaking</span>
     </aside>
-    <div class="left">
-      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24">
+    <div *ngIf="showLeftArrow" (click)="changeLatestNews('left')" class="left">
+      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24">
         <path d="M13.025 1l-2.847 2.828 6.176 6.176h-16.354v3.992h16.354l-6.176 6.176 2.847 2.828 10.975-11z" fill="#fff"/>
       </svg>
     </div>
-    <div class="right">
-      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24">
+    <div *ngIf="showRightArrow" (click)="changeLatestNews('right')" class="right">
+      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24">
         <path d="M13.025 1l-2.847 2.828 6.176 6.176h-16.354v3.992h16.354l-6.176 6.176 2.847 2.828 10.975-11z" fill="#fff"/>
       </svg>
     </div>
