@@ -90,16 +90,6 @@ div.main-section {
   .alert:not(:first-child) { margin-top: 0.25rem; }
 }
 
-div.main-section-container {
-  display: grid;
-  grid-template-columns: 25% 75%;
-  grid-template-rows: auto 1fr;
-  margin-right: auto;
-  margin-left: auto;
-  max-width: 1012px;
-  padding: 16px;
-}
-
 .section-header {
   display: flex;
   grid-row: 1/2;
