@@ -3,11 +3,6 @@ include_once 'config/db.php';
 require __DIR__ . '/libs/vendor/autoload.php';
 use \Firebase\JWT\JWT;
 
-$allowed_domains = ["http://localhost:4200", "https://footballnews-app.herokuapp.com"];
-
-if (in_array($_SERVER['HTTP_ORIGIN'], $allowed_domains)) header("Access-Control-Allow-Origin: " . $_SERVER['HTTP_ORIGIN']);
-else $this->response(403, 'Access denied', 'Authorization failed');
-
 class User extends Dbh {
 
   public function checkIfUserExists($type, $email, $id) {
@@ -240,6 +235,13 @@ class User extends Dbh {
 }
 
 $userObj = new User();
+
+$allowed_domains = ["http://localhost:4200", "https://footballnews-app.herokuapp.com"];
+
+if (in_array($_SERVER['HTTP_ORIGIN'], $allowed_domains)) header("Access-Control-Allow-Origin: " . $_SERVER['HTTP_ORIGIN']);
+else $userObj->response(403, 'Access denied', 'Authorization failed');
+
+
 if($_SERVER['REQUEST_METHOD'] !== 'POST') die;
 if(isset($_POST['VALIDATE_REFRESH_TOKEN'])) $userObj->checkRefreshToken($_POST['VALIDATE_REFRESH_TOKEN']);
 else if(isset($_POST['VALIDATE_ACCESS_TOKEN'])) $userObj->checkAccessToken($_POST['VALIDATE_ACCESS_TOKEN']);
