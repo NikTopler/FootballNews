@@ -16,7 +16,7 @@
     overflow: hidden;
   }
 
-  .left, .right {
+  .arrow.left, .arrow.right {
     position: absolute;
     top: 0;
     bottom: 0;
@@ -32,13 +32,13 @@
     cursor: pointer;
   }
 
-  .left:hover, .right:hover { background-color: $gray-400; }
+  .arrow.left:hover, .arrow.right:hover { background-color: $gray-400; }
 
-  .left {
+  .arrow.left {
     left: -3rem;
     svg { transform: rotate(180deg); }
   }
-  .right { right: -3rem; }
+  .arrow.right { right: -3rem; }
 
   aside {
     position: absolute;
@@ -68,6 +68,24 @@
     p { font-weight: 500; }
   }
   .news-article:hover p { text-decoration: underline; }
+}
+
+.shadow {
+  position: absolute;
+  z-index: 500;
+  bottom: 0;
+  content: " ";
+  pointer-events: none;
+  top: 0;
+  width: 10%;
+}
+.shadow.right {
+  right: 0;
+  background: linear-gradient(90deg, hsla(0, 0%, 100%, 0), rgb(255, 255, 255));
+}
+.shadow.left {
+  left: 0;
+  background: linear-gradient(-90deg, hsla(0, 0%, 100%, 0), rgb(255, 255, 255));
 }
 
 .main-section-container {
