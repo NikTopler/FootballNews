@@ -112,4 +112,20 @@
     }
   }
 
+@media screen and (max-width: 1250px) {
+  .latest-news-container .content {
+    width: calc(15.75rem * 3 + 2rem * 3);
+  }
+}
 
+@media screen and (max-width: 1000px) {
+  .latest-news-container {
+    .content { width: calc(15.75rem * 2 + 2rem * 2);
+      .news-article { max-width: 10.75rem; }
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .latest-news-container { display: none; }
+}
