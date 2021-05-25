@@ -121,6 +121,13 @@
   }
 }
 
+@media screen and (max-width: 900px) {
+  .main-section-container {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
 @media screen and (max-width: 768px) {
   .latest-news-container { display: none; }
 }
