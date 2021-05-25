@@ -16,69 +16,13 @@
     <div *ngIf="showRightArrow" class="shadow right"></div>
     <div *ngIf="showLeftArrow" class="shadow left"></div>
     <div class="content">
-      <div class="news-article active">
+      <div *ngFor="let article of latestNewsArray" (click)="openLink(article.url)" class="news-article">
         <header>
-          <span>1 hour ago</span>
+          <span>{{article.publishedAt.slice(0, -10)}}</span>
         </header>
-        <p>Charli bit my finger video will diessapear from the internet...</p>
-      </div>
-      <div class="news-article active">
-        <header>
-          <span>1 hour ago</span>
-        </header>
-        <p>Charli bit my finger video will diessapear from the internet...</p>
-      </div>
-      <div class="news-article active">
-        <header>
-          <span>1 hour ago</span>
-        </header>
-        <p>Charli bit my finger video will diessapear from the internet...</p>
-      </div>
-      <div class="news-article active">
-        <header>
-          <span>1 hour ago</span>
-        </header>
-        <p>Charli bit my finger video will diessapear from the internet...</p>
-      </div>
-      <div class="news-article">
-        <header>
-          <span>1 hour ago</span>
-        </header>
-        <p>Charli bit my finger video will diessapear from the internet...</p>
-      </div>
-      <div class="news-article">
-        <header>
-          <span>1 hour ago</span>
-        </header>
-        <p>Charli bit my finger video will diessapear from the internet...</p>
-      </div>
-      <div class="news-article">
-        <header>
-          <span>1 hour ago</span>
-        </header>
-        <p>Charli bit my finger video will diessapear from the internet...</p>
-      </div>
-      <div class="news-article">
-        <header>
-          <span>1 hour ago</span>
-        </header>
-        <p>Charli bit my finger video will diessapear from the internet...</p>
-      </div>
-      <div class="news-article">
-        <header>
-          <span>1 hour ago</span>
-        </header>
-        <p>Charli bit my finger video will diessapear from the internet...</p>
-      </div>
-      <div class="news-article">
-        <header>
-          <span>1 hour ago</span>
-        </header>
-        <p>Charli bit my finger video will diessapear from the internet...</p>
+        <p>{{article.title}}</p>
       </div>
     </div>
   </div>
 </div>
-        </div>
-    </div>
 </div>

@@ -25,7 +25,7 @@ export class HomeComponent implements OnInit {
     if(this.direction === 0) {
       this.showLeftArrow = false;
       this.showRightArrow = true;
-    } else if(this.direction * (-1) === (285 * 10 - 285 * 4)) {
+    } else if(this.direction * (-1) === (285 * this.latestNewsArray.length - 285 * 4)) {
       this.showLeftArrow = true;
       this.showRightArrow = false;
     } else {
@@ -41,5 +41,23 @@ export class HomeComponent implements OnInit {
 
   get getAllLatestNews() { return document.querySelectorAll('.news-article'); }
 
-  ngOnInit() { }
+  async setupLatestNews() {
+    let laliga = await this.latestNews('soccer');
+    if(!laliga) return;
+    this.latestNewsArray = laliga.sort((a: any ,b: any) => (a.publishedAt < b.publishedAt) ? 1 : ((b.publishedAt < a.publishedAt) ? -1 : 0));
+  }
+
+  async latestNews(word: string) {
+    const req = await fetch(`${environment.db}/news.php`, {
+      method: 'POST',
+      body: this.comm.createFormData('LATEST_NEWS', word)
+    });
+    const text = await req.text();
+    const res = JSON.parse(text);
+    const data = JSON.parse(res.data);
+    if(res.status === 'ok') return data.articles;
+    return null;
+  }
+
+  openLink(url: string) { window.open(url); }
 }
