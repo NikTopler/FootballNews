@@ -25,4 +25,23 @@
     </div>
   </div>
 </div>
+<div class="main-section-container">
+  <section class="main-content">
+    main
+  </section>
+  <section class="side-bar">
+    <header>
+      <h3>Leagues</h3>
+    </header>
+    <div *ngFor="let league of allLeagues"
+      (click)="openPage(league.path)"
+      class="page {{league.name !== 'Laliga' && league.name !== 'Premier League' ? 'gray' : ''}}">
+      <div class="selector"></div>
+      <h3>{{ league.name }}</h3>
+      <div class="spacer"></div>
+      <div *ngIf="league.name !== 'Laliga' && league.name !== 'Premier League'" class="tag err">
+        <span>Not Supported</span>
+      </div>
+    </div>
+  </section>
 </div>
