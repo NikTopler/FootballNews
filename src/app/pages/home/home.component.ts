@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { CommService } from 'src/app/services/comm/comm.service';
 import { environment } from '../../../environments/environment';
 
@@ -7,16 +8,21 @@ import { environment } from '../../../environments/environment';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent {
 
   latestNewsArray: any[] = [];
   showLeftArrow: boolean = false;
   showRightArrow: boolean = true;
   direction: number = 0;
 
-  constructor(private comm: CommService) { this.setupLatestNews() }
+  allLeagues: any = [];
 
-  ngOnInit() { }
+  constructor(
+    private router: Router,
+    private comm: CommService) {
+    this.getAllLeagues();
+    this.setupLatestNews();
+  }
 
   changeLatestNews(direction: string) {
 
@@ -59,5 +65,24 @@ export class HomeComponent implements OnInit {
     return null;
   }
 
+  async getAllLeagues() {
+    const req = await fetch(`${environment.db}/update.php`, {
+      method: 'POST',
+      body: this.comm.createFormData('GET_LEAGUES', '')
+    });
+    const res = await req.text();
+    const leagues: string[][] = JSON.parse(res).data;
+
+    for(let i = 0; i < leagues.length; i++) {
+
+      let path = '';
+      if(leagues[i][0].toLowerCase() === 'laliga') path = 'laliga';
+      else if(leagues[i][0].toLowerCase() === 'premier league') path = 'premier-league';
+
+      this.allLeagues.push({ name: leagues[i][0], path: path });
+    }
+  }
+
   openLink(url: string) { window.open(url); }
+  openPage(page: string) { this.router.navigateByUrl(page); }
 }
