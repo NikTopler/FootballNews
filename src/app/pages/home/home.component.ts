@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommService } from 'src/app/services/comm/comm.service';
+import { UserService } from 'src/app/services/user/user.service';
 import { environment } from '../../../environments/environment';
 
 @Component({
@@ -15,11 +16,17 @@ export class HomeComponent {
   showRightArrow: boolean = true;
   direction: number = 0;
 
+  laligaNewsArray: any[] = [];
+  premierLeagueNewsArray: any[] = [];
+
   allLeagues: any = [];
+  following: any = [];
 
   constructor(
     private router: Router,
-    private comm: CommService) {
+    private comm: CommService,
+    private userService: UserService) {
+    this.userService.getUserData().subscribe((userInfo) => { this.following = userInfo.following; })
     this.getAllLeagues();
     this.setupLatestNews();
   }
@@ -48,7 +55,6 @@ export class HomeComponent {
   get getAllLatestNews() { return document.querySelectorAll('.news-article'); }
 
   async setupLatestNews() {
-    let laliga = await this.latestNews('soccer');
     const newsArticles = await this.latestNews('soccer');
     this.latestNewsArray = JSON.parse(newsArticles.latest).articles.sort((a: any ,b: any) => (a.publishedAt < b.publishedAt) ? 1 : ((b.publishedAt < a.publishedAt) ? -1 : 0));
     this.laligaNewsArray = JSON.parse(newsArticles.laliga).articles.sort((a: any ,b: any) => (a.publishedAt < b.publishedAt) ? 1 : ((b.publishedAt < a.publishedAt) ? -1 : 0));
@@ -84,6 +90,13 @@ export class HomeComponent {
     }
   }
 
+  addActiveClass(name: string) {
+    if(!this.following) return '';
+    for(let i = 0; i < this.following.length; i++)
+      if(this.following[i].name === name)
+        return 'active';
+    return '';
+  }
   openLink(url: string) { window.open(url); }
   openPage(page: string) { this.router.navigateByUrl(page); }
 }
