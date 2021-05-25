@@ -35,7 +35,7 @@
     </header>
     <div *ngFor="let league of allLeagues"
       (click)="openPage(league.path)"
-      class="page {{league.name !== 'Laliga' && league.name !== 'Premier League' ? 'gray' : ''}}">
+      class="page {{league.name !== 'Laliga' && league.name !== 'Premier League' ? 'gray' : ''}} {{ addActiveClass(league.name) }}">
       <div class="selector"></div>
       <h3>{{ league.name }}</h3>
       <div class="spacer"></div>

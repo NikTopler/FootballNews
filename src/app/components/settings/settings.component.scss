@@ -126,9 +126,9 @@ div.main-section {
   }
 }
 
-.content-section {
-  margin-left: 1rem;
-}
+div.page.active { background-color: $gray-200; }
+
+.content-section { margin-left: 1rem; }
 
 .btn {
   border: 1px solid #c7c7c7;
