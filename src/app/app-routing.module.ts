@@ -26,9 +26,9 @@ const routes: Routes = [
   { path: 'laliga', component: LaligaComponent },
   { path: 'news/laliga', component: LaligaNewsComponent },
   { path: 'standings/laliga', component: LaligaStandingsComponent },
-  { path: 'premiere-league', component: PremiereLeagueComponent },
-  { path: 'news/premiere-league', component: PremiereLeagueNewsComponent },
-  { path: 'standings/premiere-league', component: PremiereLeagueStandingsComponent },
+  { path: 'premier-league', component: PremiereLeagueComponent },
+  { path: 'news/premier-league', component: PremiereLeagueNewsComponent },
+  { path: 'standings/premier-league', component: PremiereLeagueStandingsComponent },
   { path: 'settings', component: SettingsComponent, canActivate: [UserGuard], children: [
     { path: '', pathMatch: 'full', redirectTo: 'account'},
     { path: 'account', component: AccountComponent },
