@@ -49,19 +49,20 @@ export class HomeComponent {
 
   async setupLatestNews() {
     let laliga = await this.latestNews('soccer');
-    if(!laliga) return;
-    this.latestNewsArray = laliga.sort((a: any ,b: any) => (a.publishedAt < b.publishedAt) ? 1 : ((b.publishedAt < a.publishedAt) ? -1 : 0));
+    const newsArticles = await this.latestNews('soccer');
+    this.latestNewsArray = JSON.parse(newsArticles.latest).articles.sort((a: any ,b: any) => (a.publishedAt < b.publishedAt) ? 1 : ((b.publishedAt < a.publishedAt) ? -1 : 0));
+    this.laligaNewsArray = JSON.parse(newsArticles.laliga).articles.sort((a: any ,b: any) => (a.publishedAt < b.publishedAt) ? 1 : ((b.publishedAt < a.publishedAt) ? -1 : 0));
+    this.premierLeagueNewsArray = JSON.parse(newsArticles.premier_league).articles.sort((a: any ,b: any) => (a.publishedAt < b.publishedAt) ? 1 : ((b.publishedAt < a.publishedAt) ? -1 : 0));
   }
 
   async latestNews(word: string) {
     const req = await fetch(`${environment.db}/news.php`, {
       method: 'POST',
-      body: this.comm.createFormData('LATEST_NEWS', word)
+      body: this.comm.createFormData('HOME_NEWS', '')
     });
     const text = await req.text();
     const res = JSON.parse(text);
-    const data = JSON.parse(res.data);
-    if(res.status === 'ok') return data.articles;
+    if(res.status === 'ok') return res;
     return null;
   }
 
