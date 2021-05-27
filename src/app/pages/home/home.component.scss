@@ -89,7 +89,8 @@
 }
 
 .main-section-container {
-  grid-template-columns: 75% 25%;
+  max-width: 1220px;
+  grid-template-columns: 1fr 280px;
   grid-template-rows: auto 1fr;
   padding-top: 2rem;
 
@@ -97,15 +98,92 @@
     grid-row: 2/3;
     grid-column: 1/2;
     padding-right: 1rem;
+
+    .article-container {
+      article{
+        h2 {
+          text-align: center;
+          font-weight: 500;
+          cursor: pointer;
+          transition: all ease-in-out .2s;
+        }
+        .img-container {
+          position: relative;
+          height: auto;
+          width: auto;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          overflow: hidden;
+          border-radius: 4px;
+          margin-bottom: 1.5rem;
+          cursor: pointer;
+          img {
+            width: 100%;
+            max-height: 12rem;
+            border-radius: 4px;
+            transition: all ease-in-out .5s;
+          }
+        }
+        .img-container:hover img { transform: scale(1.05); }
+
+        .content {
+          display: flex;
+          flex-direction: column;
+
+          .author { padding: 0.5rem 0; }
+          p {
+            text-align: center;
+          }
+        }
+      }
+      article:hover {
+        h2 { text-decoration: underline; }
+      }
+      article.main {
+        min-height: 30rem;
+        img { max-height: 24rem !important; }
+        .content {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          h2 { width: 85%; }
+        }
+      }
+
+      .double {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+
+        article {
+          .img-container { margin-bottom: 0; }
+          .content {
+            h2, p { text-align: left; }
+            p { padding: 1rem 0; }
+          }
+        }
+
+        article:first-child { margin-right: 0.5rem; }
+        article:last-child { margin-left: 0.5rem; }
+      }
+    }
   }
 
   .side-bar {
     grid-row: 2/3;
     grid-column: 2/3;
+    height: fit-content;
   }
 }
 
 .page.gray { pointer-events: none; }
+
+hr {
+  width: 100%;
+  border: none;
+  border-bottom: 2px solid $gray-300;
+  margin: 1.5rem 0;
+}
 
 @media screen and (max-width: 1250px) {
   .latest-news-container .content {

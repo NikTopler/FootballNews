@@ -42,6 +42,50 @@
     </div>
   </section>
   <section class="main-content">
-    main
+    <div class="article-container">
+      <article class="main" *ngIf="headingArticle" (click)="openLink(headingArticle.url)">
+        <div class="img-container">
+          <img src="{{ headingArticle.urlToImage }}" alt="article-img">
+        </div>
+        <div class="content">
+          <h2>{{ headingArticle.title }}</h2>
+          <span class="author">By <strong>{{ headingArticle.author }}</strong></span>
+          <p>{{ headingArticle.description }}</p>
+        </div>
+      </article>
+      <hr>
+      <ng-container *ngFor="let a of laligaNewsArray | slice:0:1; let index = index">
+        <div class="double">
+          <article *ngFor="let article of laligaNewsArray | slice:index*2:index*2+2;" (click)="openLink(article.url)">
+            <div class="img-container">
+              <img src="{{ article.urlToImage }}" alt="article-img">
+            </div>
+            <div class="content">
+              <span class="author">
+                <strong>{{ article.author }}</strong>
+              </span>
+              <h2>{{ article.title }}</h2>
+              <p>{{ article.description }}</p>
+            </div>
+          </article>
+        </div>
+      </ng-container>
+      <ng-container *ngFor="let a of premierLeagueNewsArray | slice:0:1; let index = index">
+        <div class="double">
+          <article *ngFor="let article of premierLeagueNewsArray | slice:index*2:index*2+2;" (click)="openLink(article.url)">
+            <div class="img-container">
+              <img src="{{ article.urlToImage }}" alt="article-img">
+            </div>
+            <div class="content">
+              <span class="author">
+                <strong>{{ article.author }}</strong>
+              </span>
+              <h2>{{ article.title }}</h2>
+              <p>{{ article.description }}</p>
+            </div>
+          </article>
+        </div>
+      </ng-container>
+    </div>
   </section>
 </div>
