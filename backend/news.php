@@ -23,12 +23,19 @@ class News extends User {
     $row = $stmt->fetch();
     $premierLeague = $row['news'];
 
+    $sql = 'SELECT * FROM news WHERE type = "Champions League" ORDER BY time DESC';
+    $stmt = $this->connect()->prepare($sql);
+    $stmt->execute();
+    $row = $stmt->fetch();
+    $championsLeague = $row['news'];
+
     http_response_code(200);
     echo json_encode(array(
       "status" => "ok",
       "latest" => $latestNews,
       "laliga" => $laliga,
-      "premier_league" => $premierLeague
+      "premier_league" => $premierLeague,
+      "champions_league" => $championsLeague
     ));
 
     die;
