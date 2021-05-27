@@ -19,10 +19,12 @@ import { PremiereLeagueComponent } from './pages/premiere-league/premiere-league
 import { PremiereLeagueStandingsComponent } from './pages/premiere-league-standings/premiere-league-standings.component';
 import { EmailComponent } from './components/settings/admin/email/email.component';
 import { CustomEmailsComponent } from './components/settings/admin/insight/custom-emails/custom-emails.component';
+import { SearchComponent } from './pages/search/search.component';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'home' },
   { path: 'home', component: HomeComponent },
+  { path: 'search', component: SearchComponent },
   { path: 'laliga', component: LaligaComponent },
   { path: 'news/laliga', component: LaligaNewsComponent },
   { path: 'standings/laliga', component: LaligaStandingsComponent },
