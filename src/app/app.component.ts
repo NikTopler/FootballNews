@@ -68,12 +68,14 @@ export class AppComponent {
     else if(res.status === 401 && res.body.includes('Access')) return this.authenticationService.logout();
     else if(res.status === 404) this.checkAuthentication();
 
-    if(res.body.data.data.email) {
-      this.userService.setUserData(res.body.data.data);
-      this.loggedIn = true;
-      this.waitForResponse = false;
-      this.reload = false;
-    } else this.authenticationService.logout();
+    if(res.body.data) {
+      if(res.body.data.data.email) {
+        this.userService.setUserData(res.body.data.data);
+        this.loggedIn = true;
+        this.waitForResponse = false;
+        this.reload = false;
+      } else this.authenticationService.logout();
+    }
   }
 
   async socialLogin(
