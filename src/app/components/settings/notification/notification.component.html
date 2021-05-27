@@ -46,7 +46,12 @@
     <div *ngFor="let league of allLeagues" class="box">
       <strong>{{ league }}</strong>
       <div class="spacer"></div>
-      <button (click)="manageFollowLeagues($event, league)" class="btn-100">{{ compareLeagues(league, followingLeagues) ? 'Unfollow' : 'Follow' }}</button>
+      <button *ngIf="league === 'Laliga' || league === 'Premier League'" (click)="manageFollowLeagues($event, league)" class="btn-100">
+        {{ compareLeagues(league, followingLeagues) ? 'Unfollow' : 'Follow' }}
+      </button>
+      <div *ngIf="league !== 'Laliga' && league !== 'Premier League'" class="tag err">
+        <span>Not Supported</span>
+      </div>
     </div>
   </div>
   <div class="mb-2">

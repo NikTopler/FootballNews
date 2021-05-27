@@ -1,85 +1,127 @@
-import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { FormControl } from '@angular/forms';
-import { MatDatepickerInputEvent } from '@angular/material/datepicker';
+import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { CommService } from 'src/app/services/comm/comm.service';
+import { UserService } from 'src/app/services/user/user.service';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent {
 
+  latestNewsArray: any[] = [];
+  showLeftArrow: boolean = false;
+  showRightArrow: boolean = true;
+  direction: number = 0;
 
-  premier: any;
-  laliga:any;
-  top:any;
-  news:any;
-  date1 = new FormControl(new Date())
-  constructor(private http: HttpClient) { }
+  laligaNewsArray: any[] = [];
+  laligaNumber: number = 1;
 
-  async ngOnInit() {
+  premierLeagueNewsArray: any[] = [];
+  premierLeagueNumber: number = 1;
 
+  championsLeague: any[] = [];
 
-    var today = new Date();
-    var dd = String(today.getDate()).padStart(2, '0');
-    var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
-    var yyyy = today.getFullYear();
+  allLeagues: any = [];
+  following: any = [];
 
-    var tomorrow = new Date(today.setDate(today.getDate() + 3));
-    var td = String(tomorrow.getDate()).padStart(2, '0');
-    var tm = String(tomorrow.getMonth() + 1).padStart(2, '0'); //January is 0!
-    var ty = tomorrow.getFullYear();
+  headingArticle: any;
 
-
-    var start_date = yyyy + "-" + mm + "-" + dd;
-    var end_date = ty + "-" + tm + "-" + td;
-
-    // let res = this.http.get("https://app.sportdataapi.com/api/v1/soccer/matches?apikey=2f2b7820-86f4-11eb-b165-0792cfd2240a&season_id=352&date_from=" + start_date + "&date_to=" + end_date + "");
-    // res.subscribe((data) => {
-    //   this.premier = data;
-    //   this.premier = this.premier.data;
-    // });
-
-    // let respone = this.http.get("https://app.sportdataapi.com/api/v1/soccer/matches?apikey=2f2b7820-86f4-11eb-b165-0792cfd2240a&season_id=1511&date_from="+start_date+"&date_to="+end_date+"");
-    // respone.subscribe((data) => {
-    //   this.laliga = data;
-    //   this.laliga = this.laliga.data;
-    // });
+  constructor(
+    private router: Router,
+    private comm: CommService,
+    private userService: UserService) {
+    this.comm.setIsLoaded(false);
+    this.userService.getUserData()
+      .subscribe((userInfo) => { this.following = userInfo.following; })
+    this.getAllLeagues();
+    this.setupLatestNews();
   }
 
-  events: string[] = [];
+  changeLatestNews(direction: string) {
 
+    direction === 'left' ? this.direction += 285 : this.direction += -285;
 
-  addEvent(type: string, event: MatDatepickerInputEvent<Date>) {
-    this.laliga=null;
-    this.premier=null;
-    this.events = [];
-    this.events.push(`${type}: ${event.value}`);
-    var s_date = this.events[0].slice(11, 23);
+    if(this.direction === 0) {
+      this.showLeftArrow = false;
+      this.showRightArrow = true;
+    } else if(this.direction * (-1) === (285 * this.latestNewsArray.length - 285 * 4)) {
+      this.showLeftArrow = true;
+      this.showRightArrow = false;
+    } else {
+      this.showLeftArrow = true;
+      this.showRightArrow = true;
+    }
 
-
-
-    var e_date = new Date(s_date);
-    var t_date = new Date(e_date.setDate(e_date.getDate() + 1));
-    var dd = String(t_date.getDate()).padStart(2, '0');
-    var mm = String(t_date.getMonth() + 1).padStart(2, '0');
-    var yyyy = t_date.getFullYear();
-
-    var end = yyyy + "-" + mm + "-" + dd;
-
-    // let res = this.http.get("https://app.sportdataapi.com/api/v1/soccer/matches?apikey=2f2b7820-86f4-11eb-b165-0792cfd2240a&season_id=352&date_from=" + s_date + "&date_to=" + end + "");
-    // res.subscribe((data) => {
-    //   this.premier = data;
-    //   this.premier = this.premier.data;
-    // });
-
-
-    // let respones = this.http.get("https://app.sportdataapi.com/api/v1/soccer/matches?apikey=2f2b7820-86f4-11eb-b165-0792cfd2240a&season_id=1511&date_from=" + s_date + "&date_to=" + end + "");
-    // respones.subscribe((data) => {
-    //   this.laliga = data;
-    //   this.laliga = this.laliga.data;
-    // });
+    for(let i = 0; i < this.getAllLatestNews.length; i++) {
+      let element = this.getAllLatestNews[i] as HTMLDivElement;
+      element.style.transform = `translateX(${this.direction}px)`;
+    }
   }
 
+  get getAllLatestNews() { return document.querySelectorAll('.news-article'); }
+
+  async setupLatestNews() {
+    for(let i = 0; i < this.following.length; i++) {
+      if(this.following[i].name === 'Laliga') this.laligaNumber = 5;
+      else if(this.following[i].name === 'Premier League') this.premierLeagueNumber = 5;
+    }
+    const newsArticles = await this.latestNews('soccer');
+    this.latestNewsArray = JSON.parse(newsArticles.latest).articles.sort((a: any ,b: any) => (a.publishedAt < b.publishedAt) ? 1 : ((b.publishedAt < a.publishedAt) ? -1 : 0));
+    this.laligaNewsArray = JSON.parse(newsArticles.laliga).articles.sort((a: any ,b: any) => (a.publishedAt < b.publishedAt) ? 1 : ((b.publishedAt < a.publishedAt) ? -1 : 0));
+    this.premierLeagueNewsArray = JSON.parse(newsArticles.premier_league).articles.sort((a: any ,b: any) => (a.publishedAt < b.publishedAt) ? 1 : ((b.publishedAt < a.publishedAt) ? -1 : 0));
+    this.championsLeague = JSON.parse(newsArticles.champions_league).articles.sort((a: any ,b: any) => (a.publishedAt < b.publishedAt) ? 1 : ((b.publishedAt < a.publishedAt) ? -1 : 0));
+    this.setupHeadingArticle();
+  }
+
+  setupHeadingArticle() {
+    const randomNumber = Math.floor(Math.random() * this.championsLeague.length - 1);
+    const article = this.championsLeague[randomNumber];
+
+    if(article && article.urlToImage && article.title && article.description && article.author && article.url) {
+      this.headingArticle = article;
+      this.comm.setIsLoaded(true);
+    } else this.setupHeadingArticle();
+  }
+
+  async latestNews(word: string) {
+    const req = await fetch(`${environment.db}/news.php`, {
+      method: 'POST',
+      body: this.comm.createFormData('HOME_NEWS', '')
+    });
+    const text = await req.text();
+    const res = JSON.parse(text);
+    if(res.status === 'ok') return res;
+    return null;
+  }
+
+  async getAllLeagues() {
+    const req = await fetch(`${environment.db}/update.php`, {
+      method: 'POST',
+      body: this.comm.createFormData('GET_LEAGUES', '')
+    });
+    const res = await req.text();
+    const leagues: string[][] = JSON.parse(res).data;
+
+    for(let i = 0; i < leagues.length; i++) {
+
+      let path = '';
+      if(leagues[i][0].toLowerCase() === 'laliga') path = 'laliga';
+      else if(leagues[i][0].toLowerCase() === 'premier league') path = 'premier-league';
+
+      this.allLeagues.push({ name: leagues[i][0], path: path });
+    }
+  }
+
+  addActiveClass(name: string) {
+    if(!this.following) return '';
+    for(let i = 0; i < this.following.length; i++)
+      if(this.following[i].name === name)
+        return 'active';
+    return '';
+  }
+  openLink(url: string) { window.open(url); }
+  openPage(page: string) { this.router.navigateByUrl(page); }
 }

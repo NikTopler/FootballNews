@@ -26,7 +26,8 @@ export class UserService {
       amazonID: null,
       safeImport: null,
       editImport: null,
-      emailingService: null
+      emailingService: null,
+      following: null
     });
   }
 
@@ -142,5 +143,6 @@ export interface userData {
   amazonID: string | null,
   safeImport: string | null,
   editImport: string | null,
-  emailingService: string | null
+  emailingService: string | null,
+  following: string[] | null
 }

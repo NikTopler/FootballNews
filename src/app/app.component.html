@@ -17,6 +17,7 @@
     [loggedIn]="loggedIn"></app-navbar>
   <div class="router-content">
     <router-outlet></router-outlet>
+    <app-footer *ngIf="isLoaded && showFooter"></app-footer>
   </div>
 </main>
 <app-download *ngIf="downloadOpen"></app-download>

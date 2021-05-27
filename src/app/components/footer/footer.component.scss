@@ -1,0 +1,30 @@
+@import '../../../styles.scss';
+
+footer {
+  height: 120px;
+  width: 100%;
+  background-color: $gray-100;
+
+
+  .content {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+
+    .links {
+      display: flex;
+      margin-bottom: 1rem;
+
+      div {
+        padding: 0.5rem 0.75rem;
+        cursor: pointer;
+      }
+      div:not(:last-child) { border-right: 1px solid $gray-200; }
+      div:hover span { text-decoration: underline; }
+    }
+
+    .copy-right { font-size: 0.8rem; }
+  }
+}

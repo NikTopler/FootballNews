@@ -5,6 +5,7 @@ import { CommService } from 'src/app/services/comm/comm.service';
 import { AuthenticationService } from './services/authentication/authentication.service';
 import { UserService } from './services/user/user.service';
 import { DownloadService } from './services/download/download.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -23,7 +24,11 @@ export class AppComponent {
   waitForResponse: boolean = false;
   downloadOpen: boolean = false;
 
+  isLoaded: boolean = false;
+  showFooter: boolean = false;
+
   constructor(
+    private router: Router,
     private socialAuthService: SocialAuthService,
     private comm: CommService,
     private authenticationService: AuthenticationService,
@@ -45,6 +50,8 @@ export class AppComponent {
     Promise.resolve(this.checkAuthentication())
     this.userService.getUserData().subscribe((data) => { this.userInfo = data; })
     this.downloadService.getIsOpen().subscribe((val) => { this.downloadOpen = val; });
+    this.comm.getIsLoaded().subscribe((data) => { this.isLoaded = data; })
+    router.events.subscribe(() => { this.showFooter = !router.url.includes('settings') })
   }
 
   async checkAuthentication() {

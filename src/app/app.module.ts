@@ -47,6 +47,8 @@ import { PremiereLeagueNewsComponent } from './pages/premiere-league-news/premie
 import { PremiereLeagueStandingsComponent } from './pages/premiere-league-standings/premiere-league-standings.component';
 import { EmailComponent } from './components/settings/admin/email/email.component';
 import { CustomEmailsComponent } from './components/settings/admin/insight/custom-emails/custom-emails.component';
+import { FooterComponent } from './components/footer/footer.component';
+import { SearchComponent } from './pages/search/search.component';
 
 
 @NgModule({
@@ -74,7 +76,9 @@ import { CustomEmailsComponent } from './components/settings/admin/insight/custo
     DownloadComponent,
     EditorComponent,
     EmailComponent,
-    CustomEmailsComponent
+    CustomEmailsComponent,
+    FooterComponent,
+    SearchComponent
   ],
   imports: [
     BrowserModule,
