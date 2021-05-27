@@ -29,7 +29,9 @@ export class HomeComponent {
     private router: Router,
     private comm: CommService,
     private userService: UserService) {
-    this.userService.getUserData().subscribe((userInfo) => { this.following = userInfo.following; })
+    this.comm.setIsLoaded(false);
+    this.userService.getUserData()
+      .subscribe((userInfo) => { this.following = userInfo.following; })
     this.getAllLeagues();
     this.setupLatestNews();
   }
@@ -71,9 +73,10 @@ export class HomeComponent {
     const article = this.championsLeague[randomNumber];
 
 
-    if(article && article.urlToImage && article.title && article.description && article.author && article.url)
+    if(article && article.urlToImage && article.title && article.description && article.author && article.url) {
       this.headingArticle = article;
-    else this.setupHeadingArticle();
+      this.comm.setIsLoaded(true);
+    } else this.setupHeadingArticle();
 
   }
 

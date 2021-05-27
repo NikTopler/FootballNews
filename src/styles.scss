@@ -175,8 +175,7 @@ hr {
   display: grid;
   grid-template-columns: 25% 75%;
   grid-template-rows: auto 1fr;
-  margin-right: auto;
-  margin-left: auto;
+  margin: 0 auto 4rem auto;
   max-width: 1012px;
   padding: 16px;
 }
