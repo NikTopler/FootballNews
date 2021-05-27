@@ -23,6 +23,7 @@ footer {
       }
       div:not(:last-child) { border-right: 1px solid $gray-200; }
       div:hover span { text-decoration: underline; }
+      a { text-decoration: none; }
     }
 
     .copy-right { font-size: 0.8rem; }
