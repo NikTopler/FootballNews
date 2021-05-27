@@ -18,9 +18,12 @@ export class HomeComponent {
 
   laligaNewsArray: any[] = [];
   premierLeagueNewsArray: any[] = [];
+  championsLeague: any[] = [];
 
   allLeagues: any = [];
   following: any = [];
+
+  headingArticle: any;
 
   constructor(
     private router: Router,
@@ -59,6 +62,19 @@ export class HomeComponent {
     this.latestNewsArray = JSON.parse(newsArticles.latest).articles.sort((a: any ,b: any) => (a.publishedAt < b.publishedAt) ? 1 : ((b.publishedAt < a.publishedAt) ? -1 : 0));
     this.laligaNewsArray = JSON.parse(newsArticles.laliga).articles.sort((a: any ,b: any) => (a.publishedAt < b.publishedAt) ? 1 : ((b.publishedAt < a.publishedAt) ? -1 : 0));
     this.premierLeagueNewsArray = JSON.parse(newsArticles.premier_league).articles.sort((a: any ,b: any) => (a.publishedAt < b.publishedAt) ? 1 : ((b.publishedAt < a.publishedAt) ? -1 : 0));
+    this.championsLeague = JSON.parse(newsArticles.champions_league).articles.sort((a: any ,b: any) => (a.publishedAt < b.publishedAt) ? 1 : ((b.publishedAt < a.publishedAt) ? -1 : 0));
+    this.setupHeadingArticle();
+  }
+
+  setupHeadingArticle() {
+    const randomNumber = Math.floor(Math.random() * this.championsLeague.length - 1);
+    const article = this.championsLeague[randomNumber];
+
+
+    if(article && article.urlToImage && article.title && article.description && article.author && article.url)
+      this.headingArticle = article;
+    else this.setupHeadingArticle();
+
   }
 
   async latestNews(word: string) {
