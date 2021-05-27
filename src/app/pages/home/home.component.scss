@@ -203,9 +203,20 @@ hr {
   .main-section-container {
     display: flex;
     flex-direction: column;
+    .main-content { padding-right: 0; }
   }
 }
 
 @media screen and (max-width: 768px) {
   .latest-news-container { display: none; }
+}
+
+@media screen and (max-width: 640px) {
+  .main-section-container
+  .main-content
+  .article-container
+  .double {
+    display: flex;
+    flex-direction: column;
+  }
 }
