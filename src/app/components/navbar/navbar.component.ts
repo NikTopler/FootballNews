@@ -1,5 +1,5 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AuthenticationService } from 'src/app/services/authentication/authentication.service';
 import { SearchService } from 'src/app/services/search/search.service';
 
@@ -19,14 +19,15 @@ export class NavbarComponent implements OnInit{
   isMainInputOpen: boolean = false;
   isAccountPageOpen: boolean = false;
 
+  query: string = '';
+
   constructor(
     private router: Router,
+    private route: ActivatedRoute,
     private authenticationService: AuthenticationService,
     private searchService: SearchService) {
-      router.events.subscribe((e) => {
-        if(router.url.includes('settings')) this.isAccountPageOpen = true;
-        else this.isAccountPageOpen = false
-      })
+      this.pageManagment('refresh');
+      router.events.subscribe(() => this.pageManagment('change-page'))
     }
 
   ngOnInit() { this.setElementEvents(); }
@@ -41,6 +42,17 @@ export class NavbarComponent implements OnInit{
 
   logout() { this.authenticationService.logout(); }
 
+  pageManagment(type: string) {
+    this.isAccountPageOpen = this.router.url.includes('settings');
+
+    let value = this.route.snapshot.queryParamMap.get('q');
+    this.query = value ? value : '';
+
+    if(!this.router.url.includes('home') && this.query.length !== 0 && this.getSearchInput) this.getSearchInput.value = this.query;
+    else if(this.getSearchInput && type === 'refresh' && value) this.getSearchInput.value = value;
+    else if(this.router.url.includes('home') && this.getSearchInput) this.getSearchInput.value = '';
+  }
+
   get getSearchInput() { return document.getElementById('search-input') as HTMLInputElement; }
   get getSuggestContainer() { return document.getElementById('word-suggest-container') as HTMLDivElement; }
 
@@ -48,8 +60,10 @@ export class NavbarComponent implements OnInit{
 
     let suggestTimeout: any = null;
 
-    this.getSuggestContainer.onmouseenter = (e) => { this.isMouseOverSuggest = true; }
-    this.getSuggestContainer.onmouseleave = (e) => { this.isMouseOverSuggest = false; }
+    this.getSuggestContainer.onmouseenter = () => { this.isMouseOverSuggest = true; }
+    this.getSuggestContainer.onmouseleave = () => { this.isMouseOverSuggest = false; }
+
+    this.getSearchInput.value = this.query;
 
     this.getSearchInput.oninput = async () => {
       const value = this.getSearchInput.value;
@@ -82,6 +96,13 @@ export class NavbarComponent implements OnInit{
     }
   }
 
-  search(query: string | null) { }
+  search(query: string | null) {
+    this.getSearchInput.blur();
+    query = query ? query : this.getSearchInput.value.trim();
+
+    if(query.length === 0) this.router.navigateByUrl('home');
+    else if(this.router.url === '/search') this.router.navigate([], { queryParams: { q: query }} );
+    else this.router.navigate(['/search'], { queryParams: { q: query } });
+  }
 }
 
