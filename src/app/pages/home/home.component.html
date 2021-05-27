@@ -1,91 +1,93 @@
-<div class="latest-news-container">
-  <div class="outer">
-    <aside class="tag err">
-      <span>Breaking</span>
-    </aside>
-    <div *ngIf="showLeftArrow" (click)="changeLatestNews('left')" class="arrow left">
-      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24">
-        <path d="M13.025 1l-2.847 2.828 6.176 6.176h-16.354v3.992h16.354l-6.176 6.176 2.847 2.828 10.975-11z" fill="#fff"/>
-      </svg>
-    </div>
-    <div *ngIf="showRightArrow" (click)="changeLatestNews('right')" class="arrow right">
-      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24">
-        <path d="M13.025 1l-2.847 2.828 6.176 6.176h-16.354v3.992h16.354l-6.176 6.176 2.847 2.828 10.975-11z" fill="#fff"/>
-      </svg>
-    </div>
-    <div *ngIf="showRightArrow" class="shadow right"></div>
-    <div *ngIf="showLeftArrow" class="shadow left"></div>
-    <div class="content">
-      <div *ngFor="let article of latestNewsArray" (click)="openLink(article.url)" class="news-article">
-        <header>
-          <span>{{article.publishedAt.slice(0, -10)}}</span>
-        </header>
-        <p>{{article.title}}</p>
+<main>
+  <div class="latest-news-container">
+    <div class="outer">
+      <aside class="tag err">
+        <span>Breaking</span>
+      </aside>
+      <div *ngIf="showLeftArrow" (click)="changeLatestNews('left')" class="arrow left">
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24">
+          <path d="M13.025 1l-2.847 2.828 6.176 6.176h-16.354v3.992h16.354l-6.176 6.176 2.847 2.828 10.975-11z" fill="#fff"/>
+        </svg>
+      </div>
+      <div *ngIf="showRightArrow" (click)="changeLatestNews('right')" class="arrow right">
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24">
+          <path d="M13.025 1l-2.847 2.828 6.176 6.176h-16.354v3.992h16.354l-6.176 6.176 2.847 2.828 10.975-11z" fill="#fff"/>
+        </svg>
+      </div>
+      <div *ngIf="showRightArrow" class="shadow right"></div>
+      <div *ngIf="showLeftArrow" class="shadow left"></div>
+      <div class="content">
+        <div *ngFor="let article of latestNewsArray" (click)="openLink(article.url)" class="news-article">
+          <header>
+            <span>{{article.publishedAt.slice(0, -10)}}</span>
+          </header>
+          <p>{{article.title}}</p>
+        </div>
       </div>
     </div>
   </div>
-</div>
-<div class="main-section-container">
-  <section class="side-bar">
-    <header>
-      <h3>Leagues</h3>
-    </header>
-    <div *ngFor="let league of allLeagues"
-      (click)="openPage(league.path)"
-      class="page {{league.name !== 'Laliga' && league.name !== 'Premier League' ? 'gray' : ''}} {{ addActiveClass(league.name) }}">
-      <div class="selector"></div>
-      <h3>{{ league.name }}</h3>
-      <div class="spacer"></div>
-      <div *ngIf="league.name !== 'Laliga' && league.name !== 'Premier League'" class="tag err">
-        <span>Not Supported</span>
+  <div class="main-section-container">
+    <section class="side-bar">
+      <header>
+        <h3>Leagues</h3>
+      </header>
+      <div *ngFor="let league of allLeagues"
+        (click)="openPage(league.path)"
+        class="page {{league.name !== 'Laliga' && league.name !== 'Premier League' ? 'gray' : ''}} {{ addActiveClass(league.name) }}">
+        <div class="selector"></div>
+        <h3>{{ league.name }}</h3>
+        <div class="spacer"></div>
+        <div *ngIf="league.name !== 'Laliga' && league.name !== 'Premier League'" class="tag err">
+          <span>Not Supported</span>
+        </div>
       </div>
-    </div>
-  </section>
-  <section class="main-content">
-    <div class="article-container">
-      <article class="main" *ngIf="headingArticle" (click)="openLink(headingArticle.url)">
-        <div class="img-container">
-          <img src="{{ headingArticle.urlToImage }}" alt="article-img">
-        </div>
-        <div class="content">
-          <h2>{{ headingArticle.title }}</h2>
-          <span class="author">By <strong>{{ headingArticle.author }}</strong></span>
-          <p>{{ headingArticle.description }}</p>
-        </div>
-      </article>
-      <hr>
-      <ng-container *ngFor="let a of laligaNewsArray | slice:0:laligaNumber; let index = index">
-        <div class="double">
-          <article *ngFor="let article of laligaNewsArray | slice:index*2:index*2+2;" (click)="openLink(article.url)">
-            <div class="img-container">
-              <img src="{{ article.urlToImage }}" alt="article-img">
-            </div>
-            <div class="content">
-              <span class="author">
-                <strong>{{ article.author }}</strong>
-              </span>
-              <h2>{{ article.title }}</h2>
-              <p>{{ article.description }}</p>
-            </div>
-          </article>
-        </div>
-      </ng-container>
-      <ng-container *ngFor="let a of premierLeagueNewsArray | slice:0:premierLeagueNumber; let index = index">
-        <div class="double">
-          <article *ngFor="let article of premierLeagueNewsArray | slice:index*2:index*2+2;" (click)="openLink(article.url)">
-            <div class="img-container">
-              <img src="{{ article.urlToImage }}" alt="article-img">
-            </div>
-            <div class="content">
-              <span class="author">
-                <strong>{{ article.author }}</strong>
-              </span>
-              <h2>{{ article.title }}</h2>
-              <p>{{ article.description }}</p>
-            </div>
-          </article>
-        </div>
-      </ng-container>
-    </div>
-  </section>
-</div>
+    </section>
+    <section class="main-content">
+      <div class="article-container">
+        <article class="main" *ngIf="headingArticle" (click)="openLink(headingArticle.url)">
+          <div class="img-container">
+            <img src="{{ headingArticle.urlToImage }}" alt="article-img">
+          </div>
+          <div class="content">
+            <h2>{{ headingArticle.title }}</h2>
+            <span class="author">By <strong>{{ headingArticle.author }}</strong></span>
+            <p>{{ headingArticle.description }}</p>
+          </div>
+        </article>
+        <hr>
+        <ng-container *ngFor="let a of laligaNewsArray | slice:0:laligaNumber; let index = index">
+          <div class="double">
+            <article *ngFor="let article of laligaNewsArray | slice:index*2:index*2+2;" (click)="openLink(article.url)">
+              <div class="img-container">
+                <img src="{{ article.urlToImage }}" alt="article-img">
+              </div>
+              <div class="content">
+                <span class="author">
+                  <strong>{{ article.author }}</strong>
+                </span>
+                <h2>{{ article.title }}</h2>
+                <p>{{ article.description }}</p>
+              </div>
+            </article>
+          </div>
+        </ng-container>
+        <ng-container *ngFor="let a of premierLeagueNewsArray | slice:0:premierLeagueNumber; let index = index">
+          <div class="double">
+            <article *ngFor="let article of premierLeagueNewsArray | slice:index*2:index*2+2;" (click)="openLink(article.url)">
+              <div class="img-container">
+                <img src="{{ article.urlToImage }}" alt="article-img">
+              </div>
+              <div class="content">
+                <span class="author">
+                  <strong>{{ article.author }}</strong>
+                </span>
+                <h2>{{ article.title }}</h2>
+                <p>{{ article.description }}</p>
+              </div>
+            </article>
+          </div>
+        </ng-container>
+      </div>
+    </section>
+  </div>
+</main>

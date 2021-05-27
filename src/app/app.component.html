@@ -10,14 +10,14 @@
   color="accent"
   class="progress-bar">
 </mat-progress-bar>
-<main class="main-content" *ngIf="!reload">
+<div class="main-content" *ngIf="!reload">
   <app-navbar
     (loginPopup)="socialLoginPopup = $event"
     [userInfo]="userInfo"
     [loggedIn]="loggedIn"></app-navbar>
   <div class="router-content">
     <router-outlet></router-outlet>
-    <app-footer *ngIf="isLoaded && showFooter"></app-footer>
   </div>
-</main>
+  <app-footer *ngIf="isLoaded && showFooter"></app-footer>
+</div>
 <app-download *ngIf="downloadOpen"></app-download>
