@@ -64,6 +64,7 @@ export class NavbarComponent implements OnInit{
     this.getSuggestContainer.onmouseleave = () => { this.isMouseOverSuggest = false; }
 
     this.getSearchInput.value = this.query;
+    if(this.query.length !== 0) this.search(this.query);
 
     this.getSearchInput.oninput = async () => {
       const value = this.getSearchInput.value;
@@ -103,6 +104,8 @@ export class NavbarComponent implements OnInit{
     if(query.length === 0) this.router.navigateByUrl('home');
     else if(this.router.url === '/search') this.router.navigate([], { queryParams: { q: query }} );
     else this.router.navigate(['/search'], { queryParams: { q: query } });
+
+    this.searchService.fetchNews(query);
   }
 }
 
