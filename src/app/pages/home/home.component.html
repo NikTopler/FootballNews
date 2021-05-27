@@ -54,7 +54,7 @@
         </div>
       </article>
       <hr>
-      <ng-container *ngFor="let a of laligaNewsArray | slice:0:1; let index = index">
+      <ng-container *ngFor="let a of laligaNewsArray | slice:0:laligaNumber; let index = index">
         <div class="double">
           <article *ngFor="let article of laligaNewsArray | slice:index*2:index*2+2;" (click)="openLink(article.url)">
             <div class="img-container">
@@ -70,7 +70,7 @@
           </article>
         </div>
       </ng-container>
-      <ng-container *ngFor="let a of premierLeagueNewsArray | slice:0:1; let index = index">
+      <ng-container *ngFor="let a of premierLeagueNewsArray | slice:0:premierLeagueNumber; let index = index">
         <div class="double">
           <article *ngFor="let article of premierLeagueNewsArray | slice:index*2:index*2+2;" (click)="openLink(article.url)">
             <div class="img-container">

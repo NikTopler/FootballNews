@@ -17,7 +17,11 @@ export class HomeComponent {
   direction: number = 0;
 
   laligaNewsArray: any[] = [];
+  laligaNumber: number = 1;
+
   premierLeagueNewsArray: any[] = [];
+  premierLeagueNumber: number = 1;
+
   championsLeague: any[] = [];
 
   allLeagues: any = [];
@@ -60,6 +64,10 @@ export class HomeComponent {
   get getAllLatestNews() { return document.querySelectorAll('.news-article'); }
 
   async setupLatestNews() {
+    for(let i = 0; i < this.following.length; i++) {
+      if(this.following[i].name === 'Laliga') this.laligaNumber = 5;
+      else if(this.following[i].name === 'Premier League') this.premierLeagueNumber = 5;
+    }
     const newsArticles = await this.latestNews('soccer');
     this.latestNewsArray = JSON.parse(newsArticles.latest).articles.sort((a: any ,b: any) => (a.publishedAt < b.publishedAt) ? 1 : ((b.publishedAt < a.publishedAt) ? -1 : 0));
     this.laligaNewsArray = JSON.parse(newsArticles.laliga).articles.sort((a: any ,b: any) => (a.publishedAt < b.publishedAt) ? 1 : ((b.publishedAt < a.publishedAt) ? -1 : 0));
@@ -72,12 +80,10 @@ export class HomeComponent {
     const randomNumber = Math.floor(Math.random() * this.championsLeague.length - 1);
     const article = this.championsLeague[randomNumber];
 
-
     if(article && article.urlToImage && article.title && article.description && article.author && article.url) {
       this.headingArticle = article;
       this.comm.setIsLoaded(true);
     } else this.setupHeadingArticle();
-
   }
 
   async latestNews(word: string) {
