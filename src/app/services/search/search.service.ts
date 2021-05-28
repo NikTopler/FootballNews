@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { CommService } from '../comm/comm.service';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,7 @@ export class SearchService {
   suggestionArray: string[] = [];
   $searchArticleArray: BehaviorSubject<any[]>;
 
-  constructor() { this.$searchArticleArray = new BehaviorSubject<any[]>([]); }
+  constructor(private comm: CommService) { this.$searchArticleArray = new BehaviorSubject<any[]>([]); }
 
   setsearchArticleArray(newValue: any[]): void { this.$searchArticleArray.next(newValue); }
   getsearchArticleArray(): Observable<any[]> { return this.$searchArticleArray.asObservable(); }
@@ -33,9 +34,18 @@ export class SearchService {
   }
 
   async fetchNews(word: string) {
-    const response = await fetch(`https://newsapi.org/v2/everything?q=${word}&apiKey=${environment.newsAPI}`);
-    const json = await response.json();
-    const articles = await json.articles;
-    this.setsearchArticleArray(articles);
+    word = word.replace(/\s/g, '+')
+
+    const req = await fetch(`${environment.db}/news.php`, {
+      method: 'POST',
+      body: this.comm.createFormData('SEARCH', `https://newsapi.org/v2/everything?q=${word}&apiKey=${environment.newsAPI}`)
+    });
+    const text = await req.text();
+    const res = JSON.parse(text);
+
+    if(res.status === 'ok') {
+      const articles = JSON.parse(res.search).articles;
+      this.setsearchArticleArray(articles);
+    }
   }
 }
