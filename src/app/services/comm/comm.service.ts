@@ -9,10 +9,23 @@ export class CommService {
 
   $isLoaded: BehaviorSubject<boolean>;
 
-  constructor() { this.$isLoaded = new BehaviorSubject<boolean>(false); }
+  $openExternalLogin: BehaviorSubject<boolean>;
+  $slp: BehaviorSubject<boolean>;
+
+  constructor() {
+    this.$isLoaded = new BehaviorSubject<boolean>(false);
+    this.$openExternalLogin = new BehaviorSubject<boolean>(false);
+    this.$slp = new BehaviorSubject<boolean>(false);
+  }
 
   setIsLoaded(newValue: boolean): void { this.$isLoaded.next(newValue); }
   getIsLoaded(): Observable<boolean> { return this.$isLoaded.asObservable(); }
+
+  setExternalLogin(newValue: boolean): void { this.$openExternalLogin.next(newValue); }
+  getExternalLogin(): Observable<boolean> { return this.$openExternalLogin.asObservable(); }
+
+  setSlp(newValue: boolean): void { this.$slp.next(newValue); }
+  getSlp(): Observable<boolean> { return this.$slp.asObservable(); }
 
   createFormData(word: string, values: string) {
     let formData = new FormData;

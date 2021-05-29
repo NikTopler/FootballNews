@@ -1,7 +1,9 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthenticationService } from 'src/app/services/authentication/authentication.service';
+import { CommService } from 'src/app/services/comm/comm.service';
 import { SearchService } from 'src/app/services/search/search.service';
+import { UserService } from 'src/app/services/user/user.service';
 
 @Component({
   selector: 'app-navbar',
@@ -9,6 +11,8 @@ import { SearchService } from 'src/app/services/search/search.service';
   styleUrls: ['./navbar.component.scss']
 })
 export class NavbarComponent implements OnInit{
+
+  isLoggedIn: boolean = false;
 
   suggestionOpen: boolean = false;
   suggestionArray: string[] = [];
@@ -23,20 +27,20 @@ export class NavbarComponent implements OnInit{
 
   constructor(
     private router: Router,
+    private comm: CommService,
     private route: ActivatedRoute,
     private authenticationService: AuthenticationService,
-    private searchService: SearchService) {
+    private searchService: SearchService,
+    private userService: UserService) {
       this.pageManagment('refresh');
-      router.events.subscribe(() => this.pageManagment('change-page'))
+      router.events.subscribe(() => this.pageManagment('change-page'));
+      userService.getUserData().subscribe((data) => { this.isLoggedIn = data.id ? true : false; })
+
     }
 
   ngOnInit() { this.setElementEvents(); }
 
-  @Input() userInfo: any = null;
-  @Input() loggedIn: boolean = false;
-
-  @Output() loginPopup = new EventEmitter<boolean>();
-  openLogin(val: boolean) { this.loginPopup.emit(val); }
+  openLogin(val: boolean) { this.comm.setExternalLogin(val); }
 
   openPage(page: string) { this.router.navigateByUrl(page); }
 

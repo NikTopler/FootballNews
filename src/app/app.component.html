@@ -1,6 +1,4 @@
-<app-external
-  (loginPopup)="socialLoginPopup = $event"
-  *ngIf="socialLoginPopup"></app-external>
+<app-external *ngIf="socialLoginPopup"></app-external>
 <div
   *ngIf="socialLoginPopup"
   class="overlay active"></div>
@@ -11,10 +9,7 @@
   class="progress-bar">
 </mat-progress-bar>
 <div class="main-content" *ngIf="!reload">
-  <app-navbar
-    (loginPopup)="socialLoginPopup = $event"
-    [userInfo]="userInfo"
-    [loggedIn]="loggedIn"></app-navbar>
+  <app-navbar></app-navbar>
   <div class="router-content">
     <router-outlet></router-outlet>
   </div>

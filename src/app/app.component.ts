@@ -20,7 +20,6 @@ export class AppComponent {
   loggedIn: boolean = false;
   socialLoginPopup: boolean = false;
   reload: boolean = false;
-  slp: number = 0;
   waitForResponse: boolean = false;
   downloadOpen: boolean = false;
 
@@ -48,6 +47,7 @@ export class AppComponent {
       if(this.loggedIn) this.socialLogin(this.userInfo);
     });
     Promise.resolve(this.checkAuthentication())
+    comm.getExternalLogin().subscribe((data) => { this.socialLoginPopup = data; })
     this.userService.getUserData().subscribe((data) => { this.userInfo = data; })
     this.downloadService.getIsOpen().subscribe((val) => { this.downloadOpen = val; });
     this.comm.getIsLoaded().subscribe((data) => { this.isLoaded = data; })
