@@ -8,7 +8,7 @@
   color="accent"
   class="progress-bar">
 </mat-progress-bar>
-<div class="main-content" *ngIf="!reload">
+<div class="main-content {{ socialLoginPopup ? 'hidden' : '' }}" *ngIf="!reload">
   <app-navbar></app-navbar>
   <div class="router-content">
     <router-outlet></router-outlet>
