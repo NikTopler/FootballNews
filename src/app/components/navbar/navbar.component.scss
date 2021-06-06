@@ -28,7 +28,6 @@
 nav {
   height: 4rem;
   width: inherit;
-  padding: 0 1rem;
   display: grid;
   grid-template-columns: 1fr 634px 1fr;
   background-color: $gray-100;
@@ -46,6 +45,8 @@ nav {
   }
 
   div.left {
+    padding-left: 1rem;
+
     .logo {
       white-space: nowrap;
       font-size: 1.5rem;
@@ -194,7 +195,10 @@ nav {
       }
     }
   }
-  div.right { justify-content: flex-end; }
+  div.right {
+    padding-right: 1rem;
+    justify-content: flex-end;
+  }
 }
 
 nav.leagues {
@@ -348,5 +352,12 @@ nav.leagues {
 
     .middle { display: none; }
     .search-icon-container.responsive { display: flex; }
+  }
+  nav.leagues {
+    .bottom {
+      .option {
+        span { font-size: 0.75rem; }
+      }
+    }
   }
 }
