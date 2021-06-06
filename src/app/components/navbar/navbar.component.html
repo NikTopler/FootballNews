@@ -10,7 +10,14 @@
       <span>Football News</span>
     </a>
     <div *ngIf="isLeaguesOpen">
-      <a href="#">Back</a>
+      <a (click)="openPage('home')" class="league-name">
+        <figure>
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24">
+            <path d="M13.025 1l-2.847 2.828 6.176 6.176h-16.354v3.992h16.354l-6.176 6.176 2.847 2.828 10.975-11z" fill="#444d56"/>
+          </svg>
+        </figure>
+        <span>{{league.toUpperCase().replace('-', ' ')}}</span>
+      </a>
     </div>
   </div>
   <div *ngIf="!isLeaguesOpen" class="middle {{ isAccountPageOpen ? 'disabled-children' : '' }}">

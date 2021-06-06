@@ -51,6 +51,25 @@ nav {
       font-size: 1.5rem;
       cursor: pointer;
     }
+
+    .league-name {
+      display: flex;
+      align-items: center;
+      font-size: 1.25rem;
+      padding: 1rem 1rem 1rem 0;
+      cursor: pointer;
+      white-space: nowrap;
+      text-decoration: none;
+      color: $gray-700;
+
+      figure {
+        margin-right: 0.75rem;
+        transform: rotate(180deg);
+        display: inherit;
+        align-items: inherit;
+        justify-content: center;
+      }
+    }
   }
 
   div.middle {
