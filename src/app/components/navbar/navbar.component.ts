@@ -105,11 +105,16 @@ export class NavbarComponent implements OnInit{
     this.getSearchInput.blur();
     query = query ? query : this.getSearchInput.value.trim();
 
-    if(query.length === 0) this.router.navigateByUrl('home');
+    if(query.length === 0) return this.router.navigateByUrl('home');
     else if(this.router.url === '/search') this.router.navigate([], { queryParams: { q: query }} );
     else this.router.navigate(['/search'], { queryParams: { q: query } });
 
-    this.searchService.fetchNews(query);
+    this.suggestionOpen = false;
+    this.comm.setWaitForResponse(true);
+    this.searchService.fetchNews(query)
+      .then(() => { this.comm.setWaitForResponse(false); })
+
+    return;
   }
 }
 

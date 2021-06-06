@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { AppComponent } from 'src/app/app.component';
 import { AuthenticationService } from 'src/app/services/authentication/authentication.service';
 import { CommService } from 'src/app/services/comm/comm.service';
 import { UserService } from 'src/app/services/user/user.service';
@@ -17,16 +16,14 @@ export class AdminPanelComponent {
   constructor(
     private userService: UserService,
     private comm: CommService,
-    private appComponent: AppComponent,
     private authenticationService: AuthenticationService) {
       userService.getUserData().subscribe((data) => { this.userInfo = data; })
     }
 
-
   async importingData(type: string) {
 
     let newPreference: number = 0;
-    this.appComponent.waitForResponse = true;
+    this.comm.setWaitForResponse(true);
 
     if(type === 'SAFE_IMPORT')
       if(Number(this.userInfo.safeImport) === 0)
@@ -43,7 +40,7 @@ export class AdminPanelComponent {
     const res = await req.text();
     this.userService.updateUserData('admin-panel')
       .then((res) => {
-        if(res) this.appComponent.waitForResponse = false;
+        if(res) this.comm.setWaitForResponse(false);
         else this.authenticationService.logout();
       })
   }

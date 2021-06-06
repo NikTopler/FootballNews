@@ -2,12 +2,6 @@
 <div
   *ngIf="socialLoginPopup"
   class="overlay active"></div>
-<mat-progress-bar
-  *ngIf="waitForResponse"
-  mode="indeterminate"
-  color="accent"
-  class="progress-bar">
-</mat-progress-bar>
 <div class="main-content {{ socialLoginPopup ? 'hidden' : '' }}" *ngIf="!reload">
   <app-navbar></app-navbar>
   <div class="router-content">
@@ -16,3 +10,9 @@
   <app-footer *ngIf="isLoaded && showFooter"></app-footer>
 </div>
 <app-download *ngIf="downloadOpen"></app-download>
+<mat-progress-bar
+  *ngIf="waitForResponse"
+  mode="indeterminate"
+  color="accent"
+  class="progress-bar">
+</mat-progress-bar>
