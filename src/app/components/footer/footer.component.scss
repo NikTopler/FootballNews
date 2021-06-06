@@ -23,8 +23,26 @@ footer {
       }
       div:not(:last-child) { border-right: 1px solid $gray-200; }
       div:hover span { text-decoration: underline; }
+      a { text-decoration: none; }
     }
 
     .copy-right { font-size: 0.8rem; }
+  }
+}
+
+@media screen and (max-width: 600px) {
+  footer {
+    height: auto;
+    .links {
+      flex-direction: column;
+      div {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: none !important;
+        border-bottom: 1px solid $gray-200 !important;
+      }
+    }
+    .copy-right { margin-bottom: 1.25rem; }
   }
 }

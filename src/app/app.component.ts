@@ -20,7 +20,6 @@ export class AppComponent {
   loggedIn: boolean = false;
   socialLoginPopup: boolean = false;
   reload: boolean = false;
-  slp: number = 0;
   waitForResponse: boolean = false;
   downloadOpen: boolean = false;
 
@@ -48,39 +47,43 @@ export class AppComponent {
       if(this.loggedIn) this.socialLogin(this.userInfo);
     });
     Promise.resolve(this.checkAuthentication())
+    comm.getExternalLogin().subscribe((data) => { this.socialLoginPopup = data; })
     this.userService.getUserData().subscribe((data) => { this.userInfo = data; })
     this.downloadService.getIsOpen().subscribe((val) => { this.downloadOpen = val; });
     this.comm.getIsLoaded().subscribe((data) => { this.isLoaded = data; })
+    this.comm.getWaitForResponse().subscribe((data) => { this.waitForResponse = data; })
     router.events.subscribe(() => { this.showFooter = !router.url.includes('settings') })
   }
 
   async checkAuthentication() {
     this.reload = true;
-    this.waitForResponse = true;
+    this.comm.setWaitForResponse(true);
 
     const res = await this.userService.validateUser();
 
     if(res.status === 401 && res.body.includes('Refresh')) {
       this.reload = false;
-      this.waitForResponse = false;
+      this.comm.setWaitForResponse(false);
       return;
     }
     else if(res.status === 401 && res.body.includes('Access')) return this.authenticationService.logout();
     else if(res.status === 404) this.checkAuthentication();
 
-    if(res.body.data.data.email) {
-      this.userService.setUserData(res.body.data.data);
-      this.loggedIn = true;
-      this.waitForResponse = false;
-      this.reload = false;
-    } else this.authenticationService.logout();
+    if(res.body.data) {
+      if(res.body.data.data.email) {
+        this.userService.setUserData(res.body.data.data);
+        this.loggedIn = true;
+        this.comm.setWaitForResponse(false);
+        this.reload = false;
+      } else this.authenticationService.logout();
+    }
   }
 
   async socialLogin(
     {id, firstName, lastName, email ,photoUrl, provider} :
     {id: string, firstName: string, lastName: string, email: string, photoUrl: string, provider: string}
   ) {
-    this.waitForResponse = true;
+    this.comm.setWaitForResponse(true);
     const userInfo = JSON.stringify(Object.values({id, firstName, lastName, email, photoUrl, provider}));
     const req = await fetch(`${environment.db}/insert.php`, {
       method: 'POST',
@@ -95,7 +98,7 @@ export class AppComponent {
     this.userService.deleteCookie('refreshToken', '/');
     this.userService.setCookie('refreshToken', JSON.parse(res).refreshToken, 5, '/');
 
-    this.waitForResponse = false;
+    this.comm.setWaitForResponse(false);
     this.loggedIn = true;
 
     this.userService.setUserData(JSON.parse(res).data);

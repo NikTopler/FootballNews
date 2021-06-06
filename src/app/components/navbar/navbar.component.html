@@ -43,7 +43,7 @@
         </svg>
       </div>
     </figure>
-    <button *ngIf="loggedIn"
+    <button *ngIf="isLoggedIn"
       mat-fab class="profile container"
       [matMenuTriggerFor]="profile">
       <svg class="profile rounded-full" width="64" height="64" viewBox="-4 -4 32 32" fill="#fff" class="profile rounded-full">
@@ -55,9 +55,8 @@
       <button mat-menu-item (click)="logout()">Log out</button>
     </mat-menu>
     <button
-      *ngIf="!loggedIn"
-      class="btn-200"
-      id="login-btn"
+      *ngIf="!isLoggedIn"
+      class="btn-200 eld"
       (click)="openLogin(true)">Login</button>
   </div>
 </nav>

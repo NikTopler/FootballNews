@@ -35,7 +35,7 @@ export class NotificationComponent {
 
   async emailingService() {
 
-    this.appComponent.waitForResponse = true;
+    this.comm.setWaitForResponse(true);
 
     const isUserValidated = await this.validateUser();
     if(!isUserValidated) return location.reload();
@@ -50,7 +50,7 @@ export class NotificationComponent {
     this.userService.updateUserData('notifications')
       .then((res) => { if(!res) this.authenticationService.logout(); })
     this.SettingsComponent.createMessage(true, this.subscribed ? 'You have subscribed to our email service' : 'You have unsubscribed to our email service', 'notification');
-    this.appComponent.waitForResponse = false;
+    this.comm.setWaitForResponse(false);
   }
 
   async validateUser() {
@@ -85,7 +85,7 @@ export class NotificationComponent {
   }
 
   async manageFollowLeagues(e: any, league: string) {
-    this.appComponent.waitForResponse = true;
+    this.comm.setWaitForResponse(true);
     let follow: string = 'FOLLOW_LEAGUE';
 
     if(e.target.innerHTML.trim() === 'Unfollow') follow = 'UNFOLLOW_LEAGUE';
@@ -101,7 +101,7 @@ export class NotificationComponent {
 
     this.userService.updateUserData('follow')
       .then((res) => {
-        this.appComponent.waitForResponse = false;
+        this.comm.setWaitForResponse(false);
         if(!res) this.authenticationService.logout();
       })
   }

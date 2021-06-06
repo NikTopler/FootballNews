@@ -1,7 +1,9 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AuthenticationService } from 'src/app/services/authentication/authentication.service';
+import { CommService } from 'src/app/services/comm/comm.service';
 import { SearchService } from 'src/app/services/search/search.service';
+import { UserService } from 'src/app/services/user/user.service';
 
 @Component({
   selector: 'app-navbar',
@@ -9,6 +11,8 @@ import { SearchService } from 'src/app/services/search/search.service';
   styleUrls: ['./navbar.component.scss']
 })
 export class NavbarComponent implements OnInit{
+
+  isLoggedIn: boolean = false;
 
   suggestionOpen: boolean = false;
   suggestionArray: string[] = [];
@@ -19,27 +23,39 @@ export class NavbarComponent implements OnInit{
   isMainInputOpen: boolean = false;
   isAccountPageOpen: boolean = false;
 
+  query: string = '';
+
   constructor(
     private router: Router,
+    private comm: CommService,
+    private route: ActivatedRoute,
     private authenticationService: AuthenticationService,
-    private searchService: SearchService) {
-      router.events.subscribe((e) => {
-        if(router.url.includes('settings')) this.isAccountPageOpen = true;
-        else this.isAccountPageOpen = false
-      })
+    private searchService: SearchService,
+    private userService: UserService) {
+      this.pageManagment('refresh');
+      router.events.subscribe(() => this.pageManagment('change-page'));
+      userService.getUserData().subscribe((data) => { this.isLoggedIn = data.id ? true : false; })
+
     }
 
   ngOnInit() { this.setElementEvents(); }
 
-  @Input() userInfo: any = null;
-  @Input() loggedIn: boolean = false;
-
-  @Output() loginPopup = new EventEmitter<boolean>();
-  openLogin(val: boolean) { this.loginPopup.emit(val); }
+  openLogin(val: boolean) { this.comm.setExternalLogin(val); }
 
   openPage(page: string) { this.router.navigateByUrl(page); }
 
   logout() { this.authenticationService.logout(); }
+
+  pageManagment(type: string) {
+    this.isAccountPageOpen = this.router.url.includes('settings');
+
+    let value = this.route.snapshot.queryParamMap.get('q');
+    this.query = value ? value : '';
+
+    if(!this.router.url.includes('home') && this.query.length !== 0 && this.getSearchInput) this.getSearchInput.value = this.query;
+    else if(this.getSearchInput && type === 'refresh' && value) this.getSearchInput.value = value;
+    else if(this.router.url.includes('home') && this.getSearchInput) this.getSearchInput.value = '';
+  }
 
   get getSearchInput() { return document.getElementById('search-input') as HTMLInputElement; }
   get getSuggestContainer() { return document.getElementById('word-suggest-container') as HTMLDivElement; }
@@ -48,8 +64,12 @@ export class NavbarComponent implements OnInit{
 
     let suggestTimeout: any = null;
 
-    this.getSuggestContainer.onmouseenter = (e) => { this.isMouseOverSuggest = true; }
-    this.getSuggestContainer.onmouseleave = (e) => { this.isMouseOverSuggest = false; }
+    this.getSuggestContainer.onmouseenter = () => { this.isMouseOverSuggest = true; }
+    this.getSuggestContainer.onmouseleave = () => { this.isMouseOverSuggest = false; }
+
+    this.getSearchInput.value = this.query;
+    if(this.query.length !== 0)
+      setTimeout(() => { this.search(this.query) }, 10);
 
     this.getSearchInput.oninput = async () => {
       const value = this.getSearchInput.value;
@@ -82,6 +102,20 @@ export class NavbarComponent implements OnInit{
     }
   }
 
-  search(query: string | null) { }
+  search(query: string | null) {
+    this.getSearchInput.blur();
+    query = query ? query : this.getSearchInput.value.trim();
+
+    if(query.length === 0) return this.router.navigateByUrl('home');
+    else if(this.router.url === '/search') this.router.navigate([], { queryParams: { q: query }} );
+    else this.router.navigate(['/search'], { queryParams: { q: query } });
+
+    this.suggestionOpen = false;
+    this.comm.setWaitForResponse(true);
+    this.searchService.fetchNews(query)
+      .then(() => { this.comm.setWaitForResponse(false); })
+
+    return;
+  }
 }
 

@@ -64,11 +64,12 @@ export class HomeComponent {
   get getAllLatestNews() { return document.querySelectorAll('.news-article'); }
 
   async setupLatestNews() {
-    for(let i = 0; i < this.following.length; i++) {
-      if(this.following[i].name === 'Laliga') this.laligaNumber = 5;
-      else if(this.following[i].name === 'Premier League') this.premierLeagueNumber = 5;
-    }
-    const newsArticles = await this.latestNews('soccer');
+    if(this.following)
+      for(let i = 0; i < this.following.length; i++)
+        if(this.following[i].name === 'Laliga') this.laligaNumber = 5;
+        else if(this.following[i].name === 'Premier League') this.premierLeagueNumber = 5;
+
+    const newsArticles = await this.latestNews();
     this.latestNewsArray = JSON.parse(newsArticles.latest).articles.sort((a: any ,b: any) => (a.publishedAt < b.publishedAt) ? 1 : ((b.publishedAt < a.publishedAt) ? -1 : 0));
     this.laligaNewsArray = JSON.parse(newsArticles.laliga).articles.sort((a: any ,b: any) => (a.publishedAt < b.publishedAt) ? 1 : ((b.publishedAt < a.publishedAt) ? -1 : 0));
     this.premierLeagueNewsArray = JSON.parse(newsArticles.premier_league).articles.sort((a: any ,b: any) => (a.publishedAt < b.publishedAt) ? 1 : ((b.publishedAt < a.publishedAt) ? -1 : 0));
@@ -86,7 +87,7 @@ export class HomeComponent {
     } else this.setupHeadingArticle();
   }
 
-  async latestNews(word: string) {
+  async latestNews() {
     const req = await fetch(`${environment.db}/news.php`, {
       method: 'POST',
       body: this.comm.createFormData('HOME_NEWS', '')

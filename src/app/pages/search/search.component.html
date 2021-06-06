@@ -1,1 +1,42 @@
-<p>search works!</p>
+<main>
+  <div class="main-section-container">
+    <section *ngIf="searchArticleArray.length !== 0" class="side-bar">
+      <header>
+        <h3>Leagues</h3>
+      </header>
+      <div *ngFor="let league of allLeagues"
+        (click)="openPage(league.path)"
+        class="page {{league.name !== 'Laliga' && league.name !== 'Premier League' ? 'gray' : ''}} {{ addActiveClass(league.name) }}">
+        <div class="selector"></div>
+        <h3>{{ league.name }}</h3>
+        <div class="spacer"></div>
+        <div *ngIf="league.name !== 'Laliga' && league.name !== 'Premier League'" class="tag err">
+          <span>Not Supported</span>
+        </div>
+      </div>
+    </section>
+    <section *ngIf="searchArticleArray.length !== 0" class="main-content">
+      <div class="article-container">
+        <ng-container *ngFor="let a of searchArticleArray; let index = index">
+          <div class="double">
+            <article *ngFor="let article of searchArticleArray | slice:index*2:index*2+2;" (click)="openLink(article.url)">
+              <div class="img-container">
+                <img src="{{ article.urlToImage }}" alt="article-img">
+              </div>
+              <div class="content">
+                <span class="author">
+                  <strong>{{ article.author }}</strong>
+                </span>
+                <h2>{{ article.title }}</h2>
+                <p>{{ article.description }}</p>
+              </div>
+            </article>
+          </div>
+        </ng-container>
+      </div>
+    </section>
+    <section *ngIf="searchArticleArray.length === 0" class="error-container">
+      <img src="../../../assets/images/404.png" alt="error-img">
+    </section>
+  </div>
+</main>

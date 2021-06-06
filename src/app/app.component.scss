@@ -1,4 +1,6 @@
 app-external {
+  height: fit-content;
+  width: fit-content;
   position: absolute;
   margin-left: auto;
   margin-right: auto;
@@ -37,8 +39,11 @@ app-external {
 }
 
 .main-content {
+  position: relative;
   display: grid;
   grid-template-rows: 64px 1fr;
   height: 100%;
   width: 100%;
 }
+
+.main-content.hidden { overflow: hidden; }
