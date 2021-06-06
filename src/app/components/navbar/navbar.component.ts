@@ -68,7 +68,8 @@ export class NavbarComponent implements OnInit{
     this.getSuggestContainer.onmouseleave = () => { this.isMouseOverSuggest = false; }
 
     this.getSearchInput.value = this.query;
-    if(this.query.length !== 0) this.search(this.query);
+    if(this.query.length !== 0)
+      setTimeout(() => { this.search(this.query) }, 10);
 
     this.getSearchInput.oninput = async () => {
       const value = this.getSearchInput.value;
