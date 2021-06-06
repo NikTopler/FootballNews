@@ -41,7 +41,7 @@ app-external {
 .main-content {
   position: relative;
   display: grid;
-  grid-template-rows: 64px 1fr;
+  grid-template-rows: auto 1fr;
   height: 100%;
   width: 100%;
 }
