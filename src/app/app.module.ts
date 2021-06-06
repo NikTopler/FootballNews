@@ -50,6 +50,7 @@ import { CustomEmailsComponent } from './components/settings/admin/insight/custo
 import { FooterComponent } from './components/footer/footer.component';
 import { SearchComponent } from './pages/search/search.component';
 import { LeaguesComponent } from './pages/leagues/leagues.component';
+import { StatsComponent } from './pages/leagues/stats/stats.component';
 
 
 @NgModule({
@@ -80,7 +81,8 @@ import { LeaguesComponent } from './pages/leagues/leagues.component';
     CustomEmailsComponent,
     FooterComponent,
     SearchComponent,
-    LeaguesComponent
+    LeaguesComponent,
+    StatsComponent
   ],
   imports: [
     BrowserModule,
