@@ -20,6 +20,7 @@ import { PremiereLeagueStandingsComponent } from './pages/premiere-league-standi
 import { EmailComponent } from './components/settings/admin/email/email.component';
 import { CustomEmailsComponent } from './components/settings/admin/insight/custom-emails/custom-emails.component';
 import { SearchComponent } from './pages/search/search.component';
+import { LeaguesComponent } from './pages/leagues/leagues.component';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'home' },
@@ -31,6 +32,7 @@ const routes: Routes = [
   { path: 'premier-league', component: PremiereLeagueComponent },
   { path: 'news/premier-league', component: PremiereLeagueNewsComponent },
   { path: 'standings/premier-league', component: PremiereLeagueStandingsComponent },
+  { path: 'leagues/:league/:type', component: LeaguesComponent },
   { path: 'settings', component: SettingsComponent, canActivate: [UserGuard], children: [
     { path: '', pathMatch: 'full', redirectTo: 'account'},
     { path: 'account', component: AccountComponent },

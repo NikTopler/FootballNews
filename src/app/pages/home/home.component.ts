@@ -124,5 +124,5 @@ export class HomeComponent {
     return '';
   }
   openLink(url: string) { window.open(url); }
-  openPage(page: string) { this.router.navigateByUrl(page); }
+  openPage(page: string) { this.router.navigateByUrl(`leagues/${page}/standings`); }
 }

@@ -49,6 +49,7 @@ import { EmailComponent } from './components/settings/admin/email/email.componen
 import { CustomEmailsComponent } from './components/settings/admin/insight/custom-emails/custom-emails.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { SearchComponent } from './pages/search/search.component';
+import { LeaguesComponent } from './pages/leagues/leagues.component';
 
 
 @NgModule({
@@ -78,7 +79,8 @@ import { SearchComponent } from './pages/search/search.component';
     EmailComponent,
     CustomEmailsComponent,
     FooterComponent,
-    SearchComponent
+    SearchComponent,
+    LeaguesComponent
   ],
   imports: [
     BrowserModule,
