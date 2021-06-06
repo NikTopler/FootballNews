@@ -2,6 +2,7 @@ import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthenticationService } from 'src/app/services/authentication/authentication.service';
 import { CommService } from 'src/app/services/comm/comm.service';
+import { LeagueService } from 'src/app/services/league/league.service';
 import { SearchService } from 'src/app/services/search/search.service';
 import { UserService } from 'src/app/services/user/user.service';
 
@@ -13,6 +14,7 @@ import { UserService } from 'src/app/services/user/user.service';
 export class NavbarComponent implements OnInit{
 
   isLoggedIn: boolean = false;
+  isLeaguesOpen: boolean = false;
 
   suggestionOpen: boolean = false;
   suggestionArray: string[] = [];
@@ -25,20 +27,35 @@ export class NavbarComponent implements OnInit{
 
   query: string = '';
 
+  league: string = '';
+
+  leaguesOptions: any[] = [
+    { name: 'matches', active: false },
+    { name: 'news', active: false },
+    { name: 'standings', active: true },
+    { name: 'stats', active: false },
+    { name: 'players', active: false },
+  ];
+
   constructor(
     private router: Router,
     private comm: CommService,
     private route: ActivatedRoute,
     private authenticationService: AuthenticationService,
     private searchService: SearchService,
-    private userService: UserService) {
+    private userService: UserService,
+    private leagueService: LeagueService) {
       this.pageManagment('refresh');
       router.events.subscribe(() => this.pageManagment('change-page'));
-      userService.getUserData().subscribe((data) => { this.isLoggedIn = data.id ? true : false; })
-
+      userService.getUserData().subscribe((data) => { this.isLoggedIn = data.id ? true : false; });
+      leagueService.getOpenLeague().subscribe((data) => { this.league = data; })
     }
 
-  ngOnInit() { this.setElementEvents(); }
+  ngOnInit() {
+    if(this.router.url.includes('home') || this.router.url.includes('search'))
+      this.setElementEvents();
+    else this.setActivePage();
+  }
 
   openLogin(val: boolean) { this.comm.setExternalLogin(val); }
 
@@ -48,6 +65,7 @@ export class NavbarComponent implements OnInit{
 
   pageManagment(type: string) {
     this.isAccountPageOpen = this.router.url.includes('settings');
+    this.isLeaguesOpen = this.router.url.includes('leagues');
 
     let value = this.route.snapshot.queryParamMap.get('q');
     this.query = value ? value : '';
@@ -116,6 +134,20 @@ export class NavbarComponent implements OnInit{
       .then(() => { this.comm.setWaitForResponse(false); })
 
     return;
+  }
+
+  changePage(name: string) {
+    this.router.navigateByUrl(`leagues/${this.league}/${name}`)
+      .then(() => this.setActivePage())
+  }
+
+  setActivePage() {
+    for(let i = 0; i < this.leaguesOptions.length; i++) {
+      if(this.leaguesOptions[i].active && !this.router.url.includes(this.leaguesOptions[i].name))
+        this.leaguesOptions[i].active = false;
+      if(this.router.url.includes(this.leaguesOptions[i].name))
+        this.leaguesOptions[i].active = true;
+    }
   }
 }
 
