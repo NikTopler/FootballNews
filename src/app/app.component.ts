@@ -48,10 +48,10 @@ export class AppComponent {
     });
     Promise.resolve(this.checkAuthentication())
     comm.getExternalLogin().subscribe((data) => { this.socialLoginPopup = data; })
-    this.userService.getUserData().subscribe((data) => { this.userInfo = data; })
-    this.downloadService.getIsOpen().subscribe((val) => { this.downloadOpen = val; });
-    this.comm.getIsLoaded().subscribe((data) => { this.isLoaded = data; })
-    this.comm.getWaitForResponse().subscribe((data) => { this.waitForResponse = data; })
+    userService.getUserData().subscribe((data) => { this.userInfo = data; })
+    downloadService.getIsOpen().subscribe((val) => { this.downloadOpen = val; });
+    comm.getIsLoaded().subscribe((data) => { this.isLoaded = data; })
+    comm.getWaitForResponse().subscribe((data) => { this.waitForResponse = data; })
     router.events.subscribe(() => { this.showFooter = !router.url.includes('settings') })
   }
 

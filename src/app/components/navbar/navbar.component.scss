@@ -57,11 +57,16 @@ nav {
       display: flex;
       align-items: center;
       font-size: 1.25rem;
-      padding: 1rem 1rem 1rem 0;
-      cursor: pointer;
       white-space: nowrap;
       text-decoration: none;
       color: $gray-700;
+
+      a {
+        cursor: pointer;
+        display: inherit;
+        align-items: inherit;
+        padding: 1rem 1rem 1rem 0;
+      }
 
       figure {
         margin-right: 0.75rem;
@@ -70,6 +75,12 @@ nav {
         align-items: inherit;
         justify-content: center;
       }
+      button {
+        background-color: $gray-150;
+        box-shadow: 0 1px 1px 0 $gray-200;
+        transition: all ease-in-out .2s;
+      }
+      button:hover { background-color: $gray-200; }
     }
   }
 

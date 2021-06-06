@@ -4,7 +4,8 @@ import { AuthenticationService } from 'src/app/services/authentication/authentic
 import { CommService } from 'src/app/services/comm/comm.service';
 import { LeagueService } from 'src/app/services/league/league.service';
 import { SearchService } from 'src/app/services/search/search.service';
-import { UserService } from 'src/app/services/user/user.service';
+import { userData, UserService } from 'src/app/services/user/user.service';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-navbar',
@@ -28,6 +29,8 @@ export class NavbarComponent implements OnInit{
   query: string = '';
 
   league: string = '';
+  userInfo: any;
+  following: any = [];
 
   leaguesOptions: any[] = [
     { name: 'matches', active: false },
@@ -47,7 +50,11 @@ export class NavbarComponent implements OnInit{
     private leagueService: LeagueService) {
       this.pageManagment('refresh');
       router.events.subscribe(() => this.pageManagment('change-page'));
-      userService.getUserData().subscribe((data) => { this.isLoggedIn = data.id ? true : false; });
+      userService.getUserData().subscribe((data) => {
+        this.isLoggedIn = data.id ? true : false;
+        this.userInfo = data;
+        this.following = data.following;
+      });
       leagueService.getOpenLeague().subscribe((data) => { this.league = data; })
     }
 
@@ -55,6 +62,7 @@ export class NavbarComponent implements OnInit{
     if(this.router.url.includes('home') || this.router.url.includes('search'))
       this.setElementEvents();
     else this.setActivePage();
+
   }
 
   openLogin(val: boolean) { this.comm.setExternalLogin(val); }
@@ -148,6 +156,57 @@ export class NavbarComponent implements OnInit{
       if(this.router.url.includes(this.leaguesOptions[i].name))
         this.leaguesOptions[i].active = true;
     }
+  }
+  doesUserFollow() {
+    if(!this.isLoggedIn) return 'Follow';
+
+    for(let i = 0; i < this.following.length; i++)
+      if(this.following[i].name.toLowerCase() === this.league.replace('-', ' '))
+        return 'Unfollow';
+    return 'Follow';
+  }
+
+  async validateUser() {
+    const userValidation = await this.userService.validateUser();
+
+    if(userValidation.status === 401 && userValidation.body.includes('Refresh'))
+      return location.reload();
+    else if(userValidation.status === 401 && userValidation.body.includes('Access'))
+      return this.authenticationService.logout();
+    else if(userValidation.status === 404)
+      return false;
+    return true;
+  }
+
+  async manageFollow(e: any, league: string) {
+
+    if(!this.isLoggedIn) return this.comm.setExternalLogin(true);
+
+    this.comm.setWaitForResponse(true);
+
+    let follow: string = 'FOLLOW_LEAGUE';
+    if(e.target.innerHTML.trim() === 'Unfollow')
+      follow = 'UNFOLLOW_LEAGUE';
+
+    if(league.includes('laliga')) league = 'Laliga';
+    else if(league.includes('premier')) league = 'Premier League';
+
+    const isUserValidated = await this.validateUser();
+    if(!isUserValidated) return location.reload();
+
+    const email = JSON.stringify({ "email": this.userInfo.email, "leagueName": league });
+    const req = await fetch(`${environment.db}/update.php`, {
+      method: 'POST',
+      body: this.comm.createFormData(follow, email)
+    });
+
+    this.userService.updateUserData('follow')
+      .then((res) => {
+        this.comm.setWaitForResponse(false);
+        if(!res) this.authenticationService.logout();
+      })
+
+    this.comm.setWaitForResponse(false);
   }
 }
 
