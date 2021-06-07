@@ -19,6 +19,20 @@ export class StatsComponent {
     private leagueService: LeagueService) {
     leagueService.getPlayers()
       .subscribe((players) => this.playersWait = players);
+    leagueService.getAllTeams()
+      .subscribe((teams) => {
+        this.teams = teams;
+        this.playersByGoals = this.playersWait;
+        this.playersByPenalties = [...this.playersWait];
+        this.sortPlayersByPenalties();
+      });
+  }
+
+  getTeamLogo(id: string) {
+    for(let i = 0; i < this.teams.length; i++)
+      if(Number(id) === Number(this.teams[i].team_id))
+        return this.teams[i].logo;
+    return '';
   }
 
   sortPlayersByPenalties() { this.playersByPenalties.sort((a, b) => (a.penalties < b.penalties) ? 1 : -1) }

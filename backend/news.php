@@ -93,7 +93,8 @@ class News extends User {
       array_push($teamsArray, array(
         "name" => $row['name'],
         "short_code" => $row['short_code'],
-        "logo" => $row['logo']
+        "logo" => $row['logo'],
+        "team_id" => $row['team_id']
       ));
     }
 
