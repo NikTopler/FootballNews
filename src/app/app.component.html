@@ -2,7 +2,7 @@
 <div
   *ngIf="socialLoginPopup"
   class="overlay active"></div>
-<div class="main-content {{ socialLoginPopup ? 'hidden' : '' }}" *ngIf="!reload">
+<div class="main-app-content {{ socialLoginPopup ? 'hidden' : '' }}" *ngIf="!reload">
   <app-navbar></app-navbar>
   <div class="router-content">
     <router-outlet></router-outlet>

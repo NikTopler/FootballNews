@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthenticationService } from 'src/app/services/authentication/authentication.service';
 import { CommService } from 'src/app/services/comm/comm.service';
@@ -12,7 +12,7 @@ import { environment } from '../../../environments/environment';
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.scss']
 })
-export class NavbarComponent implements AfterViewInit{
+export class NavbarComponent implements OnInit{
 
   isLoggedIn: boolean = false;
   isLeaguesOpen: boolean = false;
@@ -58,11 +58,10 @@ export class NavbarComponent implements AfterViewInit{
       leagueService.getOpenLeague().subscribe((data) => { this.league = data; })
     }
 
-  ngAfterViewInit() {
+  ngOnInit() {
     if(this.router.url.includes('home') || this.router.url.includes('search'))
       this.setElementEvents();
     else this.setActivePage();
-
   }
 
   openLogin(val: boolean) { this.comm.setExternalLogin(val); }

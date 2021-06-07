@@ -38,7 +38,7 @@ app-external {
   top: 0;
 }
 
-.main-content {
+.main-app-content {
   position: relative;
   display: grid;
   grid-template-rows: auto 1fr;
@@ -46,4 +46,4 @@ app-external {
   width: 100%;
 }
 
-.main-content.hidden { overflow: hidden; }
+.main-app-content.hidden { overflow: hidden; }
