@@ -12,6 +12,7 @@ export class StatsComponent {
   playersWait: any = [];
   playersByGoals: any[] = [];
   playersByPenalties: any[] = [];
+  playersByMinutes: any[] = [];
   teams: any[] = [];
 
   constructor(
@@ -24,7 +25,9 @@ export class StatsComponent {
         this.teams = teams;
         this.playersByGoals = this.playersWait;
         this.playersByPenalties = [...this.playersWait];
+        this.playersByMinutes = [...this.playersWait];
         this.sortPlayersByPenalties();
+        this.sortPlayersByMinutes();
       });
   }
 
@@ -36,6 +39,7 @@ export class StatsComponent {
   }
 
   sortPlayersByPenalties() { this.playersByPenalties.sort((a, b) => (a.penalties < b.penalties) ? 1 : -1) }
+  sortPlayersByMinutes() { this.playersByMinutes.sort((a, b) => (a.minutes_played < b.minutes_played) ? 1 : -1) }
 
   search(name: string, club: string) { this.router.navigateByUrl(`/search?q=(${name})OR(${club})`) }
 }
