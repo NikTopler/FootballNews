@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthenticationService } from 'src/app/services/authentication/authentication.service';
 import { CommService } from 'src/app/services/comm/comm.service';
@@ -12,7 +12,7 @@ import { environment } from '../../../environments/environment';
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.scss']
 })
-export class NavbarComponent implements OnInit{
+export class NavbarComponent implements AfterViewInit{
 
   isLoggedIn: boolean = false;
   isLeaguesOpen: boolean = false;
@@ -58,7 +58,7 @@ export class NavbarComponent implements OnInit{
       leagueService.getOpenLeague().subscribe((data) => { this.league = data; })
     }
 
-  ngOnInit() {
+  ngAfterViewInit() {
     if(this.router.url.includes('home') || this.router.url.includes('search'))
       this.setElementEvents();
     else this.setActivePage();
@@ -89,7 +89,6 @@ export class NavbarComponent implements OnInit{
   setElementEvents() {
 
     let suggestTimeout: any = null;
-
     this.getSuggestContainer.onmouseenter = () => { this.isMouseOverSuggest = true; }
     this.getSuggestContainer.onmouseleave = () => { this.isMouseOverSuggest = false; }
 
