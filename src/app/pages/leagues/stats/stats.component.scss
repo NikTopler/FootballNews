@@ -15,10 +15,26 @@
       span {
         position: absolute;
         bottom: 0;
-        width: 100%;
         font-size: 1.05rem;
       }
     }
+
+    .number {
+      height: 3rem;
+      width: 2.5rem;
+      span {
+        top: 0;
+        left: 0;
+        right: 0;
+        margin-left: auto;
+        margin-right: auto;
+        width: 2.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+    }
+
     .data {
       display: flex;
       align-items: center;
