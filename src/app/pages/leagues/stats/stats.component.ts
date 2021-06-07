@@ -37,4 +37,5 @@ export class StatsComponent {
 
   sortPlayersByPenalties() { this.playersByPenalties.sort((a, b) => (a.penalties < b.penalties) ? 1 : -1) }
 
+  search(name: string, club: string) { this.router.navigateByUrl(`/search?q=(${name})OR(${club})`) }
 }
