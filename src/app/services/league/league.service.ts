@@ -41,4 +41,15 @@ export class LeagueService {
     this.setPlayers(players);
   }
 
+  async fetchTeams() {
+    let league = this.comm.leagueNameChange(this.openLeague);
+    const req = await fetch(`${environment.db}/news.php`, {
+      method: 'POST',
+      body: this.comm.createFormData('GET_ALL_TEAM', league)
+    });
+    const res = await req.text();
+    const json = JSON.parse(res);
+    this.setAllTeams(json);
+    console.log(json)
+  }
 }

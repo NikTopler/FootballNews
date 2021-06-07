@@ -82,6 +82,48 @@ class News extends User {
     ));
   }
 
+  public function allTeams() {
+    $sql = 'SELECT * FROM teams';
+    $stmt = $this->connect()->prepare($sql);
+    $stmt->execute();
+
+    $teamsArray = [];
+
+    while($row = $stmt->fetch()) {
+      array_push($teamsArray, array(
+        "name" => $row['name'],
+        "short_code" => $row['short_code'],
+        "logo" => $row['logo']
+      ));
+    }
+
+    http_response_code(200);
+
+    echo json_encode(array(
+      "status" => "ok",
+      "teams" => $teamsArray
+    ));
+  }
+
+  public function team($id) {
+    $sql = 'SELECT * FROM teams WHERE team_id = ?';
+    $stmt = $this->connect()->prepare($sql);
+    $stmt->execute([$id]);
+    $row = $stmt->fetch();
+
+    $teamArray = array(
+      "name" => $row['name'],
+      "short_code" => $row['short_code'],
+      "logo" => $row['logo']
+    );
+
+    http_response_code(200);
+
+    echo json_encode(array(
+      "status" => "ok",
+      "team" => $teamArray
+    ));
+  }
 }
 
 $newsObj = new News();
@@ -89,3 +131,5 @@ if($_SERVER['REQUEST_METHOD'] !== 'POST') die;
 if(isset($_POST['HOME_NEWS'])) $newsObj->homePage();
 else if(isset($_POST['SEARCH'])) $newsObj->search($_POST['SEARCH']);
 else if(isset($_POST['PLAYERS'])) $newsObj->players($_POST['PLAYERS']);
+else if(isset($_POST['GET_ALL_TEAM'])) $newsObj->allTeams();
+else if(isset($_POST['GET_TEAM'])) $newsObj->team($_POST['GET_TEAM']);
