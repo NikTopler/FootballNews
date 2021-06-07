@@ -51,6 +51,7 @@ import { FooterComponent } from './components/footer/footer.component';
 import { SearchComponent } from './pages/search/search.component';
 import { LeaguesComponent } from './pages/leagues/leagues.component';
 import { StatsComponent } from './pages/leagues/stats/stats.component';
+import { NewsComponent } from './pages/leagues/news/news.component';
 
 
 @NgModule({
@@ -82,7 +83,8 @@ import { StatsComponent } from './pages/leagues/stats/stats.component';
     FooterComponent,
     SearchComponent,
     LeaguesComponent,
-    StatsComponent
+    StatsComponent,
+    NewsComponent
   ],
   imports: [
     BrowserModule,
