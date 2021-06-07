@@ -6,6 +6,7 @@ import { AuthenticationService } from './services/authentication/authentication.
 import { UserService } from './services/user/user.service';
 import { DownloadService } from './services/download/download.service';
 import { Router } from '@angular/router';
+import { LeagueService } from './services/league/league.service';
 
 @Component({
   selector: 'app-root',
@@ -32,7 +33,8 @@ export class AppComponent {
     private comm: CommService,
     private authenticationService: AuthenticationService,
     private userService: UserService,
-    private downloadService: DownloadService) {
+    private downloadService: DownloadService,
+    private leagueService: LeagueService) {
     this.socialAuthService.authState.subscribe((user) => {
       this.userInfo = user.provider !== 'AMAZON' ? user : {
         "id": user.id,
@@ -47,12 +49,12 @@ export class AppComponent {
       if(this.loggedIn) this.socialLogin(this.userInfo);
     });
     Promise.resolve(this.checkAuthentication())
-    comm.getExternalLogin().subscribe((data) => { this.socialLoginPopup = data; })
-    userService.getUserData().subscribe((data) => { this.userInfo = data; })
-    downloadService.getIsOpen().subscribe((val) => { this.downloadOpen = val; });
-    comm.getIsLoaded().subscribe((data) => { this.isLoaded = data; })
-    comm.getWaitForResponse().subscribe((data) => { this.waitForResponse = data; })
-    router.events.subscribe(() => { this.showFooter = !router.url.includes('settings') })
+    comm.getExternalLogin().subscribe((data) => { this.socialLoginPopup = data })
+    userService.getUserData().subscribe((data) => { this.userInfo = data });
+    downloadService.getIsOpen().subscribe((val) => { this.downloadOpen = val });
+    comm.getIsLoaded().subscribe((data) => { this.isLoaded = data });
+    comm.getWaitForResponse().subscribe((data) => { this.waitForResponse = data });
+    router.events.subscribe(() => { this.showFooter = !router.url.includes('settings') });
   }
 
   async checkAuthentication() {
