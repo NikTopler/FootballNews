@@ -52,6 +52,7 @@ import { SearchComponent } from './pages/search/search.component';
 import { LeaguesComponent } from './pages/leagues/leagues.component';
 import { StatsComponent } from './pages/leagues/stats/stats.component';
 import { NewsComponent } from './pages/leagues/news/news.component';
+import { PlayersComponent } from './pages/leagues/players/players.component';
 
 
 @NgModule({
@@ -84,7 +85,8 @@ import { NewsComponent } from './pages/leagues/news/news.component';
     SearchComponent,
     LeaguesComponent,
     StatsComponent,
-    NewsComponent
+    NewsComponent,
+    PlayersComponent
   ],
   imports: [
     BrowserModule,
