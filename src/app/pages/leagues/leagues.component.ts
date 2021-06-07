@@ -14,5 +14,6 @@ export class LeaguesComponent {
     private route: ActivatedRoute,
     private leagueService: LeagueService) {
     route.params.subscribe(params => leagueService.setOpenLeague(params.league));
+    leagueService.fetchPlayers();
   }
 }

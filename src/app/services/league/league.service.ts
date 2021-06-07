@@ -29,4 +29,16 @@ export class LeagueService {
   setAllTeams(newValue: any[]): void { this.$allTeams.next(newValue); }
   getAllTeams(): Observable<any[]> { return this.$allTeams.asObservable(); }
 
+  async fetchPlayers() {
+    let league = this.comm.leagueNameChange(this.openLeague);
+    const req = await fetch(`${environment.db}/news.php`, {
+      method: 'POST',
+      body: this.comm.createFormData('PLAYERS', league)
+    });
+    const res = await req.text();
+    const json = JSON.parse(res);
+    const players = JSON.parse(json.players.data).data;
+    this.setPlayers(players);
+  }
+
 }

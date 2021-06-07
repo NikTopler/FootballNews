@@ -58,9 +58,34 @@ class News extends User {
       ));
     }
   }
+
+  public function players($league) {
+    $sql = 'SELECT ld.time as time, ld.type as type, ld.data as data, l.name as name
+            FROM league_data ld INNER JOIN leagues l ON ld.league_id = l.id
+            WHERE ld.league_id = (SELECT id FROM leagues WHERE name = ?)
+              AND ld.type = "top-scorers" ORDER BY ld.time ASC LIMIT 1';
+    $stmt = $this->connect()->prepare($sql);
+    $stmt->execute([$league]);
+    $players = $stmt->fetch();
+
+    $playersArray = array(
+      "name" => $players['name'],
+      "time" => $players['time'],
+      "type" => $players['type'],
+      "data" => $players['data'],
+    );
+    http_response_code(200);
+
+    echo json_encode(array(
+      "status" => "ok",
+      "players" => $playersArray
+    ));
+  }
+
 }
 
 $newsObj = new News();
 if($_SERVER['REQUEST_METHOD'] !== 'POST') die;
 if(isset($_POST['HOME_NEWS'])) $newsObj->homePage();
 else if(isset($_POST['SEARCH'])) $newsObj->search($_POST['SEARCH']);
+else if(isset($_POST['PLAYERS'])) $newsObj->players($_POST['PLAYERS']);
