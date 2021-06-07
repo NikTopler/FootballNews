@@ -9,7 +9,9 @@ import { LeagueService } from 'src/app/services/league/league.service';
 })
 export class StatsComponent {
 
-  playersWait: any = [];
+  playersWait: any[] = [];
+  teamsWait: any[] = [];
+
   playersByGoals: any[] = [];
   playersByPenalties: any[] = [];
   playersByMinutes: any[] = [];
@@ -19,15 +21,29 @@ export class StatsComponent {
     private router: Router,
     private leagueService: LeagueService) {
     leagueService.getPlayers()
-      .subscribe((players) => this.playersWait = players);
+      .subscribe((players) => {
+        if(this.teamsWait.length === 0)
+          return this.playersWait = players;
+
+          this.playersByGoals = players;
+          this.playersByPenalties = [...players];
+          this.playersByMinutes = [...players];
+          this.sortPlayersByPenalties();
+          this.sortPlayersByMinutes();
+        return;
+      });
     leagueService.getAllTeams()
       .subscribe((teams) => {
+        if(this.playersWait.length === 0)
+          return this.teamsWait = teams;
+
         this.teams = teams;
         this.playersByGoals = this.playersWait;
         this.playersByPenalties = [...this.playersWait];
         this.playersByMinutes = [...this.playersWait];
         this.sortPlayersByPenalties();
         this.sortPlayersByMinutes();
+        return;
       });
   }
 

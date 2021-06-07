@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { LeagueService } from 'src/app/services/league/league.service';
 
 @Component({
@@ -6,17 +6,14 @@ import { LeagueService } from 'src/app/services/league/league.service';
   templateUrl: './news.component.html',
   styleUrls: ['./news.component.scss']
 })
-export class NewsComponent implements OnInit {
+export class NewsComponent {
 
   news: any[] = [];
 
   constructor(private leagueService: LeagueService) {
-    leagueService.getNews().subscribe((data) => this.news = data);
+    leagueService.getNews()
+      .subscribe((data) => this.news = data);
   }
 
-  ngOnInit(): void {
-  }
-
-  openLink(path: string) { }
-
+  openLink(link: string) { window.open(link); }
 }
