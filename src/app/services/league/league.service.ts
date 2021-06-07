@@ -49,7 +49,7 @@ export class LeagueService {
     });
     const res = await req.text();
     const json = JSON.parse(res);
-    this.setAllTeams(json);
-    console.log(json)
+    const teams = json.teams;
+    this.setAllTeams(teams);
   }
 }

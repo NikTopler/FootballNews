@@ -1,2 +1,29 @@
 <div class="main-league-container">
+  <section>
+    <header>
+      <h2>Goals</h2>
+      <div class="subtitle">
+        <span>Player</span>
+        <span>Goals</span>
+      </div>
+    </header>
+    <div *ngIf="playersByGoals.length > 0" class="players">
+      <div *ngFor="let row of playersByGoals | slice:0:5; let index = index;" (click)="search(row.player.player_name, row.team.team_name)" class="player">
+        <div class="position">
+          <span>{{index+1}}</span>
+        </div>
+        <div class="data">
+          <span class="name">{{row.player.player_name}}</span>
+          <div class="club-container">
+            <img src="{{getTeamLogo(row.team.team_id)}}" alt="logo" class="logo">
+            <span class="club-name">{{row.team.team_name}}</span>
+          </div>
+        </div>
+        <div class="spacer"></div>
+        <div class="number">
+          <span>{{row.goals.overall}}</span>
+        </div>
+      </div>
+    </div>
+  </section>
 </div>
