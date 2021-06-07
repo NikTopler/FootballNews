@@ -1,10 +1,10 @@
-import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthenticationService } from 'src/app/services/authentication/authentication.service';
 import { CommService } from 'src/app/services/comm/comm.service';
 import { LeagueService } from 'src/app/services/league/league.service';
 import { SearchService } from 'src/app/services/search/search.service';
-import { userData, UserService } from 'src/app/services/user/user.service';
+import { UserService } from 'src/app/services/user/user.service';
 import { environment } from '../../../environments/environment';
 
 @Component({
@@ -188,8 +188,7 @@ export class NavbarComponent implements OnInit{
     if(e.target.innerHTML.trim() === 'Unfollow')
       follow = 'UNFOLLOW_LEAGUE';
 
-    if(league.includes('laliga')) league = 'Laliga';
-    else if(league.includes('premier')) league = 'Premier League';
+    league = this.comm.leagueNameChange(league);
 
     const isUserValidated = await this.validateUser();
     if(!isUserValidated) return location.reload();

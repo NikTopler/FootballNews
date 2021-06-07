@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LeagueService } from 'src/app/services/league/league.service';
 
@@ -7,7 +7,7 @@ import { LeagueService } from 'src/app/services/league/league.service';
   templateUrl: './leagues.component.html',
   styleUrls: ['./leagues.component.scss']
 })
-export class LeaguesComponent implements OnInit {
+export class LeaguesComponent {
 
   constructor(
     private router: Router,
@@ -15,7 +15,4 @@ export class LeaguesComponent implements OnInit {
     private leagueService: LeagueService) {
     route.params.subscribe(params => leagueService.setOpenLeague(params.league));
   }
-
-  ngOnInit(): void { }
-
 }

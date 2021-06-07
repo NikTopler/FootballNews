@@ -61,4 +61,9 @@ export class CommService {
     return allLeagues;
   }
 
+  leagueNameChange(league: string) {
+    if(league.includes('laliga')) return 'Laliga';
+    else if(league.includes('premier')) return 'Premier League';
+    return '';
+  }
 }
