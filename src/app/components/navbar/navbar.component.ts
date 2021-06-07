@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthenticationService } from 'src/app/services/authentication/authentication.service';
 import { CommService } from 'src/app/services/comm/comm.service';
@@ -10,9 +10,9 @@ import { environment } from '../../../environments/environment';
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
-  styleUrls: ['./navbar.component.scss']
+  styleUrls: ['./navbar.component.scss'],
 })
-export class NavbarComponent implements OnInit{
+export class NavbarComponent implements AfterViewInit{
 
   isLoggedIn: boolean = false;
   isLeaguesOpen: boolean = false;
@@ -47,7 +47,8 @@ export class NavbarComponent implements OnInit{
     private authenticationService: AuthenticationService,
     private searchService: SearchService,
     private userService: UserService,
-    private leagueService: LeagueService) {
+    private leagueService: LeagueService,
+    private cdr: ChangeDetectorRef) {
       this.pageManagment('refresh');
       router.events.subscribe(() => this.pageManagment('change-page'));
       userService.getUserData().subscribe((data) => {
@@ -58,10 +59,11 @@ export class NavbarComponent implements OnInit{
       leagueService.getOpenLeague().subscribe((data) => { this.league = data; })
     }
 
-  ngOnInit() {
+  ngAfterViewInit() {
     if(this.router.url.includes('home') || this.router.url.includes('search'))
       this.setElementEvents();
     else this.setActivePage();
+    this.cdr.detectChanges();
   }
 
   openLogin(val: boolean) { this.comm.setExternalLogin(val); }
