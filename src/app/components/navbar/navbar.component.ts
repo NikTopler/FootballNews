@@ -32,13 +32,7 @@ export class NavbarComponent implements AfterViewInit{
   userInfo: any;
   following: any = [];
 
-  leaguesOptions: any[] = [
-    { name: 'matches', active: false },
-    { name: 'news', active: false },
-    { name: 'standings', active: true },
-    { name: 'stats', active: false },
-    { name: 'players', active: false },
-  ];
+  leaguesOptions: any[] = [];
 
   constructor(
     private router: Router,
@@ -56,13 +50,14 @@ export class NavbarComponent implements AfterViewInit{
         this.userInfo = data;
         this.following = data.following;
       });
-      leagueService.getOpenLeague().subscribe((data) => { this.league = data; })
+      leagueService.getOpenLeague().subscribe((data) => this.league = data );
+      leagueService.getLeagueOptions().subscribe((data) => this.leaguesOptions = data);
     }
 
   ngAfterViewInit() {
     if(this.router.url.includes('home') || this.router.url.includes('search'))
       this.setElementEvents();
-    else this.setActivePage();
+    else this.leagueService.setActivePage();
     this.cdr.detectChanges();
   }
 
@@ -146,17 +141,9 @@ export class NavbarComponent implements AfterViewInit{
 
   changePage(name: string) {
     this.router.navigateByUrl(`leagues/${this.league}/${name}`)
-      .then(() => this.setActivePage())
+      .then(() => this.leagueService.setActivePage())
   }
 
-  setActivePage() {
-    for(let i = 0; i < this.leaguesOptions.length; i++) {
-      if(this.leaguesOptions[i].active && !this.router.url.includes(this.leaguesOptions[i].name))
-        this.leaguesOptions[i].active = false;
-      if(this.router.url.includes(this.leaguesOptions[i].name))
-        this.leaguesOptions[i].active = true;
-    }
-  }
   doesUserFollow() {
     if(!this.isLoggedIn) return 'Follow';
 

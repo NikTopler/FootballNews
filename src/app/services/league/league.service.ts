@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { environment} from '../../../environments/environment';
 import { CommService } from '../comm/comm.service';
@@ -9,15 +10,25 @@ import { CommService } from '../comm/comm.service';
 export class LeagueService {
 
   openLeague: string = '';
+  leaguesOptions: any[] = [
+    { name: 'matches', active: false },
+    { name: 'news', active: false },
+    { name: 'standings', active: false },
+    { name: 'stats', active: false },
+    { name: 'players', active: false },
+  ];
 
   $openLeague: BehaviorSubject<string>;
+  $leaguesOptions: BehaviorSubject<any[]>;
   $players: BehaviorSubject<any[]>;
   $allTeams: BehaviorSubject<any[]>;
 
   $news: BehaviorSubject<any[]>;
 
-  constructor(private comm: CommService) {
+  constructor(private comm: CommService, private router: Router) {
+    router.events.subscribe(() => this.setActivePage());
     this.$openLeague = new BehaviorSubject<string>('');
+    this.$leaguesOptions = new BehaviorSubject<any[]>(this.leaguesOptions);
     this.$players = new BehaviorSubject<any[]>([]);
     this.$allTeams = new BehaviorSubject<any[]>([]);
     this.$news = new BehaviorSubject<any[]>([]);
@@ -25,6 +36,9 @@ export class LeagueService {
 
   setOpenLeague(newValue: string): void { this.$openLeague.next(newValue); }
   getOpenLeague(): Observable<string> { return this.$openLeague.asObservable(); }
+
+  setLeagueOptions(newValue: any[]): void { this.$leaguesOptions.next(newValue); }
+  getLeagueOptions(): Observable<any[]> { return this.$leaguesOptions.asObservable(); }
 
   setPlayers(newValue: any[]): void { this.$players.next(newValue); }
   getPlayers(): Observable<any[]> { return this.$players.asObservable(); }
@@ -71,5 +85,15 @@ export class LeagueService {
 
     if(this.openLeague === 'laliga') this.setNews(JSON.parse(res.laliga).articles);
     else if(this.openLeague == 'premier-league') this.setNews(JSON.parse(res.premier_league).articles);
+  }
+
+  setActivePage() {
+    for(let i = 0; i < this.leaguesOptions.length; i++) {
+      if(this.leaguesOptions[i].active && !this.router.url.includes(this.leaguesOptions[i].name))
+        this.leaguesOptions[i].active = false;
+      if(this.router.url.includes(this.leaguesOptions[i].name))
+        this.leaguesOptions[i].active = true;
+    }
+    this.setLeagueOptions(this.leaguesOptions);
   }
 }
