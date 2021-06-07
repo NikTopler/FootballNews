@@ -24,6 +24,7 @@ export class LeaguesComponent {
     });
     leagueService.fetchPlayers();
     leagueService.fetchTeams();
+    leagueService.fetchNews();
     this.urlPath = router.url;
   }
 }

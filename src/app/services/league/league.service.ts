@@ -14,10 +14,13 @@ export class LeagueService {
   $players: BehaviorSubject<any[]>;
   $allTeams: BehaviorSubject<any[]>;
 
+  $news: BehaviorSubject<any[]>;
+
   constructor(private comm: CommService) {
     this.$openLeague = new BehaviorSubject<string>('');
     this.$players = new BehaviorSubject<any[]>([]);
     this.$allTeams = new BehaviorSubject<any[]>([]);
+    this.$news = new BehaviorSubject<any[]>([]);
   }
 
   setOpenLeague(newValue: string): void { this.$openLeague.next(newValue); }
@@ -28,6 +31,9 @@ export class LeagueService {
 
   setAllTeams(newValue: any[]): void { this.$allTeams.next(newValue); }
   getAllTeams(): Observable<any[]> { return this.$allTeams.asObservable(); }
+
+  setNews(newValue: any[]): void { this.$news.next(newValue); }
+  getNews(): Observable<any[]> { return this.$news.asObservable(); }
 
   async fetchPlayers() {
     let league = this.comm.leagueNameChange(this.openLeague);
@@ -51,5 +57,19 @@ export class LeagueService {
     const json = JSON.parse(res);
     const teams = json.teams;
     this.setAllTeams(teams);
+  }
+
+  async fetchNews() {
+    const req = await fetch(`${environment.db}/news.php`, {
+      method: 'POST',
+      body: this.comm.createFormData('HOME_NEWS', '')
+    });
+    const text = await req.text();
+    const res = JSON.parse(text);
+
+    if(res.status !== 'ok') return;
+
+    if(this.openLeague === 'laliga') this.setNews(JSON.parse(res.laliga).articles);
+    else if(this.openLeague == 'premier-league') this.setNews(JSON.parse(res.premier_league).articles);
   }
 }

@@ -1,1 +1,22 @@
-<p>news works!</p>
+<div class="main-section-container">
+    <section *ngIf="news.length !== 0" class="main-content">
+      <div class="article-container">
+        <ng-container *ngFor="let a of news; let index = index">
+          <div class="double">
+            <article *ngFor="let article of news | slice:index*2:index*2+2;" (click)="openLink(article.url)">
+              <div class="img-container">
+                <img src="{{ article.urlToImage }}" alt="article-img">
+              </div>
+              <div class="content">
+                <span class="author">
+                  <strong>{{ article.author }}</strong>
+                </span>
+                <h2>{{ article.title }}</h2>
+                <p>{{ article.description }}</p>
+              </div>
+            </article>
+          </div>
+        </ng-container>
+      </div>
+    </section>
+</div>
