@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { LeagueService } from 'src/app/services/league/league.service';
 
 @Component({
@@ -12,7 +13,7 @@ export class PlayersComponent {
   playerImages: string[] = [];
   teams: any[] = [];
 
-  constructor(private leagueService: LeagueService) {
+  constructor(private router: Router, private leagueService: LeagueService) {
     leagueService.getPlayers().subscribe((data) => this.players = data);
     leagueService.getAllTeams().subscribe((data) => this.teams = data);
     leagueService.getPlayersImages().subscribe((data) => { this.playerImages = data; console.log(data)});
@@ -24,4 +25,6 @@ export class PlayersComponent {
         return this.teams[i].logo;
     return '';
   }
+
+  search(name: string, club: string) { this.router.navigateByUrl(`/search?q=(${name})OR(${club})`) }
 }
