@@ -16,7 +16,7 @@ export class PlayersComponent {
   constructor(private router: Router, private leagueService: LeagueService) {
     leagueService.getPlayers().subscribe((data) => this.players = data);
     leagueService.getAllTeams().subscribe((data) => this.teams = data);
-    leagueService.getPlayersImages().subscribe((data) => { this.playerImages = data; console.log(data)});
+    leagueService.getPlayersImages().subscribe((data) => this.playerImages = data);
   }
 
   getTeamLogo(id: string) {

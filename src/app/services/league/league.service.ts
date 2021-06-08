@@ -95,12 +95,11 @@ export class LeagueService {
   async fetchPlayerImages() {
     const req = await fetch(`${environment.db}/webscraper.php`, {
       method: 'POST',
-      body: this.comm.createFormData('GOOGLE_IMAGE', 'laliga')
+      body: this.comm.createFormData('GOOGLE_IMAGE', this.openLeague.replace('-', '_'))
     });
     const text = await req.text();
     const res = JSON.parse(text);
     const league = JSON.parse(res.league).data;
-    console.log(league)
     this.setPlayersImages(league);
   }
 
