@@ -25,6 +25,7 @@ export class LeaguesComponent {
     leagueService.fetchPlayers();
     leagueService.fetchTeams();
     leagueService.fetchNews();
+    leagueService.fetchPlayerImages();
     this.urlPath = router.url;
   }
 }

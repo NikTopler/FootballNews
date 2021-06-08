@@ -45,7 +45,7 @@ export class LeagueService {
   setPlayers(newValue: any[]): void { this.$players.next(newValue); }
   getPlayers(): Observable<any[]> { return this.$players.asObservable(); }
 
-  setPlayersImages(newValue: string): void { this.$playersImages.next(this.$playersImages.getValue().concat([newValue])) }
+  setPlayersImages(newValue: any[]): void { this.$playersImages.next(newValue); }
   getPlayersImages(): Observable<string[]> { return this.$playersImages.asObservable(); }
 
   setAllTeams(newValue: any[]): void { this.$allTeams.next(newValue); }
@@ -92,16 +92,16 @@ export class LeagueService {
     else if(this.openLeague == 'premier-league') this.setNews(JSON.parse(res.premier_league).articles);
   }
 
-  async fetchPlayerImages(players: any[]) {
-    for(let i = 0; i < players.length; i++) {
-      const playerName = players[i].player.player_name.replace(/\s/g, '+');
-      const req = await fetch(`${environment.db}/webscraper.php`, {
-        method: 'POST',
-        body: this.comm.createFormData('GOOGLE_IMAGE', playerName)
-      });
-      const text = await req.text();
-      this.setPlayersImages(text);
-    }
+  async fetchPlayerImages() {
+    const req = await fetch(`${environment.db}/webscraper.php`, {
+      method: 'POST',
+      body: this.comm.createFormData('GOOGLE_IMAGE', 'laliga')
+    });
+    const text = await req.text();
+    const res = JSON.parse(text);
+    const league = JSON.parse(res.league).data;
+    console.log(league)
+    this.setPlayersImages(league);
   }
 
   setActivePage() {
