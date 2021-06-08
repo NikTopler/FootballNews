@@ -1,7 +1,7 @@
 <?php
 include_once 'user.php';
 
-class WebScraper {
+class WebScraper extends User {
   public $website = 'https://www.google.com/search?tbm=isch&q=';
   public $images = array();
 
@@ -11,10 +11,7 @@ class WebScraper {
 
     libxml_use_internal_errors(TRUE);
 
-    if(empty($html)) {
-      echo 0;
-      die;
-    }
+    if(empty($html)) die;
 
     $news_doc->loadHTML($html);
     libxml_clear_errors();
@@ -29,14 +26,26 @@ class WebScraper {
     $images = $xpath->query('//img');
     foreach($images as $row) {
       $link = $row->getAttribute('src');
-      if(strpos($link, '.gif') == false) {
-        echo $link;
-        die;
-      }
+      if(strpos($link, '.gif') == false)
+        return $link;
     }
+  }
+
+    }
+  public function getPlayerImages($league) {
+    $sql = 'SELECT * FROM league_data WHERE type = ? ORDER BY time ASC';
+    $stmt = $this->connect()->prepare($sql);
+    $stmt->execute([$league.'_player_images']);
+    $row = $stmt->fetch();
+
+    http_response_code(200);
+    echo json_encode(array(
+      "status" => "ok",
+      "league" => $row['data']
+    ));
   }
 }
 
 $webScraperObj = new WebScraper();
-if(isset($_POST['GOOGLE_IMAGE'])) $webScraperObj->googleImage($_POST['GOOGLE_IMAGE']);
+if(isset($_POST['GOOGLE_IMAGE'])) $webScraperObj->getPlayerImages($_POST['GOOGLE_IMAGE']);
 
