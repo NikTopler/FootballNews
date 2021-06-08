@@ -21,6 +21,7 @@ export class LeagueService {
   $openLeague: BehaviorSubject<string>;
   $leaguesOptions: BehaviorSubject<any[]>;
   $players: BehaviorSubject<any[]>;
+  $playersImages: BehaviorSubject<string[]>;
   $allTeams: BehaviorSubject<any[]>;
 
   $news: BehaviorSubject<any[]>;
@@ -30,6 +31,7 @@ export class LeagueService {
     this.$openLeague = new BehaviorSubject<string>('');
     this.$leaguesOptions = new BehaviorSubject<any[]>(this.leaguesOptions);
     this.$players = new BehaviorSubject<any[]>([]);
+    this.$playersImages = new BehaviorSubject<string[]>([]);
     this.$allTeams = new BehaviorSubject<any[]>([]);
     this.$news = new BehaviorSubject<any[]>([]);
   }
@@ -42,6 +44,9 @@ export class LeagueService {
 
   setPlayers(newValue: any[]): void { this.$players.next(newValue); }
   getPlayers(): Observable<any[]> { return this.$players.asObservable(); }
+
+  setPlayersImages(newValue: string): void { this.$playersImages.next(this.$playersImages.getValue().concat([newValue])) }
+  getPlayersImages(): Observable<string[]> { return this.$playersImages.asObservable(); }
 
   setAllTeams(newValue: any[]): void { this.$allTeams.next(newValue); }
   getAllTeams(): Observable<any[]> { return this.$allTeams.asObservable(); }
@@ -85,6 +90,18 @@ export class LeagueService {
 
     if(this.openLeague === 'laliga') this.setNews(JSON.parse(res.laliga).articles);
     else if(this.openLeague == 'premier-league') this.setNews(JSON.parse(res.premier_league).articles);
+  }
+
+  async fetchPlayerImages(players: any[]) {
+    for(let i = 0; i < players.length; i++) {
+      const playerName = players[i].player.player_name.replace(/\s/g, '+');
+      const req = await fetch(`${environment.db}/webscraper.php`, {
+        method: 'POST',
+        body: this.comm.createFormData('GOOGLE_IMAGE', playerName)
+      });
+      const text = await req.text();
+      this.setPlayersImages(text);
+    }
   }
 
   setActivePage() {
