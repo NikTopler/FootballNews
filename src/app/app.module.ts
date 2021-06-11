@@ -53,6 +53,7 @@ import { LeaguesComponent } from './pages/leagues/leagues.component';
 import { StatsComponent } from './pages/leagues/stats/stats.component';
 import { NewsComponent } from './pages/leagues/news/news.component';
 import { PlayersComponent } from './pages/leagues/players/players.component';
+import { StandingsComponent } from './pages/leagues/standings/standings.component';
 
 
 @NgModule({
@@ -86,7 +87,8 @@ import { PlayersComponent } from './pages/leagues/players/players.component';
     LeaguesComponent,
     StatsComponent,
     NewsComponent,
-    PlayersComponent
+    PlayersComponent,
+    StandingsComponent
   ],
   imports: [
     BrowserModule,
