@@ -1,1 +1,103 @@
-<p>standings works!</p>
+<div class="main-league-container">
+  <header>
+    <div class="content select-container" id="league-select-container" (click)="selectOpen = !selectOpen; manageSelect('league-select-container')">
+      <span>Season</span>
+      <div class="season">
+        <span>{{selectedSeason}}</span>
+        <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24">
+          <path d="M6 0l12 12-12 12z" fill="#ff4081"/>
+        </svg>
+      </div>
+      <div class="select-expand">
+        <div *ngFor="let option of seasons" class="option {{ option.active ? 'active' : '' }}"
+          (click)="changeOption(option.text, 'league-select-container')">
+          <span>{{ option.text }}</span>
+        </div>
+      </div>
+    </div>
+  </header>
+  <div class="standings">
+    <div class="header">
+      <div class="left head">
+        <span>Club</span>
+      </div>
+      <div class="scroll">
+        <div class="right outter">
+          <div class="stat">
+            <span>MP</span>
+          </div>
+          <div class="stat">
+            <span>W</span>
+          </div>
+          <div class="stat">
+            <span>D</span>
+          </div>
+          <div class="stat">
+            <span>L</span>
+          </div>
+          <div class="stat">
+            <span>GF</span>
+          </div>
+          <div class="stat">
+            <span>GA</span>
+          </div>
+          <div class="stat">
+            <span>GD</span>
+          </div>
+          <div class="percentage">
+            <span>Pts</span>
+          </div>
+          <div class="percentage">
+            <span>W/D/L %</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="standingsArray.length > 0">
+      <div *ngFor="let row of standingsArray" class="team">
+        <div class="left">
+          <div class="status">
+            <div class="{{row.result === 'Champions League' ? 'blue' : row.result === 'Europa League' ? 'green' : row.result === 'Relegation' ? 'red' : ''}}"></div>
+          </div>
+          <div class="position">{{row.position}}</div>
+          <div class="team-info">
+            <img src="{{row.team.logo}}" alt="logo">
+            <span>{{row.team.name}}</span>
+          </div>
+        </div>
+        <div class="scroll">
+          <div class="right outter">
+            <div class="stat">
+             <span>{{row.matches.played}}</span>
+            </div>
+            <div class="stat">
+             <span>{{row.matches.wins}}</span>
+            </div>
+            <div class="stat">
+             <span>{{row.matches.draws}}</span>
+            </div>
+            <div class="stat">
+             <span>{{row.matches.losses}}</span>
+            </div>
+            <div class="stat">
+             <span>{{row.goals.for}}</span>
+            </div>
+            <div class="stat">
+             <span>{{row.goals.against}}</span>
+            </div>
+            <div class="stat">
+             <span>{{row.goals.difference}}</span>
+            </div>
+            <div class="stat">
+             <span>{{row.points}}</span>
+           </div>
+            <div class="percentage">
+              <div class="line" [style]="'background: linear-gradient(90deg, #22863a '+getPercentage(row.matches.played, row.matches.wins)+'%, #ffd33d '+getPercentage(row.matches.played, row.matches.wins)+'% '+(getPercentage(row.matches.played, row.matches.wins)+getPercentage(row.matches.played, row.matches.draws))+'%,#d73a49 '+getPercentage(row.matches.played, row.matches.losses)+'%);'"></div>
+            </div>
+           </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
