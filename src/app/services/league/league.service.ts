@@ -24,6 +24,7 @@ export class LeagueService {
   $playersImages: BehaviorSubject<string[]>;
   $allTeams: BehaviorSubject<any[]>;
 
+  $standings: BehaviorSubject<StandingsInterface[]>;
   $news: BehaviorSubject<any[]>;
 
   constructor(private comm: CommService, private router: Router) {
@@ -33,6 +34,7 @@ export class LeagueService {
     this.$players = new BehaviorSubject<any[]>([]);
     this.$playersImages = new BehaviorSubject<string[]>([]);
     this.$allTeams = new BehaviorSubject<any[]>([]);
+    this.$standings = new BehaviorSubject<StandingsInterface[]>([]);
     this.$news = new BehaviorSubject<any[]>([]);
   }
 
@@ -50,6 +52,10 @@ export class LeagueService {
 
   setAllTeams(newValue: any[]): void { this.$allTeams.next(newValue); }
   getAllTeams(): Observable<any[]> { return this.$allTeams.asObservable(); }
+
+  setStandings(newValue: StandingsInterface): void { this.$standings.next(this.$standings.getValue().concat([newValue])); }
+  setStandingsArray(newValue: StandingsInterface[]): void { this.$standings.next(newValue); }
+  getStandings(): Observable<StandingsInterface[]> { return this.$standings.asObservable(); }
 
   setNews(newValue: any[]): void { this.$news.next(newValue); }
   getNews(): Observable<any[]> { return this.$news.asObservable(); }
