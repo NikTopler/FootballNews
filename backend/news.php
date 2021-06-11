@@ -125,6 +125,21 @@ class News extends User {
       "team" => $teamArray
     ));
   }
+
+  public function standing($league) {
+    $sql = 'SELECT * FROM league_data WHERE type = ? ORDER BY id ASC;';
+    $stmt = $this->connect()->prepare($sql);
+    $stmt->execute([$league.'_standings']);
+    $row = $stmt->fetch();
+
+    http_response_code(200);
+
+    echo json_encode(array(
+      "status" => "ok",
+      "standing" => $row['data']
+    ));
+  }
+
 }
 
 $newsObj = new News();
@@ -134,3 +149,4 @@ else if(isset($_POST['SEARCH'])) $newsObj->search($_POST['SEARCH']);
 else if(isset($_POST['PLAYERS'])) $newsObj->players($_POST['PLAYERS']);
 else if(isset($_POST['GET_ALL_TEAM'])) $newsObj->allTeams();
 else if(isset($_POST['GET_TEAM'])) $newsObj->team($_POST['GET_TEAM']);
+else if(isset($_POST['GET_STANDING'])) $newsObj->standing($_POST['GET_STANDING']);
