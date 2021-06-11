@@ -140,11 +140,51 @@
           display: grid;
           grid-template-columns: 1fr 1fr;
           border-radius: 4px;
-          width: calc(100% - 1rem);
+          width: calc(100% - 2rem);
           height: 0.25rem;
         }
       }
     }
+  }
+
+  footer {
+    position: relative;
+    display: flex;
+    padding: 1rem;
+    hr {
+      position: absolute;
+      top: 0;
+      width: 95%;
+      height: 0;
+      border-top: 1px solid $gray-200;
+    }
+    .container {
+      white-space: nowrap;
+      display: grid;
+      h3 { font-weight: 500; }
+      span {
+        font-weight: 500;
+        font-size: 0.75rem;
+      }
+      .description {
+        .row {
+          width: fit-content;
+          display: flex;
+          align-items: center;
+          div {
+            margin-right: 0.82rem;
+            width: 1rem;
+            height: 1rem;
+            border-radius: 4px;
+          }
+          div.blue { background-color: $blue-400; }
+          div.red { background-color: $red-400; }
+          div.green { background-color: $green-600; }
+          div.yellow { background-color: $yellow-500; }
+        }
+      }
+    }
+    .container:last-child { margin-left: 1.5rem; }
   }
 }
 
