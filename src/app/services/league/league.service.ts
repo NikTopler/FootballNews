@@ -109,6 +109,51 @@ export class LeagueService {
     this.setPlayersImages(league);
   }
 
+  async fetchStandings() {
+    const req = await fetch(`${environment.db}/news.php`, {
+      method: 'POST',
+      body: this.comm.createFormData('GET_STANDING', this.openLeague.replace('-', '_'))
+    });
+    const text = await req.text();
+    const res = JSON.parse(text);
+
+    if(res.status !== 'ok') return;
+
+    const apiData = JSON.parse(res.standing);
+    console.log(apiData)
+    this.setStandingsArray([]);
+    for(let i = 0; i < apiData.data.standings.length; i++) {
+      const req = await fetch(`${environment.db}/news.php`, {
+        method: 'POST',
+        body: this.comm.createFormData('GET_TEAM', apiData.data.standings[i].team_id)
+      });
+      const text = await req.text();
+      const res = JSON.parse(text);
+      const standings: StandingsInterface = {
+        position: apiData.data.standings[i].position,
+        team: {
+          name: res.team.name,
+          logo: res.team.logo
+        },
+        matches: {
+          played: apiData.data.standings[i].overall.games_played,
+          wins: apiData.data.standings[i].overall.won,
+          losses: apiData.data.standings[i].overall.lost,
+          draws: apiData.data.standings[i].overall.draw
+        },
+        goals: {
+          for: apiData.data.standings[i].overall.goals_scored,
+          against: apiData.data.standings[i].overall.goals_against,
+          difference: apiData.data.standings[i].overall.goals_diff
+        },
+        points: apiData.data.standings[i].points,
+        result: apiData.data.standings[i].result,
+        status: apiData.data.standings[i].status
+      }
+      this.setStandings(standings);
+    }
+  }
+
   setActivePage() {
     for(let i = 0; i < this.leaguesOptions.length; i++) {
       if(this.leaguesOptions[i].active && !this.router.url.includes(this.leaguesOptions[i].name))
