@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { CommService } from 'src/app/services/comm/comm.service';
 import { LeagueService } from 'src/app/services/league/league.service';
 
 @Component({
@@ -7,7 +8,7 @@ import { LeagueService } from 'src/app/services/league/league.service';
   templateUrl: './leagues.component.html',
   styleUrls: ['./leagues.component.scss']
 })
-export class LeaguesComponent {
+export class LeaguesComponent implements OnInit{
 
   urlPath: string = '';
   openLeague: string = '';
@@ -15,7 +16,8 @@ export class LeaguesComponent {
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private leagueService: LeagueService) {
+    private leagueService: LeagueService,
+    private comm: CommService) {
     router.events.subscribe(() => this.urlPath = router.url);
     route.params.subscribe(params => { leagueService.setOpenLeague(params.league) });
     leagueService.getOpenLeague().subscribe((league) => {
@@ -26,6 +28,9 @@ export class LeaguesComponent {
     leagueService.fetchTeams();
     leagueService.fetchNews();
     leagueService.fetchPlayerImages();
+    leagueService.fetchStandings();
     this.urlPath = router.url;
   }
+
+  ngOnInit() { this.comm.setIsLoaded(true); }
 }
