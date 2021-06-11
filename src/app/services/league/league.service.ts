@@ -113,3 +113,25 @@ export class LeagueService {
     this.setLeagueOptions(this.leaguesOptions);
   }
 }
+
+export interface StandingsInterface {
+  position: number,
+  team: {
+    name: String,
+    logo: String
+  },
+  matches: {
+    played: number,
+    wins: number,
+    losses: number,
+    draws: number
+  },
+  goals: {
+    for: number,
+    against: number,
+    difference: number
+  },
+  points: number,
+  result: String,
+  status: String
+}
