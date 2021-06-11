@@ -24,7 +24,7 @@ export class AppComponent {
   waitForResponse: boolean = false;
   downloadOpen: boolean = false;
 
-  isLoaded: boolean = false;
+  isLoaded: boolean = true;
   showFooter: boolean = false;
 
   constructor(
