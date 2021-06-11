@@ -1,5 +1,5 @@
 <div class="main-league-container">
-  <header>
+  <header class="main">
     <div class="content select-container" id="league-select-container" (click)="selectOpen = !selectOpen; manageSelect('league-select-container')">
       <span>Season</span>
       <div class="season">
@@ -16,13 +16,28 @@
       </div>
     </div>
   </header>
+
   <div class="standings">
-    <div class="header">
-      <div class="left head">
+    <div class="left">
+      <header>
         <span>Club</span>
+      </header>
+      <div class="team-container">
+        <div *ngFor="let row of standingsArray" class="team">
+            <div class="status">
+              <div class="{{row.result === 'Champions League' ? 'blue' : row.result === 'Europa League' ? 'green' : row.result === 'Relegation' ? 'red' : ''}}"></div>
+            </div>
+            <div class="position">{{row.position}}</div>
+            <div class="team-info">
+              <img src="{{row.team.logo}}" alt="logo">
+              <span>{{row.team.name}}</span>
+            </div>
+          </div>
       </div>
+    </div>
+    <div class="right">
       <div class="scroll">
-        <div class="right outter">
+        <header>
           <div class="stat">
             <span>MP</span>
           </div>
@@ -44,56 +59,40 @@
           <div class="stat">
             <span>GD</span>
           </div>
-          <div class="percentage">
+          <div class="stat">
             <span>Pts</span>
           </div>
           <div class="percentage">
             <span>W/D/L %</span>
           </div>
-        </div>
-      </div>
-    </div>
-    <div *ngIf="standingsArray.length > 0">
-      <div *ngFor="let row of standingsArray" class="team">
-        <div class="left">
-          <div class="status">
-            <div class="{{row.result === 'Champions League' ? 'blue' : row.result === 'Europa League' ? 'green' : row.result === 'Relegation' ? 'red' : ''}}"></div>
-          </div>
-          <div class="position">{{row.position}}</div>
-          <div class="team-info">
-            <img src="{{row.team.logo}}" alt="logo">
-            <span>{{row.team.name}}</span>
-          </div>
-        </div>
-        <div class="scroll">
-          <div class="right outter">
-            <div class="stat">
-             <span>{{row.matches.played}}</span>
-            </div>
-            <div class="stat">
-             <span>{{row.matches.wins}}</span>
-            </div>
-            <div class="stat">
-             <span>{{row.matches.draws}}</span>
-            </div>
-            <div class="stat">
-             <span>{{row.matches.losses}}</span>
-            </div>
-            <div class="stat">
-             <span>{{row.goals.for}}</span>
-            </div>
-            <div class="stat">
-             <span>{{row.goals.against}}</span>
-            </div>
-            <div class="stat">
-             <span>{{row.goals.difference}}</span>
-            </div>
-            <div class="stat">
-             <span>{{row.points}}</span>
+        </header>
+        <div *ngFor="let row of standingsArray" class="stats">
+          <div class="stat">
+            <span>{{row.matches.played}}</span>
            </div>
-            <div class="percentage">
-              <div class="line" [style]="'background: linear-gradient(90deg, #22863a '+getPercentage(row.matches.played, row.matches.wins)+'%, #ffd33d '+getPercentage(row.matches.played, row.matches.wins)+'% '+(getPercentage(row.matches.played, row.matches.wins)+getPercentage(row.matches.played, row.matches.draws))+'%,#d73a49 '+getPercentage(row.matches.played, row.matches.losses)+'%);'"></div>
-            </div>
+           <div class="stat">
+            <span>{{row.matches.wins}}</span>
+           </div>
+           <div class="stat">
+            <span>{{row.matches.draws}}</span>
+           </div>
+           <div class="stat">
+            <span>{{row.matches.losses}}</span>
+           </div>
+           <div class="stat">
+            <span>{{row.goals.for}}</span>
+           </div>
+           <div class="stat">
+            <span>{{row.goals.against}}</span>
+           </div>
+           <div class="stat">
+            <span>{{row.goals.difference}}</span>
+           </div>
+           <div class="stat">
+            <span>{{row.points}}</span>
+          </div>
+           <div class="percentage">
+             <div class="line" [style]="'background: linear-gradient(90deg, #22863a '+getPercentage(row.matches.played, row.matches.wins)+'%, #ffd33d '+getPercentage(row.matches.played, row.matches.wins)+'% '+(getPercentage(row.matches.played, row.matches.wins)+getPercentage(row.matches.played, row.matches.draws))+'%,#d73a49 '+getPercentage(row.matches.played, row.matches.losses)+'%);'"></div>
            </div>
         </div>
       </div>
