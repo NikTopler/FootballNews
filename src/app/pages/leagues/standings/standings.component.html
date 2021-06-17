@@ -22,7 +22,7 @@
         <span>Club</span>
       </header>
       <div class="team-container">
-        <div *ngFor="let row of standingsArray" class="team">
+        <div *ngFor="let row of standingsArray;" class="team">
             <div class="status">
               <div class="{{row.result === 'Champions League' ? 'blue' : row.result === 'Europa League' ? 'green' : row.result === 'Relegation' ? 'red' : ''}}"></div>
             </div>
@@ -31,7 +31,7 @@
               <img src="{{row.team.logo}}" alt="logo">
               <span>{{row.team.name}}</span>
             </div>
-          </div>
+         </div>
       </div>
     </div>
     <div class="right">

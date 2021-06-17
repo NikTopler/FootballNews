@@ -31,7 +31,21 @@ class WebScraper extends User {
     }
   }
 
+  public function insertImages($players) {
+    die;
+    $array = [];
+    $date = date(time());
+
+    for($i = 0; $i < 25; $i++) {
+      $image = $this->googleImage($players[$i]->name);
+      array_push($array, $image);
     }
+    $obj = json_encode(array("premier_league" => $array));
+    $sql = 'INSERT INTO league_data(time, league_id, type, data) VALUES(?, ?, ?, ?)';
+    $stmt = $this->connect()->prepare($sql);
+    $stmt->execute([$date, 6, 'premier_league__player_images', $obj]);
+  }
+
   public function getPlayerImages($league) {
     $sql = 'SELECT * FROM league_data WHERE type = ? ORDER BY time ASC';
     $stmt = $this->connect()->prepare($sql);

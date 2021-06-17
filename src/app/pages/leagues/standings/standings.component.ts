@@ -14,11 +14,43 @@ export class StandingsComponent {
   seasons: any[] = [{text: '2021/22', active: false}, {text: '2020/21', active: true}];
   selectedSeason: string = '';
 
+  team: any = null;
+  stat: any = null;
+
   constructor(
     private leagueService: LeagueService,
     private comm: CommService) {
-    leagueService.getStandings().subscribe(data => this.standingsArray = data);
+    leagueService.getStandings().subscribe(data => {
+      this.standingsArray = data;
+      if(data.length === 20) {
+        this.team = document.querySelectorAll(`.team`);
+        this.stat = document.querySelectorAll(`.stats`);
+        this.setupElementEvents();
+      }
+    });
     this.setSelectedSeason();
+  }
+
+  setupElementEvents() {
+
+    for(let i = 0; i < this.team.lenght; i++) {
+      this.team[i].addEventListener('mouseover', () => {
+        this.team[i].classList.add('hover');
+        this.stat[i].classList.add('hover');
+      });
+      this.team[i].addEventListener('mouseout', () => {
+        this.team[i].classList.remove('hover');
+        this.stat[i].classList.remove('hover');
+      });
+      this.stat[i].addEventListener('mouseover', () => {
+        this.team[i].classList.add('hover');
+        this.stat[i].classList.add('hover');
+      });
+      this.stat[i].addEventListener('mouseout', () => {
+        this.team[i].classList.remove('hover');
+        this.stat[i].classList.remove('hover');
+      });
+    }
   }
 
   setSelectedSeason() { this.selectedSeason = this.seasons.filter(function(season) { return season.active})[0].text }

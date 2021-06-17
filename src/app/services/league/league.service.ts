@@ -23,6 +23,7 @@ export class LeagueService {
   $players: BehaviorSubject<any[]>;
   $playersImages: BehaviorSubject<string[]>;
   $allTeams: BehaviorSubject<any[]>;
+  $allMatches: BehaviorSubject<any[]>;
 
   $standings: BehaviorSubject<StandingsInterface[]>;
   $news: BehaviorSubject<any[]>;
@@ -34,6 +35,7 @@ export class LeagueService {
     this.$players = new BehaviorSubject<any[]>([]);
     this.$playersImages = new BehaviorSubject<string[]>([]);
     this.$allTeams = new BehaviorSubject<any[]>([]);
+    this.$allMatches = new BehaviorSubject<any[]>([]);
     this.$standings = new BehaviorSubject<StandingsInterface[]>([]);
     this.$news = new BehaviorSubject<any[]>([]);
   }
@@ -52,6 +54,9 @@ export class LeagueService {
 
   setAllTeams(newValue: any[]): void { this.$allTeams.next(newValue); }
   getAllTeams(): Observable<any[]> { return this.$allTeams.asObservable(); }
+
+  setMatches(newValue: any[]): void { this.$allMatches.next(newValue); }
+  getMatches(): Observable<any[]> { return this.$allMatches.asObservable(); }
 
   setStandings(newValue: StandingsInterface): void { this.$standings.next(this.$standings.getValue().concat([newValue])); }
   setStandingsArray(newValue: StandingsInterface[]): void { this.$standings.next(newValue); }
@@ -120,7 +125,6 @@ export class LeagueService {
     if(res.status !== 'ok') return;
 
     const apiData = JSON.parse(res.standing);
-    console.log(apiData)
     this.setStandingsArray([]);
     for(let i = 0; i < apiData.data.standings.length; i++) {
       const req = await fetch(`${environment.db}/news.php`, {
@@ -152,6 +156,12 @@ export class LeagueService {
       }
       this.setStandings(standings);
     }
+  }
+
+  async fetchMatches() {
+    // const req = await fetch('https://app.sportdataapi.com/api/v1/soccer/matches?apikey=9751a990-86f0-11eb-a0c8-6b846512b7c7&season_id=352&date_from=2020-09-19');
+    // const res = await req.json();
+    // this.setMatches(res.data);
   }
 
   setActivePage() {

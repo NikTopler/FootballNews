@@ -61,6 +61,7 @@
         z-index: 100;
         margin-bottom: 2px;
         height: 2.5rem;
+        transition: all ease-in-out .2s;
         .status {
           width: 1rem;
           div {
@@ -123,6 +124,7 @@
         grid-template-columns: repeat(8, 2rem) minmax(100px, 1fr);
         margin-bottom: 2px;
         height: 2.5rem;
+        transition: all ease-in-out .2s;
         span {
           font-size: 0.9rem;
           display: flex;
@@ -145,6 +147,10 @@
         }
       }
     }
+  }
+  .team.hover, .stats.hover {
+    cursor: pointer;
+    background-color: $gray-150;
   }
 
   footer {

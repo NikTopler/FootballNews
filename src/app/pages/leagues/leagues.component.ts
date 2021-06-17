@@ -29,6 +29,7 @@ export class LeaguesComponent {
     leagueService.fetchNews();
     leagueService.fetchPlayerImages();
     leagueService.fetchStandings();
+    leagueService.fetchMatches();
     this.urlPath = router.url;
   }
 }
