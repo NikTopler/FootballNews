@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { DownloadComponent } from 'src/app/components/download/download.component';
 import { CommService } from 'src/app/services/comm/comm.service';
 import { DownloadService } from 'src/app/services/download/download.service';
@@ -10,7 +10,7 @@ import { environment } from '../../../../../environments/environment';
   templateUrl: './display.component.html',
   styleUrls: ['./display.component.scss']
 })
-export class DisplayComponent implements OnInit {
+export class DisplayComponent {
 
   openTab: string = 'Users';
   rowsInTable: number = 14;
@@ -50,9 +50,7 @@ export class DisplayComponent implements OnInit {
     private comm: CommService,
     private downloadComponent: DownloadComponent,
     private downloadService: DownloadService,
-    private editorService: EditorService) { }
-
-  ngOnInit(): void { this.updateArray(); }
+    private editorService: EditorService) { this.updateArray() }
 
   async getNumberOfRows() {
     const req = await fetch(`${environment.db}/update.php`, {
@@ -84,7 +82,6 @@ export class DisplayComponent implements OnInit {
       body: this.comm.createFormData(`GET_${this.openTab.toUpperCase()}`, limit)
     });
     const res = await req.text();
-
     const array: string[][] = JSON.parse(res).data;
 
     let newArray = [];
