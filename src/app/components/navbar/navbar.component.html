@@ -1,10 +1,29 @@
-<nav class="{{ isMainInputOpen ? 'open' : 'close' }}">
+<nav class="{{ !isLeaguesOpen ? isMainInputOpen ? 'open' : 'close' : 'leagues' }}">
+  <div *ngIf="isLeaguesOpen" class="bottom">
+    <div *ngFor="let option of leaguesOptions" (click)="changePage(option.name)" class="option">
+      <span>{{option.name}}</span>
+      <div class="line {{option.active ? 'active' : ''}}"></div>
+    </div>
+  </div>
   <div class="left">
-    <a (click)="openPage('home')" class="logo">
+    <a *ngIf="!isLeaguesOpen" (click)="openPage('home')" class="logo">
       <span>Football News</span>
     </a>
+    <div *ngIf="isLeaguesOpen">
+      <div class="league-name">
+        <a (click)="openPage('home')">
+          <figure>
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24">
+              <path d="M13.025 1l-2.847 2.828 6.176 6.176h-16.354v3.992h16.354l-6.176 6.176 2.847 2.828 10.975-11z" fill="#444d56"/>
+            </svg>
+          </figure>
+          <span>{{league.toUpperCase().replace('-', ' ')}}</span>
+        </a>
+        <button (click)="manageFollow($event, league)" class="btn-100 eld">{{ doesUserFollow() }}</button>
+      </div>
+    </div>
   </div>
-  <div class="middle {{ isAccountPageOpen ? 'disabled-children' : '' }}">
+  <div *ngIf="!isLeaguesOpen" class="middle {{ isAccountPageOpen ? 'disabled-children' : '' }}">
     <div class="search-container">
       <div id="word-suggest-container" class="word-suggest-container {{ suggestionOpen ? 'active' : '' }}">
         <span *ngFor="let suggestion of suggestionArray" (click)="search(suggestion)">
@@ -14,7 +33,7 @@
       <div class="extra-container {{ extraSearchOpen ? 'active' : '' }}">
         ashdgasjh
       </div>
-      <input type="text" id="search-input" class="search-input">
+      <input type="text" id="search-input" class="search-input" autocomplete="off">
       <figure class="arrow-icon-container">
         <div (click)="isMainInputOpen = !isMainInputOpen" class="circle">
           <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"><path d="M13.025 1l-2.847 2.828 6.176 6.176h-16.354v3.992h16.354l-6.176 6.176 2.847 2.828 10.975-11z" fill="#6a737d"/>
@@ -36,14 +55,14 @@
     </div>
   </div>
   <div class="right">
-    <figure *ngIf="!isAccountPageOpen" class="search-icon-container responsive">
+    <figure *ngIf="!isAccountPageOpen && !isLeaguesOpen" class="search-icon-container responsive">
       <div (click)="isMainInputOpen = !isMainInputOpen" class="circle">
         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24">
           <path d="M23.809 21.646l-6.205-6.205c1.167-1.605 1.857-3.579 1.857-5.711 0-5.365-4.365-9.73-9.731-9.73-5.365 0-9.73 4.365-9.73 9.73 0 5.366 4.365 9.73 9.73 9.73 2.034 0 3.923-.627 5.487-1.698l6.238 6.238 2.354-2.354zm-20.955-11.916c0-3.792 3.085-6.877 6.877-6.877s6.877 3.085 6.877 6.877-3.085 6.877-6.877 6.877c-3.793 0-6.877-3.085-6.877-6.877z" fill="#6a737d"/>
         </svg>
       </div>
     </figure>
-    <button *ngIf="loggedIn"
+    <button *ngIf="isLoggedIn"
       mat-fab class="profile container"
       [matMenuTriggerFor]="profile">
       <svg class="profile rounded-full" width="64" height="64" viewBox="-4 -4 32 32" fill="#fff" class="profile rounded-full">
@@ -55,9 +74,8 @@
       <button mat-menu-item (click)="logout()">Log out</button>
     </mat-menu>
     <button
-      *ngIf="!loggedIn"
-      class="btn-200"
-      id="login-btn"
+      *ngIf="!isLoggedIn"
+      class="btn-200 eld"
       (click)="openLogin(true)">Login</button>
   </div>
 </nav>

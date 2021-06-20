@@ -3,6 +3,7 @@
 * {
   padding: 0;
   margin: 0;
+  user-select: none;
 }
 
 html, body {
@@ -103,6 +104,52 @@ button {
 .select:hover { background-color: $gray-100; }
 .select:active { background-color: $gray-200; }
 
+.select-container {
+  position: relative;
+
+  .select-expand {
+    max-height: 15rem;
+    position: absolute;
+    height: fit-content;
+    width: fit-content;
+    top: 1.75rem;
+    bottom: 0;
+    left: 0;
+    border: 1px solid $gray-300;
+    background-color: $gray-000;
+    color: $gray-600;
+    border-radius: 6px;
+    box-shadow: 0px 2px 3px -1px rgb(0 0 0 / 13%),
+    0px 4px 7px 0px rgb(0 0 0 / 6%),
+    0px 1px 12px 0px rgb(0 0 0 / 7%);
+    visibility: hidden;
+    transition: all ease-in-out .2s;
+    overflow: auto;
+    z-index: 200;
+
+    .option {
+      cursor: pointer;
+      padding: 6px 16px;
+      white-space: nowrap;
+    }
+    .option:first-child {
+      border-top-right-radius: 5px;
+      border-top-left-radius: 5px;
+    }
+    .option:last-child {
+      border-bottom-right-radius: 5px;
+      border-bottom-left-radius: 5px;
+    }
+    .option:not(:last-child) { border-bottom: 1px solid $gray-300; }
+    .option.active,
+    .option:hover { background-color: $gray-200; }
+  }
+  .select-expand.active {
+    top: 2.1rem;
+    visibility: visible;
+  }
+}
+
 .spacer { flex: 1 1 auto; }
 
 hr {
@@ -170,3 +217,162 @@ hr {
 
 .disabled { display: none; }
 .disabled-children > * { display: none; }
+
+.main-section-container {
+  display: grid;
+  grid-template-columns: 25% 75%;
+  grid-template-rows: auto 1fr;
+  margin: 0 auto 4rem auto;
+  max-width: 1012px;
+  padding: 16px;
+}
+
+.side-bar {
+  background-color: $gray-100;
+  border: 1px solid $gray-300;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+
+  header {
+    padding: 10px 16px;
+    font-weight: 600;
+    h3 { font-weight: 600; }
+  }
+
+  div.page {
+    display: flex;
+    align-items: center;
+    padding: 6px 16px;
+    position: relative;
+    cursor: pointer;
+    transition: all ease-in-out .2s;
+    border-top: 1px solid $gray-300;
+
+    .selector {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      border-left: 3px solid transparent;
+    }
+
+    h3 {
+      margin: 0;
+      padding: 0;
+    }
+  }
+  div.page.active {
+    .selector { border-left: 2px solid $pink-500; }
+  }
+
+  div.page:hover {
+    background-color: $gray-200;
+  }
+}
+
+.main-section-container {
+  max-width: 1220px;
+  grid-template-columns: 1fr 280px;
+  grid-template-rows: auto 1fr;
+  padding-top: 2rem;
+
+  .main-content {
+    grid-row: 2/3;
+    grid-column: 1/2;
+    padding-right: 1rem;
+
+    .article-container {
+      article{
+        h2 {
+          text-align: center;
+          font-weight: 500;
+          cursor: pointer;
+          transition: all ease-in-out .2s;
+        }
+        .img-container {
+          position: relative;
+          height: auto;
+          width: auto;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          overflow: hidden;
+          border-radius: 4px;
+          margin-bottom: 1.5rem;
+          cursor: pointer;
+          img {
+            width: 100%;
+            max-height: 12rem;
+            border-radius: 4px;
+            transition: all ease-in-out .5s;
+          }
+        }
+        .img-container:hover img { transform: scale(1.05); }
+
+        .content {
+          display: flex;
+          flex-direction: column;
+
+          .author { padding: 0.5rem 0; }
+          p {
+            text-align: center;
+          }
+        }
+      }
+      article:hover {
+        h2 { text-decoration: underline; }
+      }
+      article.main {
+        min-height: 30rem;
+        img { max-height: 24rem !important; }
+        .content {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          h2 { width: 85%; }
+        }
+      }
+
+      .double {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+
+        article {
+          .img-container { margin-bottom: 0; }
+          .content {
+            h2, p { text-align: left; }
+            p { padding: 1rem 0; }
+          }
+        }
+
+        article:first-child { margin-right: 0.5rem; }
+        article:last-child { margin-left: 0.5rem; }
+      }
+    }
+  }
+
+  .side-bar {
+    grid-row: 2/3;
+    grid-column: 2/3;
+    height: fit-content;
+  }
+}
+
+@media screen and (max-width: 900px) {
+  .main-section-container {
+    display: flex;
+    flex-direction: column;
+    .main-content { padding-right: 0; }
+  }
+}
+
+@media screen and (max-width: 640px) {
+  .main-section-container
+  .main-content
+  .article-container
+  .double {
+    display: flex;
+    flex-direction: column;
+  }
+}

@@ -3,11 +3,6 @@ include_once 'config/db.php';
 require __DIR__ . '/libs/vendor/autoload.php';
 use \Firebase\JWT\JWT;
 
-$allowed_domains = ["http://localhost:4200", "https://footballnews-app.herokuapp.com"];
-
-if (in_array($_SERVER['HTTP_ORIGIN'], $allowed_domains)) header("Access-Control-Allow-Origin: " . $_SERVER['HTTP_ORIGIN']);
-else $this->response(403, 'Access denied', 'Authorization failed');
-
 class User extends Dbh {
 
   public function checkIfUserExists($type, $email, $id) {
@@ -27,11 +22,28 @@ class User extends Dbh {
   }
 
   public function getUserData($email) {
-
     $sql = 'SELECT * FROM users WHERE email = ?';
     $stmt = $this->connect()->prepare($sql);
     $stmt->execute([$email]);
     $row = $stmt->fetch();
+
+    $sql = 'SELECT * FROM follow f
+      INNER JOIN leagues l ON l.id = f.league_id
+      WHERE user_id = (SELECT id FROM users WHERE email = ?)';
+    $stmt = $this->connect()->prepare($sql);
+    $stmt->execute([$email]);
+
+    $followLeagueArray = [];
+    while($follows = $stmt->fetch()) {
+      array_push(
+        $followLeagueArray,
+        array(
+          "name" => $follows['name'],
+          "time" => $follows['time']
+        )
+      );
+    }
+
     return [
       $row['id'],
       $row['firstName'],
@@ -47,7 +59,8 @@ class User extends Dbh {
       $row['refreshToken'],
       $row['safeImport'],
       $row['editImport'],
-      $row['emailingService']
+      $row['emailingService'],
+      $followLeagueArray
     ];
   }
 
@@ -65,7 +78,8 @@ class User extends Dbh {
       "googleID" => $userInfo[8],
       "facebookID" => $userInfo[9],
       "amazonID" => $userInfo[10],
-      "emailingService" => $userInfo[14]
+      "emailingService" => $userInfo[14],
+      "following" => $userInfo[15]
     );
 
     $jwtAccessToken = $this->generateAccessToken($userInfo);
@@ -124,6 +138,23 @@ class User extends Dbh {
     $stmt->execute([$refreshToken]);
     $row = $stmt->fetch();
 
+    $sql = 'SELECT * FROM follow f
+      INNER JOIN leagues l ON l.id = f.league_id
+      WHERE user_id = (SELECT id FROM users WHERE refreshToken = ?)';
+    $stmt = $this->connect()->prepare($sql);
+    $stmt->execute([$refreshToken]);
+
+    $followLeagueArray = [];
+    while($follows = $stmt->fetch()) {
+      array_push(
+        $followLeagueArray,
+        array(
+          "name" => $follows['name'],
+          "time" => $follows['time']
+        )
+      );
+    }
+
     // if(!$row) $this->response(403, 'Login reqired');
 
     $newAccessToken = $this->generateAccessToken([
@@ -141,7 +172,8 @@ class User extends Dbh {
       $row['refreshToken'],
       $row['safeImport'],
       $row['editImport'],
-      $row['emailingService']
+      $row['emailingService'],
+      $followLeagueArray
     ]);
 
     echo $newAccessToken;
@@ -164,7 +196,8 @@ class User extends Dbh {
       "amazonID" => $userInfo[10],
       "safeImport" => $userInfo[12],
       "editImport" => $userInfo[13],
-      "emailingService" => $userInfo[14]
+      "emailingService" => $userInfo[14],
+      "following" => $userInfo[15]
     );
 
     $payload_info = array(
@@ -240,6 +273,13 @@ class User extends Dbh {
 }
 
 $userObj = new User();
+
+$allowed_domains = ["http://localhost:4200", "https://footballnews-app.herokuapp.com"];
+
+if (in_array($_SERVER['HTTP_ORIGIN'], $allowed_domains)) header("Access-Control-Allow-Origin: " . $_SERVER['HTTP_ORIGIN']);
+else $userObj->response(403, 'Access denied', 'Authorization failed');
+
+
 if($_SERVER['REQUEST_METHOD'] !== 'POST') die;
 if(isset($_POST['VALIDATE_REFRESH_TOKEN'])) $userObj->checkRefreshToken($_POST['VALIDATE_REFRESH_TOKEN']);
 else if(isset($_POST['VALIDATE_ACCESS_TOKEN'])) $userObj->checkAccessToken($_POST['VALIDATE_ACCESS_TOKEN']);

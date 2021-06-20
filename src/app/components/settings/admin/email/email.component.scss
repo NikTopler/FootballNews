@@ -22,52 +22,6 @@
   .all-email { padding: 8px; }
 }
 
-.select-container {
-  position: relative;
-
-  .select-expand {
-    max-height: 15rem;
-    position: absolute;
-    height: fit-content;
-    width: fit-content;
-    top: 1.75rem;
-    bottom: 0;
-    left: 0;
-    border: 1px solid $gray-300;
-    background-color: $gray-000;
-    color: $gray-600;
-    border-radius: 6px;
-    box-shadow: 0px 2px 3px -1px rgb(0 0 0 / 13%),
-    0px 4px 7px 0px rgb(0 0 0 / 6%),
-    0px 1px 12px 0px rgb(0 0 0 / 7%);
-    visibility: hidden;
-    transition: all ease-in-out .2s;
-    overflow: auto;
-    z-index: 200;
-
-    .option {
-      cursor: pointer;
-      padding: 6px 16px;
-      white-space: nowrap;
-    }
-    .option:first-child {
-      border-top-right-radius: 5px;
-      border-top-left-radius: 5px;
-    }
-    .option:last-child {
-      border-bottom-right-radius: 5px;
-      border-bottom-left-radius: 5px;
-    }
-    .option:not(:last-child) { border-bottom: 1px solid $gray-300; }
-    .option.active,
-    .option:hover { background-color: $gray-200; }
-  }
-  .select-expand.active {
-    top: 2.1rem;
-    visibility: visible;
-  }
-}
-
 .select-container:not(:last-child) { margin-right: 0.75rem; }
 .select-container.disabled {
   pointer-events: none;

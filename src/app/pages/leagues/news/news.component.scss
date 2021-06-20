@@ -1,0 +1,9 @@
+@import '../leagues.component.scss';
+
+.main-section-container {
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr;
+  padding-top: 2rem;
+
+  .main-content { padding: 0; }
+}

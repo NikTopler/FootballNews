@@ -1,18 +1,117 @@
-.logo{
-    width: 20px;
-    height: 20px;
-    margin: 10px;
+@import '../../../styles.scss';
+
+.latest-news-container {
+  width: 100%;
+  padding: 4rem 0 1.5rem 0;
+  display: flex;
+  justify-content: center;
+
+  .outer { position: relative; }
+
+  .content {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    width: calc(15.75rem * 4 + 2rem * 4);
+    overflow: hidden;
   }
-  .card{
 
-    margin-bottom: 20px;
-
+  .arrow.left, .arrow.right {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    margin: auto 0;
+    border-radius: 50%;
+    background-color: $gray-300;
+    height: 36px;
+    width: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all ease-in-out .2s;
+    cursor: pointer;
   }
 
-  .card-title{
+  .arrow.left:hover, .arrow.right:hover { background-color: $gray-400; }
 
-    font-weight: bold;
+  .arrow.left {
+    left: -3rem;
+    svg { transform: rotate(180deg); }
+  }
+  .arrow.right { right: -3rem; }
 
+  aside {
+    position: absolute;
+    top: -2rem;
+    left: 1rem;
+    span {
+      font-size: 0.9rem;
+      height: auto;
+      padding: 4px 8px;
+    }
   }
 
+  .news-article {
+    display: flex;
+    flex-direction: column;
+    min-width: 15.75rem;
+    height: 5rem;
+    padding: 0 1rem;
+    cursor: pointer;
+    transition: all ease-in-out .3s;
+    border-right: 1px solid $gray-300;
+
+    header {
+      padding: 0.5rem 0;
+      span { font-size: 0.8rem; }
+    }
+    p { font-weight: 500; }
+  }
+  .news-article:hover p { text-decoration: underline; }
+}
+
+.shadow {
+  position: absolute;
+  z-index: 500;
+  bottom: 0;
+  content: " ";
+  pointer-events: none;
+  top: 0;
+  width: 10%;
+}
+.shadow.right {
+  right: 0;
+  background: linear-gradient(90deg, hsla(0, 0%, 100%, 0), rgb(255, 255, 255));
+}
+.shadow.left {
+  left: 0;
+  background: linear-gradient(-90deg, hsla(0, 0%, 100%, 0), rgb(255, 255, 255));
+}
+
+.page.gray { pointer-events: none; }
+
+hr {
+  width: 100%;
+  border: none;
+  border-bottom: 2px solid $gray-300;
+  margin: 1.5rem 0;
+}
+
+@media screen and (max-width: 1250px) {
+  .latest-news-container .content {
+    width: calc(15.75rem * 3 + 2rem * 3);
+  }
+}
+
+@media screen and (max-width: 1000px) {
+  .latest-news-container {
+    .content { width: calc(15.75rem * 2 + 2rem * 2);
+      .news-article { max-width: 10.75rem; }
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .latest-news-container { display: none; }
+}
 

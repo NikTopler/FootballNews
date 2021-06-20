@@ -16,7 +16,7 @@ export class EditorComponent {
 
   constructor(private editorService: EditorService) {
     this.editorService.getLoading()
-      .subscribe((data) => { this.loading = data; console.log(data) })
+      .subscribe((data) => this.loading = data)
   }
 
   get getBlinkingCursorElement() { return document.querySelector('.blinking-cursor') as HTMLDivElement }

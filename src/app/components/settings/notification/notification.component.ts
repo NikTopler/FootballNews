@@ -17,7 +17,7 @@ export class NotificationComponent {
   subscribed: boolean = Number(this.app.userInfo.emailingService) === 0 ? false : true;
 
   allLeagues: string[] = [];
-  followingLeagues: string[] = [];
+  followingLeagues: any = [];
 
   constructor(
     private app: AppComponent,
@@ -27,13 +27,15 @@ export class NotificationComponent {
     private SettingsComponent: SettingsComponent,
     private appComponent: AppComponent) {
       this.getAllLeagues();
-      this.getFollowList();
-      this.userService.getUserData().subscribe((data) => { this.userInfo = data; })
+      this.userService.getUserData().subscribe((userInfo) => {
+        this.userInfo = userInfo;
+        this.followingLeagues = userInfo.following;
+      })
     }
 
   async emailingService() {
 
-    this.appComponent.waitForResponse = true;
+    this.comm.setWaitForResponse(true);
 
     const isUserValidated = await this.validateUser();
     if(!isUserValidated) return location.reload();
@@ -48,7 +50,7 @@ export class NotificationComponent {
     this.userService.updateUserData('notifications')
       .then((res) => { if(!res) this.authenticationService.logout(); })
     this.SettingsComponent.createMessage(true, this.subscribed ? 'You have subscribed to our email service' : 'You have unsubscribed to our email service', 'notification');
-    this.appComponent.waitForResponse = false;
+    this.comm.setWaitForResponse(false);
   }
 
   async validateUser() {
@@ -75,32 +77,18 @@ export class NotificationComponent {
       this.allLeagues.push(leagues[i][0]);
   }
 
-  async getFollowList() {
-
-    const isUserValidated = await this.validateUser();
-    if(!isUserValidated) return location.reload();
-
-    const email = JSON.stringify({ "email": this.userInfo.email });
-    const req = await fetch(`${environment.db}/update.php`, {
-      method: 'POST',
-      body: this.comm.createFormData('GET_USER_FOLLOWS', email)
-    });
-    const res = await req.text();
-
-    this.followingLeagues = JSON.parse(res).leagues;
-  }
-
-  compareLeagues(league: string, array: string[]) {
+  compareLeagues(league: string, array: any[]) {
     for(let i = 0; i < array.length; i++)
-      if(league.toLowerCase() === array[i].toLowerCase())
+      if(league.toLowerCase() === array[i].name.toLowerCase())
         return true;
     return false;
   }
 
   async manageFollowLeagues(e: any, league: string) {
+    this.comm.setWaitForResponse(true);
     let follow: string = 'FOLLOW_LEAGUE';
 
-    if(e.target.innerHTML === 'Unfollow') follow = 'UNFOLLOW_LEAGUE';
+    if(e.target.innerHTML.trim() === 'Unfollow') follow = 'UNFOLLOW_LEAGUE';
 
     const isUserValidated = await this.validateUser();
     if(!isUserValidated) return location.reload();
@@ -110,7 +98,11 @@ export class NotificationComponent {
       method: 'POST',
       body: this.comm.createFormData(follow, email)
     });
-    const res = await req.text();
-    this.getFollowList();
+
+    this.userService.updateUserData('follow')
+      .then((res) => {
+        this.comm.setWaitForResponse(false);
+        if(!res) this.authenticationService.logout();
+      })
   }
 }

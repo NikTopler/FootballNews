@@ -1,22 +1,18 @@
-<app-external
-  (loginPopup)="socialLoginPopup = $event"
-  *ngIf="socialLoginPopup"></app-external>
+<app-external *ngIf="socialLoginPopup"></app-external>
 <div
   *ngIf="socialLoginPopup"
   class="overlay active"></div>
+<div class="main-app-content {{ socialLoginPopup ? 'hidden' : '' }}" *ngIf="!reload">
+  <app-navbar></app-navbar>
+  <div class="router-content">
+    <router-outlet></router-outlet>
+  </div>
+  <app-footer *ngIf="isLoaded && showFooter"></app-footer>
+</div>
+<app-download *ngIf="downloadOpen"></app-download>
 <mat-progress-bar
   *ngIf="waitForResponse"
   mode="indeterminate"
   color="accent"
   class="progress-bar">
 </mat-progress-bar>
-<main class="main-content" *ngIf="!reload">
-  <app-navbar
-    (loginPopup)="socialLoginPopup = $event"
-    [userInfo]="userInfo"
-    [loggedIn]="loggedIn"></app-navbar>
-  <div class="router-content">
-    <router-outlet></router-outlet>
-  </div>
-</main>
-<app-download *ngIf="downloadOpen"></app-download>

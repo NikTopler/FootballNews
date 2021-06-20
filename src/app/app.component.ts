@@ -5,6 +5,8 @@ import { CommService } from 'src/app/services/comm/comm.service';
 import { AuthenticationService } from './services/authentication/authentication.service';
 import { UserService } from './services/user/user.service';
 import { DownloadService } from './services/download/download.service';
+import { Router } from '@angular/router';
+import { LeagueService } from './services/league/league.service';
 
 @Component({
   selector: 'app-root',
@@ -19,16 +21,20 @@ export class AppComponent {
   loggedIn: boolean = false;
   socialLoginPopup: boolean = false;
   reload: boolean = false;
-  slp: number = 0;
   waitForResponse: boolean = false;
   downloadOpen: boolean = false;
 
+  isLoaded: boolean = true;
+  showFooter: boolean = false;
+
   constructor(
+    private router: Router,
     private socialAuthService: SocialAuthService,
     private comm: CommService,
     private authenticationService: AuthenticationService,
     private userService: UserService,
-    private downloadService: DownloadService) {
+    private downloadService: DownloadService,
+    private leagueService: LeagueService) {
     this.socialAuthService.authState.subscribe((user) => {
       this.userInfo = user.provider !== 'AMAZON' ? user : {
         "id": user.id,
@@ -43,37 +49,43 @@ export class AppComponent {
       if(this.loggedIn) this.socialLogin(this.userInfo);
     });
     Promise.resolve(this.checkAuthentication())
-    this.userService.getUserData().subscribe((data) => { this.userInfo = data; })
-    this.downloadService.getIsOpen().subscribe((val) => { this.downloadOpen = val; });
+    comm.getExternalLogin().subscribe((data) => { this.socialLoginPopup = data })
+    userService.getUserData().subscribe((data) => { this.userInfo = data });
+    downloadService.getIsOpen().subscribe((val) => { this.downloadOpen = val });
+    comm.getIsLoaded().subscribe((data) => { this.isLoaded = data });
+    comm.getWaitForResponse().subscribe((data) => { this.waitForResponse = data });
+    router.events.subscribe(() => { this.showFooter = !router.url.includes('settings') });
   }
 
   async checkAuthentication() {
     this.reload = true;
-    this.waitForResponse = true;
+    this.comm.setWaitForResponse(true);
 
     const res = await this.userService.validateUser();
 
     if(res.status === 401 && res.body.includes('Refresh')) {
       this.reload = false;
-      this.waitForResponse = false;
+      this.comm.setWaitForResponse(false);
       return;
     }
     else if(res.status === 401 && res.body.includes('Access')) return this.authenticationService.logout();
     else if(res.status === 404) this.checkAuthentication();
 
-    if(res.body.data.data.email) {
-      this.userService.setUserData(res.body.data.data);
-      this.loggedIn = true;
-      this.waitForResponse = false;
-      this.reload = false;
-    } else this.authenticationService.logout();
+    if(res.body.data) {
+      if(res.body.data.data.email) {
+        this.userService.setUserData(res.body.data.data);
+        this.loggedIn = true;
+        this.comm.setWaitForResponse(false);
+        this.reload = false;
+      } else this.authenticationService.logout();
+    }
   }
 
   async socialLogin(
     {id, firstName, lastName, email ,photoUrl, provider} :
     {id: string, firstName: string, lastName: string, email: string, photoUrl: string, provider: string}
   ) {
-    this.waitForResponse = true;
+    this.comm.setWaitForResponse(true);
     const userInfo = JSON.stringify(Object.values({id, firstName, lastName, email, photoUrl, provider}));
     const req = await fetch(`${environment.db}/insert.php`, {
       method: 'POST',
@@ -88,7 +100,7 @@ export class AppComponent {
     this.userService.deleteCookie('refreshToken', '/');
     this.userService.setCookie('refreshToken', JSON.parse(res).refreshToken, 5, '/');
 
-    this.waitForResponse = false;
+    this.comm.setWaitForResponse(false);
     this.loggedIn = true;
 
     this.userService.setUserData(JSON.parse(res).data);

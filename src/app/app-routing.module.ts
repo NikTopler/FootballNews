@@ -11,24 +11,16 @@ import { ImportComponent } from './components/settings/admin/import/import.compo
 import { AdminPanelComponent } from './components/settings/admin/admin-panel/admin-panel.component';
 import { DisplayComponent } from './components/settings/admin/display/display.component';
 import { ImportsComponent } from './components/settings/admin/insight/imports/imports.component';
-import { LaligaComponent } from './pages/laliga/laliga.component';
-import { LaligaNewsComponent } from './pages/laliga-news/laliga-news.component';
-import { LaligaStandingsComponent } from './pages/laliga-standings/laliga-standings.component';
-import { PremiereLeagueNewsComponent } from './pages/premiere-league-news/premiere-league-news.component';
-import { PremiereLeagueComponent } from './pages/premiere-league/premiere-league.component';
-import { PremiereLeagueStandingsComponent } from './pages/premiere-league-standings/premiere-league-standings.component';
 import { EmailComponent } from './components/settings/admin/email/email.component';
 import { CustomEmailsComponent } from './components/settings/admin/insight/custom-emails/custom-emails.component';
+import { SearchComponent } from './pages/search/search.component';
+import { LeaguesComponent } from './pages/leagues/leagues.component';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'home' },
   { path: 'home', component: HomeComponent },
-  { path: 'laliga', component: LaligaComponent },
-  { path: 'news/laliga', component: LaligaNewsComponent },
-  { path: 'standings/laliga', component: LaligaStandingsComponent },
-  { path: 'premiere-league', component: PremiereLeagueComponent },
-  { path: 'news/premiere-league', component: PremiereLeagueNewsComponent },
-  { path: 'standings/premiere-league', component: PremiereLeagueStandingsComponent },
+  { path: 'search', component: SearchComponent },
+  { path: 'leagues/:league/:type', component: LeaguesComponent },
   { path: 'settings', component: SettingsComponent, canActivate: [UserGuard], children: [
     { path: '', pathMatch: 'full', redirectTo: 'account'},
     { path: 'account', component: AccountComponent },

@@ -1,6 +1,6 @@
-import { Component, Output, EventEmitter, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AuthenticationService } from 'src/app/services/authentication/authentication.service';
-import { AppComponent } from '../../../app.component';
+import { CommService } from 'src/app/services/comm/comm.service';
 
 @Component({
   selector: 'app-external',
@@ -9,27 +9,33 @@ import { AppComponent } from '../../../app.component';
 })
 export class ExternalComponent implements OnInit {
 
+  open: boolean = false;
+  slp: boolean = false;
+
   constructor(
     private authentication: AuthenticationService,
-    private app: AppComponent) { }
+    private comm: CommService) {
+      comm.getExternalLogin().subscribe((data) => { this.open = data; })
+      comm.getSlp().subscribe((data) => { this.slp = data; })
+    }
 
-  ngOnInit() {
-    const extraSocialLogin = document.querySelector('.external-social-login') as HTMLDivElement;
-    const loginBtn = document.getElementById('login-btn') as HTMLDivElement;
+  ngOnInit() { this.setupEvents(); }
+
+  setupEvents() {
+    const clickDismissArray = document.querySelectorAll('.eld');
+
     window.addEventListener('click', () => {
-      if(this.app.socialLoginPopup && this.app.slp !== 0) this.loginPopup.emit(false)
-      else this.app.slp = 1;
+      if(this.open && this.slp) this.comm.setExternalLogin(false);
+      else this.comm.setSlp(true);
     });
-    extraSocialLogin.addEventListener('click', (e) => e.stopPropagation());
-    loginBtn.addEventListener('click', (e) => e.stopPropagation());
-  }
 
-  @Output() loginPopup = new EventEmitter<boolean>();
-  @Output() social = new EventEmitter();
+    for(let i = 0; i < clickDismissArray.length; i++)
+      clickDismissArray[i].addEventListener('click', (e) => e.stopPropagation());
+  }
 
   google(): void { this.authentication.loginWithGoogle(); }
   facebook(): void { this.authentication.loginWithFacebook(); }
   amazon(): void { this.authentication.loginWithAmazon(); }
 
-  openLogin(val: boolean) { this.loginPopup.emit(val); }
+  openLogin(val: boolean) { this.comm.setExternalLogin(val); }
 }
