@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CommService } from 'src/app/services/comm/comm.service';
 import { SearchService } from 'src/app/services/search/search.service';
 import { UserService } from 'src/app/services/user/user.service';
@@ -19,16 +19,18 @@ export class SearchComponent {
 
   constructor(
     private router: Router,
+    private route: ActivatedRoute,
     private comm: CommService,
     private userService: UserService,
     private searchService: SearchService
     ) {
       searchService.getsearchArticleArray()
-        .subscribe((data) => { this.searchArticleArray = data; })
+        .subscribe((data) => this.searchArticleArray = data);
       userService.getUserData()
-        .subscribe((userInfo) => { this.following = userInfo.following; })
+        .subscribe((userInfo) => this.following = userInfo.following);
       comm.setIsLoaded(true);
       this.getAllLeagues();
+      this.route.queryParams.subscribe(params => this.searchService.fetchNews(params['q']) );
     }
 
   async getAllLeagues() { this.allLeagues = await this.comm.getAllLeagues(); }
@@ -42,5 +44,5 @@ export class SearchComponent {
   }
 
   openLink(url: string) { window.open(url); }
-  openPage(page: string) { this.router.navigateByUrl(page); }
+  openPage(page: string) { this.router.navigateByUrl(`leagues/${page}/standings`); }
 }

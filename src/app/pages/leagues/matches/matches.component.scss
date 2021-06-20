@@ -1,0 +1,67 @@
+@import '../leagues.component.scss';
+
+.main-match-container {
+  padding: 0;
+
+  header.main {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    background-color: $gray-150;
+    border-bottom: 1px solid $gray-200;
+
+    .content {
+      position: relative;
+      padding: 0.5rem 1rem;
+      display: flex;
+      flex-direction: column;
+      cursor: pointer;
+      transition: ease-in .1s;
+
+      span {
+        display: flex;
+        align-items: center;
+      }
+      .season {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        span {
+          font-size: 0.9rem;
+          font-weight: 500;
+          justify-content: center;
+          color: $pink-500;
+          margin-right: 0.25rem;
+        }
+        svg { transform: rotate(90deg); }
+      }
+      .select-expand {
+        width: 95%;
+        top: 90%;
+      }
+      .select-expand.active { top: 95%; }
+    }
+  }
+  .content-container {
+    background-color: $gray-100;
+
+    .team-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    img {
+      width: 1.5rem;
+      height: 1.5rem;
+      margin-right: 0.5rem;
+    }
+    .team {
+      font-size: 1rem;
+    }
+
+    td {
+      padding: 1rem ;
+    }
+  }
+}

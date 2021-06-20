@@ -1,18 +1,21 @@
-import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthenticationService } from 'src/app/services/authentication/authentication.service';
 import { CommService } from 'src/app/services/comm/comm.service';
+import { LeagueService } from 'src/app/services/league/league.service';
 import { SearchService } from 'src/app/services/search/search.service';
 import { UserService } from 'src/app/services/user/user.service';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
-  styleUrls: ['./navbar.component.scss']
+  styleUrls: ['./navbar.component.scss'],
 })
-export class NavbarComponent implements OnInit{
+export class NavbarComponent implements AfterViewInit{
 
   isLoggedIn: boolean = false;
+  isLeaguesOpen: boolean = false;
 
   suggestionOpen: boolean = false;
   suggestionArray: string[] = [];
@@ -25,20 +28,38 @@ export class NavbarComponent implements OnInit{
 
   query: string = '';
 
+  league: string = '';
+  userInfo: any;
+  following: any = [];
+
+  leaguesOptions: any[] = [];
+
   constructor(
     private router: Router,
     private comm: CommService,
     private route: ActivatedRoute,
     private authenticationService: AuthenticationService,
     private searchService: SearchService,
-    private userService: UserService) {
+    private userService: UserService,
+    private leagueService: LeagueService,
+    private cdr: ChangeDetectorRef) {
       this.pageManagment('refresh');
       router.events.subscribe(() => this.pageManagment('change-page'));
-      userService.getUserData().subscribe((data) => { this.isLoggedIn = data.id ? true : false; })
-
+      userService.getUserData().subscribe((data) => {
+        this.isLoggedIn = data.id ? true : false;
+        this.userInfo = data;
+        this.following = data.following;
+      });
+      leagueService.getOpenLeague().subscribe((data) => this.league = data );
+      leagueService.getLeagueOptions().subscribe((data) => this.leaguesOptions = data);
     }
 
-  ngOnInit() { this.setElementEvents(); }
+  ngAfterViewInit() {
+    if(this.router.url.includes('home') || this.router.url.includes('search'))
+      this.setElementEvents();
+    else this.leagueService.setActivePage();
+    this.cdr.detectChanges();
+  }
 
   openLogin(val: boolean) { this.comm.setExternalLogin(val); }
 
@@ -48,6 +69,7 @@ export class NavbarComponent implements OnInit{
 
   pageManagment(type: string) {
     this.isAccountPageOpen = this.router.url.includes('settings');
+    this.isLeaguesOpen = this.router.url.includes('leagues');
 
     let value = this.route.snapshot.queryParamMap.get('q');
     this.query = value ? value : '';
@@ -63,7 +85,6 @@ export class NavbarComponent implements OnInit{
   setElementEvents() {
 
     let suggestTimeout: any = null;
-
     this.getSuggestContainer.onmouseenter = () => { this.isMouseOverSuggest = true; }
     this.getSuggestContainer.onmouseleave = () => { this.isMouseOverSuggest = false; }
 
@@ -116,6 +137,62 @@ export class NavbarComponent implements OnInit{
       .then(() => { this.comm.setWaitForResponse(false); })
 
     return;
+  }
+
+  changePage(name: string) {
+    this.router.navigateByUrl(`leagues/${this.league}/${name}`)
+      .then(() => this.leagueService.setActivePage())
+  }
+
+  doesUserFollow() {
+    if(!this.isLoggedIn) return 'Follow';
+
+    for(let i = 0; i < this.following.length; i++)
+      if(this.following[i].name.toLowerCase() === this.league.replace('-', ' '))
+        return 'Unfollow';
+    return 'Follow';
+  }
+
+  async validateUser() {
+    const userValidation = await this.userService.validateUser();
+
+    if(userValidation.status === 401 && userValidation.body.includes('Refresh'))
+      return location.reload();
+    else if(userValidation.status === 401 && userValidation.body.includes('Access'))
+      return this.authenticationService.logout();
+    else if(userValidation.status === 404)
+      return false;
+    return true;
+  }
+
+  async manageFollow(e: any, league: string) {
+
+    if(!this.isLoggedIn) return this.comm.setExternalLogin(true);
+
+    this.comm.setWaitForResponse(true);
+
+    let follow: string = 'FOLLOW_LEAGUE';
+    if(e.target.innerHTML.trim() === 'Unfollow')
+      follow = 'UNFOLLOW_LEAGUE';
+
+    league = this.comm.leagueNameChange(league);
+
+    const isUserValidated = await this.validateUser();
+    if(!isUserValidated) return location.reload();
+
+    const email = JSON.stringify({ "email": this.userInfo.email, "leagueName": league });
+    const req = await fetch(`${environment.db}/update.php`, {
+      method: 'POST',
+      body: this.comm.createFormData(follow, email)
+    });
+
+    this.userService.updateUserData('follow')
+      .then((res) => {
+        this.comm.setWaitForResponse(false);
+        if(!res) this.authenticationService.logout();
+      })
+
+    this.comm.setWaitForResponse(false);
   }
 }
 

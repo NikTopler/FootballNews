@@ -61,4 +61,26 @@ export class CommService {
     return allLeagues;
   }
 
+  leagueNameChange(league: string) {
+    if(league.includes('laliga')) return 'Laliga';
+    else if(league.includes('premier')) return 'Premier League';
+    return '';
+  }
+
+  changeOption(text: string, id: string, array: any[], selectOpen: boolean) {
+    for(let i = 0; i < array.length; i++)
+      if(array[i].text === text) array[i].active = true;
+      else array[i].active = false;
+    this.manageSelect(id, selectOpen);
+  }
+
+  manageSelect(id: string, selectOpen: boolean) {
+    const expandContainer = this.getSelectContainer(id).querySelector('.select-expand') as HTMLDivElement;
+
+    if(selectOpen) expandContainer.classList.add('active');
+    else expandContainer.classList.remove('active');
+  }
+
+  getSelectContainer(id: string) { return document.getElementById(id) as HTMLDivElement; }
+
 }
