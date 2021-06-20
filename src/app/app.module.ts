@@ -36,15 +36,9 @@ import { SocialLoginModule, SocialAuthServiceConfig, GoogleLoginProvider, Facebo
 import { environment } from '../environments/environment';
 
 import { ChartsModule } from 'ng2-charts';
-import { LaligaComponent } from './pages/laliga/laliga.component';
 
 import { HttpClientModule } from '@angular/common/http';
 import { MatNativeDateModule } from '@angular/material/core';
-import { LaligaNewsComponent } from './pages/laliga-news/laliga-news.component';
-import { LaligaStandingsComponent } from './pages/laliga-standings/laliga-standings.component';
-import { PremiereLeagueComponent } from './pages/premiere-league/premiere-league.component';
-import { PremiereLeagueNewsComponent } from './pages/premiere-league-news/premiere-league-news.component';
-import { PremiereLeagueStandingsComponent } from './pages/premiere-league-standings/premiere-league-standings.component';
 import { EmailComponent } from './components/settings/admin/email/email.component';
 import { CustomEmailsComponent } from './components/settings/admin/insight/custom-emails/custom-emails.component';
 import { FooterComponent } from './components/footer/footer.component';
@@ -73,12 +67,6 @@ import { MatchesComponent } from './pages/leagues/matches/matches.component';
     AdminPanelComponent,
     DisplayComponent,
     ImportsComponent,
-    LaligaComponent,
-    LaligaNewsComponent,
-    LaligaStandingsComponent,
-    PremiereLeagueComponent,
-    PremiereLeagueNewsComponent,
-    PremiereLeagueStandingsComponent,
     DownloadComponent,
     EditorComponent,
     EmailComponent,
