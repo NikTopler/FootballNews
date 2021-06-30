@@ -139,14 +139,14 @@ class Update extends User {
   }
 
   public function emailingSubscription($data) {
-    $sql = 'UPDATE users SET emailingService = ? WHERE email = ?';
+    $sql = 'UPDATE settings SET emailingService = ? WHERE user_id = (SELECT id FROM users WHERE email = ?)';
     $stmt = $this->connect()->prepare($sql);
     $stmt->execute([$data->subscription, $data->email]);
   }
 
   public function getWhoUserFollows($data) {
     $sql = 'SELECT l.name AS leagueName
-            FROM follow f
+            FROM follows f
             INNER JOIN users u ON f.user_id = u.id
             INNER JOIN leagues l ON f.league_id = l.id
             WHERE u.email = ?';
@@ -166,7 +166,7 @@ class Update extends User {
 
   public function followLeague($data) {
 
-    $sql = 'SELECT id FROM follow WHERE user_id = (SELECT id FROM users WHERE email = ?) AND league_id = (SELECT id FROM leagues WHERE name = ?) ';
+    $sql = 'SELECT id FROM follows WHERE user_id = (SELECT id FROM users WHERE email = ?) AND league_id = (SELECT id FROM leagues WHERE name = ?) ';
     $stmt = $this->connect()->prepare($sql);
     $stmt->execute([$data->email, $data->leagueName]);
 
@@ -175,13 +175,13 @@ class Update extends User {
     if($row) die;
 
     $date = date(time());
-    $sql = 'INSERT INTO follow(user_id, league_id, time) VALUES ((SELECT id FROM users WHERE email = ?), (SELECT id FROM leagues WHERE name = ?), ?)';
+    $sql = 'INSERT INTO follows(user_id, league_id, time) VALUES ((SELECT id FROM users WHERE email = ?), (SELECT id FROM leagues WHERE name = ?), ?)';
     $stmt = $this->connect()->prepare($sql);
     $stmt->execute([$data->email, $data->leagueName, $date]);
   }
 
   public function unFollowLeague($data) {
-    $sql = 'DELETE FROM follow WHERE user_id = (SELECT id FROM users WHERE email = ?) AND league_id = (SELECT id FROM leagues WHERE name = ?) ';
+    $sql = 'DELETE FROM follows WHERE user_id = (SELECT id FROM users WHERE email = ?) AND league_id = (SELECT id FROM leagues WHERE name = ?)';
     $stmt = $this->connect()->prepare($sql);
     $stmt->execute([$data->email, $data->leagueName]);
   }

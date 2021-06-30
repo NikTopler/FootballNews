@@ -18,19 +18,16 @@ class TeamsCRON extends SeasonCRON {
 
     for($i = 0; $i < count($teams); $i++) {
 
-      $sql = 'SELECT * FROM teams WHERE team_id = ?';
+      $sql = 'SELECT * FROM teams WHERE id = ?';
       $stmt = $this->connect()->prepare($sql);
       $stmt->execute([$teams[$i]->team_id]);
       $row = $stmt->fetch();
 
       if($row) continue;
 
-      try {
-        $sql = 'INSERT INTO teams(name, team_id, short_code, logo, country_id)
-                VALUES(?,?,?,?,(SELECT id FROM countries WHERE country_id = ?))';
-        $stmt = $this->connect()->prepare($sql);
-        $stmt->execute([$teams[$i]->name, $teams[$i]->team_id, $teams[$i]->short_code, $teams[$i]->logo, $teams[$i]->country->country_id]);
-      } catch(Exception $e) { echo $e; }
+      $sql = 'INSERT INTO teams(id, country_id, name, shortCode, logo) VALUES(?,?,?,?,?)';
+      $stmt = $this->connect()->prepare($sql);
+      $stmt->execute([$teams[$i]->team_id, $teams[$i]->country->country_id, $teams[$i]->name, $teams[$i]->short_code, $teams[$i]->logo]);
     }
   }
 
@@ -43,7 +40,7 @@ class TeamsCRON extends SeasonCRON {
       json_encode(array_push(
         $countryArray,
         (object) array(
-          "id" => $row['country_id'],
+          "id" => $row['id'],
           "name" => $row['name']
         )
       ));

@@ -21,17 +21,34 @@ class User extends Dbh {
     else return 2;
   }
 
-  public function getUserData($email) {
-    $sql = 'SELECT * FROM users WHERE email = ?';
+  public function getUserData($type, $data) {
+    $sql = 'SELECT
+      u.id AS id,
+      u.firstName as firstName,
+      u.lastName as lastName,
+      u.email as email,
+      u.admin as admin,
+      u.createdAt as createdAt,
+      u.updatedAt as updatedAt,
+      u.profileImg as profileImg,
+      u.googleID as googleID,
+      u.facebookID as facebookID,
+      u.amazonID as amazonID,
+      u.refreshToken as refreshToken,
+      s.safeImport as safeImport,
+      s.editImport as editImport,
+      s.emailingService as emailingService
+    FROM users u INNER JOIN settings s ON u.id = s.user_id
+    WHERE u.'.$type.' = ?';
     $stmt = $this->connect()->prepare($sql);
-    $stmt->execute([$email]);
+    $stmt->execute([$data]);
     $row = $stmt->fetch();
 
-    $sql = 'SELECT * FROM follow f
+    $sql = 'SELECT * FROM follows f
       INNER JOIN leagues l ON l.id = f.league_id
-      WHERE user_id = (SELECT id FROM users WHERE email = ?)';
+      WHERE user_id = (SELECT id FROM users WHERE '.$type.' = ?)';
     $stmt = $this->connect()->prepare($sql);
-    $stmt->execute([$email]);
+    $stmt->execute([$data]);
 
     $followLeagueArray = [];
     while($follows = $stmt->fetch()) {
@@ -44,46 +61,33 @@ class User extends Dbh {
       );
     }
 
-    return [
-      $row['id'],
-      $row['firstName'],
-      $row['lastName'],
-      $row['email'],
-      $row['admin'],
-      $row['createdAt'],
-      $row['updatedAt'],
-      $row['profileImg'],
-      $row['googleID'],
-      $row['facebookID'],
-      $row['amazonID'],
-      $row['refreshToken'],
-      $row['safeImport'],
-      $row['editImport'],
-      $row['emailingService'],
-      $followLeagueArray
-    ];
+    $userArray = array(
+      "id" => $row['id'],
+      "firstName" => $row['firstName'],
+      "lastName" => $row['lastName'],
+      "email" => $row['email'],
+      "admin" =>  $row['admin'],
+      "createdAt" => $row['createdAt'],
+      "updatedAt" =>  $row['updatedAt'],
+      "profileImg" => $row['profileImg'],
+      "googleID" =>  $row['googleID'],
+      "facebookID" =>  $row['facebookID'],
+      "amazonID" =>  $row['amazonID'],
+      "safeImport" => $row['safeImport'],
+      "editImport" =>  $row['editImport'],
+      "emailingService" =>  $row['emailingService'],
+      "following" =>  $followLeagueArray
+    );
+
+    return $userArray;
   }
 
   public function generateTokens($userInfo) {
 
-    $data = array(
-      "id" => $userInfo[0],
-      "firstName" => $userInfo[1],
-      "lastName" => $userInfo[2],
-      "email" => $userInfo[3],
-      "admin" => $userInfo[4],
-      "createdAt" => $userInfo[5],
-      "updatedAt" => $userInfo[6],
-      "profileImg" => $userInfo[7],
-      "googleID" => $userInfo[8],
-      "facebookID" => $userInfo[9],
-      "amazonID" => $userInfo[10],
-      "emailingService" => $userInfo[14],
-      "following" => $userInfo[15]
-    );
+    $object = (object) $userInfo;
 
     $jwtAccessToken = $this->generateAccessToken($userInfo);
-    $jwtRefreshToken = $this->generateRefreshToken($userInfo[0]);
+    $jwtRefreshToken = $this->generateRefreshToken($object->id);
 
     http_response_code(200);
 
@@ -91,8 +95,8 @@ class User extends Dbh {
       "status" => "ok",
       "jwt" => $jwtAccessToken,
       "refreshToken" => $jwtRefreshToken,
-      "id" => $userInfo[0],
-      "data" => $data,
+      "id" => $object->id,
+      "data" => $userInfo,
       "message" => "User session has started"
     ));
   }
@@ -132,73 +136,13 @@ class User extends Dbh {
   }
 
   public function regenerateAccessToken($refreshToken) {
-
-    $sql = 'SELECT * FROM users WHERE refreshToken = ?';
-    $stmt = $this->connect()->prepare($sql);
-    $stmt->execute([$refreshToken]);
-    $row = $stmt->fetch();
-
-    $sql = 'SELECT * FROM follow f
-      INNER JOIN leagues l ON l.id = f.league_id
-      WHERE user_id = (SELECT id FROM users WHERE refreshToken = ?)';
-    $stmt = $this->connect()->prepare($sql);
-    $stmt->execute([$refreshToken]);
-
-    $followLeagueArray = [];
-    while($follows = $stmt->fetch()) {
-      array_push(
-        $followLeagueArray,
-        array(
-          "name" => $follows['name'],
-          "time" => $follows['time']
-        )
-      );
-    }
-
-    // if(!$row) $this->response(403, 'Login reqired');
-
-    $newAccessToken = $this->generateAccessToken([
-      $row['id'],
-      $row['firstName'],
-      $row['lastName'],
-      $row['email'],
-      $row['admin'],
-      $row['createdAt'],
-      $row['updatedAt'],
-      $row['profileImg'],
-      $row['googleID'],
-      $row['facebookID'],
-      $row['amazonID'],
-      $row['refreshToken'],
-      $row['safeImport'],
-      $row['editImport'],
-      $row['emailingService'],
-      $followLeagueArray
-    ]);
-
+    $userData = $this->getUserData('refreshToken', $refreshToken);
+    $newAccessToken = $this->generateAccessToken($userData);
     echo $newAccessToken;
   }
 
   public function generateAccessToken($userInfo) {
     include 'config/core.php';
-
-    $data = array(
-      "id" => $userInfo[0],
-      "firstName" => $userInfo[1],
-      "lastName" => $userInfo[2],
-      "email" => $userInfo[3],
-      "admin" => $userInfo[4],
-      "createdAt" => $userInfo[5],
-      "updatedAt" => $userInfo[6],
-      "profileImg" => $userInfo[7],
-      "googleID" => $userInfo[8],
-      "facebookID" => $userInfo[9],
-      "amazonID" => $userInfo[10],
-      "safeImport" => $userInfo[12],
-      "editImport" => $userInfo[13],
-      "emailingService" => $userInfo[14],
-      "following" => $userInfo[15]
-    );
 
     $payload_info = array(
       "iss" => $iss,
@@ -206,7 +150,7 @@ class User extends Dbh {
       "nbf" => $nbf,
       "exp" => $exp,
       "aud" => $aud,
-      "data" => $data
+      "data" => $userInfo
     );
 
     try { return JWT::encode($payload_info, $secret, 'HS512'); }
@@ -232,34 +176,32 @@ class User extends Dbh {
   public function updateAccount($userInfo) {
     $sql = 'UPDATE users SET firstName = ? WHERE email = ?';
     $stmt = $this->connect()->prepare($sql);
-    $stmt->execute([$userInfo[0], $userInfo[2]]);
+    $stmt->execute([$userInfo->firstName, $userInfo->email]);
 
     $sql = 'UPDATE users SET lastName = ? WHERE email = ?';
     $stmt = $this->connect()->prepare($sql);
-    $stmt->execute([$userInfo[1], $userInfo[2]]);
+    $stmt->execute([$userInfo->lastName, $userInfo->email]);
 
     $date = date(time());
     $sql = 'UPDATE users SET updatedAt = ? WHERE email = ?';
     $stmt = $this->connect()->prepare($sql);
-    $stmt->execute([$date, $userInfo[2]]);
-
-    die;
+    $stmt->execute([$date, $userInfo->email]);
   }
 
   public function safeImport($userInfo) {
-    if((int)$userInfo[1] == 0) $this->editImport([$userInfo[0], $userInfo[1]]);
+    if((int)$userInfo->preference == 0) $this->editImport($userInfo);
 
-    $sql = 'UPDATE users SET safeImport = ? WHERE email = ?';
+    $sql = 'UPDATE settings SET safeImport = ? WHERE user_id = (SELECT id FROM users WHERE email = ?)';
     $stmt = $this->connect()->prepare($sql);
-    $stmt->execute([(int)$userInfo[1], $userInfo[0]]);
+    $stmt->execute([(int)$userInfo->preference, $userInfo->email]);
   }
 
   public function editImport($userInfo) {
-    if((int)$userInfo[1] == 1) $this->safeImport([$userInfo[0], $userInfo[1]]);
+    if((int)$userInfo->preference == 1) $this->safeImport($userInfo);
 
-    $sql = 'UPDATE users SET editImport = ? WHERE email = ?';
+    $sql = 'UPDATE settings SET editImport = ? WHERE user_id = (SELECT id FROM users WHERE email = ?)';
     $stmt = $this->connect()->prepare($sql);
-    $stmt->execute([(int)$userInfo[1], $userInfo[0]]);
+    $stmt->execute([(int)$userInfo->preference, $userInfo->email]);
   }
 
   public function response($code, $status, $text = '') {

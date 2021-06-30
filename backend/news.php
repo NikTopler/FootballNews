@@ -9,25 +9,25 @@ class News extends User {
     $stmt = $this->connect()->prepare($sql);
     $stmt->execute();
     $row = $stmt->fetch();
-    $latestNews = $row['news'];
+    $latestNews = $row['data'];
 
-    $sql = 'SELECT * FROM news WHERE type = "laliga" ORDER BY time DESC';
+    $sql = 'SELECT * FROM news WHERE league_id = (SELECT id FROM leagues WHERE name = "Laliga") ORDER BY time DESC';
     $stmt = $this->connect()->prepare($sql);
     $stmt->execute();
     $row = $stmt->fetch();
-    $laliga = $row['news'];
+    $laliga = $row['data'];
 
-    $sql = 'SELECT * FROM news WHERE type = "premier league" ORDER BY time DESC';
+    $sql = 'SELECT * FROM news WHERE league_id = (SELECT id FROM leagues WHERE name = "Premier League") ORDER BY time DESC';
     $stmt = $this->connect()->prepare($sql);
     $stmt->execute();
     $row = $stmt->fetch();
-    $premierLeague = $row['news'];
+    $premierLeague = $row['data'];
 
     $sql = 'SELECT * FROM news WHERE type = "Champions League" ORDER BY time DESC';
     $stmt = $this->connect()->prepare($sql);
     $stmt->execute();
     $row = $stmt->fetch();
-    $championsLeague = $row['news'];
+    $championsLeague = $row['data'];
 
     http_response_code(200);
     echo json_encode(array(
@@ -37,8 +37,6 @@ class News extends User {
       "premier_league" => $premierLeague,
       "champions_league" => $championsLeague
     ));
-
-    die;
   }
 
   public function search($url) {
@@ -59,20 +57,27 @@ class News extends User {
     }
   }
 
-  public function players($league) {
-    $sql = 'SELECT ld.time as time, ld.type as type, ld.data as data, l.name as name
-            FROM league_data ld INNER JOIN leagues l ON ld.league_id = l.id
-            WHERE ld.league_id = (SELECT id FROM leagues WHERE name = ?)
-              AND ld.type = "top-scorers" ORDER BY ld.time ASC LIMIT 1';
+  public function players($data) {
+
+    $sql = 'SELECT * FROM seasons WHERE league_id = (SELECT id FROM leagues WHERE name = ?) AND name = ?';
     $stmt = $this->connect()->prepare($sql);
-    $stmt->execute([$league]);
-    $players = $stmt->fetch();
+    $stmt->execute([$data->league, $data->seasonName]);
+    $seasonRow = $stmt->fetch();
+
+    $sql = 'SELECT s.id as seasonID, s.league_id as leagueID, s.start as start, s.end as end, i.data as data, i.time as time, s.name as name, i.type as type
+            FROM seasons s INNER JOIN season_info i ON s.id = i.season_id
+            WHERE s.id = ? AND i.type = "top-scorers"';
+
+    $stmt = $this->connect()->prepare($sql);
+    $stmt->execute([$seasonRow["id"]]);
+    $row = $stmt->fetch();
 
     $playersArray = array(
-      "name" => $players['name'],
-      "time" => $players['time'],
-      "type" => $players['type'],
-      "data" => $players['data'],
+      "seasonID" => $row['seasonID'],
+      "name" => $row['name'],
+      "time" => $row['time'],
+      "type" => $row['type'],
+      "data" => $row['data'],
     );
     http_response_code(200);
 
@@ -92,9 +97,9 @@ class News extends User {
     while($row = $stmt->fetch()) {
       array_push($teamsArray, array(
         "name" => $row['name'],
-        "short_code" => $row['short_code'],
+        "short_code" => $row['shortCode'],
         "logo" => $row['logo'],
-        "team_id" => $row['team_id']
+        "team_id" => $row['id']
       ));
     }
 
@@ -107,14 +112,14 @@ class News extends User {
   }
 
   public function team($id) {
-    $sql = 'SELECT * FROM teams WHERE team_id = ?';
+    $sql = 'SELECT * FROM teams WHERE id = ?';
     $stmt = $this->connect()->prepare($sql);
     $stmt->execute([$id]);
     $row = $stmt->fetch();
 
     $teamArray = array(
       "name" => $row['name'],
-      "short_code" => $row['short_code'],
+      "short_code" => $row['shortCode'],
       "logo" => $row['logo']
     );
 
@@ -126,10 +131,12 @@ class News extends User {
     ));
   }
 
-  public function standing($league) {
-    $sql = 'SELECT * FROM league_data WHERE type = ? ORDER BY id ASC;';
+  public function standing($data) {
+    $sql = 'SELECT i.data as data
+            FROM seasons s INNER JOIN season_info i ON s.id = i.season_id
+            WHERE s.league_id = (SELECT id FROM leagues WHERE name = ?) AND s.name = ? AND i.type = "standings"';
     $stmt = $this->connect()->prepare($sql);
-    $stmt->execute([$league.'_standings']);
+    $stmt->execute([$data->league, $data->season]);
     $row = $stmt->fetch();
 
     http_response_code(200);
@@ -140,13 +147,43 @@ class News extends User {
     ));
   }
 
+  public function allSeasons() {
+    $sql = 'SELECT * FROM seasons';
+    $stmt = $this->connect()->prepare($sql);
+    $stmt->execute();
+    $row = $stmt->fetch();
+  }
+
+  public function teams() {
+    $sql = 'SELECT * FROM teams';
+    $stmt = $this->connect()->prepare($sql);
+    $stmt->execute();
+
+    $teamsArray = [];
+
+    while($row = $stmt->fetch()) {
+      array_push($teamsArray, array(
+        "id" => $row['id'],
+        "name" => $row['name'],
+        "shortCode" => $row['shortCode'],
+        "logo" => $row['logo']
+      ));
+    }
+
+    http_response_code(200);
+
+    echo json_encode(array(
+      "status" => "ok",
+      "teams" => $teamsArray
+    ));
+  }
 }
 
 $newsObj = new News();
 if($_SERVER['REQUEST_METHOD'] !== 'POST') die;
 if(isset($_POST['HOME_NEWS'])) $newsObj->homePage();
 else if(isset($_POST['SEARCH'])) $newsObj->search($_POST['SEARCH']);
-else if(isset($_POST['PLAYERS'])) $newsObj->players($_POST['PLAYERS']);
-else if(isset($_POST['GET_ALL_TEAM'])) $newsObj->allTeams();
+else if(isset($_POST['PLAYERS'])) $newsObj->players(json_decode($_POST['PLAYERS']));
+else if(isset($_POST['GET_ALL_TEAMS'])) $newsObj->allTeams();
 else if(isset($_POST['GET_TEAM'])) $newsObj->team($_POST['GET_TEAM']);
-else if(isset($_POST['GET_STANDING'])) $newsObj->standing($_POST['GET_STANDING']);
+else if(isset($_POST['GET_STANDING'])) $newsObj->standing(json_decode($_POST['GET_STANDING']));

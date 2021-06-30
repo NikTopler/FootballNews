@@ -1,5 +1,4 @@
-<?php
-include_once '../config/db.php';
+<?php include_once '../config/db.php';
 
 class LatestNewsCRON extends Dbh {
 
@@ -15,16 +14,16 @@ class LatestNewsCRON extends Dbh {
 
     libxml_use_internal_errors(TRUE);
 
-    $this->insert($latest, $date, 'latest');
-    $this->insert($laliga, $date, 'laliga');
-    $this->insert($premierLeague, $date, 'premier league');
-    $this->insert($championsLeague, $date, 'Champions League');
+    $this->insert($latest, $date, null, 'latest');
+    $this->insert($laliga, $date, 'Laliga', null);
+    $this->insert($premierLeague, $date, 'Premier League', null);
+    $this->insert($championsLeague, $date, null, 'Champions League');
   }
 
-  private function insert($news, $date, $type) {
-    $sql = 'INSERT INTO news(news, time, type) VALUES(?,?,?)';
+  private function insert($data, $time, $league, $type) {
+    $sql = 'INSERT INTO news(league_id, time, type, data) VALUES((SELECT id FROM leagues WHERE name = ?),?,?,?)';
     $stmt = $this->connect()->prepare($sql);
-    $stmt->execute([$news, $date, $type]);
+    $stmt->execute([$league, $time, $type, $data]);
   }
 }
 
