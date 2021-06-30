@@ -359,6 +359,27 @@ hr {
   }
 }
 
+.error-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  img {
+    height: inherit;
+    width: inherit;
+  }
+}
+
+.season-alert {
+  padding: 0.5rem 1rem;
+  margin: 0.5 0 1rem 0;
+  border-radius: 4px;
+  border: 1px solid $gray-150;
+  background-color: $gray-100;
+}
+
 @media screen and (max-width: 900px) {
   .main-section-container {
     display: flex;

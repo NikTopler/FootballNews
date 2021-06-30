@@ -37,7 +37,7 @@
         svg { transform: rotate(90deg); }
       }
       .select-expand {
-        width: 95%;
+        width: fit-content;
         top: 90%;
       }
       .select-expand.active { top: 95%; }
@@ -187,6 +187,7 @@
           div.red { background-color: $red-400; }
           div.green { background-color: $green-600; }
           div.yellow { background-color: $yellow-500; }
+          div.pink { background-color: $pink-500; }
         }
       }
     }
