@@ -1,14 +1,14 @@
 <div class="main-league-container">
   <div class="player-container">
     <div class="row">
-      <div *ngFor="let row of players | slice:0:24; let index = index" (click)="search(row.player.player_name, row.team.team_name)" class="player">
-        <img src="{{playerImages[index]}}" alt="" class="profile">
+      <div *ngFor="let row of players | slice:0:24" (click)="search(row.player.name, row.team.name)" class="player">
+        <img src="{{row.player.image}}" alt="" class="profile">
         <div class="name">
-          <span>{{row.player.player_name}}</span>
+          <span>{{row.player.name}}</span>
         </div>
         <div class="club">
-          <img src="{{getTeamLogo(row.team.team_id)}}" alt="logo">
-          <span>{{row.team.team_name}}</span>
+          <img src="{{row.team.logo}}" alt="logo">
+          <span>{{row.team.name}}</span>
         </div>
       </div>
     </div>

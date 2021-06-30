@@ -19,7 +19,7 @@
     <div>
       <button (click)="subscribed = !subscribed; emailingService()" class="btn {{ !subscribed ? 'disable' : 'enable'  }}">{{ subscribed ? 'Subscribed' : 'Unsubscribed'  }}</button>
     </div>
-    <span><strong>Disclamer:</strong> You can unsubscribe to our service everytime you like.</span>
+    <span><strong>Disclamer:</strong> You can unsubscribe from our emailing service everytime you like.</span>
   </div>
   <div class="mb-2">
     <div class="settings-container" *ngIf="userInfo">
@@ -54,7 +54,7 @@
       </div>
     </div>
   </div>
-  <div class="mb-2">
+  <div class="mb-2 disabled">
     <div class="sub-header">
       <h2 class="under">Teams</h2>
       <div class="tag notification">

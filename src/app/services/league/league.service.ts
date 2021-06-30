@@ -10,33 +10,39 @@ import { CommService } from '../comm/comm.service';
 export class LeagueService {
 
   openLeague: string = '';
-  leaguesOptions: any[] = [
+  leaguesOptions: LeaguesOptions[] = [
     { name: 'matches', active: false },
     { name: 'news', active: false },
     { name: 'standings', active: false },
     { name: 'stats', active: false },
     { name: 'players', active: false },
   ];
+  season: string = '';
+  leagues: League[] = [];
+  activeLeague: League = {id: null, name: null, seasons: []};
+  activeSeason: Season = {id: null, start: '', end: '', name: '', active: false, standings: [], teams: [], players: []};
 
   $openLeague: BehaviorSubject<string>;
   $leaguesOptions: BehaviorSubject<any[]>;
-  $players: BehaviorSubject<any[]>;
-  $playersImages: BehaviorSubject<string[]>;
-  $allTeams: BehaviorSubject<any[]>;
-  $allMatches: BehaviorSubject<any[]>;
+  $activeSeason: BehaviorSubject<Season>;
+  $allSeasons: BehaviorSubject<AllSeasons[]>;
 
-  $standings: BehaviorSubject<StandingsInterface[]>;
+  $activeLeague:BehaviorSubject<League>;
+
+  $players: BehaviorSubject<any[]>;
+  $allMatches: BehaviorSubject<any[]>;
   $news: BehaviorSubject<any[]>;
 
   constructor(private comm: CommService, private router: Router) {
     router.events.subscribe(() => this.setActivePage());
     this.$openLeague = new BehaviorSubject<string>('');
     this.$leaguesOptions = new BehaviorSubject<any[]>(this.leaguesOptions);
+    this.$activeLeague = new BehaviorSubject<League>({id: null, name: null, seasons: []});
+    this.$allSeasons = new BehaviorSubject<AllSeasons[]>([]);
+    this.$activeSeason = new BehaviorSubject<Season>({ id: null, start: '', end: '', name: '', active: false, standings: [], teams: [], players: [] });
+
     this.$players = new BehaviorSubject<any[]>([]);
-    this.$playersImages = new BehaviorSubject<string[]>([]);
-    this.$allTeams = new BehaviorSubject<any[]>([]);
     this.$allMatches = new BehaviorSubject<any[]>([]);
-    this.$standings = new BehaviorSubject<StandingsInterface[]>([]);
     this.$news = new BehaviorSubject<any[]>([]);
   }
 
@@ -49,44 +55,68 @@ export class LeagueService {
   setPlayers(newValue: any[]): void { this.$players.next(newValue); }
   getPlayers(): Observable<any[]> { return this.$players.asObservable(); }
 
-  setPlayersImages(newValue: any[]): void { this.$playersImages.next(newValue); }
-  getPlayersImages(): Observable<string[]> { return this.$playersImages.asObservable(); }
+  setActiveLeague(newValue: League): void { this.$activeLeague.next(newValue); }
+  getActiveLeague(): Observable<League> { return this.$activeLeague.asObservable(); }
 
-  setAllTeams(newValue: any[]): void { this.$allTeams.next(newValue); }
-  getAllTeams(): Observable<any[]> { return this.$allTeams.asObservable(); }
+  setAllSeasons(newValue: AllSeasons[]): void { this.$allSeasons.next(newValue); }
+  getAllSeasons(): Observable<AllSeasons[]> { return this.$allSeasons.asObservable(); }
+
+  setActiveSeason(newValue: Season): void { this.$activeSeason.next(newValue); }
+  getActiveSeason(): Observable<Season> { return this.$activeSeason.asObservable(); }
 
   setMatches(newValue: any[]): void { this.$allMatches.next(newValue); }
   getMatches(): Observable<any[]> { return this.$allMatches.asObservable(); }
 
-  setStandings(newValue: StandingsInterface): void { this.$standings.next(this.$standings.getValue().concat([newValue])); }
-  setStandingsArray(newValue: StandingsInterface[]): void { this.$standings.next(newValue); }
-  getStandings(): Observable<StandingsInterface[]> { return this.$standings.asObservable(); }
-
   setNews(newValue: any[]): void { this.$news.next(newValue); }
   getNews(): Observable<any[]> { return this.$news.asObservable(); }
 
-  async fetchPlayers() {
-    let league = this.comm.leagueNameChange(this.openLeague);
-    const req = await fetch(`${environment.db}/news.php`, {
+  async fetchLeagues() {
+    const req = await fetch(`${environment.db}/leagues.php`, {
       method: 'POST',
-      body: this.comm.createFormData('PLAYERS', league)
+      body: this.comm.createFormData('LEAGUE_DATA', '')
     });
-    const res = await req.text();
-    const json = JSON.parse(res);
-    const players = JSON.parse(json.players.data).data;
-    this.setPlayers(players);
+    const text = await req.text();
+    const res = JSON.parse(text);
+    if(!res) return;
+
+    this.leagues = res.data;
+
+    this.setupLeagues();
+    this.setupActiveSeason(null);
+    this.setupAllSeasons();
   }
 
-  async fetchTeams() {
-    let league = this.comm.leagueNameChange(this.openLeague);
-    const req = await fetch(`${environment.db}/news.php`, {
-      method: 'POST',
-      body: this.comm.createFormData('GET_ALL_TEAM', league)
-    });
-    const res = await req.text();
-    const json = JSON.parse(res);
-    const teams = json.teams;
-    this.setAllTeams(teams);
+  setupLeagues() {
+    const activeLeague = this.leagues.filter(league => { return league.name == this.comm.leagueNameChange(this.openLeague) })[0];
+    this.setActiveLeague(activeLeague);
+    this.activeLeague = activeLeague;
+  }
+
+  setupActiveSeason(name: string | null) {
+    if(name) this.activeSeason = this.activeLeague.seasons.filter(season => { return season.name === name })[0];
+    else this.activeSeason = this.activeLeague.seasons.filter(season => { return season.active })[0];
+    this.setActiveSeason(this.activeSeason);
+    this.setupPlayers();
+  }
+
+  setupAllSeasons() {
+    this.setAllSeasons([]);
+    let array = [];
+    for(let i = 0; i < this.activeLeague.seasons.length; i++)
+      array.push({name: `20${this.activeLeague.seasons[i].name}`, active: this.activeLeague.seasons[i].active });
+    array.sort((a, b) => (a.name < b.name) ? 1 : -1);
+    this.setAllSeasons(array);
+  }
+
+  setupPlayers() {
+    if(this.activeSeason.players.length === 0) this.setPlayers(this.activeLeague.seasons[1].players);
+    else this.setPlayers(this.activeSeason.players);
+  }
+
+  async fetchMatches() {
+    // const req = await fetch('https://app.sportdataapi.com/api/v1/soccer/matches?apikey=9751a990-86f0-11eb-a0c8-6b846512b7c7&season_id=352&date_from=2020-09-19');
+    // const res = await req.json();
+    // this.setMatches(res.data);
   }
 
   async fetchNews() {
@@ -103,67 +133,6 @@ export class LeagueService {
     else if(this.openLeague == 'premier-league') this.setNews(JSON.parse(res.premier_league).articles);
   }
 
-  async fetchPlayerImages() {
-    const req = await fetch(`${environment.db}/webscraper.php`, {
-      method: 'POST',
-      body: this.comm.createFormData('GOOGLE_IMAGE', this.openLeague.replace('-', '_'))
-    });
-    const text = await req.text();
-    const res = JSON.parse(text);
-    const league = JSON.parse(res.league).data;
-    this.setPlayersImages(league);
-  }
-
-  async fetchStandings() {
-    const req = await fetch(`${environment.db}/news.php`, {
-      method: 'POST',
-      body: this.comm.createFormData('GET_STANDING', this.openLeague.replace('-', '_'))
-    });
-    const text = await req.text();
-    const res = JSON.parse(text);
-
-    if(res.status !== 'ok') return;
-
-    const apiData = JSON.parse(res.standing);
-    this.setStandingsArray([]);
-    for(let i = 0; i < apiData.data.standings.length; i++) {
-      const req = await fetch(`${environment.db}/news.php`, {
-        method: 'POST',
-        body: this.comm.createFormData('GET_TEAM', apiData.data.standings[i].team_id)
-      });
-      const text = await req.text();
-      const res = JSON.parse(text);
-      const standings: StandingsInterface = {
-        position: apiData.data.standings[i].position,
-        team: {
-          name: res.team.name,
-          logo: res.team.logo
-        },
-        matches: {
-          played: apiData.data.standings[i].overall.games_played,
-          wins: apiData.data.standings[i].overall.won,
-          losses: apiData.data.standings[i].overall.lost,
-          draws: apiData.data.standings[i].overall.draw
-        },
-        goals: {
-          for: apiData.data.standings[i].overall.goals_scored,
-          against: apiData.data.standings[i].overall.goals_against,
-          difference: apiData.data.standings[i].overall.goals_diff
-        },
-        points: apiData.data.standings[i].points,
-        result: apiData.data.standings[i].result,
-        status: apiData.data.standings[i].status
-      }
-      this.setStandings(standings);
-    }
-  }
-
-  async fetchMatches() {
-    // const req = await fetch('https://app.sportdataapi.com/api/v1/soccer/matches?apikey=9751a990-86f0-11eb-a0c8-6b846512b7c7&season_id=352&date_from=2020-09-19');
-    // const res = await req.json();
-    // this.setMatches(res.data);
-  }
-
   setActivePage() {
     for(let i = 0; i < this.leaguesOptions.length; i++) {
       if(this.leaguesOptions[i].active && !this.router.url.includes(this.leaguesOptions[i].name))
@@ -175,11 +144,28 @@ export class LeagueService {
   }
 }
 
-export interface StandingsInterface {
-  position: number,
+export interface League {
+  id: number | null,
+  name: string | null,
+  seasons: Season[]
+}
+
+export interface Season {
+  id: number | null,
+  start: string,
+  end: string,
+  name: string,
+  active: boolean,
+  standings: Standing[],
+  teams: Team[],
+  players: Player[]
+}
+
+export interface Standing {
+  position: number | null,
   team: {
-    name: String,
-    logo: String
+    name: String | null,
+    logo: String | null
   },
   matches: {
     played: number,
@@ -188,11 +174,46 @@ export interface StandingsInterface {
     draws: number
   },
   goals: {
-    for: number,
-    against: number,
-    difference: number
+    for: number | null,
+    against: number | null,
+    difference: number | null
   },
-  points: number,
-  result: String,
-  status: String
+  points: number | null,
+  result: string,
+  status: string
+}
+
+export interface Player {
+  position: number | null,
+  player: {
+    id: number | null,
+    name: string,
+    image: string | null
+  },
+  team: Team,
+  minutes_played: number,
+  substituted_in: number | null
+  goals: {
+    away: number | null,
+    home: number | null,
+    overall: number | null
+  },
+  penalties: number
+}
+
+export interface Team {
+  id: number,
+  name: string,
+  shortCode: string,
+  logo: string
+}
+
+export interface LeaguesOptions {
+  name: string,
+  active: boolean
+}
+
+export interface AllSeasons {
+  name: string,
+  active: boolean
 }

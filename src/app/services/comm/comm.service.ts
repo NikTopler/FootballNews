@@ -1,11 +1,14 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
+import { AllSeasons } from '../league/league.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CommService {
+
+  months: string[] = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
   $isLoaded: BehaviorSubject<boolean>;
   $waitForResponse: BehaviorSubject<boolean>;
@@ -67,9 +70,9 @@ export class CommService {
     return '';
   }
 
-  changeOption(text: string, id: string, array: any[], selectOpen: boolean) {
+  changeOption(text: string, id: string, array: AllSeasons[], selectOpen: boolean) {
     for(let i = 0; i < array.length; i++)
-      if(array[i].text === text) array[i].active = true;
+      if(array[i].name === text.trim()) array[i].active = true;
       else array[i].active = false;
     this.manageSelect(id, selectOpen);
   }
@@ -82,5 +85,11 @@ export class CommService {
   }
 
   getSelectContainer(id: string) { return document.getElementById(id) as HTMLDivElement; }
-
+  setupDate(date: string) {
+    const array = [... date];
+    const year = Number(array[0]+array[1]+array[2]+array[3]);
+    const month = Number(array[5]+array[6]);
+    const day = array[8]+array[9];
+    return `${day}${[... day][[... day].length-1] === '1' ? 'st' : [... day][[... day].length-1] === '2' ? 'nd' : [... day][[... day].length-1] === '3' ? 'rd' : 'th'} ${this.months[month-1]} ${year}`;
+  }
 }

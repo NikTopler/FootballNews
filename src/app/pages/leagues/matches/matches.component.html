@@ -1,5 +1,5 @@
 <div class="main-match-container">
-  <header class="main">
+  <header *ngIf="false" class="main">
     <div class="content">
       <mat-form-field class="example-full-width" appearance="fill">
         <mat-label>Choose a date</mat-label>
@@ -9,7 +9,7 @@
       </mat-form-field>
     </div>
   </header>
-  <div class="content-container">
+  <div *ngIf="false" class="content-container">
     <table class="table">
       <thead *ngIf="matches">
           <tr *ngIf="matches.length > 0">
@@ -64,5 +64,8 @@
           <td align="center">No matches on this date</td>
       </ng-template>
   </table>
+  </div>
+  <div class="error-container">
+    <img src="../../../../assets/images/construction.png" alt="construction">
   </div>
 </div>

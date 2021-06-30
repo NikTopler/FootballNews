@@ -24,7 +24,7 @@ export class AccountComponent {
     private fb: FormBuilder,
     private settingsComponent: SettingsComponent,
     private appComponent: AppComponent) {
-      userService.getUserData().subscribe((data) => { this.userInfo = data; })
+      userService.getUserData().subscribe(data => this.userInfo = data);
       this.updateForm = this.fb.group({
         fName: [this.userInfo.firstName, [Validators.required]],
         lName: [this.userInfo.lastName, [Validators.required]],
@@ -47,10 +47,11 @@ export class AccountComponent {
     && this.updateForm.value.lName.trim() === this.userInfo.lastName)
       return this.settingsComponent.createMessage(true, 'No changes made', 'err');
 
-    const userInfo = JSON.stringify(Object.values(
-      {"fName": this.updateForm.value.fName,
-      "lName": this.updateForm.value.lName,
-      "email": this.userInfo.email}));
+    const userInfo = JSON.stringify({
+      "firstName": this.updateForm.value.fName,
+      "lastName": this.updateForm.value.lName,
+      "email": this.userInfo.email
+    });
     const req = await fetch(`${environment.db}/user.php`, {
       method: 'POST',
       body: this.comm.createFormData('UPDATE_ACCOUNT', userInfo)
@@ -70,11 +71,9 @@ export class AccountComponent {
           ((currentdate.getSeconds() > 9) ? currentdate.getSeconds() : '0' + currentdate.getSeconds());
   }
 
-
   async updateUserData() {
     const refreshToken = this.userService.getRefreshToken();
-    let key = await this.userService.checkRefreshToken(refreshToken);
-    key = key.data.token;
+    const key = (await this.userService.checkRefreshToken(refreshToken)).data.token;
     this.userService.regenerateAccessToken(refreshToken, key)
       .then(() => {
         localStorage.setItem('updateAccount', 'true');

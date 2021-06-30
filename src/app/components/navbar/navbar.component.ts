@@ -50,8 +50,8 @@ export class NavbarComponent implements AfterViewInit{
         this.userInfo = data;
         this.following = data.following;
       });
-      leagueService.getOpenLeague().subscribe((data) => this.league = data );
-      leagueService.getLeagueOptions().subscribe((data) => this.leaguesOptions = data);
+      leagueService.getOpenLeague().subscribe(data => this.league = data);
+      leagueService.getLeagueOptions().subscribe(data => this.leaguesOptions = data);
     }
 
   ngAfterViewInit() {

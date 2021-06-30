@@ -29,6 +29,7 @@ export class NotificationComponent {
       this.getAllLeagues();
       this.userService.getUserData().subscribe((userInfo) => {
         this.userInfo = userInfo;
+        console.log(userInfo)
         this.followingLeagues = userInfo.following;
       })
     }
@@ -41,15 +42,15 @@ export class NotificationComponent {
     if(!isUserValidated) return location.reload();
 
     const userInfo = JSON.stringify({"email": this.userInfo.email, "subscription": this.subscribed ? 1 : 0});
-    const req = await fetch(`${environment.db}/update.php`, {
+
+    await fetch(`${environment.db}/update.php`, {
       method: 'POST',
       body: this.comm.createFormData('EMAIL_SUBSCRIPTION', userInfo)
     });
-    const res = await req.text();
 
     this.userService.updateUserData('notifications')
-      .then((res) => { if(!res) this.authenticationService.logout(); })
-    this.SettingsComponent.createMessage(true, this.subscribed ? 'You have subscribed to our email service' : 'You have unsubscribed to our email service', 'notification');
+      .then(res => { if(!res) this.authenticationService.logout() })
+    this.SettingsComponent.createMessage(true, this.subscribed ? 'You are subscribed' : 'You are unsubscribed', 'notification');
     this.comm.setWaitForResponse(false);
   }
 
@@ -89,14 +90,13 @@ export class NotificationComponent {
     let follow: string = 'FOLLOW_LEAGUE';
 
     if(e.target.innerHTML.trim() === 'Unfollow') follow = 'UNFOLLOW_LEAGUE';
-
     const isUserValidated = await this.validateUser();
     if(!isUserValidated) return location.reload();
 
-    const email = JSON.stringify({ "email": this.userInfo.email, "leagueName": league });
-    const req = await fetch(`${environment.db}/update.php`, {
+    const data = JSON.stringify({ "email": this.userInfo.email, "leagueName": league });
+    await fetch(`${environment.db}/update.php`, {
       method: 'POST',
-      body: this.comm.createFormData(follow, email)
+      body: this.comm.createFormData(follow, data)
     });
 
     this.userService.updateUserData('follow')

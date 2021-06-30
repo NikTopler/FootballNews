@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { CommService } from 'src/app/services/comm/comm.service';
 import { LeagueService } from 'src/app/services/league/league.service';
 
 @Component({
@@ -16,20 +15,15 @@ export class LeaguesComponent {
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private leagueService: LeagueService,
-    private comm: CommService) {
+    private leagueService: LeagueService) {
     router.events.subscribe(() => this.urlPath = router.url);
-    route.params.subscribe(params => { leagueService.setOpenLeague(params.league) });
-    leagueService.getOpenLeague().subscribe((league) => {
-      this.openLeague = league;
-      leagueService.openLeague = league;
+    route.params.subscribe(params => {
+      leagueService.setOpenLeague(params.league);
+      this.openLeague = params.league;
+      leagueService.openLeague = params.league;
     });
-    leagueService.fetchPlayers();
-    leagueService.fetchTeams();
+    leagueService.fetchLeagues();
     leagueService.fetchNews();
-    leagueService.fetchPlayerImages();
-    leagueService.fetchStandings();
-    leagueService.fetchMatches();
     this.urlPath = router.url;
   }
 }

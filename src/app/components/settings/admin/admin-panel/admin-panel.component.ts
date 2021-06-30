@@ -33,9 +33,10 @@ export class AdminPanelComponent {
       if(Number(this.userInfo.editImport) === 0)
         newPreference = 1;
 
+    const data = JSON.stringify({"email": this.userInfo.email, "preference": newPreference.toString()});
     const req = await fetch(`${environment.db}/user.php`, {
       method: 'POST',
-      body: this.comm.createFormData(type, JSON.stringify([this.userInfo.email, newPreference.toString()]))
+      body: this.comm.createFormData(type, data)
     });
     const res = await req.text();
     this.userService.updateUserData('admin-panel')

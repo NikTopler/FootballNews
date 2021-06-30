@@ -35,7 +35,7 @@ export class HomeComponent {
     private userService: UserService) {
     this.comm.setIsLoaded(false);
     this.userService.getUserData()
-      .subscribe((userInfo) => { this.following = userInfo.following; })
+      .subscribe(userInfo => this.following = userInfo.following)
     this.getAllLeagues();
     this.setupLatestNews();
   }

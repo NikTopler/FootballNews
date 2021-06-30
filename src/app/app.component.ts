@@ -49,12 +49,12 @@ export class AppComponent {
       if(this.loggedIn) this.socialLogin(this.userInfo);
     });
     Promise.resolve(this.checkAuthentication())
-    comm.getExternalLogin().subscribe((data) => { this.socialLoginPopup = data })
-    userService.getUserData().subscribe((data) => { this.userInfo = data });
-    downloadService.getIsOpen().subscribe((val) => { this.downloadOpen = val });
-    comm.getIsLoaded().subscribe((data) => { this.isLoaded = data });
-    comm.getWaitForResponse().subscribe((data) => { this.waitForResponse = data });
-    router.events.subscribe(() => { this.showFooter = !router.url.includes('settings') });
+    comm.getExternalLogin().subscribe(data => this.socialLoginPopup = data);
+    comm.getIsLoaded().subscribe(data => this.isLoaded = data);
+    comm.getWaitForResponse().subscribe(data => this.waitForResponse = data);
+    downloadService.getIsOpen().subscribe(val => this.downloadOpen = val);
+    router.events.subscribe(() => this.showFooter = !router.url.includes('settings'));
+    userService.getUserData().subscribe(data => this.userInfo = data);
   }
 
   async checkAuthentication() {
@@ -81,20 +81,14 @@ export class AppComponent {
     }
   }
 
-  async socialLogin(
-    {id, firstName, lastName, email ,photoUrl, provider} :
-    {id: string, firstName: string, lastName: string, email: string, photoUrl: string, provider: string}
-  ) {
+  async socialLogin(userData: any) {
     this.comm.setWaitForResponse(true);
-    const userInfo = JSON.stringify(Object.values({id, firstName, lastName, email, photoUrl, provider}));
     const req = await fetch(`${environment.db}/insert.php`, {
       method: 'POST',
-      body: this.comm.createFormData('SOCIAL', userInfo)
+      body: this.comm.createFormData('SOCIAL', JSON.stringify(userData))
     });
     const res = await req.text();
-
     const encrypted = this.userService.encryptToken(JSON.parse(res).jwt, JSON.parse(res).id);
-
     window.localStorage.setItem('accessToken', encrypted.toString());
 
     this.userService.deleteCookie('refreshToken', '/');

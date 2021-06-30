@@ -71,9 +71,7 @@ export class UserService {
     try {
       const decrypt = CryptoJS.AES.decrypt(token, key);
       return decrypt.toString(CryptoJS.enc.Utf8);
-    } catch(e) {
-      return null;
-    }
+    } catch(e) { return null; }
   }
 
   setCookie(name: string, value: string, days = 7, path = '/') {
@@ -115,8 +113,7 @@ export class UserService {
 
   async updateUserData(type: string) {
     const refreshToken = this.getRefreshToken();
-    let key = await this.checkRefreshToken(refreshToken);
-    key = key.data.token;
+    const key = (await this.checkRefreshToken(refreshToken)).data.token;
     this.regenerateAccessToken(refreshToken, key)
       .then(async () => {
         if(type === 'account') localStorage.setItem('updateAccount', 'true');
