@@ -52,7 +52,7 @@ export class AccountComponent {
       "lastName": this.updateForm.value.lName,
       "email": this.userInfo.email
     });
-    const req = await fetch(`${environment.db}/user.php`, {
+    await fetch(`${environment.db}/user.php`, {
       method: 'POST',
       body: this.comm.createFormData('UPDATE_ACCOUNT', userInfo)
     });

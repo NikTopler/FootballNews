@@ -36,16 +36,18 @@ export class AppComponent {
     private downloadService: DownloadService,
     private leagueService: LeagueService) {
     this.socialAuthService.authState.subscribe((user) => {
-      this.userInfo = user.provider !== 'AMAZON' ? user : {
-        "id": user.id,
-        "firstName": user.name.split(' ')[0],
-        "lastName": user.name.split(' ')[1],
-        "email": user.email,
-        "photoUrl": null,
-        "provider": 'AMAZON'
+      if(user) {
+        this.userInfo = user.provider !== 'AMAZON' ? user : {
+          "id": user.id,
+          "firstName": user.name.split(' ')[0],
+          "lastName": user.name.split(' ')[1],
+          "email": user.email,
+          "photoUrl": null,
+          "provider": 'AMAZON'
+        }
+        this.socialLoginPopup = false;
+        this.loggedIn = user != null ? user.email != null : false;
       }
-      this.socialLoginPopup = false;
-      this.loggedIn = user != null ? user.email != null : false;
       if(this.loggedIn) this.socialLogin(this.userInfo);
     });
     Promise.resolve(this.checkAuthentication())

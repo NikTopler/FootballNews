@@ -34,7 +34,7 @@ export class AdminPanelComponent {
         newPreference = 1;
 
     const data = JSON.stringify({"email": this.userInfo.email, "preference": newPreference.toString()});
-    const req = await fetch(`${environment.db}/user.php`, {
+    await fetch(`${environment.db}/user.php`, {
       method: 'POST',
       body: this.comm.createFormData(type, data)
     });
