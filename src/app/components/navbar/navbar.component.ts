@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthenticationService } from 'src/app/services/authentication/authentication.service';
 import { CommService } from 'src/app/services/comm/comm.service';
@@ -181,7 +181,7 @@ export class NavbarComponent implements AfterViewInit{
     if(!isUserValidated) return location.reload();
 
     const email = JSON.stringify({ "email": this.userInfo.email, "leagueName": league });
-    const req = await fetch(`${environment.db}/update.php`, {
+    await fetch(`${environment.db}/update.php`, {
       method: 'POST',
       body: this.comm.createFormData(follow, email)
     });

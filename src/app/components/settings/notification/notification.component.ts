@@ -29,7 +29,6 @@ export class NotificationComponent {
       this.getAllLeagues();
       this.userService.getUserData().subscribe((userInfo) => {
         this.userInfo = userInfo;
-        console.log(userInfo)
         this.followingLeagues = userInfo.following;
       })
     }

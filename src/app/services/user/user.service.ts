@@ -104,9 +104,10 @@ export class UserService {
     if(!decryptToken) return { "status": 401, "body": "Authentication failure - Decrypt Token" };
 
     const validateAccessToken = await this.checkAccessToken(decryptToken);
-    if(!validateAccessToken)
-      if(this.regenerateAccessToken(refreshToken, key))
-        return { "status": 404, "body": "Refresh needed!" };
+    if(!validateAccessToken) {
+      this.regenerateAccessToken(refreshToken, key);
+      return { "status": 404, "body": "Refresh needed!" };
+    }
 
     return { "status": 200, "body": validateAccessToken };
   }

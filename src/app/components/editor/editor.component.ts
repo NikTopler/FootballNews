@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { EditorService } from 'src/app/services/editor/editor.service';
 
 @Component({

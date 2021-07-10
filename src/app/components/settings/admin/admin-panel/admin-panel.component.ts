@@ -38,7 +38,6 @@ export class AdminPanelComponent {
       method: 'POST',
       body: this.comm.createFormData(type, data)
     });
-    const res = await req.text();
     this.userService.updateUserData('admin-panel')
       .then((res) => {
         if(res) this.comm.setWaitForResponse(false);

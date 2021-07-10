@@ -75,7 +75,7 @@ export class ImportComponent {
     this.downloadService.importsArray.push({"id": id, "text": `${this.openTab} information import`, "finished": false});
 
     const target: DataTransfer = <DataTransfer>(file);
-    if(target.files.length !== 1) return console.log('lenght not 1');
+    if(target.files.length !== 1) return console.log('length not 1');
 
     const reader: FileReader = new FileReader();
 
@@ -221,7 +221,7 @@ export class ImportComponent {
     for(let i = 0; i < array.length; i++) {
       const id = array[i];
       const container = document.getElementById(id)?.parentElement as HTMLDivElement;
-      container.classList.add('errInput');
+      if(container) container.classList.add('errInput');
     }
     this.settingsComponent.createMessage(true, message, 'err')
   }

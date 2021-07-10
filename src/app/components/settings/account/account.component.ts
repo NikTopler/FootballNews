@@ -56,7 +56,6 @@ export class AccountComponent {
       method: 'POST',
       body: this.comm.createFormData('UPDATE_ACCOUNT', userInfo)
     });
-    const res = await req.text();
     this.updateUserData();
   }
 

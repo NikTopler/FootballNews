@@ -42,7 +42,7 @@ export class StandingsComponent {
 
   setupElementEvents() {
 
-    for(let i = 0; i < this.team.lenght; i++) {
+    for(let i = 0; i < this.team.length; i++) {
       this.team[i].addEventListener('mouseover', () => {
         this.team[i].classList.add('hover');
         this.stat[i].classList.add('hover');

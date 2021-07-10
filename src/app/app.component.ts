@@ -45,7 +45,7 @@ export class AppComponent {
         "provider": 'AMAZON'
       }
       this.socialLoginPopup = false;
-      this.loggedIn = (user != null && user.email != null);
+      this.loggedIn = user != null ? user.email != null : false;
       if(this.loggedIn) this.socialLogin(this.userInfo);
     });
     Promise.resolve(this.checkAuthentication())
