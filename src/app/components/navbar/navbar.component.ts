@@ -177,8 +177,7 @@ export class NavbarComponent implements AfterViewInit{
 
     league = this.comm.leagueNameChange(league);
 
-    const isUserValidated = await this.validateUser();
-    if(!isUserValidated) return location.reload();
+    await this.userService.validate();
 
     const email = JSON.stringify({ "email": this.userInfo.email, "leagueName": league });
     await fetch(`${environment.db}/update.php`, {

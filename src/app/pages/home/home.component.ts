@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { CommService } from 'src/app/services/comm/comm.service';
+import { CommService, Following, Leagues } from 'src/app/services/comm/comm.service';
+import { LeagueService } from 'src/app/services/league/league.service';
 import { UserService } from 'src/app/services/user/user.service';
-import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-home',
@@ -24,21 +24,24 @@ export class HomeComponent {
 
   championsLeague: any[] = [];
 
-  allLeagues: any = [];
-  following: any = [];
+  allLeagues: Leagues[] = [];
+  following: Following[] = [];
 
   headingArticle: any;
 
   constructor(
     private router: Router,
     private comm: CommService,
-    private userService: UserService) {
+    private userService: UserService,
+    private leagueService: LeagueService) {
     this.comm.setIsLoaded(false);
     this.userService.getUserData()
-      .subscribe(userInfo => this.following = userInfo.following)
+      .subscribe(userInfo => this.following = userInfo.following ? userInfo.following : []);
     this.getAllLeagues();
     this.setupLatestNews();
   }
+
+  get getAllLatestNews() { return document.querySelectorAll('.news-article'); }
 
   changeLatestNews(direction: string) {
 
@@ -61,21 +64,7 @@ export class HomeComponent {
     }
   }
 
-  get getAllLatestNews() { return document.querySelectorAll('.news-article'); }
-
-  async setupLatestNews() {
-    if(this.following)
-      for(let i = 0; i < this.following.length; i++)
-        if(this.following[i].name === 'Laliga') this.laligaNumber = 5;
-        else if(this.following[i].name === 'Premier League') this.premierLeagueNumber = 5;
-
-    const newsArticles = await this.latestNews();
-    this.latestNewsArray = JSON.parse(newsArticles.latest).articles.sort((a: any ,b: any) => (a.publishedAt < b.publishedAt) ? 1 : ((b.publishedAt < a.publishedAt) ? -1 : 0));
-    this.laligaNewsArray = JSON.parse(newsArticles.laliga).articles.sort((a: any ,b: any) => (a.publishedAt < b.publishedAt) ? 1 : ((b.publishedAt < a.publishedAt) ? -1 : 0));
-    this.premierLeagueNewsArray = JSON.parse(newsArticles.premier_league).articles.sort((a: any ,b: any) => (a.publishedAt < b.publishedAt) ? 1 : ((b.publishedAt < a.publishedAt) ? -1 : 0));
-    this.championsLeague = JSON.parse(newsArticles.champions_league).articles.sort((a: any ,b: any) => (a.publishedAt < b.publishedAt) ? 1 : ((b.publishedAt < a.publishedAt) ? -1 : 0));
-    this.setupHeadingArticle();
-  }
+  sortNews(articles: any) { return articles.sort((a: any, b: any) => (a.publishedAt < b.publishedAt) ? 1 : ((b.publishedAt < a.publishedAt) ? -1 : 0)) }
 
   setupHeadingArticle() {
     const randomNumber = Math.floor(Math.random() * this.championsLeague.length - 1);
@@ -87,42 +76,29 @@ export class HomeComponent {
     } else this.setupHeadingArticle();
   }
 
-  async latestNews() {
-    const req = await fetch(`${environment.db}/news.php`, {
-      method: 'POST',
-      body: this.comm.createFormData('HOME_NEWS', '')
-    });
-    const text = await req.text();
-    const res = JSON.parse(text);
-    if(res.status === 'ok') return res;
-    return null;
-  }
-
-  async getAllLeagues() {
-    const req = await fetch(`${environment.db}/update.php`, {
-      method: 'POST',
-      body: this.comm.createFormData('GET_LEAGUES', '')
-    });
-    const res = await req.text();
-    const leagues: string[][] = JSON.parse(res).data;
-
-    for(let i = 0; i < leagues.length; i++) {
-
-      let path = '';
-      if(leagues[i][0].toLowerCase() === 'laliga') path = 'laliga';
-      else if(leagues[i][0].toLowerCase() === 'premier league') path = 'premier-league';
-
-      this.allLeagues.push({ name: leagues[i][0], path: path });
-    }
-  }
-
-  addActiveClass(name: string) {
-    if(!this.following) return '';
-    for(let i = 0; i < this.following.length; i++)
-      if(this.following[i].name === name)
-        return 'active';
-    return '';
-  }
+  addActiveClass(name: string) { return this.comm.addActiveClass(this.following, name); }
   openLink(url: string) { window.open(url); }
   openPage(page: string) { this.router.navigateByUrl(`leagues/${page}/standings`); }
+
+  async setupLatestNews() {
+    if(this.following)
+      for(let i = 0; i < this.following.length; i++)
+        if(this.following[i].name === 'Laliga') this.laligaNumber = 5;
+        else if(this.following[i].name === 'Premier League') this.premierLeagueNumber = 5;
+
+    const newsArticles = await this.latestNews();
+
+    if(newsArticles) {
+      this.latestNewsArray = this.sortNews(JSON.parse(newsArticles.latest).articles);
+      this.laligaNewsArray = this.sortNews(JSON.parse(newsArticles.laliga).articles);
+      this.premierLeagueNewsArray = this.sortNews(JSON.parse(newsArticles.premier_league).articles);
+      this.championsLeague = this.sortNews(JSON.parse(newsArticles.champions_league).articles);
+    }
+
+    this.setupHeadingArticle();
+  }
+
+  async latestNews() { return await this.leagueService.fetchNews(); }
+
+  async getAllLeagues() { this.allLeagues = await this.comm.getAllLeagues(); }
 }

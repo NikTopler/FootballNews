@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { AppComponent } from 'src/app/app.component';
 import { AuthenticationService } from 'src/app/services/authentication/authentication.service';
-import { CommService } from 'src/app/services/comm/comm.service';
+import { CommService, Following, Leagues } from 'src/app/services/comm/comm.service';
 import { UserService } from 'src/app/services/user/user.service';
 import { environment } from '../../../../environments/environment';
 import { SettingsComponent } from '../settings.component';
@@ -16,8 +16,8 @@ export class NotificationComponent {
   userInfo: any;
   subscribed: boolean = Number(this.app.userInfo.emailingService) === 0 ? false : true;
 
-  allLeagues: string[] = [];
-  followingLeagues: any = [];
+  allLeagues: Leagues[] = [];
+  followingLeagues: Following[] = [];
 
   constructor(
     private app: AppComponent,
@@ -29,16 +29,14 @@ export class NotificationComponent {
       this.getAllLeagues();
       this.userService.getUserData().subscribe((userInfo) => {
         this.userInfo = userInfo;
-        this.followingLeagues = userInfo.following;
+        this.followingLeagues = userInfo.following ? userInfo.following : []
       })
     }
 
   async emailingService() {
 
     this.comm.setWaitForResponse(true);
-
-    const isUserValidated = await this.validateUser();
-    if(!isUserValidated) return location.reload();
+    await this.userService.validate();
 
     const userInfo = JSON.stringify({"email": this.userInfo.email, "subscription": this.subscribed ? 1 : 0});
 
@@ -53,29 +51,7 @@ export class NotificationComponent {
     this.comm.setWaitForResponse(false);
   }
 
-  async validateUser() {
-    const userValidation = await this.userService.validateUser();
-
-    if(userValidation.status === 401 && userValidation.body.includes('Refresh'))
-      return location.reload();
-    else if(userValidation.status === 401 && userValidation.body.includes('Access'))
-      return this.authenticationService.logout();
-    else if(userValidation.status === 404)
-      return false;
-    return true;
-  }
-
-  async getAllLeagues() {
-    const req = await fetch(`${environment.db}/update.php`, {
-      method: 'POST',
-      body: this.comm.createFormData('GET_LEAGUES', '')
-    });
-    const res = await req.text();
-    const leagues: string[][] = JSON.parse(res).data;
-
-    for(let i = 0; i < leagues.length; i++)
-      this.allLeagues.push(leagues[i][0]);
-  }
+  async getAllLeagues() { this.allLeagues = await this.comm.getAllLeagues(); }
 
   compareLeagues(league: string, array: any[]) {
     for(let i = 0; i < array.length; i++)
@@ -89,8 +65,7 @@ export class NotificationComponent {
     let follow: string = 'FOLLOW_LEAGUE';
 
     if(e.target.innerHTML.trim() === 'Unfollow') follow = 'UNFOLLOW_LEAGUE';
-    const isUserValidated = await this.validateUser();
-    if(!isUserValidated) return location.reload();
+    await this.userService.validate();
 
     const data = JSON.stringify({ "email": this.userInfo.email, "leagueName": league });
     await fetch(`${environment.db}/update.php`, {

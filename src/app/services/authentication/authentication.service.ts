@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { SocialAuthService, GoogleLoginProvider, FacebookLoginProvider, AmazonLoginProvider} from 'angularx-social-login';
-import { UserService } from '../user/user.service';
 
 @Injectable({
   providedIn: 'root'
@@ -16,18 +15,31 @@ export class AuthenticationService {
 
   constructor(
     private socialAuthService: SocialAuthService,
-    private router: Router,
-    private userService: UserService) { }
+    private router: Router) { }
 
   loginWithGoogle(): void { this.socialAuthService.signIn(GoogleLoginProvider.PROVIDER_ID).catch(err => console.log('Google err')); }
   loginWithFacebook(): void { this.socialAuthService.signIn(FacebookLoginProvider.PROVIDER_ID).catch(err => console.log('Facebook err')); }
   loginWithAmazon(): void { this.socialAuthService.signIn(AmazonLoginProvider.PROVIDER_ID).catch(err => console.log('Facebook err')); }
   logout(): void {
     window.localStorage.removeItem('accessToken');
-    this.userService.deleteCookie('refreshToken', '/');
+    this.deleteCookie('refreshToken', '/');
     this.router.navigateByUrl('home')
       .then(() => { location.reload() });
   }
+
+  getCookie(name: string) {
+    return document.cookie.split('; ').reduce((r, v) => {
+      const parts = v.split('=');
+      return parts[0] === name ? decodeURIComponent(parts[1]) : r
+    }, '');
+  }
+
+  setCookie(name: string, value: string, days = 7, path = '/') {
+    const expires = new Date(Date.now() + days * 864e5).toUTCString();
+    document.cookie = name + '=' + encodeURIComponent(value) + '; expires=' + expires + '; path=' + path;
+  }
+
+  deleteCookie(name: string, path: string) { this.setCookie(name, '', -1, path); }
 
   checkDate(word: string) { return word.match(this.regexDate); }
 

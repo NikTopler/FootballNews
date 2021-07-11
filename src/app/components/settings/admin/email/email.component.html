@@ -87,7 +87,7 @@
               <div *ngFor="let sent of allRecentSentEmails;">
                 <div class="recent-emails">
                   <span>{{ userInfo.email === sent.admin ? sent.adminFirstName + ' ' + sent.adminLastName + ' (you)' : sent.adminFirstName + ' ' + sent.adminLastName }}</span>
-                  <span class="time-span">{{ transformNumberToDate(sent.time) }}</span>
+                  <span class="time-span">{{ convertToDate(sent.time) }}</span>
                 </div>
               </div>
               <div *ngIf="allRecentSentEmails.length === 0">

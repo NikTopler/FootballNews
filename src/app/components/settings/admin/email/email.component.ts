@@ -117,7 +117,7 @@ export class EmailComponent implements OnInit {
 
   async getRecentSentMails() {
 
-    if(!(await this.validateUser())) return [];
+    if(!(await this.userService.validate())) return [];
 
     const limit =
       JSON.stringify({
@@ -186,17 +186,6 @@ export class EmailComponent implements OnInit {
     return this.colorScheme[randomNumber];
   }
 
-  async validateUser() {
-    const res = await this.userService.validateUser();
-    if(res.status === 401 && res.body.includes('Refresh'))
-      return location.reload();
-    else if(res.status === 401 && res.body.includes('Access'))
-      return this.authenticationService.logout();
-    else if(res.status === 404)
-      this.validateUser();
-    return true;
-  }
-
   getArrayFromObject(array: headerEmail[]) {
     let newArray: string[] = [];
     for(let i = 0; i < array.length; i++)
@@ -205,7 +194,7 @@ export class EmailComponent implements OnInit {
   }
 
   async sendEmail() {
-    if(!(await this.validateUser())) return;
+    if(!(await this.userService.validate())) return;
     if(!this.emailForm.valid) return;
     if(this.sending) return this.settingsComponent.createMessage(true, 'Wait, still sending!', 'err');
     if(this.allAddedEmails.length === 0) return this.settingsComponent.createMessage(true, 'You need to add emails!', 'err');
@@ -244,16 +233,7 @@ export class EmailComponent implements OnInit {
     else expandContainer.classList.remove('active');
   }
 
-  transformNumberToDate(num: string) {
-    const number = Number(num);
-    const currentdate = new Date(1000 * number);
-    return ((currentdate.getDate() > 9) ? currentdate.getDate() : '0' + currentdate.getDate()) + '-' +
-          (((currentdate.getMonth()+1) > 9) ? (currentdate.getMonth()+1) : '0' + (currentdate.getMonth()+1)) + '-' +
-          currentdate.getFullYear() + ' ' +
-          ((currentdate.getHours() > 9) ? currentdate.getHours() : '0' + currentdate.getHours()) + ':' +
-          ((currentdate.getMinutes() > 9) ? currentdate.getMinutes() : '0' + currentdate.getMinutes()) + ':' +
-          ((currentdate.getSeconds() > 9) ? currentdate.getSeconds() : '0' + currentdate.getSeconds());
-  }
+  convertToDate(num: string ) { return this.comm.convertToDate(num); }
 }
 
 export interface headerEmail {

@@ -22,8 +22,17 @@ export class LeaguesComponent {
       this.openLeague = params.league;
       leagueService.openLeague = params.league;
     });
-    leagueService.fetchLeagues();
-    leagueService.fetchNews();
-    this.urlPath = router.url;
+    this.setup();
+  }
+
+  async setup() {
+    this.urlPath = this.router.url;
+    this.leagueService.fetchLeagues();
+
+    const news = await this.leagueService.fetchNews();
+    if(news.status !== 'ok') return;
+
+    if(this.openLeague === 'laliga') this.leagueService.setNews(JSON.parse(news.laliga).articles);
+    else if(this.openLeague == 'premier-league') this.leagueService.setNews(JSON.parse(news.premier_league).articles);
   }
 }

@@ -191,7 +191,7 @@ export class ImportComponent {
 
     newArray = newArray.filter((e: string[]) => { return e.length !== 0 });
 
-    const userValidation = await this.validateUser();
+    const userValidation = await this.userService.validate();
 
     if(!userValidation) return this.settingsComponent.createMessage(true, 'Something went wrong!', 'err')
 
@@ -200,21 +200,8 @@ export class ImportComponent {
       method: 'POST',
       body: this.comm.createFormData(type, userInfo)
     });
-    const res = await req.text();
-    console.log(res)
 
     this.settingsComponent.createMessage(true, 'Values successfully imported into the database!', 'success');
-  }
-
-  async validateUser() {
-    const res = await this.userService.validateUser();
-    if(res.status === 401 && res.body.includes('Refresh'))
-      return location.reload();
-    else if(res.status === 401 && res.body.includes('Access'))
-      return this.authenticationService.logout();
-    else if(res.status === 404)
-      this.validateUser();
-    return true;
   }
 
   displayErrors(message: string, array: string[]): void {

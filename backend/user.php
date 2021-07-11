@@ -101,27 +101,15 @@ class User extends Dbh {
     ));
   }
 
-  public function checkRefreshToken($token) {
+  public function checkToken($token, $type) {
     include 'config/core.php';
-    try {
-      $decode = JWT::decode($token, $refreshSecret, array('HS512'));
-      http_response_code(200);
-      echo json_encode(array(
-        "status" => "Good",
-        "data" => $decode
-      ));
-    } catch(Exception $e) {
-      http_response_code(500);
-      echo json_encode(array(
-        "status" => "Expired refresh token"
-      ));
-    }
-  }
 
-  public function checkAccessToken($token) {
-    include 'config/core.php';
+    if($type === 'refresh') $id = $refreshSecret;
+    else if($type === 'access') $id = $secret;
+    else return;
+
     try {
-      $decode = JWT::decode($token, $secret, array('HS512'));
+      $decode = JWT::decode($token, $id, array('HS512'));
       http_response_code(200);
       echo json_encode(array(
         "status" => "Good",
@@ -130,7 +118,7 @@ class User extends Dbh {
     } catch (Exception $e) {
       http_response_code(500);
       echo json_encode(array(
-        "status" => "Expired access token"
+        "status" => "Expired ".$type." token"
       ));
     }
   }
@@ -223,8 +211,8 @@ else $userObj->response(403, 'Access denied', 'Authorization failed');
 
 
 if($_SERVER['REQUEST_METHOD'] !== 'POST') die;
-if(isset($_POST['VALIDATE_REFRESH_TOKEN'])) $userObj->checkRefreshToken($_POST['VALIDATE_REFRESH_TOKEN']);
-else if(isset($_POST['VALIDATE_ACCESS_TOKEN'])) $userObj->checkAccessToken($_POST['VALIDATE_ACCESS_TOKEN']);
+if(isset($_POST['VALIDATE_REFRESH_TOKEN'])) $userObj->checkToken($_POST['VALIDATE_REFRESH_TOKEN'], 'refresh');
+else if(isset($_POST['VALIDATE_ACCESS_TOKEN'])) $userObj->checkToken($_POST['VALIDATE_ACCESS_TOKEN'], 'access');
 else if(isset($_POST['REGENERATE_ACCESS_TOKEN'])) $userObj->regenerateAccessToken($_POST['REGENERATE_ACCESS_TOKEN']);
 else if(isset($_POST['UPDATE_ACCOUNT'])) $userObj->updateAccount(json_decode($_POST['UPDATE_ACCOUNT']));
 else if(isset($_POST['SAFE_IMPORT'])) $userObj->safeImport(json_decode($_POST['SAFE_IMPORT']));

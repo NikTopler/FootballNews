@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
-import { CommService } from '../comm/comm.service';
+import { CommService, Following } from '../comm/comm.service';
 import * as CryptoJS from "crypto-js";
 import { BehaviorSubject } from 'rxjs';
+import { AuthenticationService } from '../authentication/authentication.service';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,7 @@ export class UserService {
 
   $userData: BehaviorSubject<userData>;
 
-  constructor(private comm: CommService) {
+  constructor(private comm: CommService, private authenticationService: AuthenticationService) {
     this.$userData = new BehaviorSubject<userData>({
       id: null,
       firstName: null,
@@ -64,7 +65,7 @@ export class UserService {
   }
 
   getAccessToken() { return window.localStorage.getItem('accessToken'); }
-  getRefreshToken() { return this.getCookie('refreshToken'); }
+  getRefreshToken() { return this.authenticationService.getCookie('refreshToken'); }
 
   encryptToken(token: string, key: string) { return CryptoJS.AES.encrypt(token, key); }
   decryptToken(token: string, key: string) {
@@ -74,20 +75,16 @@ export class UserService {
     } catch(e) { return null; }
   }
 
-  setCookie(name: string, value: string, days = 7, path = '/') {
-    const expires = new Date(Date.now() + days * 864e5).toUTCString();
-    document.cookie = name + '=' + encodeURIComponent(value) + '; expires=' + expires + '; path=' + path;
+  async validate() {
+    const res = await this.validateUser();
+    if(res.status === 401 && res.body.includes('Refresh'))
+      return location.reload();
+    else if(res.status === 401 && res.body.includes('Access'))
+      return this.authenticationService.logout();
+    else if(res.status === 404)
+      this.validate();
+    return true;
   }
-
-  getCookie(name: string) {
-    return document.cookie.split('; ').reduce((r, v) => {
-      const parts = v.split('=');
-      return parts[0] === name ? decodeURIComponent(parts[1]) : r
-    }, '');
-  }
-
-  deleteCookie(name: string, path: string) { this.setCookie(name, '', -1, path); }
-
 
   async validateUser() {
 
@@ -142,5 +139,5 @@ export interface userData {
   safeImport: string | null,
   editImport: string | null,
   emailingService: string | null,
-  following: string[] | null
+  following: Following[] | null
 }

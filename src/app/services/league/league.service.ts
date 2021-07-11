@@ -127,10 +127,7 @@ export class LeagueService {
     const text = await req.text();
     const res = JSON.parse(text);
 
-    if(res.status !== 'ok') return;
-
-    if(this.openLeague === 'laliga') this.setNews(JSON.parse(res.laliga).articles);
-    else if(this.openLeague == 'premier-league') this.setNews(JSON.parse(res.premier_league).articles);
+    return res;
   }
 
   setActivePage() {

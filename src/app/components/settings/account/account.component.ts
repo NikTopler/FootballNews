@@ -59,16 +59,7 @@ export class AccountComponent {
     this.updateUserData();
   }
 
-  convertToDate(num: string) {
-    const number = Number(num);
-    const currentdate = new Date(1000 * number);
-    return ((currentdate.getDate() > 9) ? currentdate.getDate() : '0' + currentdate.getDate()) + '-' +
-          (((currentdate.getMonth()+1) > 9) ? (currentdate.getMonth()+1) : '0' + (currentdate.getMonth()+1)) + '-' +
-          currentdate.getFullYear() + ' ' +
-          ((currentdate.getHours() > 9) ? currentdate.getHours() : '0' + currentdate.getHours()) + ':' +
-          ((currentdate.getMinutes() > 9) ? currentdate.getMinutes() : '0' + currentdate.getMinutes()) + ':' +
-          ((currentdate.getSeconds() > 9) ? currentdate.getSeconds() : '0' + currentdate.getSeconds());
-  }
+  convertToDate(num: string ) { return this.comm.convertToDate(num); }
 
   async updateUserData() {
     const refreshToken = this.userService.getRefreshToken();

@@ -50,13 +50,20 @@ export class AppComponent {
       }
       if(this.loggedIn) this.socialLogin(this.userInfo);
     });
-    Promise.resolve(this.checkAuthentication())
-    comm.getExternalLogin().subscribe(data => this.socialLoginPopup = data);
-    comm.getIsLoaded().subscribe(data => this.isLoaded = data);
-    comm.getWaitForResponse().subscribe(data => this.waitForResponse = data);
-    downloadService.getIsOpen().subscribe(val => this.downloadOpen = val);
-    router.events.subscribe(() => this.showFooter = !router.url.includes('settings'));
-    userService.getUserData().subscribe(data => this.userInfo = data);
+    Promise.resolve(this.checkAuthentication());
+    this.loadingFunctions();
+    this.otherFunctions();
+  }
+
+  loadingFunctions() {
+    this.comm.getExternalLogin().subscribe(data => this.socialLoginPopup = data);
+    this.comm.getIsLoaded().subscribe(data => this.isLoaded = data);
+    this.comm.getWaitForResponse().subscribe(data => this.waitForResponse = data);
+  }
+  otherFunctions() {
+    this.downloadService.getIsOpen().subscribe(val => this.downloadOpen = val);
+    this.router.events.subscribe(() => this.showFooter = !this.router.url.includes('settings'));
+    this.userService.getUserData().subscribe(data => this.userInfo = data);
   }
 
   async checkAuthentication() {
@@ -93,8 +100,8 @@ export class AppComponent {
     const encrypted = this.userService.encryptToken(JSON.parse(res).jwt, JSON.parse(res).id);
     window.localStorage.setItem('accessToken', encrypted.toString());
 
-    this.userService.deleteCookie('refreshToken', '/');
-    this.userService.setCookie('refreshToken', JSON.parse(res).refreshToken, 5, '/');
+    this.authenticationService.deleteCookie('refreshToken', '/');
+    this.authenticationService.setCookie('refreshToken', JSON.parse(res).refreshToken, 5, '/');
 
     this.comm.setWaitForResponse(false);
     this.loggedIn = true;
