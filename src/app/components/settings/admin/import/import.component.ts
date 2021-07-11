@@ -196,7 +196,7 @@ export class ImportComponent {
     if(!userValidation) return this.settingsComponent.createMessage(true, 'Something went wrong!', 'err')
 
     const userInfo = JSON.stringify({ "email": this.userInfo.email, "array": newArray });
-    const req = await fetch(`${environment.db}/admin.php`, {
+    await fetch(`${environment.db}/admin.php`, {
       method: 'POST',
       body: this.comm.createFormData(type, userInfo)
     });
