@@ -1,0 +1,36 @@
+<div class="main-container notification">
+  <header>
+      <span class="logo">Football News</span>
+      <h1>Before you continue to Football News</h1>
+  </header>
+  <main class="content active" id="c-1">
+      <div class="img-container">
+        <img src="../../../assets/animations/under-construction.svg" alt="image">
+      </div>
+      <h2>Work in progress</h2>
+      <div class="description">
+        <p>This website is still under construction. If you find any bugs, please <a href="https://github.com/NikTopler/FootballNews/issues" target="_blank" class="link">open an issue</a> on my Github repository.</p>
+      </div>
+  </main>
+  <main class="content" id="c-2">
+    <div class="img-container">
+      <img src="../../../assets/images/cookies.png" alt="image">
+    </div>
+    <h2>Do you like cookies?</h2>
+    <h3 style="padding-bottom: 1rem;">We collect them.</h3>
+    <div class="description">
+      <p>By clicking "Agree" button you agree with <a target="_blank" href="https://www.termsfeed.com/live/a2149ea4-5c32-4289-b81f-1d24c2c5b654" class="link">Cookie Policy.</a></p>
+    </div>
+  </main>
+  <footer>
+      <div class="page-dots">
+        <div *ngFor="let page of allPages; let index = index"
+          (click)="dotClick($event)"
+          class="dot {{ activePage === index ? 'active' : '' }}" id="dot-{{index}}"></div>
+      </div>
+      <button *ngIf="activePage > 0" (click)="managePages(activePage-1)" class="btn-200">Back</button>
+      <div class="spacer"></div>
+      <button *ngIf="allPages.length-1 !== activePage" (click)="managePages(activePage+1)" class="btn-200">Next</button>
+      <button *ngIf="allPages.length-1 === activePage" (click)="agree()" class="btn-200">Agree</button>
+  </footer>
+</div>
