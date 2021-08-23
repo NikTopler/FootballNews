@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { AllSeasons } from '../league/league.service';
@@ -17,7 +16,7 @@ export class CommService {
   $openExternalLogin: BehaviorSubject<boolean>;
   $slp: BehaviorSubject<boolean>;
 
-  constructor(private router: Router) {
+  constructor() {
     this.$isLoaded = new BehaviorSubject<boolean>(false);
     this.$waitForResponse = new BehaviorSubject<boolean>(false);
     this.$openExternalLogin = new BehaviorSubject<boolean>(false);

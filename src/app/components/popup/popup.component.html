@@ -1,4 +1,4 @@
-<div class="main-container notification">
+<div id="UnderConstruction" class="main-container notification disabled">
   <header>
       <span class="logo">Football News</span>
       <h1>Before you continue to Football News</h1>
@@ -31,6 +31,6 @@
       <button *ngIf="activePage > 0" (click)="managePages(activePage-1)" class="btn-200">Back</button>
       <div class="spacer"></div>
       <button *ngIf="allPages.length-1 !== activePage" (click)="managePages(activePage+1)" class="btn-200">Next</button>
-      <button *ngIf="allPages.length-1 === activePage" (click)="agree()" class="btn-200">Agree</button>
+      <button *ngIf="allPages.length-1 === activePage" (click)="agreeWithCookies()" class="btn-200">Agree</button>
   </footer>
 </div>

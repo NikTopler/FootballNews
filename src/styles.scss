@@ -380,6 +380,12 @@ hr {
   background-color: $gray-100;
 }
 
+.link {
+  color: $blue-400;
+  text-decoration: none;
+  cursor: pointer;
+}
+
 @media screen and (max-width: 900px) {
   .main-section-container {
     display: flex;

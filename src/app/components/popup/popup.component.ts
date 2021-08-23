@@ -8,16 +8,22 @@ import { UserService } from 'src/app/services/user/user.service';
 })
 export class PopupComponent implements OnInit {
 
+  activePopUp: string | null = null;
   activePage: number = 0;
   allPages: HTMLElement[] = [];
 
-  constructor(private userService: UserService) { }
-
-  ngOnInit(): void {
-    this.allPages = Array.prototype.slice.call(this.getPages);
+  constructor(private userService: UserService) {
+    userService.getPopUp().subscribe(data => this.activePopUp = data);
   }
 
-  get getPages() { return document.querySelectorAll('.notification .content'); }
+  ngOnInit(): void {
+    if(this.activePopUp) {
+      document.getElementById(this.activePopUp)?.classList.remove('disabled');
+      this.allPages = Array.prototype.slice.call(this.getPages)
+    }
+  }
+
+  get getPages() { return document.querySelectorAll('.notification .content') }
 
   managePages(newActivePage: number) {
     this.removeActivePage();
@@ -29,8 +35,8 @@ export class PopupComponent implements OnInit {
 
   dotClick(e: Event) { this.managePages(Number((e.target as Element).id.slice(-1))) }
 
-  agree() {
+  agreeWithCookies() {
     this.userService.setUserAgreement();
-    this.userService.setUnderCons(true);
+    this.userService.setPopUp(null);
   }
 }
