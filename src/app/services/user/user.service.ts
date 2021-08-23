@@ -11,8 +11,12 @@ import { AuthenticationService } from '../authentication/authentication.service'
 export class UserService {
 
   $userData: BehaviorSubject<userData>;
+  $adminMode: BehaviorSubject<boolean>;
+  $popUp: BehaviorSubject<string | null>;
 
   constructor(private comm: CommService, private authenticationService: AuthenticationService) {
+    this.$adminMode = new BehaviorSubject<boolean>(false);
+    this.$popUp = new BehaviorSubject<string | null>(null)
     this.$userData = new BehaviorSubject<userData>({
       id: null,
       firstName: null,
@@ -34,6 +38,15 @@ export class UserService {
 
   setUserData(data: userData) { this.$userData.next(data); }
   getUserData() { return this.$userData.asObservable(); }
+
+  setAdminMode(data: boolean) { this.$adminMode.next(data); }
+  getAdminMode() { return this.$adminMode.asObservable(); }
+
+  setPopUp(data: string | null) { this.$popUp.next(data); }
+  getPopUp() { return this.$popUp.asObservable(); }
+
+  get getUnderConstructionUserSettings() { return localStorage.getItem('underConstruction') ? false : true; }
+  set setUnderConstructionUserSet(val: string) { localStorage.setItem('underConstruction', val); }
 
   async regenerateAccessToken(refreshToken: string, key: string) {
     const req = await fetch(`${environment.db}/user.php`, {
@@ -119,9 +132,12 @@ export class UserService {
         this.setUserData(newUserData.body.data.data);
         return true;
       })
-      .catch((e) => { return false; })
+      .catch(() => { return false; })
     return true;
   }
+
+  setUserAgreement() { localStorage.setItem('userAgreement', JSON.stringify({ cookies: { time: Date.now(), agree: true }})) }
+  getUserAgreement() { return localStorage.getItem('userAgreement') ? localStorage.getItem('userAgreement') : false }
 }
 
 export interface userData {
