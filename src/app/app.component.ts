@@ -16,6 +16,7 @@ export class AppComponent {
   title = 'footballApp';
 
   userInfo: any = null;
+  adminMode: boolean = false;
 
   loggedIn: boolean = false;
   socialLoginPopup: boolean = false;
@@ -51,6 +52,7 @@ export class AppComponent {
       if(this.loggedIn) this.socialLogin(this.userInfo);
     });
     this.userService.getPopUp().subscribe(data => this.popUp = data ? true : false);
+    this.userService.getAdminMode().subscribe(data => this.adminMode = data);
     Promise.resolve(this.checkAuthentication());
     this.loadingFunctions();
     this.otherFunctions();

@@ -53,7 +53,7 @@
             </div>
           </div>
       </section>
-      <section class="side-bar" *ngIf="userInfo.admin === '1'">
+      <section class="side-bar" *ngIf="userInfo.admin === '1' || adminMode">
         <header>
           <h3>Admin</h3>
         </header>
@@ -68,7 +68,7 @@
             </div>
           </div>
       </section>
-      <section class="side-bar" *ngIf="userInfo.admin === '1'">
+      <section class="side-bar" *ngIf="userInfo.admin === '1' || adminMode">
         <header>
           <h3>Insights</h3>
         </header>
