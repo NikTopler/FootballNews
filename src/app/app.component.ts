@@ -6,7 +6,6 @@ import { AuthenticationService } from './services/authentication/authentication.
 import { UserService } from './services/user/user.service';
 import { DownloadService } from './services/download/download.service';
 import { Router } from '@angular/router';
-import { LeagueService } from './services/league/league.service';
 
 @Component({
   selector: 'app-root',
@@ -26,6 +25,8 @@ export class AppComponent {
 
   isLoaded: boolean = true;
   showFooter: boolean = false;
+  underCons: boolean = false;
+  popUp: boolean = false;
 
   constructor(
     private router: Router,
@@ -33,8 +34,7 @@ export class AppComponent {
     private comm: CommService,
     private authenticationService: AuthenticationService,
     private userService: UserService,
-    private downloadService: DownloadService,
-    private leagueService: LeagueService) {
+    private downloadService: DownloadService) {
     this.socialAuthService.authState.subscribe((user) => {
       if(user) {
         this.userInfo = user.provider !== 'AMAZON' ? user : {
@@ -50,6 +50,7 @@ export class AppComponent {
       }
       if(this.loggedIn) this.socialLogin(this.userInfo);
     });
+    this.userService.getPopUp().subscribe(data => this.popUp = data ? true : false);
     Promise.resolve(this.checkAuthentication());
     this.loadingFunctions();
     this.otherFunctions();
@@ -64,6 +65,9 @@ export class AppComponent {
     this.downloadService.getIsOpen().subscribe(val => this.downloadOpen = val);
     this.router.events.subscribe(() => this.showFooter = !this.router.url.includes('settings'));
     this.userService.getUserData().subscribe(data => this.userInfo = data);
+    const underConsRes = this.userService.getUserAgreement();
+    if(!underConsRes)
+      this.userService.setPopUp('UnderConstruction');
   }
 
   async checkAuthentication() {
