@@ -34,3 +34,34 @@
       <button *ngIf="allPages.length-1 === activePage" (click)="agreeWithCookies()" class="btn-200">Agree</button>
   </footer>
 </div>
+<div id="AdminMode" class="main-container notification disabled">
+  <header>
+    <span class="logo">Football News</span>
+    <h1>Admin Mode</h1>
+  </header>
+  <main class="content active" id="a-1">
+    <div class="img-container">
+      <img src="../../../assets/images/admin.png" alt="image">
+    </div>
+    <h2>Instructions & Tips</h2>
+    <div class="description">
+      <p>This feature simulates admins functions to a regular user, from importing, exporting, viewing data to sending custom emails and displaying stats with charts.</p>
+    </div>
+  </main>
+  <main class="content" id="a-2">
+    <div class="img-container">
+      <img src="../../../assets/images/admin.png" alt="image">
+    </div>
+    <h2>Instructions & Tips</h2>
+    <div class="description">
+      <p>Displayed data is not from the database, for safety reasons. This feature is <strong><i>Read Only</i></strong>, that means regular user can not input, change or update any data, he can just view some of it.</p>
+    </div>
+  </main>
+  <footer>
+    <button *ngIf="activePage > 0" (click)="managePages(activePage-1)" class="btn-200">Back</button>
+    <button *ngIf="activePage === 0" (click)="close()" class="btn-200">Back</button>
+    <div class="spacer"></div>
+    <button *ngIf="allPages.length-1 !== activePage" (click)="managePages(activePage+1)" class="btn-200">Next</button>
+    <button *ngIf="allPages.length-1 === activePage" (click)="agreeWithAdminMode()" class="btn-200" style="width: auto;">Proceed</button>
+  </footer>
+</div>

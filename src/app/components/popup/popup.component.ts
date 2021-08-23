@@ -23,7 +23,7 @@ export class PopupComponent implements OnInit {
     }
   }
 
-  get getPages() { return document.querySelectorAll('.notification .content') }
+  get getPages() { return document.querySelectorAll('.notification:not(.disabled) .content') }
 
   managePages(newActivePage: number) {
     this.removeActivePage();
@@ -31,12 +31,19 @@ export class PopupComponent implements OnInit {
     this.activePage = newActivePage;
   }
 
-  removeActivePage() { document.querySelector('.notification .content.active')?.classList.remove('active'); }
+  removeActivePage() { document.querySelector('.notification:not(.disabled) .content.active')?.classList.remove('active'); }
 
   dotClick(e: Event) { this.managePages(Number((e.target as Element).id.slice(-1))) }
 
+  agreeWithAdminMode() {
+    this.userService.setAdminMode(true);
+    this.close();
+  }
+
   agreeWithCookies() {
     this.userService.setUserAgreement();
-    this.userService.setPopUp(null);
+    this.close();
   }
+
+  close() { this.userService.setPopUp(null) }
 }
