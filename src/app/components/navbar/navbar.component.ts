@@ -4,7 +4,7 @@ import { AuthenticationService } from 'src/app/services/authentication/authentic
 import { CommService } from 'src/app/services/comm/comm.service';
 import { LeagueService } from 'src/app/services/league/league.service';
 import { SearchService } from 'src/app/services/search/search.service';
-import { UserService } from 'src/app/services/user/user.service';
+import { userData, UserService } from 'src/app/services/user/user.service';
 import { environment } from '../../../environments/environment';
 
 @Component({
@@ -16,6 +16,7 @@ export class NavbarComponent implements AfterViewInit{
 
   isLoggedIn: boolean = false;
   isLeaguesOpen: boolean = false;
+  adminMode: boolean = false;
 
   suggestionOpen: boolean = false;
   suggestionArray: string[] = [];
@@ -30,7 +31,23 @@ export class NavbarComponent implements AfterViewInit{
   query: string = '';
 
   league: string = '';
-  userInfo: any;
+  userInfo: userData = {
+    id: null,
+    firstName: null,
+    lastName: null,
+    email: null,
+    admin: null,
+    createdAt: null,
+    updatedAt: null,
+    profileImg: null,
+    googleID: null,
+    facebookID: null,
+    amazonID: null,
+    safeImport: null,
+    editImport: null,
+    emailingService: null,
+    following: null
+  };
   following: any = [];
 
   leaguesOptions: any[] = [];
@@ -51,6 +68,7 @@ export class NavbarComponent implements AfterViewInit{
         this.userInfo = data;
         this.following = data.following;
       });
+      userService.getAdminMode().subscribe(data => this.adminMode = data);
       leagueService.getOpenLeague().subscribe(data => this.league = data);
       leagueService.getLeagueOptions().subscribe(data => this.leaguesOptions = data);
     }
@@ -194,5 +212,7 @@ export class NavbarComponent implements AfterViewInit{
 
     this.comm.setWaitForResponse(false);
   }
+
+  switchMode(val: string | null) { this.userService.setPopUp(val); }
 }
 

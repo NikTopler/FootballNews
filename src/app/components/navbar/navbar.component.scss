@@ -326,13 +326,14 @@ nav.leagues {
         cursor: pointer;
       }
 
-      .button.logout {
-        background-color: $red-300;
+      .button.logout, .button.admin {
         box-shadow: 0px 2px 4px 0px $gray-300, 0px 2px 4px 0px $gray-300;
         span {
           color: $bg;
         }
       }
+      .button.logout { background-color: $red-300; }
+      .button.admin { background-color: $blue-google; }
     }
   }
 }
