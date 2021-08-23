@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { UserService } from 'src/app/services/user/user.service';
+import { userData, UserService } from 'src/app/services/user/user.service';
 
 @Component({
   selector: 'app-settings',
@@ -9,7 +9,25 @@ import { UserService } from 'src/app/services/user/user.service';
 })
 export class SettingsComponent implements OnInit {
 
-  userInfo: any;
+  userInfo: userData = {
+    id: null,
+    firstName: null,
+    lastName: null,
+    email: null,
+    admin: null,
+    createdAt: null,
+    updatedAt: null,
+    profileImg: null,
+    googleID: null,
+    facebookID: null,
+    amazonID: null,
+    safeImport: null,
+    editImport: null,
+    emailingService: null,
+    following: null
+  };
+  adminMode: boolean = false;
+
   alertArray: any[] = [];
   alert: boolean = false;
   alertText: string = '';
@@ -26,7 +44,8 @@ export class SettingsComponent implements OnInit {
     private router: Router,
     private userService: UserService) {
       router.events.subscribe(() => this.updateSidebar())
-      userService.getUserData().subscribe((data) => { this.userInfo = data; })
+      userService.getUserData().subscribe(data => this.userInfo = data);
+      userService.getAdminMode().subscribe(data => this.adminMode = data);
     }
 
   ngOnInit(): void {

@@ -14,7 +14,7 @@
       </div>
       <div class="text">
         <h3>{{ userInfo.firstName + ' '+ userInfo.lastName }}</h3>
-        <span>Your account</span>
+        <span>{{ userInfo.admin === '1' ? 'Admin account' : adminMode ? 'Admin mode' : 'Standard account' }}</span>
       </div>
       <div class="spacer"></div>
       <div class="button-container">
