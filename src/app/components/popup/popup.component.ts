@@ -2,11 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { UserService } from 'src/app/services/user/user.service';
 
 @Component({
-  selector: 'app-under-construction',
-  templateUrl: './notification.html',
-  styleUrls: ['./notification.scss']
+  selector: 'app-popup',
+  templateUrl: './popup.component.html',
+  styleUrls: ['./popup.component.scss']
 })
-export class UnderConstructionComponent implements OnInit {
+export class PopupComponent implements OnInit {
 
   activePage: number = 0;
   allPages: HTMLElement[] = [];

@@ -1,8 +1,9 @@
 <app-external *ngIf="socialLoginPopup"></app-external>
 <div
-  *ngIf="socialLoginPopup"
+  *ngIf="socialLoginPopup || !underCons"
   class="overlay active"></div>
-<div class="main-app-content {{ socialLoginPopup ? 'hidden' : '' }}" *ngIf="!reload">
+<div *ngIf="!reload"
+  class="main-app-content {{ socialLoginPopup || !underCons ? 'hidden' : '' }}">
   <app-navbar></app-navbar>
   <div class="router-content">
     <router-outlet></router-outlet>
@@ -16,3 +17,4 @@
   color="accent"
   class="progress-bar">
 </mat-progress-bar>
+<app-popup *ngIf="!underCons"></app-popup>

@@ -49,6 +49,7 @@ import { NewsComponent } from './pages/leagues/news/news.component';
 import { PlayersComponent } from './pages/leagues/players/players.component';
 import { StandingsComponent } from './pages/leagues/standings/standings.component';
 import { MatchesComponent } from './pages/leagues/matches/matches.component';
+import { PopupComponent } from './components/popup/popup.component';
 
 
 @NgModule({
@@ -78,7 +79,8 @@ import { MatchesComponent } from './pages/leagues/matches/matches.component';
     NewsComponent,
     PlayersComponent,
     StandingsComponent,
-    MatchesComponent
+    MatchesComponent,
+    PopupComponent
   ],
   imports: [
     BrowserModule,

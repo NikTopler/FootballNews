@@ -1,20 +1,19 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { PopupComponent } from './popup.component';
 
-import { UnderConstructionComponent } from './notification';
-
-describe('UnderConstructionComponent', () => {
-  let component: UnderConstructionComponent;
-  let fixture: ComponentFixture<UnderConstructionComponent>;
+describe('NotificationComponent', () => {
+  let component: PopupComponent;
+  let fixture: ComponentFixture<PopupComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ UnderConstructionComponent ]
+      declarations: [ PopupComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(UnderConstructionComponent);
+    fixture = TestBed.createComponent(PopupComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
