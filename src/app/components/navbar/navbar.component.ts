@@ -213,6 +213,12 @@ export class NavbarComponent implements AfterViewInit{
     this.comm.setWaitForResponse(false);
   }
 
-  switchMode(val: string | null) { this.userService.setPopUp(val); }
+  switchMode(val: string | null) {
+    if(!val) {
+      this.userService.setAdminMode(false);
+      this.router.navigateByUrl('/home');
+    }
+    this.userService.setPopUp(val);
+  }
 }
 
