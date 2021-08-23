@@ -22,6 +22,7 @@ export class NavbarComponent implements AfterViewInit{
   isMouseOverSuggest: boolean = false;
 
   extraSearchOpen: boolean = false;
+  dropDownOpen: boolean = false;
 
   isMainInputOpen: boolean = false;
   isAccountPageOpen: boolean = false;
