@@ -86,3 +86,9 @@ footer {
     }
   }
 }
+
+@media screen and (max-width: 600px) {
+  .main-container {
+    width: calc(100% - 4rem);
+  }
+}
