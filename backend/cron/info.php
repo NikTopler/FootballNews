@@ -2,6 +2,7 @@
 
 class StandingsCRON extends SeasonCRON {
 
+  public $apiKey = 'c54ab850-d202-11eb-9297-d55212e814f0';
   public $website = 'https://www.google.com/search?tbm=isch&q=';
   public $images = array();
 
@@ -10,7 +11,7 @@ class StandingsCRON extends SeasonCRON {
     $seasonArray = $this->getAllSeasons();
 
     for($i = 0; $i < count($seasonArray); $i++) {
-      $seasonsFile = file_get_contents('https://app.sportdataapi.com/api/v1/soccer/seasons/'.$seasonArray[$i]->id.'?apikey=c54ab850-d202-11eb-9297-d55212e814f0');
+      $seasonsFile = file_get_contents('https://app.sportdataapi.com/api/v1/soccer/seasons/'.$seasonArray[$i]->id.'?apikey='.$this->apiKey);
       libxml_use_internal_errors(TRUE);
       $seasonObject = json_decode('['.$seasonsFile.']');
       $seasons = $seasonObject[0]->data;
@@ -23,10 +24,10 @@ class StandingsCRON extends SeasonCRON {
 
       if($seasons->is_current == 0) continue;
 
-      $standingFile = file_get_contents('https://app.sportdataapi.com/api/v1/soccer/standings?apikey=c54ab850-d202-11eb-9297-d55212e814f0&season_id='.$seasonArray[$i]->id);
+      $standingFile = file_get_contents('https://app.sportdataapi.com/api/v1/soccer/standings?apikey='.$this->apiKey.'&season_id='.$seasonArray[$i]->id);
       $standings = $this->setupStandings(json_decode($standingFile));
 
-      $topScorersFile = file_get_contents('https://app.sportdataapi.com/api/v1/soccer/topscorers?apikey=c54ab850-d202-11eb-9297-d55212e814f0&season_id='.$seasonArray[$i]->id);
+      $topScorersFile = file_get_contents('https://app.sportdataapi.com/api/v1/soccer/topscorers?apikey='.$this->apiKey.'&season_id='.$seasonArray[$i]->id);
       $players = $this->setupPlayers(json_decode($topScorersFile));
 
       $this->insertIntoDB($seasonArray[$i]->id, 'standings', $standings);
@@ -77,7 +78,7 @@ class StandingsCRON extends SeasonCRON {
 
       $profileImage = null;
 
-      if($i < 30) {
+      if($i < 24) {
         $xpath = $this->imageSetup($this->website.''.str_replace(' ', '+', $players[$i]->player->player_name));
 
         $images = $xpath->query('//img');
@@ -123,6 +124,13 @@ class StandingsCRON extends SeasonCRON {
     $stmt = $this->connect()->prepare($sql);
     $stmt->execute([$teamID]);
     $row = $stmt->fetch();
+
+    if(!$row) return (object) array(
+      "id" => '',
+      "name" => '',
+      "shortCode" => '',
+      "logo" => ''
+    );
 
     $schema = (object) array(
       "id" => $row['id'],
@@ -185,4 +193,3 @@ class StandingsCRON extends SeasonCRON {
 
 $standingsCRON = new StandingsCRON();
 $standingsCRON->setup();
-

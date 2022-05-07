@@ -16,6 +16,7 @@ import { DownloadService } from 'src/app/services/download/download.service';
 export class ImportComponent {
 
   userInfo: any;
+  adminMode: boolean = false;
   openTab: string = 'Users';
 
   usersArray: string[][] = [];
@@ -53,7 +54,8 @@ export class ImportComponent {
     private importVerifyService: ImportVerificationService,
     private authenticationService: AuthenticationService,
     private downloadService: DownloadService) {
-      userService.getUserData().subscribe((data) => { this.userInfo = data; })
+      userService.getUserData().subscribe((data) => this.userInfo = data);
+      userService.getAdminMode().subscribe((data) => this.adminMode = data);
     }
 
   checkFile(event: any) {
@@ -231,7 +233,10 @@ export class ImportComponent {
   trackByFn(index: number) { return index; }
 
   tabChanged(e: any) { this.openTab = e.tab.textLabel; }
-  openFileManager(e: any) { e.target.parentElement.querySelector('input').click(); }
+  openFileManager(e: any) {
+    if(this.adminMode) return;
+    e.target.parentElement.querySelector('input').click();
+  }
   downloadTemplateFile(path: string) {
    const link = document.getElementById(path) as HTMLLinkElement;
    link.click();

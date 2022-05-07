@@ -86,9 +86,9 @@
               <span>Home page</span>
             </div>
           </div>
-          <div *ngIf="userInfo.admin === '0'" (click)="switchMode(adminMode ? null : 'AdminMode'); dropDownOpen = !dropDownOpen" class="button admin">
+          <!-- <div *ngIf="userInfo.admin === '0'" (click)="switchMode(adminMode ? null : 'AdminMode'); dropDownOpen = !dropDownOpen" class="button admin">
             <span>{{adminMode ? 'User mode' : 'Admin mode'}}</span>
-          </div>
+          </div> -->
           <div (click)="logout(); dropDownOpen = !dropDownOpen" class="button logout">
             <span>Logout</span>
           </div>

@@ -5,10 +5,10 @@ class Update extends User {
 
   public function getAllUsers($data) {
 
-    if($data->start != false) $limit = 'LIMIT '.$data->start.', '.$data->end;
+    if(is_int($data->start)) $limit = 'LIMIT '.$data->start.', '.$data->end;
     else $limit = '';
 
-    $sql = 'SELECT * FROM users ORDER BY id '.$limit;
+    $sql = 'SELECT * FROM users u INNER JOIN settings s ON u.id = s.id ORDER BY u.id '.$limit;
     $stmt = $this->connect()->prepare($sql);
     $stmt->execute();
 
@@ -26,6 +26,7 @@ class Update extends User {
         $row['googleID'],
         $row['facebookID'],
         $row['amazonID'],
+        $row['emailingService'],
         $row['safeImport'],
         $row['editImport']
       ]);
@@ -39,17 +40,18 @@ class Update extends User {
 
   public function getAllTeams($data) {
 
-    if($data->start != false) $limit = 'LIMIT '.$data->start.', '.$data->end;
+    if(is_int($data->start)) $limit = 'LIMIT '.$data->start.', '.$data->end;
     else $limit = '';
 
-    $sql = 'SELECT t.name AS teamName,
-            t.team_id, t.short_code, t.logo,
-            c.name AS countryName,
-            co.name AS continentName, l.name AS leagueName, lt.startDate, lt.endDate FROM teams t
-            INNER JOIN league_team lt ON lt.team_id = t.id
-              INNER JOIN leagues l ON lt.league_id = l.id
-              INNER JOIN countries c ON t.country_id = c.id
-              INNER JOIN continents co ON c.continent_id = co.id
+    $sql = 'SELECT
+                t.id AS teamID,
+                t.name AS teamName,
+                t.shortCode AS shortCode,
+                t.logo AS logo,
+                c.name AS countryName,
+                co.name AS continentName
+            FROM teams t INNER JOIN countries c ON t.country_id = c.id
+            INNER JOIN continents co ON c.continent_id = co.id
             ORDER BY t.id '.$limit;
     $stmt = $this->connect()->prepare($sql);
     $stmt->execute();
@@ -59,14 +61,11 @@ class Update extends User {
     while($row = $stmt->fetch()) {
       array_push($allTeams, [
         $row['teamName'],
-        $row['team_id'],
-        $row['short_code'],
+        $row['teamID'],
+        $row['shortCode'],
         $row['logo'],
         $row['countryName'],
-        $row['continentName'],
-        $row['leagueName'],
-        $row['startDate'],
-        $row['endDate']
+        $row['continentName']
       ]);
     }
 
@@ -78,7 +77,7 @@ class Update extends User {
 
   public function getAllLeagues($data) {
 
-    if($data->start != false) $limit = 'LIMIT '.$data->start.', '.$data->end;
+    if(is_int($data->start)) $limit = 'LIMIT '.$data->start.', '.$data->end;
     else $limit = '';
 
     $sql = 'SELECT * FROM leagues ORDER BY id '.$limit;
@@ -101,15 +100,14 @@ class Update extends User {
 
   public function getAllCountries($data) {
 
-    if($data->start != false) $limit = 'LIMIT '.$data->start.', '.$data->end;
+    if(is_int($data->start)) $limit = 'LIMIT '.$data->start.', '.$data->end;
     else $limit = '';
 
-    $sql = 'SELECT c.name
-              AS countryName,
-              c.code AS code,
-              co.name AS continentName
-            FROM countries c
-              INNER JOIN continents co ON c.continent_id = co.id
+    $sql = 'SELECT
+              c.name as countryName,
+              c.acronym as countryAcronym,
+              co.name as continentName
+            FROM countries c INNER JOIN continents co ON co.id = c.continent_id
             ORDER BY c.id '.$limit;
     $stmt = $this->connect()->prepare($sql);
     $stmt->execute();
@@ -119,14 +117,15 @@ class Update extends User {
     while($row = $stmt->fetch()) {
       array_push($allCountries, [
         $row['countryName'],
-        $row['code'],
+        $row['countryAcronym'],
         $row['continentName']
       ]);
     }
 
     echo json_encode(array(
       "status" => "ok",
-      "data" => $allCountries
+      "data" => $allCountries,
+      "sql" => $sql
     ));
   }
 

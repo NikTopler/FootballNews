@@ -7,17 +7,17 @@ class Admin extends User {
     $date = date(time());
 
     if($type == 'user') $sqlSelect = '(SELECT id FROM users WHERE email = ?)';
-    else if($type == 'team') $sqlSelect = '(SELECT id FROM teams WHERE team_id = ?)';
+    else if($type == 'team') $sqlSelect = '(SELECT id FROM teams WHERE id = ?)';
     else if($type == 'league') $sqlSelect = '(SELECT id FROM leagues WHERE LOWER(name) = ?)';
     else if($type == 'country') $sqlSelect = '(SELECT id FROM countries WHERE LOWER(name) = ?)';
     else if($type == 'season') $sqlSelect = $seasonId;
-    else if($type == 'email') $sqlSelect = '(SELECT id FROM sendEmails WHERE time = ?)';
+    else if($type == 'email') $sqlSelect = '(SELECT id FROM emails WHERE time = ?)';
 
     $sql = 'INSERT INTO
-      track_admin(time, admin_id, type, '.$columnName.')
-      VALUES (?, (SELECT id FROM users WHERE email = ?), ?, '.$sqlSelect.')';
+      admins(time, admin_id, '.$columnName.', type)
+      VALUES (?, (SELECT id FROM users WHERE email = ?), '.$sqlSelect.', ?)';
     $stmt = $this->connect()->prepare($sql);
-    $stmt->execute([$date, $adminEmail, $actionType, $value]);
+    $stmt->execute([$date, $adminEmail, $value, $type]);
   }
 
   public function userImport($data) {

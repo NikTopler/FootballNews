@@ -13,32 +13,38 @@ import { environment } from '../../../../../environments/environment';
 export class DisplayComponent {
 
   openTab: string = 'Users';
-  rowsInTable: number = 14;
+  rowsInTable: number = 20;
+  selectOpen: boolean = false;
+
+  pageNumMin: number = 0;
+  pageNumMax: number = 7;
+  selectedPage: number = 1;
+  activePageArray: string[] = [];
 
   usersArray: string[][] = [];
   userPages: number[] = [];
-  userTemplate: string[] = ['First name','Last name','Email','Admin','Created at','Updated at','Profile image','Google ID','Facebook ID','Amazon ID','Safe import','Edit import'];
+  userTemplate: string[] = this.editorService.userTemplate;
   userOpenTable: boolean = true;
   userOpenJSON: boolean = false;
   userCopy: boolean = false;
 
   teamsArray: string[][] = [];
   teamPages: number[] = [];
-  teamTemplate: string[] = ['Name', 'Team id', 'Short code', 'Logo', 'Country', 'Continent', 'League', 'Season start date', 'Season end date'];
+  teamTemplate: string[] = this.editorService.teamTemplate;
   teamOpenTable: boolean = true;
   teamOpenJSON: boolean = false;
   teamCopy: boolean = false;
 
   leaguesArray: string[][] = [];
   leaguePages: number[] = [];
-  leagueTemplate: string[] = ['Name'];
+  leagueTemplate: string[] = this.editorService.leagueTemplate;
   leagueOpenTable: boolean = true;
   leagueOpenJSON: boolean = false;
   leagueCopy: boolean = false;
 
   countriesArray: string[][] = [];
   countryPages: number[] = [];
-  countryTemplate: string[] = ["Name", "Code", "Continent"];
+  countryTemplate: string[] = this.editorService.countryTemplate;
   countryOpenTable: boolean = true;
   countryOpenJSON: boolean = false;
   countryCopy: boolean = false;
@@ -60,10 +66,12 @@ export class DisplayComponent {
     const res = await req.text();
     const pages = Math.ceil(Number(res) / this.rowsInTable);
 
-    if(this.openTab === 'Users') this.userPages = Array(pages).fill(0).map((x,i)=>i);
-    else if(this.openTab === 'Teams') this.teamPages = Array(pages).fill(0).map((x,i)=>i);
-    else if(this.openTab === 'Leagues') this.leaguePages = Array(pages).fill(0).map((x,i)=>i);
-    else if(this.openTab === 'Countries') this.countryPages = Array(pages).fill(0).map((x,i)=>i);
+    console.log(res, pages);
+
+    if(this.openTab === 'Users') this.userPages = [... Array(pages).keys()];
+    else if(this.openTab === 'Teams') this.teamPages = [... Array(pages).keys()];
+    else if(this.openTab === 'Leagues') this.leaguePages = [... Array(pages).keys()];
+    else if(this.openTab === 'Countries') this.countryPages = [... Array(pages).keys()];
   }
 
   async fetchData(noLimit: boolean) {
@@ -77,13 +85,13 @@ export class DisplayComponent {
     }
 
     const limit = JSON.stringify({ "start": startLimit, "end": endLimit });
+
     const req = await fetch(`${environment.db}/update.php`, {
       method: 'POST',
       body: this.comm.createFormData(`GET_${this.openTab.toUpperCase()}`, limit)
     });
     const res = await req.text();
     const array: string[][] = JSON.parse(res).data;
-
     let newArray = [];
 
     for(let i = 0; i < array.length; i++)
@@ -174,7 +182,6 @@ export class DisplayComponent {
   update(type: string, array: string[][]) { }
 
   changePage(e: any, num: number) {
-
     const selectedDiv = e.target as HTMLDivElement;
     const selecedDivContainer = selectedDiv.parentElement as HTMLDivElement;
 
@@ -185,16 +192,18 @@ export class DisplayComponent {
     selectedDiv.classList.add('active');
 
     this.startLimit = num === 0 ? 0 : num * 13;
-    this.endLimit = num === 0 ? this.rowsInTable : this.rowsInTable + num * 13;
 
     this.updateArray();
+    this.selectedPage = num + 1;
   }
 
   editArray(type: string, e: any) { }
 
   trackByFn(index: number) { return index; }
+
   async tabChanged(e: any) {
     this.openTab = e.tab.textLabel;
+    this.selectOpen = false;
     const pageNumber = document.querySelector('.'+this.openTab) as HTMLDivElement;
 
     if(pageNumber) {
@@ -210,4 +219,13 @@ export class DisplayComponent {
   }
 
   copy() { this.editorService.copyToClipboard(); }
+
+  getSelectContainer(id: string) { return document.getElementById(id) as HTMLDivElement; }
+
+  manageSelect(id: string) {
+    const expandContainer = this.getSelectContainer(id).querySelector('.select-expand') as HTMLDivElement;
+
+    if(this.selectOpen) expandContainer.classList.add('active');
+    else expandContainer.classList.remove('active');
+  }
 }

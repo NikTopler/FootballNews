@@ -2,11 +2,13 @@
 
 class SeasonCRON extends Dbh {
 
+  public $apiKey = 'c54ab850-d202-11eb-9297-d55212e814f0';
+
   public function setupSeasons() {
     $leagues = $this->getLeagueIDs();
 
     for($i = 0; $i < count($leagues); $i++) {
-      $teams = file_get_contents('https://app.sportdataapi.com/api/v1/soccer/seasons?apikey=9751a990-86f0-11eb-a0c8-6b846512b7c7&league_id='.$leagues[$i]->id);
+      $teams = file_get_contents('https://app.sportdataapi.com/api/v1/soccer/seasons?apikey='.$this->apiKey.'&league_id='.$leagues[$i]->id);
       libxml_use_internal_errors(TRUE);
       $this->insertSeasons($teams);
     }
@@ -30,7 +32,7 @@ class SeasonCRON extends Dbh {
         $row = $stmt->fetch();
       }
 
-      $teamsString = file_get_contents('https://app.sportdataapi.com/api/v1/soccer/standings?apikey=9751a990-86f0-11eb-a0c8-6b846512b7c7&season_id='.$seasons[$i]->season_id);
+      $teamsString = file_get_contents('https://app.sportdataapi.com/api/v1/soccer/standings?apikey='.$this->apiKey.'&season_id='.$seasons[$i]->season_id);
       libxml_use_internal_errors(TRUE);
       $object = json_decode('['.$teamsString.']');
       $teams = $object[0]->data->standings;

@@ -42,7 +42,7 @@ export class GraphService {
   constructor(
     private comm: CommService,
     private userService: UserService) {
-      this.userService.getUserData().subscribe((data) => { this.userInfo = data; })
+      this.userService.getUserData().subscribe((data) => { this.userInfo = data })
     }
 
   async getValues(type: string) {
@@ -57,12 +57,11 @@ export class GraphService {
     const adminData = data.admin_data;
     const yourData = data.your_data;
 
-    this.allAdminImports(adminData);
-    this.yourImports(yourData);
+    await this.allAdminImports(adminData);
+    await this.yourImports(yourData);
   }
 
   allAdminImports(array: string[][]) {
-
     if(array.length === 0) return;
 
     let admin: string = `${array[0][0]} ${array[0][1]}`;

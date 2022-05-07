@@ -12,15 +12,19 @@ import { environment } from '../../../../../environments/environment';
 export class AdminPanelComponent {
 
   userInfo: any;
+  adminMode: boolean = false;
 
   constructor(
     private userService: UserService,
     private comm: CommService,
     private authenticationService: AuthenticationService) {
-      userService.getUserData().subscribe((data) => { this.userInfo = data; })
+      userService.getUserData().subscribe((data) => this.userInfo = data);
+      userService.getAdminMode().subscribe((data) => this.adminMode = data);
     }
 
   async importingData(type: string) {
+
+    if(this.adminMode) return;
 
     let newPreference: number = 0;
     this.comm.setWaitForResponse(true);

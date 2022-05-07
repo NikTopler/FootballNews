@@ -5,7 +5,7 @@ class Graph extends User {
 
   public function adminImport($type) {
     $sql = 'SELECT u.firstName, u.lastName, u.email, ta.time, ta.type
-            FROM track_admin ta
+            FROM admins ta
               INNER JOIN users u ON u.id = ta.admin_id
             WHERE LOWER(ta.type) = ?
               ORDER BY ta.admin_id';
@@ -18,7 +18,7 @@ class Graph extends User {
       array_push($admin_data, [$row["firstName"],$row["lastName"],$row["email"], $row["type"],$row["time"]]);
 
     $sql = 'SELECT u.firstName, u.lastName, u.email, ta.time, ta.type
-            FROM track_admin ta INNER JOIN users u ON u.id = ta.admin_id
+            FROM admins ta INNER JOIN users u ON u.id = ta.admin_id
             WHERE LOWER(ta.type) = ?
               ORDER BY ta.time';
     $stmt = $this->connect()->prepare($sql);
@@ -28,7 +28,6 @@ class Graph extends User {
     $your_data = [];
     while($row = $stmt->fetch())
       array_push($your_data, [$row["firstName"],$row["lastName"],$row["email"], $row["type"],$row["time"]]);
-
 
     echo json_encode(array(
       "status" => "ok",

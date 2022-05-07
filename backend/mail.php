@@ -22,18 +22,10 @@ class Mail extends Admin {
         die;
       }
 
-      // try {
-        $sql = 'INSERT INTO sendEmails(time, subject, message, email) VALUES(?, ?, ?, ?)';
-        $stmt = $this->connect()->prepare($sql);
-        $stmt->execute([$date, $data->subject, $data->message, $data->emails[$i]]);
-        $this->adminCheckUp($data->adminEmail, $date, 'email', 'email', 'sendEmails_id', null);
-      // } catch(Exception $e) {
-        // echo json_encode(array(
-        //   "status" => 404,
-        //   "data" => $e
-        // ));
-        // die;
-      // }
+      $sql = 'INSERT INTO emails(time, subject, message, email) VALUES(?, ?, ?, ?)';
+      $stmt = $this->connect()->prepare($sql);
+      $stmt->execute([$date, $data->subject, $data->message, $data->emails[$i]]);
+      $this->adminCheckUp($data->adminEmail, $date, 'email', 'email', 'email_id', null);
     }
 
     echo json_encode(array(

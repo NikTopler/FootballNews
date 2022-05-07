@@ -52,12 +52,12 @@ export class MatchesComponent {
   }
 
   async fetchMatch(startDate: string, endDate: string) {
-    let id = 0;
-    if(this.league === 'laliga') id = 1511;
-    else id = 352;
-    const req = await fetch(`https://app.sportdataapi.com/api/v1/soccer/matches?apikey=2f2b7820-86f4-11eb-b165-0792cfd2240a&season_id=${id}&date_from=${startDate}&date_to=${endDate}`);
-    const res = await req.json();
-    this.matches = res.data;
+    // let id = 0;
+    // if(this.league === 'laliga') id = 1511;
+    // else id = 352;
+    // const req = await fetch(`https://app.sportdataapi.com/api/v1/soccer/matches?apikey=2f2b7820-86f4-11eb-b165-0792cfd2240a&season_id=${id}&date_from=${startDate}&date_to=${endDate}`);
+    // const res = await req.json();
+    // this.matches = res.data;
   }
 
 

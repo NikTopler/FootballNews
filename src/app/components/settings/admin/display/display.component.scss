@@ -9,9 +9,6 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-direction: row;
-  flex-wrap: nowrap;
-  justify-content: space-between;
 
   .btn-container { width: 8rem; }
 
@@ -95,4 +92,11 @@
     div:hover { background-color: $gray-200; }
     div.active { background-color: $gray-200; }
   }
+}
+
+svg{
+  width: 100px;
+  height: 100px;
+  margin: 20px;
+  display:inline-block;
 }

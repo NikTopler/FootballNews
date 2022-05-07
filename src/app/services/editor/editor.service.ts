@@ -11,10 +11,10 @@ export class EditorService {
   copyArray: string[] = [];
   $loading = new BehaviorSubject<boolean>(true);
 
-  userTemplate: string[] = ['firstName','lastName','email','admin','createdAt','updatedAt','profileImage','googleID','facebookID','amazonID','safeImport','editImport'];
-  teamTemplate: string[] = ['name', 'teamID', 'shortCode', 'logo', 'country', 'continent', 'league', 'seasonStartDate', 'seasonEndDate'];
-  leagueTemplate: string[] = ['name'];
-  countryTemplate: string[] = ['name', 'code', 'continent'];
+  userTemplate: string[] = ['First name','Last name','Email','Admin','Created at','Updated at','Profile image','Google ID','Facebook ID','Amazon ID','Email Service','Safe import','Edit import'];
+  teamTemplate: string[] = ['Name', 'Team ID', 'Short Code', 'Logo', 'Country', 'Continent'];
+  leagueTemplate: string[] = ['Name'];
+  countryTemplate: string[] = ['Name', 'Acronym', 'Continent'];
 
   constructor(private clipboard: Clipboard) { }
 

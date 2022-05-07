@@ -9,14 +9,21 @@
               <div (click)="userOpenTable = false; userOpenJSON = true;" class="{{userOpenJSON ? 'active' : ''}}">JSON</div>
             </div>
             <div class="spacer"></div>
-            <button *ngIf="userOpenJSON" (click)="userCopy=true; copy()" class="btn-100">
-              <span>{{ userCopy ? 'Copied' : 'Copy' }}</span>
-            </button>
+            <div class="select-container" id="User-more">
+              <button (click)="selectOpen = !selectOpen; manageSelect('User-more')" class="select">
+                <span id="resend-text">Extra Options</span>
+              </button>
+              <div class="select-expand">
+                <div (click)="userCopy=true; copy()" class="option">{{ userCopy ? 'Copied' : 'Copy JSON' }}</div>
+                <div (click)="download('users')" class="option">Download</div>
+                <div *ngIf="!userOpenJSON" (click)="update('users', usersArray) "class="option">Update</div>
+              </div>
+            </div>
           </div>
           <div class="mb-2" *ngIf="userOpenJSON">
             <div class="table-external-container editor">
-                <div class="overflow">
-                  <app-editor></app-editor>
+              <div class="overflow">
+                <app-editor></app-editor>
               </div>
             </div>
           </div>
@@ -37,18 +44,12 @@
               </div>
             </div>
             <div class="footer">
-              <div class="btn-container download">
-                <button (click)="download('users')" class="btn-100">Download</button>
-              </div>
               <div class="all-numbers Users">
                   <div *ngFor="let page of userPages; let index = index"
                   (click)="changePage($event, index)"
                   class="page-number {{ index === 0 ? 'active' : '' }}">
                     {{ index + 1 }}
                   </div>
-              </div>
-              <div class="btn-container update">
-                <button (click)="update('users', usersArray)" class="btn-200">Update</button>
               </div>
             </div>
           </div>
@@ -58,13 +59,20 @@
         <section class="content">
           <div class="type-container">
             <div class="double-button-container">
-              <div (click)="teamOpenTable = true; teamOpenJSON = false;" class="{{teamOpenTable ? 'active' : ''}}">Table</div>
-              <div (click)="teamOpenTable = false; teamOpenJSON = true;" class="{{teamOpenJSON ? 'active' : ''}}">JSON</div>
+              <div (click)="teamOpenTable = true; teamOpenJSON = false" class="{{teamOpenTable ? 'active' : ''}}">Table</div>
+              <div (click)="teamOpenTable = false; teamOpenJSON = true" class="{{teamOpenJSON ? 'active' : ''}}">JSON</div>
             </div>
             <div class="spacer"></div>
-            <button *ngIf="teamOpenJSON" (click)="teamCopy=true; copy()" class="btn-100">
-              <span>{{ teamCopy ? 'Copied' : 'Copy' }}</span>
-            </button>
+            <div class="select-container" id="Team-more">
+              <button (click)="selectOpen = !selectOpen; manageSelect('Team-more')" class="select">
+                <span id="resend-text">Extra Options</span>
+              </button>
+              <div class="select-expand">
+                <div (click)="teamCopy = true; copy()" class="option">{{ teamCopy ? 'Copied' : 'Copy JSON' }}</div>
+                <div (click)="download('teams')" class="option">Download</div>
+                <div *ngIf="!userOpenJSON" (click)="update('teams', teamsArray) "class="option">Update</div>
+              </div>
+            </div>
           </div>
           <div class="mb-2" *ngIf="teamOpenJSON">
             <div class="table-external-container editor">
@@ -90,18 +98,18 @@
               </div>
             </div>
             <div class="footer">
-              <div class="btn-container download">
-                <button (click)="download('teams')" class="btn-100">Download</button>
-              </div>
-              <div class="all-numbers Teams">
-                <div *ngFor="let page of teamPages; let index = index"
-                  (click)="changePage($event, index)"
-                  class="page-number {{ index === 0 ? 'active' : '' }}">
-                  {{ index + 1 }}
+              <div *ngIf="teamPages.length > 15" class="all-numbers Teams">
+                <div *ngIf="pageNumMin - 7 >= 0" (click)="pageNumMin = pageNumMin - 7; pageNumMax = pageNumMax - 7" class="page-number">Back</div>
+                <div *ngIf="!(pageNumMin <= selectedPage && selectedPage <= pageNumMax) && pageNumMax > selectedPage" class="page-number active">{{ selectedPage }}</div>
+                <div *ngIf="!(pageNumMin <= selectedPage && selectedPage <= pageNumMax) && pageNumMax > selectedPage" class="page-number">...</div>
+                <div *ngFor="let page of teamPages.slice(pageNumMin, pageNumMax); let index = index"
+                    (click)="changePage($event, page)"
+                    class="page-number {{ page === selectedPage - 1 ? 'active' : '' }}">
+                    {{ page + 1 }}
                 </div>
-              </div>
-              <div class="btn-container update">
-                <button (click)="update('teams', teamsArray)" class="btn-200">Update</button>
+                <div *ngIf="!(pageNumMin <= selectedPage && selectedPage <= pageNumMax) && pageNumMax < selectedPage" class="page-number">...</div>
+                <div *ngIf="!(pageNumMin <= selectedPage && selectedPage <= pageNumMax) && pageNumMax < selectedPage" class="page-number active">{{ selectedPage }}</div>
+                <div *ngIf="teamPages.length > pageNumMax" (click)="pageNumMin = pageNumMin + 7; pageNumMax = pageNumMax + 7" class="page-number">Next</div>
               </div>
             </div>
           </div>
@@ -115,9 +123,16 @@
               <div (click)="leagueOpenTable = false; leagueOpenJSON = true;" class="{{leagueOpenJSON ? 'active' : ''}}">JSON</div>
             </div>
             <div class="spacer"></div>
-            <button *ngIf="leagueOpenJSON" (click)="leagueCopy=true; copy()" class="btn-100">
-              <span>{{ leagueCopy ? 'Copied' : 'Copy' }}</span>
-            </button>
+            <div class="select-container" id="League-more">
+              <button (click)="selectOpen = !selectOpen; manageSelect('League-more')" class="select">
+                <span id="resend-text">Extra Options</span>
+              </button>
+              <div class="select-expand">
+                <div (click)="leagueCopy = true; copy()" class="option">{{ leagueCopy ? 'Copied' : 'Copy JSON' }}</div>
+                <div (click)="download('leagues')" class="option">Download</div>
+                <div *ngIf="!userOpenJSON" (click)="update('leagues', leaguesArray) "class="option">Update</div>
+              </div>
+            </div>
           </div>
           <div class="mb-2" *ngIf="leagueOpenJSON">
             <div class="table-external-container editor">
@@ -143,18 +158,12 @@
               </div>
             </div>
             <div class="footer">
-              <div class="btn-container download">
-                <button (click)="download('leagues')" class="btn-100">Download</button>
-              </div>
               <div class="all-numbers Leagues">
                 <div *ngFor="let page of leaguePages; let index = index"
                   (click)="changePage($event, index)"
                   class="page-number {{ index === 0 ? 'active' : '' }}">
                   {{ index + 1 }}
                 </div>
-              </div>
-              <div class="btn-container update">
-                <button (click)="update('leagues', leaguesArray)" class="btn-200">Update</button>
               </div>
             </div>
           </div>
@@ -168,9 +177,16 @@
               <div (click)="countryOpenTable = false; countryOpenJSON = true;" class="{{countryOpenJSON ? 'active' : ''}}">JSON</div>
             </div>
             <div class="spacer"></div>
-          <button *ngIf="countryOpenJSON" (click)="countryCopy=true; copy()" class="btn-100">
-            <span>{{ countryCopy ? 'Copied' : 'Copy' }}</span>
-          </button>
+            <div class="select-container" id="Country-more">
+              <button (click)="selectOpen = !selectOpen; manageSelect('Country-more')" class="select">
+                <span id="resend-text">Extra Options</span>
+              </button>
+              <div class="select-expand">
+                <div (click)="countryCopy = true; copy()" class="option">{{ countryCopy ? 'Copied' : 'Copy JSON' }}</div>
+                <div (click)="download('leagues')" class="option">Download</div>
+                <div *ngIf="!userOpenJSON" (click)="update('leagues', countriesArray) "class="option">Update</div>
+              </div>
+            </div>
           </div>
           <div class="mb-2" *ngIf="countryOpenJSON">
             <div class="table-external-container editor">
@@ -196,18 +212,12 @@
               </div>
             </div>
             <div class="footer">
-              <div class="btn-container download">
-                <button (click)="download('countries')" class="btn-100">Download</button>
-              </div>
               <div class="all-numbers Countries">
                 <div *ngFor="let page of countryPages; let index = index"
                   (click)="changePage($event, index)"
                   class="page-number {{ index === 0 ? 'active' : '' }}">
                   {{ index + 1 }}
                 </div>
-              </div>
-              <div class="btn-container update">
-                <button (click)="update('countries', countriesArray)" class="btn-200">Update</button>
               </div>
             </div>
           </div>

@@ -11,15 +11,15 @@ import { GraphService } from 'src/app/services/graph/graph.service';
 export class CustomEmailsComponent {
 
   pieChartOptions: ChartOptions = { responsive: true, maintainAspectRatio: false };
-  pieChartLabels: Label[] = [];
-  pieChartData: SingleDataSet = [];
+  pieChartLabels: Label[] = ['Nik Topler', 'Janez Novak'];
+  pieChartData: SingleDataSet = [5, 3];
   pieChartType: ChartType = 'pie';
   pieChartLegend = true;
   pieChartPlugins = [];
 
   lineChartOptions: ChartOptions = { responsive: true, maintainAspectRatio: false };
-  lineChartLabels: Label[] = [];
-  lineChartData: SingleDataSet = [];
+  lineChartLabels: Label[] = ['20.11.2021', '24.11.2021', '26.11.2021', '27.11.2021'];
+  lineChartData: SingleDataSet = [0, 1, 4, 1];
   lineChartType: ChartType = 'line';
   lineChartLegend = false;
   lineChartPlugins = [];
@@ -30,10 +30,12 @@ export class CustomEmailsComponent {
     private graphService: GraphService) {
       this.graphService.resetGraphServiceArrays();
       graphService.getValues('email').then(() => {
-        this.pieChartLabels = graphService.pieChartLabels;
-        this.pieChartData = graphService.pieChartData;
-        this.lineChartLabels = graphService.lineChartLabels;
-        this.lineChartData = graphService.lineChartData;
+        // this.pieChartLabels = graphService.pieChartLabels;
+        // console.log(graphService.pieChartData);
+
+        // this.pieChartData = graphService.pieChartData;
+        // this.lineChartLabels = graphService.lineChartLabels;
+        // this.lineChartData = graphService.lineChartData;
       })
     }
 }
